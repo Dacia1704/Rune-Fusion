@@ -1,0 +1,51 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6574bd20c239486fa4cc7104b34b40c0, type: 3}
+  m_Name: RuneManagerSO
+  m_EditorClassIdentifier: 
+  <PhysicAttackRunePrefab>k__BackingField: {fileID: 7667445251393122535, guid: ec1605316eea4304ca9fdeb3822bfe34, type: 3}
+  <MagicAttackRunePrefab>k__BackingField: {fileID: 5668156910233089859, guid: 3f9a44eeb2ee335499639683dc10c8c0, type: 3}
+  <HealthRunePrefab>k__BackingField: {fileID: 333192371891187864, guid: 4a4f24d159d39464abae4b16cf3e4c70, type: 3}
+  <DefendRunePrefab>k__BackingField: {fileID: 2066052389107386339, guid: 1ae59c31f9f3d7640b2cd9bee4c67741, type: 3}
+  <ShieldRunePrefab>k__BackingField: {fileID: 4828584800431215674, guid: 390a986a164f52945a5a7a2f30fe0f10, type: 3}
+  <HorizontalPhysicAttackRunePrefab>k__BackingField: {fileID: 0}
+  <HorizontalMagicAttackRunePrefab>k__BackingField: {fileID: 0}
+  <HorizontalHealthRunePrefab>k__BackingField: {fileID: 0}
+  <HorizontalDefendRunePrefab>k__BackingField: {fileID: 0}
+  <HorizontalShieldRunePrefab>k__BackingField: {fileID: 0}
+  <VerticalPhysicAttackRunePrefab>k__BackingField: {fileID: 0}
+  <VerticalMagicAttackRunePrefab>k__BackingField: {fileID: 0}
+  <VerticalHealthRunePrefab>k__BackingField: {fileID: 0}
+  <VerticalDefendRunePrefab>k__BackingField: {fileID: 0}
+  <VerticalShieldRunePrefab>k__BackingField: {fileID: 0}
+  <SmallBombPhysicAttackRunePrefab>k__BackingField: {fileID: 0}
+  <SmallBombMagicAttackRunePrefab>k__BackingField: {fileID: 0}
+  <SmallBombHealthRunePrefab>k__BackingField: {fileID: 0}
+  <SmallBombDefendRunePrefab>k__BackingField: {fileID: 0}
+  <SmallBombShieldRunePrefab>k__BackingField: {fileID: 0}
+  <IcePhysicAttackRunePrefab>k__BackingField: {fileID: 0}
+  <IceMagicAttackRunePrefab>k__BackingField: {fileID: 0}
+  <IceHealthRunePrefab>k__BackingField: {fileID: 0}
+  <IceDefendRunePrefab>k__BackingField: {fileID: 0}
+  <IceShieldRunePrefab>k__BackingField: {fileID: 0}
+  <ToxicPhysicAttackRunePrefab>k__BackingField: {fileID: 0}
+  <ToxicMagicAttackRunePrefab>k__BackingField: {fileID: 0}
+  <ToxicHealthRunePrefab>k__BackingField: {fileID: 0}
+  <ToxicDefendRunePrefab>k__BackingField: {fileID: 0}
+  <ToxicShieldRunePrefab>k__BackingField: {fileID: 0}
+  <BigBombRunePrefab>k__BackingField: {fileID: 0}
+  <SingleRuneList>k__BackingField:
+  - {fileID: 7667445251393122535, guid: ec1605316eea4304ca9fdeb3822bfe34, type: 3}
+  - {fileID: 5668156910233089859, guid: 3f9a44eeb2ee335499639683dc10c8c0, type: 3}
+  - {fileID: 333192371891187864, guid: 4a4f24d159d39464abae4b16cf3e4c70, type: 3}
+  - {fileID: 2066052389107386339, guid: 1ae59c31f9f3d7640b2cd9bee4c67741, type: 3}
+  - {fileID: 4828584800431215674, guid: 390a986a164f52945a5a7a2f30fe0f10, type: 3}
