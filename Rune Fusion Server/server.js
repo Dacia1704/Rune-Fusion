@@ -1,15 +1,14 @@
 import { Server } from "socket.io";
+import { generateRuneMap } from "./controller/gameMap.ts";
 
 const io = new Server(3000);
 
 io.on("connection", (socket) => {
   console.log("Connection");
 
-  socket.on("test", (data) => {
+  socket.on("genMap", (data) => {
     console.log(data);
-
-    var test = { text: "Hi" };
-    socket.emit("hi", test);
+    socket.emit("genMapResponse", generateRuneMap(data));
   });
 
   socket.on("disconnect", (data) => {
