@@ -14,7 +14,7 @@ public class SocketTest : MonoBehaviour
             Debug.Log("Socket connected");
         };
         
-        socket.On("hi", data =>
+        socket.On("genMapResponse", data =>
         {
             Debug.Log(data);
         });
@@ -27,8 +27,14 @@ public class SocketTest : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.Space))
         {
-            socket.Emit("test",123);
-            // socket.Disconnect();
+            MapData dataPayload = new MapData
+            {
+                cols = 6,
+                rows = 5,
+                numTypes = 6
+            }; 
+            string jsonData = JsonUtility.ToJson(dataPayload);
+            socket.Emit("genMap", jsonData);
         }
     }
 }

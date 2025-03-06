@@ -7,7 +7,7 @@ using System.Runtime.InteropServices;
 using Unity.VisualScripting;
 using UnityEngine;
 
-public class TileManager : MonoBehaviour
+public class RuneManager : MonoBehaviour
 {
     public GameObject TilePrefab;
     public GameObject[,] Tiles {get;private set;}
@@ -23,9 +23,9 @@ public class TileManager : MonoBehaviour
             for(int y=1;y<=GameManager.Instance.GameManagerSO.Height;y++)
             {
                 GameObject tileObject = Instantiate(TilePrefab,new Vector2(0,0),Quaternion.identity);
-                Tile tile = tileObject.GetComponent<Tile>();
-                tile.Col = x;
-                tile.Row = y;
+                Rune rune = tileObject.GetComponent<Rune>();
+                rune.Col = x;
+                rune.Row = y;
                 tileObject.transform.position = new Vector2( x * sizeTile - sizeTile/2 - GameManager.Instance.GameManagerSO.Width*sizeTile/2,y * sizeTile - sizeTile/2 - GameManager.Instance.GameManagerSO.Height*sizeTile/2 );
                 tileObject.transform.parent = transform;
                 tileObject.name = $"tile {y}-{x}";
