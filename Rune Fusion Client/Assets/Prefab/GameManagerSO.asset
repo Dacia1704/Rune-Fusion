@@ -14,4 +14,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   <WidthRuneMap>k__BackingField: 6
   <HeightRuneMap>k__BackingField: 5
-  <SwipeThreshold>k__BackingField: 0.15
+  <SwipeThreshold>k__BackingField: 0.5
+  <DurationSwapRune>k__BackingField: 0.2
