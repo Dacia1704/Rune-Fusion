@@ -15,8 +15,8 @@ public class SocketManager : MonoBehaviour
     {
         mapDataPayload = new MapData
         {
-            cols = GameManager.Instance.GameManagerSO.Width,
-            rows = GameManager.Instance.GameManagerSO.Height,
+            cols = GameManager.Instance.GameManagerSO.WidthRuneMap,
+            rows = GameManager.Instance.GameManagerSO.HeightRuneMap,
             numTypes = GameManager.Instance.RuneManager.RuneManagerSO.SingleRuneList.Count,
         }; 
         

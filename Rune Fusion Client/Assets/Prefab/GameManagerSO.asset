@@ -12,5 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a5afeab83dc04591909372a213f6c7d4, type: 3}
   m_Name: GameManagerSO
   m_EditorClassIdentifier: 
-  <Width>k__BackingField: 6
-  <Height>k__BackingField: 5
+  <WidthRuneMap>k__BackingField: 6
+  <HeightRuneMap>k__BackingField: 5
+  <SwipeThreshold>k__BackingField: 0.15
