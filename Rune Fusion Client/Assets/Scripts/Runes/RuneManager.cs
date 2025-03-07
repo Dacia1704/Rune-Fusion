@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
 using System.Runtime.InteropServices;
-using Unity.VisualScripting;
+using DG.Tweening;
 using UnityEngine;
 
 public class RuneManager : MonoBehaviour
@@ -83,25 +83,20 @@ public class RuneManager : MonoBehaviour
     {
         Vector3 startPos = RunesMap[(int)start.x,(int)start.y].transform.position;
         Vector3 endPos = RunesMap[(int)end.x,(int)end.y].transform.position;
-        RunesMap[(int)start.x,(int)start.y].transform.position = endPos;
-        RunesMap[(int)end.x,(int)end.y].transform.position = startPos;
+        RunesMap[(int)start.x, (int)start.y].GetComponent<SpriteRenderer>().sortingOrder = 1;
+        RunesMap[(int)start.x, (int)start.y].transform.DOMove(endPos, GameManager.Instance.GameManagerSO.DurationSwapRune).SetEase(Ease.InOutCubic);
+        RunesMap[(int)end.x,(int)end.y].transform.DOMove(startPos,  GameManager.Instance.GameManagerSO.DurationSwapRune).SetEase(Ease.InOutCubic);
+        RunesMap[(int)start.x, (int)start.y].GetComponent<SpriteRenderer>().sortingOrder = 0;
         
-        // Lưu lại thông tin hàng/cột trước khi đổi
+        
         int startRow = RunesMap[(int)start.x, (int)start.y].Row;
         int startCol = RunesMap[(int)start.x, (int)start.y].Col;
         int endRow = RunesMap[(int)end.x, (int)end.y].Row;
         int endCol = RunesMap[(int)end.x, (int)end.y].Col;
-        Debug.Log($"{startRow} {startCol} , {endRow} {endCol}");
-
-        // Swap logic game (Gọi SetRune nếu nó có trách nhiệm cập nhật thông tin)
         RunesMap[(int)end.x, (int)end.y].SetRune(startRow, startCol);
         RunesMap[(int)start.x, (int)start.y].SetRune(endRow, endCol);
         
         (RunesMap[(int)end.x,(int)end.y], RunesMap[(int)start.x,(int)start.y]) = (RunesMap[(int)start.x,(int)start.y], RunesMap[(int)end.x,(int)end.y]);
-        // (RunesMap[(int)end.x, (int)end.y].Col, RunesMap[(int)start.x, (int)start.y].Col) = (
-        //     RunesMap[(int)start.x, (int)start.y].Col, RunesMap[(int)end.x, (int)end.y].Col);
-        // (RunesMap[(int)end.x, (int)end.y].Row, RunesMap[(int)start.x, (int)start.y].Row) = (
-        //     RunesMap[(int)start.x, (int)start.y].Row, RunesMap[(int)end.x, (int)end.y].Row);
         
         
     }
