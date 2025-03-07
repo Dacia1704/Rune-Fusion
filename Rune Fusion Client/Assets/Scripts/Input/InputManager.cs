@@ -48,10 +48,12 @@ public class InputManager : MonoBehaviour
                                 if (isVertical)
                                 {
                                         Debug.Log("Swiped Up");
+                                        GameManager.Instance.RuneManager.SwapWithTopRune(runeStart);
                                 }
                                 else
                                 {
                                         Debug.Log("Swiped Right");
+                                        GameManager.Instance.RuneManager.SwapWithRightRune(runeStart);
                                 }
                         }
                         else
@@ -59,10 +61,12 @@ public class InputManager : MonoBehaviour
                                 if (isVertical)
                                 {
                                         Debug.Log("Swiped Down");
+                                        GameManager.Instance.RuneManager.SwapWithBottomRune(runeStart);
                                 }
                                 else
                                 {
                                         Debug.Log("Swiped Left");
+                                        GameManager.Instance.RuneManager.SwapWithLeftRune(runeStart);
                                 }
                                                                 
                         }

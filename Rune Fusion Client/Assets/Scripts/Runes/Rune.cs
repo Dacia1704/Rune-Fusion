@@ -18,5 +18,12 @@ public class Rune : MonoBehaviour
     {
         TextPos = GetComponentInChildren<TextMeshPro>();
     }
+
+    public void SetRune(int row, int col)
+    {
+        Row = row;
+        Col = col;
+        TextPos.text = Row + " " + Col;
+    }
 }
 
