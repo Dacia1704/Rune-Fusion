@@ -477,7 +477,7 @@ GameObject:
   - component: {fileID: 1435721391}
   - component: {fileID: 1435721390}
   m_Layer: 0
-  m_Name: TileManager
+  m_Name: RuneManager
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
