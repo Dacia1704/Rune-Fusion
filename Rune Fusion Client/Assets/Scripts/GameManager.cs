@@ -8,8 +8,9 @@ public class GameManager : MonoBehaviour
         public static GameManager Instance {get; private set;}
         [field: SerializeField] public GameManagerSO GameManagerSO { get; private set; }
 
-        public RuneManager RuneManager {get; private set;}
-        public SocketManager SocketManager {get; private set;}
+        [field: SerializeField]public RuneManager RuneManager {get; private set;}
+        [field: SerializeField]public SocketManager SocketManager {get; private set;}
+        [field: SerializeField]public InputManager InputManager {get; private set;}
 
         private void Awake()
         {
@@ -19,13 +20,14 @@ public class GameManager : MonoBehaviour
                 }
                 RuneManager = FindObjectOfType<RuneManager>();
                 SocketManager = FindObjectOfType<SocketManager>();
+                InputManager = FindObjectOfType<InputManager>();
         }
         
         public void SetUpTilePosition()
         {
                 Transform tilesTransform = RuneManager.transform;
                 tilesTransform.position = new Vector2(tilesTransform.position.x,
-                        -1 * CameraManager.Instance.GetHeightCamera() / 2 + RuneManager.GetHeightTiles()/2) ;
+                        -1 * CameraManager.Instance.GetHeightCamera() / 2 + RuneManager.GetHeightRunes()/2) ;
         }
         
         public void CheckIfMainThread()
