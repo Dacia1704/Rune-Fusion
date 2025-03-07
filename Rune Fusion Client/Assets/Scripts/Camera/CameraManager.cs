@@ -3,10 +3,13 @@ using UnityEngine;
 
 public class CameraManager : MonoBehaviour
 {
-        public static CameraManager Instance;
+        public static CameraManager Instance {get; private set;}
         private void Awake()
         {
-                Instance = this;
+                if (Instance == null)
+                {
+                        Instance = this;
+                }
         }
         public float GetWidthCamera()
         {

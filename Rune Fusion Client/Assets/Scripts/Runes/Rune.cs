@@ -4,7 +4,7 @@ using System.Linq;
 using TMPro;
 using UnityEngine;
 
-public class Tile : MonoBehaviour
+public class Rune : MonoBehaviour
 {
     [HideInInspector] public int Row;
     [HideInInspector] public int Col;

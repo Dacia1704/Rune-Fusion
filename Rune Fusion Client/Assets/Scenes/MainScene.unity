@@ -228,6 +228,50 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &481387409
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 481387411}
+  - component: {fileID: 481387410}
+  m_Layer: 0
+  m_Name: UnityMainThread
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &481387410
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 481387409}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 31f878327d5b46279b4203276017f052, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!4 &481387411
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 481387409}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &519420028
 GameObject:
   m_ObjectHideFlags: 0
@@ -433,7 +477,7 @@ GameObject:
   - component: {fileID: 1435721391}
   - component: {fileID: 1435721390}
   m_Layer: 0
-  m_Name: TileManager
+  m_Name: RuneManager
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -451,7 +495,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b7b4db8605d731f4f8df989905daf099, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  TilePrefab: {fileID: 2287302540062172834, guid: 2ced3c50bc80afc4495ae533fb6c2fcc, type: 3}
+  <RuneManagerSO>k__BackingField: {fileID: 11400000, guid: 42a23c946962b5d46974f6da329fe696, type: 2}
 --- !u!4 &1435721391
 Transform:
   m_ObjectHideFlags: 0
@@ -524,7 +568,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: -10
   m_Sprite: {fileID: 21300000, guid: ac9fbf7b6eb6df84296fcf9d35280225, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -555,9 +599,10 @@ Transform:
 SceneRoots:
   m_ObjectHideFlags: 0
   m_Roots:
-  - {fileID: 519420032}
   - {fileID: 1791785944}
-  - {fileID: 697816508}
-  - {fileID: 1435721391}
   - {fileID: 235664524}
   - {fileID: 1122847061}
+  - {fileID: 697816508}
+  - {fileID: 1435721391}
+  - {fileID: 519420032}
+  - {fileID: 481387411}
