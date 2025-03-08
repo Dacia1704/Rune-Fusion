@@ -9,10 +9,10 @@ public class Rune : MonoBehaviour
 {
     [HideInInspector] public int Row;
     [HideInInspector] public int Col;
-    [HideInInspector] public RuneType Type;
-    [HideInInspector] public RuneForm Form;
+    [field: SerializeField] public RuneType Type{get;private set;}
+    [field: SerializeField] public RuneForm Form{get;private set;}
     
-    public TextMeshPro TextPos;
+    [HideInInspector]public TextMeshPro TextPos;
     
     private void Awake()
     {

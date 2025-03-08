@@ -110,11 +110,112 @@ public class RuneManager : MonoBehaviour
         
         (RunesMap[(int)end.Item1,(int)end.Item2], RunesMap[(int)start.Item1,(int)start.Item2]) = (RunesMap[(int)start.Item1,(int)start.Item2], RunesMap[(int)end.Item1,(int)end.Item2]);
         
-        
+        MatchRune(Tuple.Create<int, int>(endRow,endCol));
+        // MatchRune(Tuple.Create<int, int>(startRow,startCol));
     }
 
-    public void CheckMatches()
+    public void MatchRune(Tuple<int,int> runeCheckIndex, bool isJustSwapping = false)
     {
+        Debug.Log("Rune Check Index" + runeCheckIndex.ToString());
+        RuneType runeTypeToCheck = RunesMap[runeCheckIndex.Item1,runeCheckIndex.Item2].Type;
+
+        List<int> runeHorizontal = new List<int>();
+        runeHorizontal.Add(2);
+        ;
+        int leftIndex = runeCheckIndex.Item2 -1;
+        int rightIndex = runeCheckIndex.Item2 +1;
+        while (leftIndex >= 0 || rightIndex < GameManager.Instance.GameManagerSO.WidthRuneMap)
+        {
+            // Debug.Log("left right " +leftIndex+" "+rightIndex);
+            if (leftIndex >= 0)
+            {
+                if (RunesMap[runeCheckIndex.Item1, leftIndex].Type == runeTypeToCheck)
+                {
+                    runeHorizontal.Insert(0, 1);
+                    leftIndex--;
+                }
+                else
+                {
+                    leftIndex = -1;
+                }
+            }
+
+            if (rightIndex < GameManager.Instance.GameManagerSO.WidthRuneMap)
+            {
+                if (RunesMap[runeCheckIndex.Item1, rightIndex].Type == runeTypeToCheck)
+                {
+                    runeHorizontal.Add(1);
+                    rightIndex++;
+                }
+                else
+                {
+                    rightIndex = GameManager.Instance.GameManagerSO.WidthRuneMap;
+                }
+
+            }
+            // Debug.Log("list: " + string.Join(",", runeHorizontal));
+        }
+
+        List<int> runeVertical = new List<int>();
+        runeVertical.Add(2);
+        ;
+        int bottomIndex = runeCheckIndex.Item1 -1;
+        int topIndex = runeCheckIndex.Item1 +1;
+        while (bottomIndex >= 0 || topIndex < GameManager.Instance.GameManagerSO.HeightRuneMap)
+        {
+            // Debug.Log("bottom top " +bottomIndex+" "+topIndex);
+            if (bottomIndex >= 0)
+            {
+                if (RunesMap[bottomIndex,runeCheckIndex.Item2].Type == runeTypeToCheck)
+                {
+                    runeVertical.Insert(0, 1);
+                    bottomIndex--;
+                }
+                else
+                {
+                    bottomIndex = -1;
+                }
+            }
+
+            if (topIndex < GameManager.Instance.GameManagerSO.HeightRuneMap)
+            {
+                if (RunesMap[topIndex,runeCheckIndex.Item2].Type == runeTypeToCheck)
+                {
+                    runeVertical.Add(1);
+                    topIndex++;
+                }
+                else
+                {
+                    topIndex = GameManager.Instance.GameManagerSO.HeightRuneMap;
+                }
+
+            }
+            // Debug.Log("list: " + string.Join(",", runeVertical));
+        }
+        Debug.Log(runeHorizontal.Count +" "  + runeVertical.Count);
+
+        if (runeHorizontal.Count >=5)
+        {
+            Debug.Log("5 ô liền");
+            return;
+        }
+        if (runeHorizontal.Count >= 3 && runeVertical.Count >= 3)
+        {
+            Debug.Log("Bomb");
+            return;
+        }
+
+        if (runeHorizontal.Count == 4 || runeVertical.Count == 4)
+        {
+            Debug.Log(" line");
+            return;
+        }
+
+        if (runeHorizontal.Count == 3 || runeVertical.Count == 3)
+        {
+            Debug.Log(" nomal");
+            return;
+        }
         
     }
     

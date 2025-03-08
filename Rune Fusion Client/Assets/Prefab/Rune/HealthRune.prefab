@@ -50,12 +50,16 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7667445251393122535, guid: ec1605316eea4304ca9fdeb3822bfe34, type: 3}
       propertyPath: m_Name
-      value: Tile Variant 1
+      value: HealthRune
       objectReference: {fileID: 0}
     - target: {fileID: 8928515462865288651, guid: ec1605316eea4304ca9fdeb3822bfe34, type: 3}
       propertyPath: m_Sprite
       value: 
       objectReference: {fileID: 21300000, guid: 62aacc8ad6a0642039ac7f0ceb15e07d, type: 3}
+    - target: {fileID: 8965918672133564005, guid: ec1605316eea4304ca9fdeb3822bfe34, type: 3}
+      propertyPath: <Type>k__BackingField
+      value: 2
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []

@@ -10,7 +10,11 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 333192371891187864, guid: 4a4f24d159d39464abae4b16cf3e4c70, type: 3}
       propertyPath: m_Name
-      value: Tile Variant
+      value: MagicAttackRune
+      objectReference: {fileID: 0}
+    - target: {fileID: 1340621196603647514, guid: 4a4f24d159d39464abae4b16cf3e4c70, type: 3}
+      propertyPath: <Type>k__BackingField
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1522205564846849460, guid: 4a4f24d159d39464abae4b16cf3e4c70, type: 3}
       propertyPath: m_Sprite
