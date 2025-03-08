@@ -35,7 +35,7 @@ public class InputManager : MonoBehaviour
                         Debug.Log("Can't swipe");
                         return;
                 }
-                Vector2 runeStart = GameManager.Instance.RuneManager.GetRunesByPosition(new Vector2(worldStartPos.x, worldStartPos.y));
+                Tuple<int,int> runeStart = GameManager.Instance.RuneManager.GetRunesByPosition(new Vector2(worldStartPos.x, worldStartPos.y));
                 Debug.Log(runeStart);
                 
                 bool isVertical = !(Mathf.Abs(deltaX) > Mathf.Abs(deltaY));
@@ -47,26 +47,56 @@ public class InputManager : MonoBehaviour
                         {
                                 if (isVertical)
                                 {
-                                        Debug.Log("Swiped Up");
-                                        GameManager.Instance.RuneManager.SwapWithTopRune(runeStart);
+                                        if (runeStart.Item1 < GameManager.Instance.GameManagerSO.HeightRuneMap - 1)
+                                        {
+                                                Debug.Log("Swiped Up");
+                                                GameManager.Instance.RuneManager.SwapWithTopRune(runeStart);
+                                        }
+                                        else
+                                        {
+                                                Debug.Log("Can't swipe up");
+                                        }
                                 }
                                 else
                                 {
-                                        Debug.Log("Swiped Right");
-                                        GameManager.Instance.RuneManager.SwapWithRightRune(runeStart);
+                                        if (runeStart.Item2 < GameManager.Instance.GameManagerSO.WidthRuneMap - 1)
+                                        {
+                                            Debug.Log("Swiped Right");
+                                            GameManager.Instance.RuneManager.SwapWithRightRune(runeStart);    
+                                        }
+                                        else
+                                        {
+                                                Debug.Log("Can't swipe right");
+                                        }
+                                        
                                 }
                         }
                         else
                         {
                                 if (isVertical)
                                 {
-                                        Debug.Log("Swiped Down");
-                                        GameManager.Instance.RuneManager.SwapWithBottomRune(runeStart);
+                                        if (runeStart.Item1 >= 1)
+                                        {
+                                                Debug.Log("Swiped Down"); 
+                                                GameManager.Instance.RuneManager.SwapWithBottomRune(runeStart);
+                                        }
+                                        else
+                                        {
+                                                Debug.Log("Can't swipe down");
+                                        }
+                                        
                                 }
                                 else
                                 {
-                                        Debug.Log("Swiped Left");
-                                        GameManager.Instance.RuneManager.SwapWithLeftRune(runeStart);
+                                        if (runeStart.Item2 >= 1)
+                                        {
+                                                Debug.Log("Swiped Left");
+                                                GameManager.Instance.RuneManager.SwapWithLeftRune(runeStart);
+                                        }
+                                        else
+                                        {
+                                                Debug.Log("Can't swipe left");
+                                        }
                                 }
                                                                 
                         }
