@@ -50,7 +50,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5668156910233089859, guid: 3f9a44eeb2ee335499639683dc10c8c0, type: 3}
       propertyPath: m_Name
-      value: Tile Variant
+      value: DefendRune
+      objectReference: {fileID: 0}
+    - target: {fileID: 6389550140180701633, guid: 3f9a44eeb2ee335499639683dc10c8c0, type: 3}
+      propertyPath: <Type>k__BackingField
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 6857047069375232623, guid: 3f9a44eeb2ee335499639683dc10c8c0, type: 3}
       propertyPath: m_Sprite
