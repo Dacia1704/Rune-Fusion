@@ -10,6 +10,23 @@ public class RuneObjectPoolManager : MonoBehaviour
         [field: SerializeField] public ObjectPooling ExplosiveRuneObjectPooling { get; private set; }
         [field: SerializeField] public ObjectPooling SpecialRuneObjectPooling { get; private set; }
         
+        //release
+        public void ReleaseRune(GameObject runeObj)
+        {
+                Rune rune = runeObj.GetComponent<Rune>();
+                switch (rune.Form)
+                {
+                        case RuneForm.Base: BasicRuneObjectPooling.ReleaseObject(runeObj); break;
+                        case RuneForm.Protected: ProtectedRuneObjectPooling.ReleaseObject(runeObj); break;
+                        case RuneForm.Poison: PoisonRuneObjectPooling.ReleaseObject(runeObj); break;
+                        case RuneForm.Special: SpecialRuneObjectPooling.ReleaseObject(runeObj); break;
+                        case RuneForm.Vertical: VerticalRuneObjectPooling.ReleaseObject(runeObj); break;
+                        case RuneForm.Horizontal: HorizontalRuneObjectPooling.ReleaseObject(runeObj); break;
+                        case RuneForm.Explosive: ExplosiveRuneObjectPooling.ReleaseObject(runeObj); break;
+                        default: break;
+                }
+        }
+        
         //object
         public GameObject GetBasicRuneObjectFromIndex(int index)
         {

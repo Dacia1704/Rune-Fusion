@@ -118,17 +118,24 @@ public class RuneManager : MonoBehaviour
         
         (RunesMap[(int)end.Item1,(int)end.Item2], RunesMap[(int)start.Item1,(int)start.Item2]) = (RunesMap[(int)start.Item1,(int)start.Item2], RunesMap[(int)end.Item1,(int)end.Item2]);
         
-        MatchRune(Tuple.Create<int, int>(endRow,endCol));
-        // MatchRune(Tuple.Create<int, int>(startRow,startCol));
+        List<Tuple<int,int>> runeMatches =  MatchRune(Tuple.Create<int, int>(endRow,endCol));
+
+        foreach (Tuple<int, int> rune in runeMatches)
+        {
+            RuneObjectPoolManager.ReleaseRune(RunesMap[rune.Item1, rune.Item2].gameObject);
+        }
+        
+        
+        
     }
 
-    public void MatchRune(Tuple<int,int> runeCheckIndex, bool isJustSwapping = false)
+    public List<Tuple<int,int>> MatchRune(Tuple<int,int> runeCheckIndex, bool isJustSwapping = false)
     {
         Debug.Log("Rune Check Index" + runeCheckIndex.ToString());
         RuneType runeTypeToCheck = RunesMap[runeCheckIndex.Item1,runeCheckIndex.Item2].Type;
 
-        List<int> runeHorizontal = new List<int>();
-        runeHorizontal.Add(2);
+        List<Tuple<int,int>> runeHorizontal = new List<Tuple<int,int>>();
+        runeHorizontal.Add(runeCheckIndex);
         ;
         int leftIndex = runeCheckIndex.Item2 -1;
         int rightIndex = runeCheckIndex.Item2 +1;
@@ -139,7 +146,7 @@ public class RuneManager : MonoBehaviour
             {
                 if (RunesMap[runeCheckIndex.Item1, leftIndex].Type == runeTypeToCheck)
                 {
-                    runeHorizontal.Insert(0, 1);
+                    runeHorizontal.Insert(0, Tuple.Create(runeCheckIndex.Item1, leftIndex));
                     leftIndex--;
                 }
                 else
@@ -152,7 +159,7 @@ public class RuneManager : MonoBehaviour
             {
                 if (RunesMap[runeCheckIndex.Item1, rightIndex].Type == runeTypeToCheck)
                 {
-                    runeHorizontal.Add(1);
+                    runeHorizontal.Add(Tuple.Create(runeCheckIndex.Item1, rightIndex));
                     rightIndex++;
                 }
                 else
@@ -164,8 +171,8 @@ public class RuneManager : MonoBehaviour
             // Debug.Log("list: " + string.Join(",", runeHorizontal));
         }
 
-        List<int> runeVertical = new List<int>();
-        runeVertical.Add(2);
+        List<Tuple<int,int>> runeVertical = new List<Tuple<int,int>>();
+        runeVertical.Add(runeCheckIndex);
         ;
         int bottomIndex = runeCheckIndex.Item1 -1;
         int topIndex = runeCheckIndex.Item1 +1;
@@ -176,7 +183,7 @@ public class RuneManager : MonoBehaviour
             {
                 if (RunesMap[bottomIndex,runeCheckIndex.Item2].Type == runeTypeToCheck)
                 {
-                    runeVertical.Insert(0, 1);
+                    runeVertical.Insert(0, Tuple.Create(bottomIndex,runeCheckIndex.Item2));
                     bottomIndex--;
                 }
                 else
@@ -189,7 +196,7 @@ public class RuneManager : MonoBehaviour
             {
                 if (RunesMap[topIndex,runeCheckIndex.Item2].Type == runeTypeToCheck)
                 {
-                    runeVertical.Add(1);
+                    runeVertical.Add(Tuple.Create(topIndex,runeCheckIndex.Item2));
                     topIndex++;
                 }
                 else
@@ -205,26 +212,48 @@ public class RuneManager : MonoBehaviour
         if (runeHorizontal.Count >=5)
         {
             Debug.Log("5 ô liền");
-            return;
+            return runeHorizontal;
+        }
+
+        if (runeVertical.Count >= 5)
+        {
+            Debug.Log("5 ô liền");
+            return runeVertical;
         }
         if (runeHorizontal.Count >= 3 && runeVertical.Count >= 3)
         {
             Debug.Log("Bomb");
-            return;
+            List<Tuple<int,int>> ans = new List<Tuple<int,int>>();
+            ans.AddRange(runeHorizontal);
+            ans.AddRange(runeVertical);
+            return ans;
         }
 
-        if (runeHorizontal.Count == 4 || runeVertical.Count == 4)
+        if (runeHorizontal.Count == 4)
         {
             Debug.Log(" line");
-            return;
+            return runeHorizontal;
         }
 
-        if (runeHorizontal.Count == 3 || runeVertical.Count == 3)
+        if (runeVertical.Count == 4)
+        {
+            Debug.Log(" line");
+            return runeVertical;
+        }
+
+        if (runeHorizontal.Count == 3 )
         {
             Debug.Log(" nomal");
-            return;
+            return runeHorizontal;
         }
-        
+
+        if (runeVertical.Count == 3)
+        {
+            Debug.Log(" nomal");
+            return runeVertical;
+        }
+
+        return new List<Tuple<int, int>>();
     }
     
 

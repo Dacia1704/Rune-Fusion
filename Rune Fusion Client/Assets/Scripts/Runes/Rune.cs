@@ -27,7 +27,5 @@ public class Rune : MonoBehaviour,IPoolingObject
         Col = col;
         TextPos.text = Row + " " + Col;
     }
-
-    
 }
 

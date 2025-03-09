@@ -25,7 +25,9 @@ public class ObjectPooling: MonoBehaviour
             createFunc: () =>
             {
                 PoolingObjectPropsSO objProps = objectPoolProps.PoolingObjectList.Find(obj => obj.KeyObject == keyObject);
-                return Instantiate(objProps.ObjectPrefab,transform);
+                GameObject poolObject = Instantiate(objProps.ObjectPrefab, transform);
+                poolObject.GetComponent<IPoolingObject>().PoolingObjectPropsSO = objProps;
+                return poolObject;
             },
             actionOnGet: obj => obj.SetActive(true),
             actionOnRelease: obj => obj.SetActive(false),
