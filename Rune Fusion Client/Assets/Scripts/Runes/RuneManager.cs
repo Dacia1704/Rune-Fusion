@@ -9,9 +9,17 @@ using UnityEngine;
 
 public class RuneManager : MonoBehaviour
 {
-    [field: SerializeField] public RuneManagerSO RuneManagerSO { get; private set; }
+    // [field: SerializeField] public RuneManagerSO RuneManagerSO { get; private set; }
+    
+    public RuneObjectPoolManager RuneObjectPoolManager { get; private set; }
+    
     public Rune[,] RunesMap {get;private set;} // list : start from bottom to top and from left to right;
     private float sizeTile;
+
+    private void Awake()
+    {
+        RuneObjectPoolManager = FindObjectOfType<RuneObjectPoolManager>();
+    }
 
     public void GenerateGrid(List<List<int>> typesList)
     { 
@@ -22,7 +30,7 @@ public class RuneManager : MonoBehaviour
         {
             for(int y=0;y<GameManager.Instance.GameManagerSO.HeightRuneMap;y++)
             {
-                GameObject tileObject = Instantiate(RuneManagerSO.SingleRuneList[typesList[y][x]],new Vector2(0,0),Quaternion.identity);
+                GameObject tileObject = RuneObjectPoolManager.GetBasicRuneObjectFromIndex(typesList[y][x]);
                 Rune rune = tileObject.GetComponent<Rune>();
                 rune.SetRune(y,x);
                 rune.TextPos.text = $"{y} {x}";
