@@ -14,6 +14,8 @@ public class Rune : MonoBehaviour,IPoolingObject
     
     public PoolingObjectPropsSO PoolingObjectPropsSO { get; set; }
     
+    
+    
     [HideInInspector]public TextMeshPro TextPos;
     
     private void Awake()
@@ -26,6 +28,7 @@ public class Rune : MonoBehaviour,IPoolingObject
         Row = row;
         Col = col;
         TextPos.text = Row + " " + Col;
+        GameManager.Instance.RuneManager.OnRuneChangePosition?.Invoke(Tuple.Create<int, int>(Row,Col));
     }
 }
 

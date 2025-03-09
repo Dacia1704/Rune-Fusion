@@ -16,9 +16,17 @@ public class RuneManager : MonoBehaviour
     public Rune[,] RunesMap {get;private set;} // list : start from bottom to top and from left to right;
     private float sizeTile;
 
+    public Action<Tuple<int, int>> OnRuneChangePosition; 
+    
+    
     private void Awake()
     {
         RuneObjectPoolManager = FindObjectOfType<RuneObjectPoolManager>();
+    }
+
+    private void Start()
+    {
+        OnRuneChangePosition += OnRuneChangePostionAction;
     }
 
     public void GenerateGrid(List<List<int>> typesList)
@@ -32,7 +40,8 @@ public class RuneManager : MonoBehaviour
             {
                 GameObject tileObject = RuneObjectPoolManager.GetBasicRuneObjectFromIndex(typesList[y][x]);
                 Rune rune = tileObject.GetComponent<Rune>();
-                rune.SetRune(y,x);
+                rune.Row = y;
+                rune.Col = x;
                 rune.TextPos.text = $"{y} {x}";
                 tileObject.transform.position = new Vector2( (x+1) * sizeTile - sizeTile/2 - GameManager.Instance.GameManagerSO.WidthRuneMap*sizeTile/2,
                     (y+1) * sizeTile - sizeTile/2 - GameManager.Instance.GameManagerSO.HeightRuneMap*sizeTile/2 );
@@ -99,35 +108,31 @@ public class RuneManager : MonoBehaviour
     /// </summary>
     /// <param name="start">start is index of rune start in RunesMap</param>
     /// <param name="end">end is index of end in RunesMap</param>
-    public void SwapRunes(Tuple<int,int> start, Tuple<int,int> end)
+    public void SwapRunes(Tuple<int, int> start, Tuple<int, int> end)
     {
-        Vector3 startPos = RunesMap[(int)start.Item1,(int)start.Item2].transform.position;
-        Vector3 endPos = RunesMap[(int)end.Item1,(int)end.Item2].transform.position;
-        RunesMap[(int)start.Item1, (int)start.Item2].GetComponent<SpriteRenderer>().sortingOrder = 1;
-        RunesMap[(int)start.Item1, (int)start.Item2].transform.DOMove(endPos, GameManager.Instance.GameManagerSO.DurationSwapRune).SetEase(Ease.InOutCubic);
-        RunesMap[(int)end.Item1,(int)end.Item2].transform.DOMove(startPos,  GameManager.Instance.GameManagerSO.DurationSwapRune).SetEase(Ease.InOutCubic);
-        RunesMap[(int)start.Item1, (int)start.Item2].GetComponent<SpriteRenderer>().sortingOrder = 0;
-        
-        
-        int startRow = RunesMap[(int)start.Item1, (int)start.Item2].Row;
-        int startCol = RunesMap[(int)start.Item1, (int)start.Item2].Col;
-        int endRow = RunesMap[(int)end.Item1, (int)end.Item2].Row;
-        int endCol = RunesMap[(int)end.Item1, (int)end.Item2].Col;
-        RunesMap[(int)end.Item1, (int)end.Item2].SetRune(startRow, startCol);
-        RunesMap[(int)start.Item1, (int)start.Item2].SetRune(endRow, endCol);
-        
-        (RunesMap[(int)end.Item1,(int)end.Item2], RunesMap[(int)start.Item1,(int)start.Item2]) = (RunesMap[(int)start.Item1,(int)start.Item2], RunesMap[(int)end.Item1,(int)end.Item2]);
-        
-        List<Tuple<int,int>> runeMatches =  MatchRune(Tuple.Create<int, int>(endRow,endCol));
+        Vector3 startPos = RunesMap[start.Item1, start.Item2].transform.position;
+        Vector3 endPos = RunesMap[end.Item1, end.Item2].transform.position;
 
-        foreach (Tuple<int, int> rune in runeMatches)
-        {
-            RuneObjectPoolManager.ReleaseRune(RunesMap[rune.Item1, rune.Item2].gameObject);
-        }
-        
-        
-        
+        RunesMap[start.Item1, start.Item2].GetComponent<SpriteRenderer>().sortingOrder = 1;
+        Sequence swapSequence = DOTween.Sequence();
+        swapSequence
+            .Join(RunesMap[start.Item1, start.Item2].transform.DOMove(endPos, GameManager.Instance.GameManagerSO.DurationSwapRune).SetEase(Ease.InOutCubic))
+            .Join(RunesMap[end.Item1, end.Item2].transform.DOMove(startPos, GameManager.Instance.GameManagerSO.DurationSwapRune).SetEase(Ease.InOutCubic))
+            .OnComplete(() =>
+            {
+                (RunesMap[end.Item1, end.Item2], RunesMap[start.Item1, start.Item2]) = (RunesMap[start.Item1, start.Item2], RunesMap[end.Item1, end.Item2]);
+                RunesMap[start.Item1, start.Item2].GetComponent<SpriteRenderer>().sortingOrder = 0;
+                int startRow = RunesMap[start.Item1, start.Item2].Row;
+                int startCol = RunesMap[start.Item1, start.Item2].Col;
+                int endRow = RunesMap[end.Item1, end.Item2].Row;
+                int endCol = RunesMap[end.Item1, end.Item2].Col;
+
+                RunesMap[end.Item1, end.Item2].SetRune(startRow, startCol);
+                RunesMap[start.Item1, start.Item2].SetRune(endRow, endCol);
+
+            });
     }
+
 
     public List<Tuple<int,int>> MatchRune(Tuple<int,int> runeCheckIndex, bool isJustSwapping = false)
     {
@@ -255,8 +260,16 @@ public class RuneManager : MonoBehaviour
 
         return new List<Tuple<int, int>>();
     }
-    
 
+
+    public void OnRuneChangePostionAction(Tuple<int, int> runeCheckIndex)
+    {
+        List<Tuple<int,int>> runeMatches = MatchRune(runeCheckIndex);
+        foreach (Tuple<int, int> runeMatch in runeMatches)
+        {
+            RuneObjectPoolManager.ReleaseRune(RunesMap[runeMatch.Item1,runeMatch.Item2].gameObject);
+        }
+    }
 
    
 }
