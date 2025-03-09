@@ -1,0 +1,20 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 040c43541c63fe049bfa517d34b63f3b, type: 3}
+  m_Name: HorizontalObjectPoolProps
+  m_EditorClassIdentifier: 
+  <PoolingObjectList>k__BackingField:
+  - {fileID: 11400000, guid: 3286fa64c3c06c048bd372b32b8fe2ac, type: 2}
+  - {fileID: 11400000, guid: 716251f918419994fb1c841407027d67, type: 2}
+  - {fileID: 11400000, guid: 69dae22d4a6ec774e895319f831eb019, type: 2}
+  - {fileID: 11400000, guid: d3fd9fefa702a7641be596f3ba13957f, type: 2}
+  - {fileID: 11400000, guid: 83e4f39ca6b35d44f93021a540e8b3a2, type: 2}

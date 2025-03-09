@@ -17,7 +17,7 @@ public class SocketManager : MonoBehaviour
         {
             cols = GameManager.Instance.GameManagerSO.WidthRuneMap,
             rows = GameManager.Instance.GameManagerSO.HeightRuneMap,
-            numTypes = GameManager.Instance.RuneManager.RuneManagerSO.SingleRuneList.Count,
+            numTypes = Enum.GetValues(typeof(RuneType)).Length,
         }; 
         
         socket = new SocketIOUnity("http://localhost:3000");

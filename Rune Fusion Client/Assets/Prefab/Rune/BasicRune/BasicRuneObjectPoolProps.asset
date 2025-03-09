@@ -1,0 +1,20 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 040c43541c63fe049bfa517d34b63f3b, type: 3}
+  m_Name: BasicRuneObjectPoolProps
+  m_EditorClassIdentifier: 
+  <PoolingObjectList>k__BackingField:
+  - {fileID: 11400000, guid: cc7ec90b08fd6d540b4ad1d2ad4416e3, type: 2}
+  - {fileID: 11400000, guid: bd3c556e88a4c464aad8a7667459d3b4, type: 2}
+  - {fileID: 11400000, guid: 5cdcd499890ed3445b6c57ca82d6ac29, type: 2}
+  - {fileID: 11400000, guid: 640c1ac2c8e22b44d80c05fdf38925f9, type: 2}
+  - {fileID: 11400000, guid: 1e9bd5439b2aa5148bec888fb1bf41f4, type: 2}

@@ -5,12 +5,14 @@ using System.Linq;
 using TMPro;
 using UnityEngine;
 
-public class Rune : MonoBehaviour
+public class Rune : MonoBehaviour,IPoolingObject
 {
     [HideInInspector] public int Row;
     [HideInInspector] public int Col;
     [field: SerializeField] public RuneType Type{get;private set;}
     [field: SerializeField] public RuneForm Form{get;private set;}
+    
+    public PoolingObjectPropsSO PoolingObjectPropsSO { get; set; }
     
     [HideInInspector]public TextMeshPro TextPos;
     
