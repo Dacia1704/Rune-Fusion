@@ -5,6 +5,7 @@ using System.ComponentModel;
 using System.Linq;
 using System.Runtime.InteropServices;
 using DG.Tweening;
+using Newtonsoft.Json;
 using UnityEngine;
 
 public class RuneManager : MonoBehaviour
@@ -96,6 +97,7 @@ public class RuneManager : MonoBehaviour
                                         () =>
                                         {
                                             RunesMap[end.Item1,end.Item2].CheckMatches();
+                                            GameManager.Instance.SocketManager.RequestNewRune(ConvertRunesMapToServerData());
                                         });
                                     RunesMap[end.Item1,end.Item2].SetRune(end.Item1,end.Item2);
                                     RunesMap[start.Item1,start.Item2] = null;
@@ -335,5 +337,26 @@ public class RuneManager : MonoBehaviour
         UpdateRuneState();
     }
 
-   
+
+    public string ConvertRunesMapToServerData()
+    {
+        int[][] data = new int[GameManager.Instance.GameManagerSO.HeightRuneMap][];
+        for (int y = 0; y < GameManager.Instance.GameManagerSO.HeightRuneMap; y++)
+        {
+            data[y] = new int[GameManager.Instance.GameManagerSO.WidthRuneMap];
+            for (int x = 0; x < GameManager.Instance.GameManagerSO.WidthRuneMap; x++)
+            {
+                if (RunesMap[y, x] != null)
+                {
+                    data[y][x] = (int)RunesMap[y, x].Type;
+                }
+                else
+                {
+                    data[y][x] = -1;
+                }
+            }
+        }
+
+        return JsonConvert.SerializeObject(data);
+    }
 }

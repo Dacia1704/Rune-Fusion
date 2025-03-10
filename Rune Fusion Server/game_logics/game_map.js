@@ -1,7 +1,10 @@
 import getRandomInt from "../utils/random.js";
 
+let MapData;
+
 export default function generateRuneMap(mapData) {
   const map = [];
+  MapData = mapData;
   for (let rowIndex = 0; rowIndex < mapData.rows; rowIndex++) {
     const row = [];
     for (let colIndex = 0; colIndex < mapData.cols; colIndex++) {
@@ -26,9 +29,22 @@ export default function generateRuneMap(mapData) {
 }
 
 export function generateNewRune(currentMap) {
-  const rows = currentMap.Count;
-  const cols = currentMap[0].Count;
-  const newRuneMap = Array.from({ length: mapData.rows }, () =>
-    Array(mapData.cols).fill(0)
+  const newRuneMap = Array.from({ length: MapData.rows }, () =>
+    Array(MapData.cols).fill(-1)
   );
+
+  for (let x = 0; x < MapData.cols; x++) {
+    let count = 0;
+    for (let y = 0; y < MapData.rows; y++) {
+      if (currentMap[y][x] != -1) {
+        count += 1;
+      }
+    }
+    console.log(x + " " + count);
+
+    for (let y = 0; y < MapData.rows - count; y++) {
+      newRuneMap[y][x] = getRandomInt(0, MapData.numTypes - 1);
+    }
+  }
+  return newRuneMap;
 }

@@ -27,7 +27,7 @@ public class SocketManager : MonoBehaviour
             MapDataRequest();
         };
         
-        socket.On("genMapResponse", data =>
+        socket.On(SocketEvents.Rune.GENERATE_START_RESPONSE, data =>
         {
             List<List<List<int>>> mapData = JsonConvert.DeserializeObject<List<List<List<int>>>>(data.ToString());
             UnityMainThreadDispatcher.Instance().Enqueue(GenMapCoroutine(mapData[0]));
@@ -35,9 +35,7 @@ public class SocketManager : MonoBehaviour
         socket.Connect();
         
     }
-
     
-    // Use coroutine to force this action performed in the main thead because some default function in unity must run in main thread
     private IEnumerator GenMapCoroutine(List<List<int>> mapData)
     {
         GameManager.Instance.RuneManager.GenerateGrid(mapData);
@@ -48,7 +46,12 @@ public class SocketManager : MonoBehaviour
     private void MapDataRequest()
     {
         string jsonData = JsonUtility.ToJson(mapDataPayload);
-        socket.Emit("genMap", jsonData);
+        socket.Emit(SocketEvents.Rune.GENERATE_START_REQUEST, jsonData);
+    }
+
+    public void RequestNewRune(string mapData)
+    {
+        socket.Emit(SocketEvents.Rune.NEW_REQUEST, mapData);
     }
     
     
