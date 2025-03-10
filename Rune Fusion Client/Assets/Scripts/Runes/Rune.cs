@@ -28,7 +28,15 @@ public class Rune : MonoBehaviour,IPoolingObject
         Row = row;
         Col = col;
         TextPos.text = Row + " " + Col;
-        GameManager.Instance.RuneManager.OnRuneChangePosition?.Invoke(Tuple.Create<int, int>(Row,Col));
+        // GameManager.Instance.RuneManager.OnRuneChangePosition?.Invoke(Tuple.Create<int, int>(Row,Col));
     }
+
+    public void CheckMatches()
+    {
+        GameManager.Instance.RuneManager.OnRuneChangePosition?.Invoke(Tuple.Create<int, int>(Row,Col));
+        Debug.Log(5);
+    }
+    
+    
 }
 

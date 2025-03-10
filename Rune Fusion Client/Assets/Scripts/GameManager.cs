@@ -28,6 +28,7 @@ public class GameManager : MonoBehaviour
                 Transform tilesTransform = RuneManager.transform;
                 tilesTransform.position = new Vector2(tilesTransform.position.x,
                         -1 * CameraManager.Instance.GetHeightCamera() / 2 + RuneManager.GetHeightRunes()/2) ;
+                RuneManager.UpdateRunesPostionMap();
         }
         
         public void CheckIfMainThread()
