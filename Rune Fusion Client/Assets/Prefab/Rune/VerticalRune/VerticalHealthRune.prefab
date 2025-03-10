@@ -52,9 +52,13 @@ PrefabInstance:
       propertyPath: m_Sprite
       value: 
       objectReference: {fileID: 21300000, guid: ae760219d43b94c35b5170346312ad2a, type: 3}
+    - target: {fileID: 5626873613540187354, guid: 0888d612647d47840b257812df78fb45, type: 3}
+      propertyPath: <Form>k__BackingField
+      value: 3
+      objectReference: {fileID: 0}
     - target: {fileID: 6346628433741482584, guid: 0888d612647d47840b257812df78fb45, type: 3}
       propertyPath: m_Name
-      value: BlankRune Variant
+      value: VerticalHealthRune
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

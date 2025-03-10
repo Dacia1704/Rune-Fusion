@@ -36,7 +36,6 @@ public class InputManager : MonoBehaviour
                         return;
                 }
                 Tuple<int,int> runeStart = GameManager.Instance.RuneManager.GetRunesByPosition(new Vector2(worldStartPos.x, worldStartPos.y));
-                Tuple<int,int> runeEnd = GameManager.Instance.RuneManager.GetRunesByPosition(new Vector2(worldEndPos.x, worldEndPos.y));
                 
                 bool isVertical = !(Mathf.Abs(deltaX) > Mathf.Abs(deltaY));
                 float delta = Mathf.Abs(deltaX) > Mathf.Abs(deltaY) ? deltaX : deltaY;

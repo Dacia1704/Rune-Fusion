@@ -10,7 +10,11 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 2604379396343948254, guid: 378def5e3e501e54d871ff519d410c54, type: 3}
       propertyPath: m_Name
-      value: BlankRune Variant
+      value: HorizontalDefendRune
+      objectReference: {fileID: 0}
+    - target: {fileID: 3612438930528908636, guid: 378def5e3e501e54d871ff519d410c54, type: 3}
+      propertyPath: <Form>k__BackingField
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 3865447563306823410, guid: 378def5e3e501e54d871ff519d410c54, type: 3}
       propertyPath: m_Sprite
