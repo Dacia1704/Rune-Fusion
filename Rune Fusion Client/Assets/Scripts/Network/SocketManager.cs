@@ -32,14 +32,26 @@ public class SocketManager : MonoBehaviour
             List<List<List<int>>> mapData = JsonConvert.DeserializeObject<List<List<List<int>>>>(data.ToString());
             UnityMainThreadDispatcher.Instance().Enqueue(GenMapCoroutine(mapData[0]));
         });
+        
+        socket.On(SocketEvents.Rune.NEW_RESPONSE, data =>
+        {
+            List<List<List<int>>> newRuneData = JsonConvert.DeserializeObject<List<List<List<int>>>>(data.ToString());
+            UnityMainThreadDispatcher.Instance().Enqueue(GenNewRuneCoroutine(newRuneData[0]));
+        });
         socket.Connect();
         
     }
     
     private IEnumerator GenMapCoroutine(List<List<int>> mapData)
     {
-        GameManager.Instance.RuneManager.GenerateGrid(mapData);
+        GameManager.Instance.RuneManager.GenerateRunesMap(mapData);
         GameManager.Instance.SetUpTilePosition();
+        yield return null;
+    }
+
+    private IEnumerator GenNewRuneCoroutine(List<List<int>> newRuneData)
+    {
+        GameManager.Instance.RuneManager.GenerateNewRune(newRuneData);
         yield return null;
     }
 

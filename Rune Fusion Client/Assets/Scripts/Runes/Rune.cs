@@ -34,7 +34,7 @@ public class Rune : MonoBehaviour,IPoolingObject
     public void CheckMatches()
     {
         GameManager.Instance.RuneManager.OnRuneChangePosition?.Invoke(Tuple.Create<int, int>(Row,Col));
-        Debug.Log(5);
+        // Debug.Log(5);
     }
     
     
