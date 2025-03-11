@@ -18,16 +18,16 @@ public class GameManager : MonoBehaviour
                 {
                         Instance = this;
                 }
-                RuneManager = FindObjectOfType<RuneManager>();
-                SocketManager = FindObjectOfType<SocketManager>();
-                InputManager = FindObjectOfType<InputManager>();
+                RuneManager = FindFirstObjectByType<RuneManager>();
+                SocketManager = FindFirstObjectByType<SocketManager>();
+                InputManager = FindFirstObjectByType<InputManager>();
         }
         
         public void SetUpTilePosition()
         {
                 Transform tilesTransform = RuneManager.transform;
                 tilesTransform.position = new Vector2(tilesTransform.position.x,
-                        -1 * CameraManager.Instance.GetHeightCamera() / 2 + RuneManager.GetHeightRunes()/2) ;
+                        -1 * CameraManager.Instance.GetHeightCamera() / 2 + RuneManager.GetHeightRunesMap()/2) ;
                 RuneManager.UpdateRunesPostionMap();
         }
         
