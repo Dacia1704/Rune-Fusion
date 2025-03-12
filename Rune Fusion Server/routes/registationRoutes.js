@@ -5,7 +5,7 @@ import Account from "../model/account.js";
 mongoose.connect(config.mongoURI);
 
 export default (app) => {
-  app.post("/account", async (req, res) => {
+  app.post("/register", async (req, res) => {
     const { rUsername, rPassword } = req.body;
 
     if (rUsername == null || rPassword == null) {
@@ -14,20 +14,19 @@ export default (app) => {
     }
     let userAccount = await Account.findOne({ username: rUsername });
     if (userAccount == null) {
-      console.log("Don't exist this account");
-      res.send("Dont Exist");
+      console.log("Create new account...");
+      let newAccount = new Account({
+        username: rUsername,
+        password: rPassword,
+
+        lastAuthentication: Date.now(),
+      });
+      await newAccount.save();
+      res.send(newAccount);
       return;
     } else {
-      if (rPassword == userAccount.password) {
-        userAccount.lastAuthentication = Date.now();
-        await userAccount.save();
-        res.send(userAccount);
-        console.log("Login success");
-        return;
-      }
+      console.log("Already exist this account");
+      res.send("Already Exist");
     }
-
-    res.send("Wrong Username/Password");
-    return;
   });
 };
