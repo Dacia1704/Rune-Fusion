@@ -1,7 +1,7 @@
 import mongoose from "mongoose";
 import config from "../config/keys.js";
 import Account from "../model/account.js";
-
+import jwt from "jsonwebtoken";
 mongoose.connect(config.mongoURI);
 
 export default (app) => {
@@ -9,25 +9,36 @@ export default (app) => {
     const { rUsername, rPassword } = req.body;
 
     if (rUsername == null || rPassword == null) {
-      res.send("Invalid cradentials");
+      res.status(401).json({
+        error: "Invalid cradentials",
+      });
       return;
     }
     let userAccount = await Account.findOne({ username: rUsername });
     if (userAccount == null) {
       console.log("Don't exist this account");
-      res.send("Dont Exist");
+      res.status(401).json({
+        error: "Dont Exist",
+      });
       return;
     } else {
       if (rPassword == userAccount.password) {
-        userAccount.lastAuthentication = Date.now();
-        await userAccount.save();
-        res.send(userAccount);
+        const jwtToken = jwt.sign({ rUsername }, config.jwtSecret, {
+          expiresIn: "1h",
+        });
+        res.status(200).json({
+          token: jwtToken,
+          user: userAccount,
+          message: "Login successful",
+        });
         console.log("Login success");
         return;
       }
     }
 
-    res.send("Wrong Username/Password");
+    res.status(401).json({
+      error: "Wrong Username/Password",
+    });
     return;
   });
 };

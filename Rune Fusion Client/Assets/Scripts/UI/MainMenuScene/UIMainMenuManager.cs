@@ -7,30 +7,49 @@ public class UIMainMenuManager: MonoBehaviour
         public static UIMainMenuManager Instance { get; private set; }
         public UILoginScreen UILoginScreen { get; private set; }
         public UIRegisterScreen UIRegisterScreen { get; private set; }
-        private Vector3 UIRegisterScreenPosition;
+        public UIFindMatchScreen UIFindMatchScreen { get; private set; }
+        private UIBase currentUIScreen;
+        private Vector3 UISubScreenPosition;
 
         private void Awake()
         {
                 Instance = this;
                 UILoginScreen = GetComponentInChildren<UILoginScreen>();
                 UIRegisterScreen = GetComponentInChildren<UIRegisterScreen>();
-                UIRegisterScreenPosition = UIRegisterScreen.transform.position;
+                UIFindMatchScreen = GetComponentInChildren<UIFindMatchScreen>();
+                UISubScreenPosition = UIRegisterScreen.transform.position;
+                UIRegisterScreen.Hide();
+                UIFindMatchScreen.Hide();
+                currentUIScreen = UILoginScreen;
         }
 
         public void ChangeToLoginScreen()
         {
-                DOTween.KillAll();
                 UILoginScreen.Show();
                 UILoginScreen.GetComponent<CanvasGroup>().DOFade(1f, 0.5f).SetEase(Ease.InOutCubic);
-                UIRegisterScreen.transform.DOMove(UIRegisterScreenPosition, 0.5f).SetEase(Ease.InOutCubic)
-                        .onComplete += () => { UIRegisterScreen.Hide(); };
+                UIBase currentScreen = currentUIScreen;
+                currentScreen.transform.DOMove(UISubScreenPosition, 0.5f).SetEase(Ease.InOutCubic)
+                        .onComplete += () => { currentScreen.Hide(); };
+                currentUIScreen = UILoginScreen;
         }
 
-        public void ChangeToRegisterScreen()
+        public void ChangeToNewScreen(UIBase newUIScreen)
         {
-                DOTween.KillAll();
-                UIRegisterScreen.Show();
-                UILoginScreen.GetComponent<CanvasGroup>().DOFade(0f, 0.5f).SetEase(Ease.InOutCubic).onComplete += () => { UILoginScreen.Hide(); };
-                UIRegisterScreen.transform.DOMove(Vector3.zero, 0.5f).SetEase(Ease.InOutCubic);
+                newUIScreen.Show();
+                newUIScreen.transform.DOMove(Vector3.zero, 0.5f).SetEase(Ease.InOutCubic);
+                UIBase currentScreen = currentUIScreen;
+                if (currentScreen != UILoginScreen)
+                {
+                        Sequence swapSequence = DOTween.Sequence();
+                        swapSequence
+                                .Join(currentScreen.GetComponent<CanvasGroup>().DOFade(0f, 0.5f).SetEase(Ease.InOutCubic))
+                                .Join(currentScreen.transform.DOMove(UISubScreenPosition, 0.1f).SetEase(Ease.InOutCubic))
+                                .onComplete += () => { currentScreen.Hide(); };
+                }
+                else
+                {
+                        currentScreen.GetComponent<CanvasGroup>().DOFade(0f, 0.5f).SetEase(Ease.InOutCubic).onComplete += () => { currentScreen.Hide(); };
+                }
+                currentUIScreen = newUIScreen;
         }
 }

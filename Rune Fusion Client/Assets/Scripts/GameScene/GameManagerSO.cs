@@ -7,4 +7,14 @@ public class GameManagerSO : ScriptableObject
         [field: SerializeField] public int HeightRuneMap { get; private set; }
         [field: SerializeField] public float SwipeThreshold { get; private set; }
         [field: SerializeField] public float DurationSwapRune { get; private set; }
+
+        public void SetWidthRuneMap(int widthRuneMap)
+        {
+                this.WidthRuneMap = widthRuneMap;
+        }
+
+        public void SetHeightRuneMap(int heightRuneMap)
+        {
+                this.HeightRuneMap = heightRuneMap;
+        }
 }

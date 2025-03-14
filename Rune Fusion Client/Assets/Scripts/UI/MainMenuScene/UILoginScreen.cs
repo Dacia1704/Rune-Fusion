@@ -31,7 +31,13 @@ public class UILoginScreen: UIBase
                                 SetAlertText("Invalid username or password");
                         }
                 });
-                registerButton.onClick.AddListener(() => UIMainMenuManager.Instance.ChangeToRegisterScreen());
+                registerButton.onClick.AddListener(() => UIMainMenuManager.Instance.ChangeToNewScreen(UIMainMenuManager.Instance.UIRegisterScreen));
+        }
+
+        private void OnEnable()
+        {
+                loginButton.interactable = true;
+                loginAlertText.color = Color.clear;
         }
 
         private LoginData CheckInvalidInput()
@@ -62,26 +68,25 @@ public class UILoginScreen: UIBase
                         }
                         yield return null;
                 }
-                
+                Debug.Log(request.responseCode);
                 if (request.result == UnityWebRequest.Result.Success)
                 {
-                        if (request.downloadHandler.text == "Dont Exist")
+                        if (request.responseCode == 200)
                         {
-                                Debug.Log("Dont exist this account");
-                                SetAlertText("This username dont exits",2);
-                                loginButton.interactable = true;
+                                LoginResponse returnedAccount = JsonUtility.FromJson<LoginResponse>(request.downloadHandler.text);
+                                Debug.Log("Login successful. Token: "+ returnedAccount.token);
+                                SetAlertText($"{returnedAccount.user._id} Login Successful. Welcome {returnedAccount.user.username}",1);
+                                SocketManager.Instance.SetPlayerNetworkData(returnedAccount.user.username, returnedAccount.user._id);
+                                SocketManager.Instance.SetToken(returnedAccount.token);
+                                UIMainMenuManager.Instance.ChangeToNewScreen(UIMainMenuManager.Instance
+                                        .UIFindMatchScreen);  
+                                SocketManager.Instance.SetUpConnectSocket();
                         }
-                        else if(request.downloadHandler.text == "Wrong Username/Password")
+                        else if(request.responseCode == 401)
                         {
-                                Debug.Log("Login Failed");
-                                SetAlertText("Wrong username or password",3);
+                                ErrorResponse response = JsonUtility.FromJson<ErrorResponse>(request.downloadHandler.text);
+                                SetAlertText(response.error,3);
                                 loginButton.interactable = true;
-                        }
-                        else
-                        {
-                                Debug.Log(request.downloadHandler.text);
-                                GameAccount returnedAccount = JsonUtility.FromJson<GameAccount>(request.downloadHandler.text);
-                                SetAlertText($"{returnedAccount._id} Login Successful. Welcome {returnedAccount.username}",1);
                         }
                 }
                 else

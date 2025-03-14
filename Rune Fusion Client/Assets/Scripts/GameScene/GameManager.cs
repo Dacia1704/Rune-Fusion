@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Threading;
 using UnityEngine;
@@ -9,7 +10,6 @@ public class GameManager : MonoBehaviour
         [field: SerializeField] public GameManagerSO GameManagerSO { get; private set; }
 
         [field: SerializeField]public RuneManager RuneManager {get; private set;}
-        [field: SerializeField]public SocketManager SocketManager {get; private set;}
         [field: SerializeField]public InputManager InputManager {get; private set;}
 
         private void Awake()
@@ -19,10 +19,23 @@ public class GameManager : MonoBehaviour
                         Instance = this;
                 }
                 RuneManager = FindFirstObjectByType<RuneManager>();
-                SocketManager = FindFirstObjectByType<SocketManager>();
                 InputManager = FindFirstObjectByType<InputManager>();
         }
-        
+
+        private void Start()
+        {
+                StartCoroutine(GenMapCoroutine());
+        }
+
+        private IEnumerator GenMapCoroutine()
+        {
+                yield return new WaitUntil(() => SocketManager.Instance.MapStart != null);
+                GameManagerSO.SetHeightRuneMap(SocketManager.Instance.MapStart.Count);
+                GameManagerSO.SetWidthRuneMap(SocketManager.Instance.MapStart[0].Count);
+                RuneManager.GenerateRunesMap(SocketManager.Instance.MapStart);
+                SetUpTilePosition();
+        }
+
         public void SetUpTilePosition()
         {
                 Transform tilesTransform = RuneManager.transform;
