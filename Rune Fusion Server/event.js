@@ -10,6 +10,9 @@ const EVENTS = {
   PLAYER: {
     FIND_MATCH: "find_match",
     MATCH_FOUND: "match_found",
+    CURRENT_TURN: "current_turn",
+    TURN_REQUEST: "turn_request",
+    TURN_RESPONSE: "turn_response",
   },
 };
 export default EVENTS;

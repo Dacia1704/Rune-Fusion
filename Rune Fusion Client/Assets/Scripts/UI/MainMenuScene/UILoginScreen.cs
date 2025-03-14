@@ -76,7 +76,7 @@ public class UILoginScreen: UIBase
                                 LoginResponse returnedAccount = JsonUtility.FromJson<LoginResponse>(request.downloadHandler.text);
                                 Debug.Log("Login successful. Token: "+ returnedAccount.token);
                                 SetAlertText($"{returnedAccount.user._id} Login Successful. Welcome {returnedAccount.user.username}",1);
-                                SocketManager.Instance.SetPlayerNetworkData(returnedAccount.user.username, returnedAccount.user._id);
+                                SocketManager.Instance.SetPlayerNetworkData(returnedAccount.user.username, returnedAccount.user._id,-1);
                                 SocketManager.Instance.SetToken(returnedAccount.token);
                                 UIMainMenuManager.Instance.ChangeToNewScreen(UIMainMenuManager.Instance
                                         .UIFindMatchScreen);  

@@ -5,6 +5,7 @@ using System.Linq;
 using Newtonsoft.Json;
 using SocketIOClient;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 public class SocketManager : MonoBehaviour
 {
@@ -15,8 +16,11 @@ public class SocketManager : MonoBehaviour
 
     private string Token;
     
-    private PlayerData playerData;
+    public PlayerData PlayerData { get; private set; }
+    public PlayerData OpponentData { get; private set; }
     public string RoomId {get; private set;}
+    public int CurrentPlayerIndex;
+    public event Action<int> OnCurrentPlayerIndexChanged;
 
     public List<List<int>> MapStart { get; private set; }
 
@@ -24,15 +28,26 @@ public class SocketManager : MonoBehaviour
     {
         Instance = this;
         DontDestroyOnLoad(this);
+        CurrentPlayerIndex = -1;
     }
 
-    public void SetPlayerNetworkData(string namePlayer,string idPlayer)
+    public void SetPlayerNetworkData(string namePlayer,string idPlayer,int playerIndex)
     {
-        this.playerData = new()
+        this.PlayerData = new()
         {
             playername = namePlayer,
-            id = idPlayer
+            id = idPlayer,
+            playerindex =  playerIndex
         };
+    }
+    public void SetCurrentPlayerIndex(int playerIndex)
+    {
+        if (CurrentPlayerIndex != -1)
+        {
+            Debug.Log("change");
+            OnCurrentPlayerIndexChanged?.Invoke(playerIndex);
+        }
+        this.CurrentPlayerIndex = playerIndex;
     }
 
     public void SetToken(string token)
@@ -42,7 +57,7 @@ public class SocketManager : MonoBehaviour
 
     public void SetUpConnectSocket()
     {
-        Debug.Log("socket setup");
+        // Debug.Log("socket setup");
         socket = new SocketIOUnity("http://localhost:3000", new SocketIOOptions()
         {
             Query = new Dictionary<string, string>()
@@ -61,6 +76,16 @@ public class SocketManager : MonoBehaviour
             List<List<List<int>>> mapData = JsonConvert.DeserializeObject<List<List<List<int>>>>(data.ToString());
             UnityThread.executeCoroutine(SaveStartMapCoroutine(mapData[0]));
         });
+        socket.On(SocketEvents.Player.CURRENT_TURN, data =>
+        {
+            List<int> turnData = JsonConvert.DeserializeObject<List<int>>(data.ToString());
+            SetCurrentPlayerIndex(turnData[0]);
+        });
+        socket.On(SocketEvents.Player.TURN_RESPONSE, data =>
+        {
+            List<int> turnData = JsonConvert.DeserializeObject<List<int>>(data.ToString());
+            SetCurrentPlayerIndex(turnData[0]);
+        });
         
         socket.On(SocketEvents.Rune.NEW_RESPONSE, data =>
         {
@@ -71,8 +96,17 @@ public class SocketManager : MonoBehaviour
         socket.On(SocketEvents.Player.MATCH_FOUND, data =>
         {
             List<MatchFoundResponse> response = JsonConvert.DeserializeObject<List<MatchFoundResponse>>(data.ToString());
-            Debug.Log( $"Ghép cặp thành công {response[0].player1.playername} {response[0].player2.playername}" );
-            RoomId = response[0].roomId;
+            Debug.Log( $"Ghép cặp thành công {response[0].player1.playername}:{response[0].player1.playerindex} {response[0].player2.playername}:{response[0].player2.playerindex}" );
+            if (response[0].player1.id == PlayerData.id)
+            {
+                PlayerData = response[0].player1;
+                OpponentData = response[0].player2;
+            }
+            else
+            {
+                PlayerData = response[0].player2;
+                OpponentData = response[0].player1;
+            }
             UnityThread.executeCoroutine(ChangeSceneCoroutine(SceneLoadManager.Instance.GameSceneName));
         });
         socket.On(SocketEvents.Rune.OPPONENT_SWAP_RUNE, data =>
@@ -99,7 +133,6 @@ public class SocketManager : MonoBehaviour
     private IEnumerator SaveStartMapCoroutine(List<List<int>> mapData)
     {
         MapStart = mapData;
-        Debug.Log(MapStart.Count() +" " + mapData.Count);
         yield return null;
     }
 
@@ -117,19 +150,24 @@ public class SocketManager : MonoBehaviour
 
     public void FindMatch()
     {
-        socket.Emit(SocketEvents.Player.FIND_MATCH, JsonUtility.ToJson(playerData));
-        Debug.Log(JsonUtility.ToJson(playerData));
+        socket.Emit(SocketEvents.Player.FIND_MATCH, JsonUtility.ToJson(PlayerData));
+        Debug.Log(JsonUtility.ToJson(PlayerData));
     }
 
     public void SwapRune(Vector2 start,Vector2 end)
     {
         SwapRuneData swapRuneData = new SwapRuneData
         {
-            roomId = RoomId,
             startRune = new Vector2Int((int)start.x, (int)start.y),
             endRune = new Vector2Int((int)end.x, (int)end.y)
         };
         socket.Emit(SocketEvents.Rune.SWAP_RUNE, JsonUtility.ToJson(swapRuneData));
+    }
+
+    public void TurnRequest()
+    {
+        Debug.Log("Turn Request");
+        socket.Emit(SocketEvents.Player.TURN_REQUEST, CurrentPlayerIndex);
     }
 
     private void OnApplicationQuit()
