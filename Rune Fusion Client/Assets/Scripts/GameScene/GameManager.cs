@@ -11,6 +11,7 @@ public class GameManager : MonoBehaviour
 
         [field: SerializeField]public RuneManager RuneManager {get; private set;}
         [field: SerializeField]public InputManager InputManager {get; private set;}
+        [field: SerializeField]public TurnManager TurnManager {get; private set;}
 
         private void Awake()
         {
@@ -20,6 +21,7 @@ public class GameManager : MonoBehaviour
                 }
                 RuneManager = FindFirstObjectByType<RuneManager>();
                 InputManager = FindFirstObjectByType<InputManager>();
+                TurnManager = FindFirstObjectByType<TurnManager>();
         }
 
         private void Start()

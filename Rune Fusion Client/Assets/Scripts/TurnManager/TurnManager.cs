@@ -1,36 +1,46 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using UnityEngine;
 
+
+/*
+ * playerIndex được gửi khi gửi lại room
+ * Gửi map start thì gửi luôn playerIndex đi trước;
+ */
 public class TurnManager : MonoBehaviour
 {
-    public static TurnManager Instance { get; private set; }
-    private int currentPlayerIndex = 0; 
-    private bool isPlayerTurn = true;
+    private int playerIndex; 
+    public bool isPlayerTurn { get; private set; }
 
-    private void Awake()
+
+    private void Start()
     {
-        if (Instance == null) Instance = this;
+        playerIndex = SocketManager.Instance.PlayerData.playerindex;
+        SocketManager.Instance.OnCurrentPlayerIndexChanged += UpdateTurn; // update turn except first turn
+        UpdateTurn(SocketManager.Instance.CurrentPlayerIndex); // update first turn
     }
 
+    public void UpdateTurn(int currentPlayerIndex)
+    {
+        if (currentPlayerIndex != playerIndex)
+        {
+            EndTurn();
+        }
+        else
+        {
+            StartTurn();
+        }
+        Debug.Log(isPlayerTurn?"My Turn": "Opponent Turn");
+    }
     public void StartTurn()
     {
-        Debug.Log($"Player {currentPlayerIndex}'s Turn");
         isPlayerTurn = true;
+        GameManager.Instance.InputManager.SetEnableInput();
     }
 
     public void EndTurn()
     {
-        if (!isPlayerTurn) return;
         isPlayerTurn = false;
-        
-        StartCoroutine(SwitchTurn());
-    }
-
-    private IEnumerator SwitchTurn()
-    {
-        yield return new WaitForSeconds(1f);
-
-        currentPlayerIndex = (currentPlayerIndex + 1) % 2; 
-        StartTurn();
+        GameManager.Instance.InputManager.SetDisableInput();
     }
 }

@@ -5,6 +5,12 @@ public class InputManager : MonoBehaviour
 {
         private Vector2 startMousePosition,endMousePosition;
         private float swipeThreshold;
+        private bool enableInput;
+
+        private void Awake()
+        {
+                enableInput = true;
+        }
 
         private void Start()
         {
@@ -13,14 +19,17 @@ public class InputManager : MonoBehaviour
 
         private void Update()
         {
-                if (Input.GetMouseButtonDown(0))
+                if (enableInput)
                 {
-                        startMousePosition = Input.mousePosition;
-                }
-                else if (Input.GetMouseButtonUp(0))
-                {
-                        endMousePosition = Input.mousePosition;
-                        DetectSwipe();
+                        if (Input.GetMouseButtonDown(0))
+                        {
+                                startMousePosition = Input.mousePosition;
+                        }
+                        else if (Input.GetMouseButtonUp(0))
+                        {
+                                endMousePosition = Input.mousePosition;
+                                DetectSwipe();
+                        }
                 }
         }
         
@@ -101,6 +110,16 @@ public class InputManager : MonoBehaviour
                         }
                                 
                 }
+        }
+
+        public void SetEnableInput()
+        {
+                enableInput = true;
+        }
+
+        public void SetDisableInput()
+        {
+                enableInput = false;
         }
         
 }

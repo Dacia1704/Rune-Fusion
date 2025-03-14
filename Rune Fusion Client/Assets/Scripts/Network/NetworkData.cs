@@ -1,6 +1,7 @@
 ﻿
 using System;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 
 [Serializable]
@@ -36,19 +37,18 @@ public class PlayerData
 {
         public string id;
         public string playername;
+        public int playerindex;
 }
 
 [Serializable]
 public class MatchFoundResponse
 {
-        public string roomId;
         public PlayerData player1;
         public PlayerData player2;
 }
 [Serializable]
 public class SwapRuneData
 {
-        public string roomId;
         public Vector2Int startRune;
         public Vector2Int endRune;
 }
