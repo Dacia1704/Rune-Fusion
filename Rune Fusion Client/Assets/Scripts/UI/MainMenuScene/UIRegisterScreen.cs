@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using TMPro;
 using UnityEngine;
 using UnityEngine.Networking;
@@ -30,6 +31,12 @@ public class UIRegisterScreen : UIBase
                         }
                 });
                 loginButton.onClick.AddListener(()=> UIMainMenuManager.Instance.ChangeToLoginScreen());
+        }
+
+        private void OnEnable()
+        {
+                registerButton.interactable = true;
+                registerAlertText.color = Color.clear;
         }
 
         private LoginData CheckInvalidInput()
@@ -64,17 +71,18 @@ public class UIRegisterScreen : UIBase
                 
                 if (request.result == UnityWebRequest.Result.Success)
                 {
-                        if (request.downloadHandler.text == "Already Exist")
-                        {
-                                Debug.Log("Already exist this account");
-                                SetAlertText("Already exist this account",2);
-                                registerButton.interactable = true;
-                        }
-                        else
+                        if (request.responseCode== 200)
                         {
                                 Debug.Log(request.downloadHandler.text);
-                                GameAccount returnedAccount = JsonUtility.FromJson<GameAccount>(request.downloadHandler.text);
-                                SetAlertText($"{returnedAccount._id} Register Successful. Welcome {returnedAccount.username}",1);
+                                CreateAccountResponse response = JsonUtility.FromJson<CreateAccountResponse>(request.downloadHandler.text);
+                                SetAlertText($"{response.user._id} Register Successful. Welcome {response.user.username}",1);
+                        }
+                        else if(request.responseCode== 401)
+                        {
+                                Debug.Log("Already exist this account");
+                                ErrorResponse response = JsonUtility.FromJson<ErrorResponse>(request.downloadHandler.text);
+                                SetAlertText(response.error,2);
+                                registerButton.interactable = true;
                         }
                 }
                 else

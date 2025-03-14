@@ -9,7 +9,7 @@ export default (app) => {
     const { rUsername, rPassword } = req.body;
 
     if (rUsername == null || rPassword == null) {
-      res.send("Invalid cradentials");
+      res.status(401).json({ error: "Invalid cradentials" });
       return;
     }
     let userAccount = await Account.findOne({ username: rUsername });
@@ -18,15 +18,18 @@ export default (app) => {
       let newAccount = new Account({
         username: rUsername,
         password: rPassword,
-
-        lastAuthentication: Date.now(),
       });
       await newAccount.save();
-      res.send(newAccount);
+      res.status(200).json({
+        user: newAccount,
+        message: "Create account successful",
+      });
       return;
     } else {
       console.log("Already exist this account");
-      res.send("Already Exist");
+      res.status(401).json({
+        error: "Already exist this account",
+      });
     }
   });
 };

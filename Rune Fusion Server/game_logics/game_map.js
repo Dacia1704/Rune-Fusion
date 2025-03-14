@@ -40,11 +40,11 @@ export function generateNewRune(currentMap) {
         count += 1;
       }
     }
-    console.log(x + " " + count);
 
     for (let y = 0; y < MapData.rows - count; y++) {
       newRuneMap[y][x] = getRandomInt(0, MapData.numTypes - 1);
     }
   }
+
   return newRuneMap;
 }

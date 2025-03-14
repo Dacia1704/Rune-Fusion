@@ -10,6 +10,16 @@ using Unity.VisualScripting;
 using UnityEngine;
 using Sequence = DG.Tweening.Sequence;
 
+/*Rune flow
+ * Swap Rune
+ * call CheckMatches để check ô combo
+ * check match rune xóa ô, call hàm update state rune
+ * đẩy các ô vào khoảng trống bên dưới (count số animation đẩy xuống dưới)
+ * bao giờ animation đẩy xuống dưới hết thì gọi hàm gen new rune (có count số animation đẩy xuống)
+ * bao giờ animation đẩy xuống dưới hết thì call hàm CheckMatches ở các ô vừa rơi xuống (bước 2)
+ */
+
+
 public class RuneManager : MonoBehaviour
 {
     // [field: SerializeField] public RuneManagerSO RuneManagerSO { get; private set; }
@@ -189,7 +199,7 @@ public class RuneManager : MonoBehaviour
         while (true)
         {
             yield return new WaitUntil(() => countCurrentUpdateRuneStateAnimation == 0);
-            GameManager.Instance.SocketManager.RequestNewRune(ConvertRunesMapToServerData());
+            SocketManager.Instance.RequestNewRune(ConvertRunesMapToServerData());
             countCurrentUpdateRuneStateAnimation = -1;
         }
     }
@@ -226,19 +236,24 @@ public class RuneManager : MonoBehaviour
     }
     public void SwapWithRightRune(Tuple<int,int> start)
     {
-        SwapRunes(Tuple.Create(start.Item1,start.Item2), Tuple.Create(start.Item1,start.Item2+1));        
+        SwapRunes(Tuple.Create(start.Item1,start.Item2), Tuple.Create(start.Item1,start.Item2+1));      
+        SocketManager.Instance.SwapRune(new Vector2(start.Item1, start.Item2), new Vector2(start.Item1,start.Item2+1));
+        
     }
     public void SwapWithLeftRune(Tuple<int,int> start)
     {
-        SwapRunes(Tuple.Create(start.Item1,start.Item2), Tuple.Create(start.Item1,start.Item2-1));        
+        SwapRunes(Tuple.Create(start.Item1,start.Item2), Tuple.Create(start.Item1,start.Item2-1));    
+        SocketManager.Instance.SwapRune(new Vector2(start.Item1, start.Item2), new Vector2(start.Item1,start.Item2-1));
     }
     public void SwapWithTopRune(Tuple<int,int> start)
     {
-        SwapRunes(Tuple.Create(start.Item1,start.Item2), Tuple.Create(start.Item1+1,start.Item2));        
+        SwapRunes(Tuple.Create(start.Item1,start.Item2), Tuple.Create(start.Item1+1,start.Item2));    
+        SocketManager.Instance.SwapRune(new Vector2(start.Item1, start.Item2), new Vector2(start.Item1+1,start.Item2));
     }
     public void SwapWithBottomRune(Tuple<int,int> start)
     {
-        SwapRunes(Tuple.Create(start.Item1,start.Item2), Tuple.Create(start.Item1-1,start.Item2));        
+        SwapRunes(Tuple.Create(start.Item1,start.Item2), Tuple.Create(start.Item1-1,start.Item2));      
+        SocketManager.Instance.SwapRune(new Vector2(start.Item1, start.Item2), new Vector2(start.Item1-1,start.Item2));
     }
     
     /// <summary>
