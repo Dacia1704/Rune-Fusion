@@ -35,7 +35,7 @@ public abstract class MonsterBase : MonoBehaviour
         stateMachine.Update();
     }
 
-    public virtual void Attack()
+    public virtual void Attack(Transform target)
     {
         
     }
