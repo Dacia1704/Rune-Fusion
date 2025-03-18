@@ -12,11 +12,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8fe7857aabaa45d6a909d939a3b1460c, type: 3}
   m_Name: LancerPropsSO
   m_EditorClassIdentifier: 
+  <Name>k__BackingField: 2
   <BaseStats>k__BackingField:
-    Attack: 0
-    Defense: 0
-    Health: 0
-    Speed: 0
-    Accuracy: 0
-    Resistance: 0
-  <Icon>k__BackingField: {fileID: 0}
+    Attack: 350
+    Defense: 420
+    Health: 7500
+    Speed: 112
+    Accuracy: 0.2
+    Resistance: 0.5
+  <Type>k__BackingField: 3
+  <Icon>k__BackingField: {fileID: 152589669, guid: 717a8d815e696ec499ed3e6f36b966ba, type: 3}

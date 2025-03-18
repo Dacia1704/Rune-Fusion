@@ -228,7 +228,7 @@ public class RuneManager : MonoBehaviour
         while (true)
         {
             yield return new WaitUntil(() => countCurrentUpdateRuneStateAnimation == 0);
-            if (GameManager.Instance.TurnManager.isPlayerTurn)
+            if (GameManager.Instance.BattleManager.TurnManager.isPlayerTurn)
             {
                 SocketManager.Instance.RequestNewRune(ConvertRunesMapToServerData());
             }
@@ -470,11 +470,12 @@ public class RuneManager : MonoBehaviour
         while (true)
         {
             yield return new WaitUntil(() => canChangeTurn && countCurrentLoadNewRuneAnimation == -1 &&
-                                             countCurrentUpdateRuneStateAnimation == -1 && GameManager.Instance.TurnManager.isPlayerTurn && !hasNewRunesToGen);
+                                             countCurrentUpdateRuneStateAnimation == -1 && GameManager.Instance.BattleManager.TurnManager.isPlayerTurn && !hasNewRunesToGen);
             
             canChangeTurn = false;
             hasNewRunesToGen = true;
-            SocketManager.Instance.TurnRequest();
+            // SocketManager.Instance.TurnRequest();
+            GameManager.Instance.BattleManager.TurnManager.OnEndTurn?.Invoke();
         }
     }
     public string ConvertRunesMapToServerData()

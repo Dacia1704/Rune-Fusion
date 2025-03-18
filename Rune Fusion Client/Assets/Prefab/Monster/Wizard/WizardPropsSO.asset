@@ -12,11 +12,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fdeadb9ec84546d6aa661ec4ae0f7e41, type: 3}
   m_Name: WizardPropsSO
   m_EditorClassIdentifier: 
+  <Name>k__BackingField: 5
   <BaseStats>k__BackingField:
-    Attack: 0
-    Defense: 0
-    Health: 0
-    Speed: 0
-    Accuracy: 0
-    Resistance: 0
-  <Icon>k__BackingField: {fileID: 0}
+    Attack: 900
+    Defense: 220
+    Health: 7000
+    Speed: 116
+    Accuracy: 0.1
+    Resistance: 0.1
+  <Type>k__BackingField: 1
+  <Icon>k__BackingField: {fileID: -472666207, guid: 288222d7407c92d43b06480fcffaa31f, type: 3}

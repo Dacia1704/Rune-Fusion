@@ -12,11 +12,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8fe7857aabaa45d6a909d939a3b1460c, type: 3}
   m_Name: ArmoredAxemanPropsSO
   m_EditorClassIdentifier: 
+  <Name>k__BackingField: 1
   <BaseStats>k__BackingField:
     Attack: 500
-    Defense: 200
-    Health: 10000
-    Speed: 100
+    Defense: 250
+    Health: 7000
+    Speed: 102
     Accuracy: 0.2
     Resistance: 0.2
+  <Type>k__BackingField: 3
   <Icon>k__BackingField: {fileID: -453881697, guid: 21e8e054262c67543a73ab5b67500c92, type: 3}

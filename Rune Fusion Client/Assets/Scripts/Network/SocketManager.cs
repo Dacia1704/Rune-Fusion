@@ -19,8 +19,6 @@ public class SocketManager : MonoBehaviour
     public PlayerData PlayerData { get; private set; }
     public PlayerData OpponentData { get; private set; }
     public string RoomId {get; private set;}
-    public int CurrentPlayerIndex;
-    public event Action<int> OnCurrentPlayerIndexChanged;
 
     public List<List<int>> MapStart { get; private set; }
 
@@ -28,7 +26,6 @@ public class SocketManager : MonoBehaviour
     {
         Instance = this;
         DontDestroyOnLoad(this);
-        CurrentPlayerIndex = -1;
     }
 
     public void SetPlayerNetworkData(string namePlayer,string idPlayer,int playerIndex)
@@ -40,15 +37,6 @@ public class SocketManager : MonoBehaviour
             playerindex =  playerIndex
         };
     }
-    public void SetCurrentPlayerIndex(int playerIndex)
-    {
-        if (CurrentPlayerIndex != -1)
-        {
-            Debug.Log("change");
-            OnCurrentPlayerIndexChanged?.Invoke(playerIndex);
-        }
-        this.CurrentPlayerIndex = playerIndex;
-    }
 
     public void SetToken(string token)
     {
@@ -57,7 +45,6 @@ public class SocketManager : MonoBehaviour
 
     public void SetUpConnectSocket()
     {
-        // Debug.Log("socket setup");
         socket = new SocketIOUnity("http://localhost:3000", new SocketIOOptions()
         {
             Query = new Dictionary<string, string>()
@@ -75,16 +62,6 @@ public class SocketManager : MonoBehaviour
             Debug.Log("Socket start map");
             List<List<List<int>>> mapData = JsonConvert.DeserializeObject<List<List<List<int>>>>(data.ToString());
             UnityThread.executeCoroutine(SaveStartMapCoroutine(mapData[0]));
-        });
-        socket.On(SocketEvents.Player.CURRENT_TURN, data =>
-        {
-            List<int> turnData = JsonConvert.DeserializeObject<List<int>>(data.ToString());
-            SetCurrentPlayerIndex(turnData[0]);
-        });
-        socket.On(SocketEvents.Player.TURN_RESPONSE, data =>
-        {
-            List<int> turnData = JsonConvert.DeserializeObject<List<int>>(data.ToString());
-            SetCurrentPlayerIndex(turnData[0]);
         });
         
         socket.On(SocketEvents.Rune.NEW_RESPONSE, data =>
@@ -114,7 +91,20 @@ public class SocketManager : MonoBehaviour
             List<SwapRuneData> response = JsonConvert.DeserializeObject<List<SwapRuneData>>(data.ToString());
             UnityThread.executeCoroutine(SwapRuneCoroutine(response[0].startRune, response[0].endRune));
         });
+        
+        socket.On(SocketEvents.Game.TURN_BASE_LIST_PUSH_DATA, data =>
+        {
+            Debug.Log(data);
+            List<List<TurnBaseData>> response = JsonConvert.DeserializeObject<List<List<TurnBaseData>>>(data.ToString());
+            UnityThread.executeCoroutine(TurnBaseListCoroutine(response[0]));
+        });
         socket.Connect();
+    }
+
+    private IEnumerator TurnBaseListCoroutine(List<TurnBaseData> mapData)
+    {
+        BattleManager.Instance.TurnManager.UpdateTurnBaseQueue(mapData);
+        yield return null;
     }
 
     private IEnumerator SwapRuneCoroutine(Vector2Int start, Vector2Int end)
@@ -135,7 +125,7 @@ public class SocketManager : MonoBehaviour
         MapStart = mapData;
         yield return null;
     }
-
+    
     private IEnumerator GenNewRuneCoroutine(List<List<int>> newRuneData)
     {
         GameManager.Instance.RuneManager.GenerateNewRune(newRuneData);
@@ -164,14 +154,21 @@ public class SocketManager : MonoBehaviour
         socket.Emit(SocketEvents.Rune.SWAP_RUNE, JsonUtility.ToJson(swapRuneData));
     }
 
-    public void TurnRequest()
-    {
-        Debug.Log("Turn Request");
-        socket.Emit(SocketEvents.Player.TURN_REQUEST, CurrentPlayerIndex);
-    }
 
     private void OnApplicationQuit()
     {
         if(socket != null) socket.Disconnect();
     }
+
+    public void GameStartRequest()
+    {
+        socket.Emit(SocketEvents.Game.GAME_START_REQUEST);
+    }
+
+    public void UpdateTurnRequest()
+    {
+        Debug.Log("Update Turn Request");
+        socket.Emit(SocketEvents.Game.TURN_BASE_LIST_REQUEST);
+    }
+    
 }
