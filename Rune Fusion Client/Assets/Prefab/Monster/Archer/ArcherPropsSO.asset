@@ -12,12 +12,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f18056c5304449f4a2b46552a3007991, type: 3}
   m_Name: ArcherPropsSO
   m_EditorClassIdentifier: 
+  <Name>k__BackingField: 0
   <BaseStats>k__BackingField:
-    Attack: 700
+    Attack: 1200
     Defense: 100
     Health: 5600
     Speed: 100
     Accuracy: 0.1
     Resistance: 0.1
+  <Type>k__BackingField: 0
   <Icon>k__BackingField: {fileID: -698797226, guid: 516dcdcce8c86774994ee3780ad10aa0, type: 3}
   <ArrowPrefab>k__BackingField: {fileID: 4499762498449232529, guid: 01bd80b94c918224cb8f1eafd6cfe673, type: 3}

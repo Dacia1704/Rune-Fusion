@@ -52,3 +52,11 @@ public class SwapRuneData
         public Vector2Int startRune;
         public Vector2Int endRune;
 }
+
+[Serializable]
+public class TurnBaseData
+{
+        public string id;
+        public int speed;
+        public float progress;
+}

@@ -12,11 +12,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6c80b089ccb946f69f522757c0226f82, type: 3}
   m_Name: PriestPropsSO
   m_EditorClassIdentifier: 
+  <Name>k__BackingField: 4
   <BaseStats>k__BackingField:
-    Attack: 0
-    Defense: 0
-    Health: 0
-    Speed: 0
-    Accuracy: 0
-    Resistance: 0
-  <Icon>k__BackingField: {fileID: 0}
+    Attack: 450
+    Defense: 300
+    Health: 10000
+    Speed: 108
+    Accuracy: 0.3
+    Resistance: 0.3
+  <Type>k__BackingField: 2
+  <Icon>k__BackingField: {fileID: 2127694498, guid: ad638f6a65669ce418ff56bb1bcbecfc, type: 3}

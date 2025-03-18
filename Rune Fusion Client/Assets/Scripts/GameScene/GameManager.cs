@@ -11,8 +11,7 @@ public class GameManager : MonoBehaviour
 
         [field: SerializeField]public RuneManager RuneManager {get; private set;}
         [field: SerializeField]public InputManager InputManager {get; private set;}
-        [field: SerializeField]public TurnManager TurnManager {get; private set;}
-
+        [field: SerializeField] public BattleManager BattleManager {get; private set;}
         private void Awake()
         {
                 if (Instance == null)
@@ -21,11 +20,12 @@ public class GameManager : MonoBehaviour
                 }
                 RuneManager = FindFirstObjectByType<RuneManager>();
                 InputManager = FindFirstObjectByType<InputManager>();
-                TurnManager = FindFirstObjectByType<TurnManager>();
+                BattleManager = FindFirstObjectByType<BattleManager>();
         }
 
         private void Start()
         {
+                SocketManager.Instance.GameStartRequest();
                 StartCoroutine(GenMapCoroutine());
         }
 
