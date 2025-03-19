@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8fe7857aabaa45d6a909d939a3b1460c, type: 3}
   m_Name: KnightPropsSO
   m_EditorClassIdentifier: 
-  <Name>k__BackingField: 2
+  <Id>k__BackingField: 2
   <BaseStats>k__BackingField:
     Attack: 1000
     Defense: 120
@@ -22,3 +22,4 @@ MonoBehaviour:
     Resistance: 0.1
   <Type>k__BackingField: 0
   <Icon>k__BackingField: {fileID: 1801277718, guid: 5d400d968c3a574459dbfed53a37144e, type: 3}
+  <AttackOffset>k__BackingField: 0.55

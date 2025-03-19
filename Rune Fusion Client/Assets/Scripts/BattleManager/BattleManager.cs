@@ -15,7 +15,6 @@ public class BattleManager : MonoBehaviour
         public Dictionary<string,MonsterBase> MonsterTeam1Dictionary = new Dictionary<string, MonsterBase>();
         public Dictionary<string,MonsterBase> MonsterTeam2Dictionary = new Dictionary<string, MonsterBase>();
         
-        
 
         private void Awake()
         {
@@ -31,9 +30,52 @@ public class BattleManager : MonoBehaviour
         {
                 TurnManager = FindFirstObjectByType<TurnManager>();
                 ArenaManager = FindFirstObjectByType<ArenaManager>();
+                MonsterListData monsterListData = new MonsterListData();
+                monsterListData.player1 = new List<MonsterData>
+                {
+                        new MonsterData
+                        {
+                                id = 0,
+                                id_in_battle = "11",
+                                speed = 100,
+                        },
+                        new MonsterData
+                        {
+                                id = 1,
+                                id_in_battle = "12",
+                                speed = 102,
+                        },
+                        new MonsterData
+                        {
+                                id = 2,
+                                id_in_battle = "13",
+                                speed = 96,
+                        }
+                };
+                monsterListData.player2 = new List<MonsterData>
+                {
+                        new MonsterData
+                        {
+                                id= 3,
+                                id_in_battle= "21",
+                                speed= 112,
+                        },
+                        new MonsterData
+                        {
+                                id= 4,
+                                id_in_battle= "22",
+                                speed= 108,
+                        },
+                        new MonsterData
+                        {
+                                id= 5,
+                                id_in_battle= "23",
+                                speed= 116,
+                        }
+                };
+                SetUpMonster(monsterListData);
                 StartCoroutine(StartAttack());
         }
-
         public void SetUpMonster(MonsterListData monsterListData)
         {
                 GameObject monster1Team1 = Instantiate(MonsterListSO.MonsterDictionary[monsterListData.player1[0].id].Prefab,ArenaManager.MonsterTeam1.StartPosList[0].transform.position, Quaternion.identity);
@@ -64,7 +106,14 @@ public class BattleManager : MonoBehaviour
         private IEnumerator StartAttack()
         {
                 yield return new WaitForSeconds(1f);
-                MonsterTeam1Dictionary["11"].Attack(MonsterTeam2Dictionary["23"]);
+                // MonsterTeam1Dictionary["11"].Attack(MonsterTeam2Dictionary["23"]);
+                // MonsterTeam1Dictionary["12"].Attack(MonsterTeam2Dictionary["22"]);
+                // MonsterTeam1Dictionary["13"].Attack(MonsterTeam2Dictionary["21"]);
+                
+                // MonsterTeam2Dictionary["21"].Attack(MonsterTeam1Dictionary["12"]);
+                // MonsterTeam2Dictionary["22"].Attack(MonsterTeam1Dictionary["13"]);
+                MonsterTeam2Dictionary["23"].Attack(MonsterTeam1Dictionary["11"]);
+                
                 yield return null;
         }
 

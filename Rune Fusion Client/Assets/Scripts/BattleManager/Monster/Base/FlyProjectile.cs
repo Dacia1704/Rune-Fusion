@@ -3,7 +3,7 @@ using UnityEngine;
 
 public class FlyProjectile : MonoBehaviour
 {
-        public void FlyToPos(Transform target)
+        public virtual void FlyToPos(Transform target)
         {
                 if (target == null) return;
                 transform.DOMove(target.position, 0.3f)

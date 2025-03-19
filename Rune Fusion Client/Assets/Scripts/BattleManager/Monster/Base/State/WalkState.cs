@@ -3,8 +3,8 @@ using UnityEngine;
 
 public class WalkState: State
 {
-    protected Transform target;
-    public WalkState(MonsterBase monster,Transform target) : base(monster)
+    protected Vector3 target;
+    public WalkState(MonsterBase monster,Vector3 target) : base(monster)
     {
         this.target = target;
     }
@@ -12,7 +12,7 @@ public class WalkState: State
     public override void Enter()
     {
         monster.MonsterAnimationManager.PlayAnimation(monster.MonsterAnimationManager.WalkAnimationName);
-        monster.transform.DOMove(this.target.position, 0.5f).SetEase(Ease.InBack).OnComplete(() =>
+        monster.transform.DOMove(this.target, 0.5f).SetEase(Ease.InOutCubic).OnComplete(() =>
         {
             monster.WalkTaskComplete?.Invoke();
         });

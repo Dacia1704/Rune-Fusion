@@ -29,13 +29,13 @@ public class Archer : MonsterBase
                 stateMachine.ChangeState(new WalkState(this, GetPosPerformSkill()));
                 yield return new WaitUntil(() => walkTaskCompleted);
                 walkTaskCompleted = false;
-                stateMachine.ChangeState(new ArcherAttackState(this));
+                stateMachine.ChangeState(new AttackState(this));
                 yield return new WaitUntil(() => attackTaskCompleted);
                 attackTaskCompleted = false;
                 stateMachine.ChangeState(new WalkState(this, 
                         BattleManager.Instance.MonsterTeam1Dictionary.ContainsValue(this) ? 
-                                BattleManager.Instance.ArenaManager.MonsterTeam1.StartPosList[MonsterIndexinBattle]:
-                                BattleManager.Instance.ArenaManager.MonsterTeam2.StartPosList[MonsterIndexinBattle]));
+                                BattleManager.Instance.ArenaManager.MonsterTeam1.StartPosList[MonsterIndexinBattle].position:
+                                BattleManager.Instance.ArenaManager.MonsterTeam2.StartPosList[MonsterIndexinBattle].position));
                 yield return new WaitUntil(() => walkTaskCompleted);
                 stateMachine.ChangeState(new IdleState(this));
         }
@@ -46,14 +46,14 @@ public class Archer : MonsterBase
                 arrow.FlyToPos(Target.transform);
         }
 
-        private Transform GetPosPerformSkill()
+        private Vector3 GetPosPerformSkill()
         {
                 if (BattleManager.Instance.MonsterTeam1Dictionary.ContainsValue(Target))
                 {
                         return BattleManager.Instance.ArenaManager.MonsterTeam2.PerformRangeSkillPosList[
-                                Target.MonsterIndexinBattle];
+                                Target.MonsterIndexinBattle].position;
                 }
                 return BattleManager.Instance.ArenaManager.MonsterTeam1.PerformRangeSkillPosList[
-                                Target.MonsterIndexinBattle];
+                                Target.MonsterIndexinBattle].position;
         }
 }

@@ -7,4 +7,5 @@ public class MonsterPropsSO : ScriptableObject
         [field: SerializeField] public MonsterStats BaseStats { get; private set; }
         [field: SerializeField] public MonsterType Type { get; private set; }
         [field: SerializeField] public Sprite Icon { get; private set; }
+        [field: SerializeField] public float AttackOffset { get; private set; }
 }

@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8fe7857aabaa45d6a909d939a3b1460c, type: 3}
   m_Name: LancerPropsSO
   m_EditorClassIdentifier: 
-  <Name>k__BackingField: 2
+  <Id>k__BackingField: 3
   <BaseStats>k__BackingField:
     Attack: 350
     Defense: 420
@@ -22,3 +22,4 @@ MonoBehaviour:
     Resistance: 0.5
   <Type>k__BackingField: 3
   <Icon>k__BackingField: {fileID: 152589669, guid: 717a8d815e696ec499ed3e6f36b966ba, type: 3}
+  <AttackOffset>k__BackingField: 0.6
