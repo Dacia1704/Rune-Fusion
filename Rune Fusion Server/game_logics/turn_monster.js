@@ -18,7 +18,7 @@ export default function update_turn_monster(roomData) {
     const minTime = Math.min(...temp_turn_base_list);
 
     turn_base_list = turn_base_list.map((element) => ({
-        id: element.id,
+        id_in_battle: element.id_in_battle,
         speed: element.speed,
         progress:
             element.progress +

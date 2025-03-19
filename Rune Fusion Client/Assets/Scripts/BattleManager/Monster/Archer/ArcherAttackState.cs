@@ -6,10 +6,13 @@ public class ArcherAttackState: AttackState
     {
     }
 
-    public override void Enter()
+    public override void Update()
     {
-        base.Enter();
+        base.Update();
+        if (((Archer)monster).MonsterAnimationManager.IsAnimationEnded(monster.MonsterAnimationManager
+                .AttackAnimationName))
+        {
+            ((Archer)monster).AttackTaskComplete?.Invoke();
+        }
     }
-    
-    
 }

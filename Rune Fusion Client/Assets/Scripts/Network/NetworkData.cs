@@ -1,5 +1,6 @@
 ﻿
 using System;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Serialization;
 
@@ -56,7 +57,22 @@ public class SwapRuneData
 [Serializable]
 public class TurnBaseData
 {
-        public string id;
+        public string id_in_battle;
         public int speed;
         public float progress;
+}
+
+[Serializable]
+public class MonsterListData
+{
+        public List<MonsterData> player1;
+        public List<MonsterData> player2;
+}
+
+[Serializable]
+public class MonsterData
+{
+        public int id;
+        public string id_in_battle;
+        public int speed;
 }

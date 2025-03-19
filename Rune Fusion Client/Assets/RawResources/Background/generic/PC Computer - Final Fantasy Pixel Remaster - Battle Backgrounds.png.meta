@@ -1,0 +1,949 @@
+fileFormatVersion: 2
+guid: 3d8429f55323e954bbef6de6c76946e1
+TextureImporter:
+  internalIDToNameTable:
+  - first:
+      213: -3152631898380515627
+    second: PC Computer - Final Fantasy Pixel Remaster - Battle Backgrounds_0
+  - first:
+      213: -5662841102902499479
+    second: PC Computer - Final Fantasy Pixel Remaster - Battle Backgrounds_1
+  - first:
+      213: -2120042798707403738
+    second: PC Computer - Final Fantasy Pixel Remaster - Battle Backgrounds_2
+  - first:
+      213: -6187594419413907490
+    second: PC Computer - Final Fantasy Pixel Remaster - Battle Backgrounds_3
+  - first:
+      213: 1164595948701387098
+    second: PC Computer - Final Fantasy Pixel Remaster - Battle Backgrounds_4
+  - first:
+      213: 1323631445828681928
+    second: PC Computer - Final Fantasy Pixel Remaster - Battle Backgrounds_5
+  - first:
+      213: 1246728574645275679
+    second: PC Computer - Final Fantasy Pixel Remaster - Battle Backgrounds_6
+  - first:
+      213: 9150919253001559967
+    second: PC Computer - Final Fantasy Pixel Remaster - Battle Backgrounds_7
+  - first:
+      213: 4243607003333652301
+    second: PC Computer - Final Fantasy Pixel Remaster - Battle Backgrounds_8
+  - first:
+      213: -600713961870250824
+    second: PC Computer - Final Fantasy Pixel Remaster - Battle Backgrounds_9
+  - first:
+      213: 7919408655366948394
+    second: PC Computer - Final Fantasy Pixel Remaster - Battle Backgrounds_10
+  - first:
+      213: 4777041129266104361
+    second: PC Computer - Final Fantasy Pixel Remaster - Battle Backgrounds_11
+  - first:
+      213: 2766481633405756265
+    second: PC Computer - Final Fantasy Pixel Remaster - Battle Backgrounds_12
+  - first:
+      213: 3574815874431010156
+    second: PC Computer - Final Fantasy Pixel Remaster - Battle Backgrounds_13
+  - first:
+      213: -5706503961921120797
+    second: PC Computer - Final Fantasy Pixel Remaster - Battle Backgrounds_14
+  - first:
+      213: -6671456412529317124
+    second: PC Computer - Final Fantasy Pixel Remaster - Battle Backgrounds_15
+  - first:
+      213: 5527025914171168249
+    second: PC Computer - Final Fantasy Pixel Remaster - Battle Backgrounds_16
+  - first:
+      213: -8874952197995681324
+    second: PC Computer - Final Fantasy Pixel Remaster - Battle Backgrounds_17
+  - first:
+      213: -6035810561833023620
+    second: PC Computer - Final Fantasy Pixel Remaster - Battle Backgrounds_18
+  - first:
+      213: 5288092015945686084
+    second: PC Computer - Final Fantasy Pixel Remaster - Battle Backgrounds_19
+  - first:
+      213: -4906524992874806452
+    second: PC Computer - Final Fantasy Pixel Remaster - Battle Backgrounds_20
+  - first:
+      213: -6881746766641747019
+    second: PC Computer - Final Fantasy Pixel Remaster - Battle Backgrounds_21
+  - first:
+      213: -7715973974629350901
+    second: PC Computer - Final Fantasy Pixel Remaster - Battle Backgrounds_22
+  - first:
+      213: 2003512249190920814
+    second: PC Computer - Final Fantasy Pixel Remaster - Battle Backgrounds_23
+  - first:
+      213: -8382616229115498577
+    second: PC Computer - Final Fantasy Pixel Remaster - Battle Backgrounds_24
+  - first:
+      213: 7592498393766677695
+    second: PC Computer - Final Fantasy Pixel Remaster - Battle Backgrounds_25
+  - first:
+      213: 8029516563128196874
+    second: PC Computer - Final Fantasy Pixel Remaster - Battle Backgrounds_26
+  - first:
+      213: -1346067602135885841
+    second: PC Computer - Final Fantasy Pixel Remaster - Battle Backgrounds_27
+  - first:
+      213: 8212978494872460782
+    second: PC Computer - Final Fantasy Pixel Remaster - Battle Backgrounds_28
+  - first:
+      213: -3893741088583581860
+    second: PC Computer - Final Fantasy Pixel Remaster - Battle Backgrounds_29
+  - first:
+      213: 7953757610393081283
+    second: PC Computer - Final Fantasy Pixel Remaster - Battle Backgrounds_30
+  externalObjects: {}
+  serializedVersion: 13
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+    flipGreenChannel: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMipmapLimit: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 0
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 100
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 0
+  platformSettings:
+  - serializedVersion: 4
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 8192
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 0
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Android
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: WebGL
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: PC Computer - Final Fantasy Pixel Remaster - Battle Backgrounds_0
+      rect:
+        serializedVersion: 2
+        x: 23
+        y: 1835
+        width: 474
+        height: 234
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 5d6c675edf99f34d0800000000000000
+      internalID: -3152631898380515627
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: PC Computer - Final Fantasy Pixel Remaster - Battle Backgrounds_1
+      rect:
+        serializedVersion: 2
+        x: 539
+        y: 1835
+        width: 474
+        height: 234
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 967e30a150c8961b0800000000000000
+      internalID: -5662841102902499479
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: PC Computer - Final Fantasy Pixel Remaster - Battle Backgrounds_2
+      rect:
+        serializedVersion: 2
+        x: 1055
+        y: 1835
+        width: 474
+        height: 234
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 6249b6a9e481492e0800000000000000
+      internalID: -2120042798707403738
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: PC Computer - Final Fantasy Pixel Remaster - Battle Backgrounds_3
+      rect:
+        serializedVersion: 2
+        x: 1571
+        y: 1835
+        width: 474
+        height: 234
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: ed705a8a8af312aa0800000000000000
+      internalID: -6187594419413907490
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: PC Computer - Final Fantasy Pixel Remaster - Battle Backgrounds_4
+      rect:
+        serializedVersion: 2
+        x: 23
+        y: 1575
+        width: 474
+        height: 234
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: a59843558d9792010800000000000000
+      internalID: 1164595948701387098
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: PC Computer - Final Fantasy Pixel Remaster - Battle Backgrounds_5
+      rect:
+        serializedVersion: 2
+        x: 539
+        y: 1575
+        width: 474
+        height: 234
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 8c0c72e79cb7e5210800000000000000
+      internalID: 1323631445828681928
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: PC Computer - Final Fantasy Pixel Remaster - Battle Backgrounds_6
+      rect:
+        serializedVersion: 2
+        x: 1055
+        y: 1575
+        width: 474
+        height: 234
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: f1c8f0f78054d4110800000000000000
+      internalID: 1246728574645275679
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: PC Computer - Final Fantasy Pixel Remaster - Battle Backgrounds_7
+      rect:
+        serializedVersion: 2
+        x: 1571
+        y: 1575
+        width: 474
+        height: 234
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: f9fd073b3989efe70800000000000000
+      internalID: 9150919253001559967
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: PC Computer - Final Fantasy Pixel Remaster - Battle Backgrounds_8
+      rect:
+        serializedVersion: 2
+        x: 23
+        y: 1315
+        width: 474
+        height: 234
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: d4fef00061254ea30800000000000000
+      internalID: 4243607003333652301
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: PC Computer - Final Fantasy Pixel Remaster - Battle Backgrounds_9
+      rect:
+        serializedVersion: 2
+        x: 539
+        y: 1315
+        width: 474
+        height: 234
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 8bc2b1b95d5d9a7f0800000000000000
+      internalID: -600713961870250824
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: PC Computer - Final Fantasy Pixel Remaster - Battle Backgrounds_10
+      rect:
+        serializedVersion: 2
+        x: 1055
+        y: 1315
+        width: 474
+        height: 234
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: a260d46963467ed60800000000000000
+      internalID: 7919408655366948394
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: PC Computer - Final Fantasy Pixel Remaster - Battle Backgrounds_11
+      rect:
+        serializedVersion: 2
+        x: 1571
+        y: 1315
+        width: 474
+        height: 234
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 9284653e8957b4240800000000000000
+      internalID: 4777041129266104361
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: PC Computer - Final Fantasy Pixel Remaster - Battle Backgrounds_12
+      rect:
+        serializedVersion: 2
+        x: 23
+        y: 1055
+        width: 474
+        height: 234
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 963eacc5364846620800000000000000
+      internalID: 2766481633405756265
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: PC Computer - Final Fantasy Pixel Remaster - Battle Backgrounds_13
+      rect:
+        serializedVersion: 2
+        x: 539
+        y: 1055
+        width: 474
+        height: 234
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: c6543ecf81c4c9130800000000000000
+      internalID: 3574815874431010156
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: PC Computer - Final Fantasy Pixel Remaster - Battle Backgrounds_14
+      rect:
+        serializedVersion: 2
+        x: 1055
+        y: 1055
+        width: 474
+        height: 234
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 3e5155881ec6ec0b0800000000000000
+      internalID: -5706503961921120797
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: PC Computer - Final Fantasy Pixel Remaster - Battle Backgrounds_15
+      rect:
+        serializedVersion: 2
+        x: 1571
+        y: 1055
+        width: 474
+        height: 234
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: cfa20bc5db93a63a0800000000000000
+      internalID: -6671456412529317124
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: PC Computer - Final Fantasy Pixel Remaster - Battle Backgrounds_16
+      rect:
+        serializedVersion: 2
+        x: 23
+        y: 795
+        width: 474
+        height: 234
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 9f51d8619c0f3bc40800000000000000
+      internalID: 5527025914171168249
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: PC Computer - Final Fantasy Pixel Remaster - Battle Backgrounds_17
+      rect:
+        serializedVersion: 2
+        x: 539
+        y: 795
+        width: 474
+        height: 234
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 4d925e75ff5d5d480800000000000000
+      internalID: -8874952197995681324
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: PC Computer - Final Fantasy Pixel Remaster - Battle Backgrounds_18
+      rect:
+        serializedVersion: 2
+        x: 1055
+        y: 795
+        width: 474
+        height: 234
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: c77446ae54e7c3ca0800000000000000
+      internalID: -6035810561833023620
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: PC Computer - Final Fantasy Pixel Remaster - Battle Backgrounds_19
+      rect:
+        serializedVersion: 2
+        x: 1571
+        y: 795
+        width: 474
+        height: 234
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 44c9506cba3136940800000000000000
+      internalID: 5288092015945686084
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: PC Computer - Final Fantasy Pixel Remaster - Battle Backgrounds_20
+      rect:
+        serializedVersion: 2
+        x: 23
+        y: 535
+        width: 474
+        height: 234
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: c430f1ec38588ebb0800000000000000
+      internalID: -4906524992874806452
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: PC Computer - Final Fantasy Pixel Remaster - Battle Backgrounds_21
+      rect:
+        serializedVersion: 2
+        x: 539
+        y: 535
+        width: 474
+        height: 234
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 5bb202cd6cf1f70a0800000000000000
+      internalID: -6881746766641747019
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: PC Computer - Final Fantasy Pixel Remaster - Battle Backgrounds_22
+      rect:
+        serializedVersion: 2
+        x: 1055
+        y: 535
+        width: 474
+        height: 234
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: b020f021d8a5be490800000000000000
+      internalID: -7715973974629350901
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: PC Computer - Final Fantasy Pixel Remaster - Battle Backgrounds_23
+      rect:
+        serializedVersion: 2
+        x: 1571
+        y: 535
+        width: 474
+        height: 234
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: e623b2c86c7edcb10800000000000000
+      internalID: 2003512249190920814
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: PC Computer - Final Fantasy Pixel Remaster - Battle Backgrounds_24
+      rect:
+        serializedVersion: 2
+        x: 23
+        y: 275
+        width: 474
+        height: 234
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: faf652fd3f6faab80800000000000000
+      internalID: -8382616229115498577
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: PC Computer - Final Fantasy Pixel Remaster - Battle Backgrounds_25
+      rect:
+        serializedVersion: 2
+        x: 539
+        y: 275
+        width: 474
+        height: 234
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: fbccf26ff09fd5960800000000000000
+      internalID: 7592498393766677695
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: PC Computer - Final Fantasy Pixel Remaster - Battle Backgrounds_26
+      rect:
+        serializedVersion: 2
+        x: 1055
+        y: 275
+        width: 474
+        height: 234
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: a0f1f5f95c29e6f60800000000000000
+      internalID: 8029516563128196874
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: PC Computer - Final Fantasy Pixel Remaster - Battle Backgrounds_27
+      rect:
+        serializedVersion: 2
+        x: 1571
+        y: 275
+        width: 474
+        height: 234
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: fe7570bc5aec15de0800000000000000
+      internalID: -1346067602135885841
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: PC Computer - Final Fantasy Pixel Remaster - Battle Backgrounds_28
+      rect:
+        serializedVersion: 2
+        x: 23
+        y: 15
+        width: 474
+        height: 234
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: eed9bc64d6c5af170800000000000000
+      internalID: 8212978494872460782
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: PC Computer - Final Fantasy Pixel Remaster - Battle Backgrounds_29
+      rect:
+        serializedVersion: 2
+        x: 539
+        y: 15
+        width: 474
+        height: 234
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: c5ff1af1c17a6f9c0800000000000000
+      internalID: -3893741088583581860
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: PC Computer - Final Fantasy Pixel Remaster - Battle Backgrounds_30
+      rect:
+        serializedVersion: 2
+        x: 1055
+        y: 15
+        width: 474
+        height: 234
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 3c51a05e76c616e60800000000000000
+      internalID: 7953757610393081283
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    customData: 
+    physicsShape: []
+    bones: []
+    spriteID: 
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+    spriteCustomMetadata:
+      entries: []
+    nameFileIdTable:
+      PC Computer - Final Fantasy Pixel Remaster - Battle Backgrounds_0: -3152631898380515627
+      PC Computer - Final Fantasy Pixel Remaster - Battle Backgrounds_1: -5662841102902499479
+      PC Computer - Final Fantasy Pixel Remaster - Battle Backgrounds_10: 7919408655366948394
+      PC Computer - Final Fantasy Pixel Remaster - Battle Backgrounds_11: 4777041129266104361
+      PC Computer - Final Fantasy Pixel Remaster - Battle Backgrounds_12: 2766481633405756265
+      PC Computer - Final Fantasy Pixel Remaster - Battle Backgrounds_13: 3574815874431010156
+      PC Computer - Final Fantasy Pixel Remaster - Battle Backgrounds_14: -5706503961921120797
+      PC Computer - Final Fantasy Pixel Remaster - Battle Backgrounds_15: -6671456412529317124
+      PC Computer - Final Fantasy Pixel Remaster - Battle Backgrounds_16: 5527025914171168249
+      PC Computer - Final Fantasy Pixel Remaster - Battle Backgrounds_17: -8874952197995681324
+      PC Computer - Final Fantasy Pixel Remaster - Battle Backgrounds_18: -6035810561833023620
+      PC Computer - Final Fantasy Pixel Remaster - Battle Backgrounds_19: 5288092015945686084
+      PC Computer - Final Fantasy Pixel Remaster - Battle Backgrounds_2: -2120042798707403738
+      PC Computer - Final Fantasy Pixel Remaster - Battle Backgrounds_20: -4906524992874806452
+      PC Computer - Final Fantasy Pixel Remaster - Battle Backgrounds_21: -6881746766641747019
+      PC Computer - Final Fantasy Pixel Remaster - Battle Backgrounds_22: -7715973974629350901
+      PC Computer - Final Fantasy Pixel Remaster - Battle Backgrounds_23: 2003512249190920814
+      PC Computer - Final Fantasy Pixel Remaster - Battle Backgrounds_24: -8382616229115498577
+      PC Computer - Final Fantasy Pixel Remaster - Battle Backgrounds_25: 7592498393766677695
+      PC Computer - Final Fantasy Pixel Remaster - Battle Backgrounds_26: 8029516563128196874
+      PC Computer - Final Fantasy Pixel Remaster - Battle Backgrounds_27: -1346067602135885841
+      PC Computer - Final Fantasy Pixel Remaster - Battle Backgrounds_28: 8212978494872460782
+      PC Computer - Final Fantasy Pixel Remaster - Battle Backgrounds_29: -3893741088583581860
+      PC Computer - Final Fantasy Pixel Remaster - Battle Backgrounds_3: -6187594419413907490
+      PC Computer - Final Fantasy Pixel Remaster - Battle Backgrounds_30: 7953757610393081283
+      PC Computer - Final Fantasy Pixel Remaster - Battle Backgrounds_4: 1164595948701387098
+      PC Computer - Final Fantasy Pixel Remaster - Battle Backgrounds_5: 1323631445828681928
+      PC Computer - Final Fantasy Pixel Remaster - Battle Backgrounds_6: 1246728574645275679
+      PC Computer - Final Fantasy Pixel Remaster - Battle Backgrounds_7: 9150919253001559967
+      PC Computer - Final Fantasy Pixel Remaster - Battle Backgrounds_8: 4243607003333652301
+      PC Computer - Final Fantasy Pixel Remaster - Battle Backgrounds_9: -600713961870250824
+  mipmapLimitGroupName: 
+  pSDRemoveMatte: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
