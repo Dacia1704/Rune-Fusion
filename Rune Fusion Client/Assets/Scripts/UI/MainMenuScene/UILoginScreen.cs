@@ -115,5 +115,16 @@ public class UILoginScreen: UIBase
                 }
                 loginAlertText.text = text;
         }
-        
+
+
+        public void DaciaLogin()
+        {
+                usernameInputField.text = "dacia";
+                passwordInputField.text = "123";
+        }  
+        public void SeichiLogin()
+        {
+                usernameInputField.text = "seichi";
+                passwordInputField.text = "123";
+        }  
 }

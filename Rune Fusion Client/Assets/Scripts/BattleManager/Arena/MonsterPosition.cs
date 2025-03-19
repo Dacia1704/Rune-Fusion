@@ -1,10 +1,10 @@
 ﻿using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 [Serializable]
 public class MonsterPosition: MonoBehaviour
 {
-    public Transform Pos1;
-    public Transform Pos2;
-    public Transform Pos3;
+    public List<Transform> StartPosList;
+    public List<Transform> PerformRangeSkillPosList;
 }

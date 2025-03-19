@@ -98,7 +98,21 @@ public class SocketManager : MonoBehaviour
             List<List<TurnBaseData>> response = JsonConvert.DeserializeObject<List<List<TurnBaseData>>>(data.ToString());
             UnityThread.executeCoroutine(TurnBaseListCoroutine(response[0]));
         });
+        
+        socket.On(SocketEvents.Game.MONSTER_LIST, data =>
+        {
+            Debug.Log(data);
+            List<MonsterListData> response = JsonConvert.DeserializeObject<List<MonsterListData>>(data.ToString());
+            UnityThread.executeCoroutine(MonsterListCoroutine(response[0]));
+        });
+        
         socket.Connect();
+    }
+
+    private IEnumerator MonsterListCoroutine(MonsterListData data)
+    {
+        BattleManager.Instance.SetUpMonster(data);
+        yield return null;
     }
 
     private IEnumerator TurnBaseListCoroutine(List<TurnBaseData> mapData)

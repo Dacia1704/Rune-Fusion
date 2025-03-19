@@ -31,7 +31,7 @@ export function handle_find_match_event(
                 monsters: [],
                 ready: false,
             },
-            turn_base_data: [], // id, speed, progress
+            turn_base_data: [], // id_in_battle, speed, progress
         };
 
         player1.socket.join(roomId);

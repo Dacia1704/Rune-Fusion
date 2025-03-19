@@ -6,9 +6,16 @@ public abstract class MonsterBase : MonoBehaviour
     [field: SerializeField] public MonsterPropsSO MonsterPropsSO { get; private set; }
     [field: SerializeField] public MonsterStats MonsterStatsInBattle { get; private set; }
 
+    [HideInInspector] public int MonsterIndexinBattle;
     public MonsterAnimationManager MonsterAnimationManager { get; private set; }
     public MonsterColliderManager MonsterColliderManager { get; private set; }
     protected StateMachine stateMachine;
+
+    public Action AttackTaskComplete;
+    public Action WalkTaskComplete;
+    public Action SkillTaskComplete;
+    
+    public MonsterBase Target { get; protected set; }
 
     protected virtual void Awake()
     {
@@ -35,7 +42,7 @@ public abstract class MonsterBase : MonoBehaviour
         stateMachine.Update();
     }
 
-    public virtual void Attack(Transform target)
+    public virtual void Attack(MonsterBase target)
     {
         
     }

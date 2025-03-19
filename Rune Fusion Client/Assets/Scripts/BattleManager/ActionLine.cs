@@ -67,8 +67,8 @@ public class ActionLine : MonoBehaviour
         {
                 foreach (TurnBaseData turnBaseData in turnBaseObjects)
                 {
-                        if (!MonsterDictionary.ContainsKey(turnBaseData.id)) CreateMonsterPoint(turnBaseData.id,turnBaseData.progress);
-                        SetPositionMonsterPoint(turnBaseData.id, turnBaseData.progress);
+                        if (!MonsterDictionary.ContainsKey(turnBaseData.id_in_battle)) CreateMonsterPoint(turnBaseData.id_in_battle,turnBaseData.progress);
+                        SetPositionMonsterPoint(turnBaseData.id_in_battle, turnBaseData.progress);
                 }
         }
 

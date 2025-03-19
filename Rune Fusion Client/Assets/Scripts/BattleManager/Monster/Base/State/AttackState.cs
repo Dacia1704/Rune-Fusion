@@ -13,6 +13,11 @@ public class AttackState: State
 
     public override void Update()
     {
+        if (monster.MonsterAnimationManager.IsAnimationEnded(monster.MonsterAnimationManager
+                .AttackAnimationName))
+        {
+            monster.AttackTaskComplete?.Invoke();
+        }
     }
 
     public override void Exit()

@@ -27,13 +27,12 @@ public class TurnManager : MonoBehaviour
         TurnBaseQueue = new List<TurnBaseData>();
         ActionLine = FindFirstObjectByType<ActionLine>();
         TurnBaseQueueChanged += ActionLine.UpdateMonsterPoint;
-        // TurnBaseQueueChanged += ExecuteTurn;
         OnEndTurn += SocketManager.Instance.UpdateTurnRequest;
     }
     
     public void ExecuteTurn(/*List<TurnBaseData> turnBaseData*/)
     {
-        string currentTurnId = TurnBaseQueue[0].id;
+        string currentTurnId = TurnBaseQueue[0].id_in_battle;
         EndTurn();
         if (currentTurnId == "01" )
         {
