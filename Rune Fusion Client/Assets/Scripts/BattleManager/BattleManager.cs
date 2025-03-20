@@ -30,51 +30,51 @@ public class BattleManager : MonoBehaviour
         {
                 TurnManager = FindFirstObjectByType<TurnManager>();
                 ArenaManager = FindFirstObjectByType<ArenaManager>();
-                MonsterListData monsterListData = new MonsterListData();
-                monsterListData.player1 = new List<MonsterData>
-                {
-                        new MonsterData
-                        {
-                                id = 0,
-                                id_in_battle = "11",
-                                speed = 100,
-                        },
-                        new MonsterData
-                        {
-                                id = 1,
-                                id_in_battle = "12",
-                                speed = 102,
-                        },
-                        new MonsterData
-                        {
-                                id = 2,
-                                id_in_battle = "13",
-                                speed = 96,
-                        }
-                };
-                monsterListData.player2 = new List<MonsterData>
-                {
-                        new MonsterData
-                        {
-                                id= 3,
-                                id_in_battle= "21",
-                                speed= 112,
-                        },
-                        new MonsterData
-                        {
-                                id= 4,
-                                id_in_battle= "22",
-                                speed= 108,
-                        },
-                        new MonsterData
-                        {
-                                id= 5,
-                                id_in_battle= "23",
-                                speed= 116,
-                        }
-                };
-                SetUpMonster(monsterListData);
-                StartCoroutine(StartAttack());
+                // MonsterListData monsterListData = new MonsterListData();
+                // monsterListData.player1 = new List<MonsterData>
+                // {
+                //         new MonsterData
+                //         {
+                //                 id = 0,
+                //                 id_in_battle = "11",
+                //                 speed = 100,
+                //         },
+                //         new MonsterData
+                //         {
+                //                 id = 1,
+                //                 id_in_battle = "12",
+                //                 speed = 102,
+                //         },
+                //         new MonsterData
+                //         {
+                //                 id = 2,
+                //                 id_in_battle = "13",
+                //                 speed = 96,
+                //         }
+                // };
+                // monsterListData.player2 = new List<MonsterData>
+                // {
+                //         new MonsterData
+                //         {
+                //                 id= 3,
+                //                 id_in_battle= "21",
+                //                 speed= 112,
+                //         },
+                //         new MonsterData
+                //         {
+                //                 id= 4,
+                //                 id_in_battle= "22",
+                //                 speed= 108,
+                //         },
+                //         new MonsterData
+                //         {
+                //                 id= 5,
+                //                 id_in_battle= "23",
+                //                 speed= 116,
+                //         }
+                // };
+                // SetUpMonster(monsterListData);
+                // StartCoroutine(StartAttack());
         }
         public void SetUpMonster(MonsterListData monsterListData)
         {

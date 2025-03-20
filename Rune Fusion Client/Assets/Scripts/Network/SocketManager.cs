@@ -124,7 +124,7 @@ public class SocketManager : MonoBehaviour
     private IEnumerator SwapRuneCoroutine(Vector2Int start, Vector2Int end)
     {
         Debug.Log(start.ToString() + " " + end.ToString());
-        GameManager.Instance.RuneManager.SwapRunes(Tuple.Create<int, int>(start.x, start.y), Tuple.Create<int, int>(end.x, end.y) );
+        GameManager.Instance.RuneManager.SwapRunes(Tuple.Create<int, int>(start.x, start.y), Tuple.Create<int, int>(end.x, end.y), start.x == end.x ? SwapType.Horizontal : SwapType.Vertical );
         yield return null;
     }
 

@@ -31,9 +31,9 @@ public class Rune : MonoBehaviour,IPoolingObject
         // GameManager.Instance.RuneManager.OnRuneChangePosition?.Invoke(Tuple.Create<int, int>(Row,Col));
     }
 
-    public void CheckMatches()
+    public void CheckMatches(SwapType swapType = SwapType.None)
     {
-        GameManager.Instance.RuneManager.OnRuneChangePosition?.Invoke(Tuple.Create<int, int>(Row,Col));
+        GameManager.Instance.RuneManager.OnRuneChangePosition?.Invoke(Tuple.Create<int, int>(Row,Col),swapType);
         // Debug.Log(5);
     }
     
