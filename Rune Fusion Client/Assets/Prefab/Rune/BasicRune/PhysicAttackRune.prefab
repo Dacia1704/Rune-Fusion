@@ -14,7 +14,7 @@ PrefabInstance:
       objectReference: {fileID: 21300000, guid: 4c513c1e9209a417eb1e98113f245525, type: 3}
     - target: {fileID: 2287302540062172834, guid: 8ccf88d8fe134014dbe989715ac43008, type: 3}
       propertyPath: m_Name
-      value: Tile Variant
+      value: PhysicAttackRune
       objectReference: {fileID: 0}
     - target: {fileID: 6894408281853441834, guid: 8ccf88d8fe134014dbe989715ac43008, type: 3}
       propertyPath: m_LocalPosition.x
@@ -55,6 +55,10 @@ PrefabInstance:
     - target: {fileID: 6894408281853441834, guid: 8ccf88d8fe134014dbe989715ac43008, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6997411684864653948, guid: 8ccf88d8fe134014dbe989715ac43008, type: 3}
+      propertyPath: 'm_ActiveFontFeatures.Array.data[0]'
+      value: 1801810542
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

@@ -3,7 +3,6 @@
 public class RuneObjectPoolManager : MonoBehaviour
 {
         [field: SerializeField] public ObjectPooling BasicRuneObjectPooling { get; private set; }
-        [field: SerializeField] public ObjectPooling ProtectedRuneObjectPooling { get; private set; }
         [field: SerializeField] public ObjectPooling PoisonRuneObjectPooling { get; private set; }
         [field: SerializeField] public ObjectPooling VerticalRuneObjectPooling { get; private set; }
         [field: SerializeField] public ObjectPooling HorizontalRuneObjectPooling { get; private set; }
@@ -13,17 +12,19 @@ public class RuneObjectPoolManager : MonoBehaviour
         //release
         public void ReleaseRune(GameObject runeObj)
         {
+                if (!runeObj.TryGetComponent<Rune>(out Rune x))
+                {
+                        Debug.LogError("Rune object pooling is missing a rune object " + runeObj.name);
+                }
                 Rune rune = runeObj.GetComponent<Rune>();
                 switch (rune.Form)
                 {
                         case RuneForm.Base: BasicRuneObjectPooling.ReleaseObject(runeObj); break;
-                        case RuneForm.Protected: ProtectedRuneObjectPooling.ReleaseObject(runeObj); break;
                         case RuneForm.Poison: PoisonRuneObjectPooling.ReleaseObject(runeObj); break;
                         case RuneForm.Special: SpecialRuneObjectPooling.ReleaseObject(runeObj); break;
                         case RuneForm.Vertical: VerticalRuneObjectPooling.ReleaseObject(runeObj); break;
                         case RuneForm.Horizontal: HorizontalRuneObjectPooling.ReleaseObject(runeObj); break;
                         case RuneForm.Explosive: ExplosiveRuneObjectPooling.ReleaseObject(runeObj); break;
-                        default: break;
                 }
         }
         

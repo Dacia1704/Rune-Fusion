@@ -48,6 +48,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3462348910458645405, guid: 3f9a44eeb2ee335499639683dc10c8c0, type: 3}
+      propertyPath: 'm_ActiveFontFeatures.Array.data[0]'
+      value: 1801810542
+      objectReference: {fileID: 0}
     - target: {fileID: 5668156910233089859, guid: 3f9a44eeb2ee335499639683dc10c8c0, type: 3}
       propertyPath: m_Name
       value: DefendRune

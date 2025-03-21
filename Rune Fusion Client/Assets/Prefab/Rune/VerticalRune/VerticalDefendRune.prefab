@@ -10,7 +10,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 597180384617670412, guid: 778738e62f5cb204f8c83ceed7b8d596, type: 3}
       propertyPath: <Form>k__BackingField
-      value: 3
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 1138494125978254498, guid: 778738e62f5cb204f8c83ceed7b8d596, type: 3}
       propertyPath: m_Sprite

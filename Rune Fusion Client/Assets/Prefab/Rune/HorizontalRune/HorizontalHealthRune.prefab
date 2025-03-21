@@ -54,7 +54,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6569639833201462541, guid: 4ea6bc57f5fecf54db255ef6fe71ee19, type: 3}
       propertyPath: <Form>k__BackingField
-      value: 4
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 6676919168056432291, guid: 4ea6bc57f5fecf54db255ef6fe71ee19, type: 3}
       propertyPath: m_Sprite

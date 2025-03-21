@@ -8,6 +8,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1499084623597907001, guid: ec1605316eea4304ca9fdeb3822bfe34, type: 3}
+      propertyPath: 'm_ActiveFontFeatures.Array.data[0]'
+      value: 1801810542
+      objectReference: {fileID: 0}
     - target: {fileID: 3061258703474352495, guid: ec1605316eea4304ca9fdeb3822bfe34, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
