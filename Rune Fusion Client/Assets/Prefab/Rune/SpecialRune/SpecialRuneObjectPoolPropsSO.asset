@@ -9,11 +9,8 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a5afeab83dc04591909372a213f6c7d4, type: 3}
-  m_Name: GameManagerSO
+  m_Script: {fileID: 11500000, guid: 040c43541c63fe049bfa517d34b63f3b, type: 3}
+  m_Name: SpecialRuneObjectPoolPropsSO
   m_EditorClassIdentifier: 
-  <WidthRuneMap>k__BackingField: 6
-  <HeightRuneMap>k__BackingField: 5
-  <SwipeThreshold>k__BackingField: 0.5
-  <DurationSwapRune>k__BackingField: 1
-  <DurationDeleteRune>k__BackingField: 1
+  <PoolingObjectList>k__BackingField:
+  - {fileID: 11400000, guid: fa99bfa923fa8cd49ae25f0d56acca69, type: 2}

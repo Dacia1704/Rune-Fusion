@@ -9,11 +9,8 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a5afeab83dc04591909372a213f6c7d4, type: 3}
-  m_Name: GameManagerSO
+  m_Script: {fileID: 11500000, guid: 1070e3aeea7977c4484af383e1defc5f, type: 3}
+  m_Name: ExplosiveMagicAttackRunePropsSO
   m_EditorClassIdentifier: 
-  <WidthRuneMap>k__BackingField: 6
-  <HeightRuneMap>k__BackingField: 5
-  <SwipeThreshold>k__BackingField: 0.5
-  <DurationSwapRune>k__BackingField: 1
-  <DurationDeleteRune>k__BackingField: 1
+  KeyObject: ExplosiveMagicAttack
+  ObjectPrefab: {fileID: 8970646979388209119, guid: 9e9a8fe8cdd6fa64d85f88908c763252, type: 3}

@@ -29,7 +29,8 @@ public class Rune : MonoBehaviour,IPoolingObject
 
     private void OnEnable()
     {
-        BreakProtectLayer();
+        IsProtected = false;
+        protectRuneLayer.Disappear();
     }
 
     public void SetRune(int row, int col)
@@ -54,6 +55,7 @@ public class Rune : MonoBehaviour,IPoolingObject
         // Debug.Log($"Break protected row{Row}, col{Col}");
         IsProtected = false;
         protectRuneLayer.Disappear();
+        // CheckMatches();
     }
     
     

@@ -546,8 +546,8 @@ MonoBehaviour:
   <PoisonRuneObjectPooling>k__BackingField: {fileID: 0}
   <VerticalRuneObjectPooling>k__BackingField: {fileID: 2085768454}
   <HorizontalRuneObjectPooling>k__BackingField: {fileID: 68189494}
-  <ExplosiveRuneObjectPooling>k__BackingField: {fileID: 0}
-  <SpecialRuneObjectPooling>k__BackingField: {fileID: 0}
+  <ExplosiveRuneObjectPooling>k__BackingField: {fileID: 2053942337}
+  <SpecialRuneObjectPooling>k__BackingField: {fileID: 2098372479}
 --- !u!4 &755990548
 Transform:
   m_ObjectHideFlags: 0
@@ -1274,7 +1274,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &2053942336
 Transform:
   m_ObjectHideFlags: 0
@@ -1302,7 +1302,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6a99b57dcd47b7b49acf180374109e08, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  objectPoolProps: {fileID: 0}
+  objectPoolProps: {fileID: 11400000, guid: e4a0f69e75a7d94418c7ee8c963c311a, type: 2}
 --- !u!1 &2079241651
 GameObject:
   m_ObjectHideFlags: 0
@@ -1440,7 +1440,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &2098372478
 Transform:
   m_ObjectHideFlags: 0
@@ -1468,7 +1468,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6a99b57dcd47b7b49acf180374109e08, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  objectPoolProps: {fileID: 0}
+  objectPoolProps: {fileID: 11400000, guid: 6df88d2acae87d04cbaddfc4c51d346d, type: 2}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0

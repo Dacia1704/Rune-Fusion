@@ -12,10 +12,6 @@ public class RuneObjectPoolManager : MonoBehaviour
         //release
         public void ReleaseRune(GameObject runeObj)
         {
-                if (!runeObj.TryGetComponent<Rune>(out Rune x))
-                {
-                        Debug.LogError("Rune object pooling is missing a rune object " + runeObj.name);
-                }
                 Rune rune = runeObj.GetComponent<Rune>();
                 switch (rune.Form)
                 {
@@ -41,6 +37,16 @@ public class RuneObjectPoolManager : MonoBehaviour
         {
                 return VerticalRuneObjectPooling.GetObject(GetVerticalRuneKeyFromIndex(index));
         }
+
+        public GameObject GetExplosiveRuneObjectFromIndex(int index)
+        {
+                return ExplosiveRuneObjectPooling.GetObject(GetExplosiveRuneKeyFromIndex(index));
+        }
+
+        public GameObject GetSpecialRuneObjectFromIndex()
+        {
+                return SpecialRuneObjectPooling.GetObject(GetSpecialRuneKey());
+        }
         
         
         
@@ -56,6 +62,16 @@ public class RuneObjectPoolManager : MonoBehaviour
         private string GetVerticalRuneKeyFromIndex(int index)
         {
                 return "Vertical" + ((RuneType)index).ToString();
+        }
+
+        private string GetExplosiveRuneKeyFromIndex(int index)
+        {
+                return "Explosive" + ((RuneType)index).ToString();
+        }
+
+        private string GetSpecialRuneKey()
+        {
+                return "Special";
         }
         
         

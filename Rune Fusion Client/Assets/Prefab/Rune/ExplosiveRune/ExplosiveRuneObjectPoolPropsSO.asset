@@ -1,0 +1,20 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 040c43541c63fe049bfa517d34b63f3b, type: 3}
+  m_Name: ExplosiveRuneObjectPoolPropsSO
+  m_EditorClassIdentifier: 
+  <PoolingObjectList>k__BackingField:
+  - {fileID: 11400000, guid: 4be61f2e5cb343940b22bdd64a262d7b, type: 2}
+  - {fileID: 11400000, guid: e03571a82e90d9e4e8c58f96b96c80a0, type: 2}
+  - {fileID: 11400000, guid: 50291c31709776143b6635d1bf5eb414, type: 2}
+  - {fileID: 11400000, guid: 65fc5303afe69ab47939c3029a354a90, type: 2}
+  - {fileID: 11400000, guid: 92cd76e6cc7ac014fac842d9dd300d3a, type: 2}
