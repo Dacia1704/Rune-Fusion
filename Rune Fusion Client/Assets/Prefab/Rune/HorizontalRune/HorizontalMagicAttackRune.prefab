@@ -10,7 +10,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 701236462114041888, guid: 8ccf88d8fe134014dbe989715ac43008, type: 3}
       propertyPath: <Form>k__BackingField
-      value: 4
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 1026373066267110286, guid: 8ccf88d8fe134014dbe989715ac43008, type: 3}
       propertyPath: m_Sprite
@@ -59,6 +59,10 @@ PrefabInstance:
     - target: {fileID: 6894408281853441834, guid: 8ccf88d8fe134014dbe989715ac43008, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6997411684864653948, guid: 8ccf88d8fe134014dbe989715ac43008, type: 3}
+      propertyPath: 'm_ActiveFontFeatures.Array.data[0]'
+      value: 1801810542
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

@@ -15,4 +15,5 @@ MonoBehaviour:
   <WidthRuneMap>k__BackingField: 6
   <HeightRuneMap>k__BackingField: 5
   <SwipeThreshold>k__BackingField: 0.5
-  <DurationSwapRune>k__BackingField: 0.2
+  <DurationSwapRune>k__BackingField: 1
+  <DurationDeleteRune>k__BackingField: 1

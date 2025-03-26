@@ -3,7 +3,6 @@
 public class RuneObjectPoolManager : MonoBehaviour
 {
         [field: SerializeField] public ObjectPooling BasicRuneObjectPooling { get; private set; }
-        [field: SerializeField] public ObjectPooling ProtectedRuneObjectPooling { get; private set; }
         [field: SerializeField] public ObjectPooling PoisonRuneObjectPooling { get; private set; }
         [field: SerializeField] public ObjectPooling VerticalRuneObjectPooling { get; private set; }
         [field: SerializeField] public ObjectPooling HorizontalRuneObjectPooling { get; private set; }
@@ -17,13 +16,11 @@ public class RuneObjectPoolManager : MonoBehaviour
                 switch (rune.Form)
                 {
                         case RuneForm.Base: BasicRuneObjectPooling.ReleaseObject(runeObj); break;
-                        case RuneForm.Protected: ProtectedRuneObjectPooling.ReleaseObject(runeObj); break;
                         case RuneForm.Poison: PoisonRuneObjectPooling.ReleaseObject(runeObj); break;
                         case RuneForm.Special: SpecialRuneObjectPooling.ReleaseObject(runeObj); break;
                         case RuneForm.Vertical: VerticalRuneObjectPooling.ReleaseObject(runeObj); break;
                         case RuneForm.Horizontal: HorizontalRuneObjectPooling.ReleaseObject(runeObj); break;
                         case RuneForm.Explosive: ExplosiveRuneObjectPooling.ReleaseObject(runeObj); break;
-                        default: break;
                 }
         }
         
@@ -40,6 +37,16 @@ public class RuneObjectPoolManager : MonoBehaviour
         {
                 return VerticalRuneObjectPooling.GetObject(GetVerticalRuneKeyFromIndex(index));
         }
+
+        public GameObject GetExplosiveRuneObjectFromIndex(int index)
+        {
+                return ExplosiveRuneObjectPooling.GetObject(GetExplosiveRuneKeyFromIndex(index));
+        }
+
+        public GameObject GetSpecialRuneObjectFromIndex()
+        {
+                return SpecialRuneObjectPooling.GetObject(GetSpecialRuneKey());
+        }
         
         
         
@@ -55,6 +62,16 @@ public class RuneObjectPoolManager : MonoBehaviour
         private string GetVerticalRuneKeyFromIndex(int index)
         {
                 return "Vertical" + ((RuneType)index).ToString();
+        }
+
+        private string GetExplosiveRuneKeyFromIndex(int index)
+        {
+                return "Explosive" + ((RuneType)index).ToString();
+        }
+
+        private string GetSpecialRuneKey()
+        {
+                return "Special";
         }
         
         

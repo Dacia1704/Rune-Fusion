@@ -13,7 +13,7 @@ public class TurnManager : MonoBehaviour
     public List<TurnBaseData> TurnBaseQueue { get; private set; }    
     
     private int playerIndex; 
-    public bool isPlayerTurn { get; private set; }
+    [field: SerializeField]public bool isPlayerTurn { get; private set; }
 
     public event Action<List<TurnBaseData>> TurnBaseQueueChanged;
     public ActionLine ActionLine {get; private set;}

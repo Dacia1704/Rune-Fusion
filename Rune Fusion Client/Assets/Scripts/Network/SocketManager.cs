@@ -20,7 +20,7 @@ public class SocketManager : MonoBehaviour
     public PlayerData OpponentData { get; private set; }
     public string RoomId {get; private set;}
 
-    public List<List<int>> MapStart { get; private set; }
+    public List<List<string>> MapStart { get; private set; }
 
     private void Awake()
     {
@@ -60,13 +60,13 @@ public class SocketManager : MonoBehaviour
         socket.On(SocketEvents.Rune.GENERATE_START_MAP, data =>
         {
             Debug.Log("Socket start map");
-            List<List<List<int>>> mapData = JsonConvert.DeserializeObject<List<List<List<int>>>>(data.ToString());
+            List<List<List<string>>> mapData = JsonConvert.DeserializeObject<List<List<List<string>>>>(data.ToString());
             UnityThread.executeCoroutine(SaveStartMapCoroutine(mapData[0]));
         });
         
         socket.On(SocketEvents.Rune.NEW_RESPONSE, data =>
         {
-            List<List<List<int>>> newRuneData = JsonConvert.DeserializeObject<List<List<List<int>>>>(data.ToString());
+            List<List<List<string>>> newRuneData = JsonConvert.DeserializeObject<List<List<List<string>>>>(data.ToString());
             UnityThread.executeCoroutine(GenNewRuneCoroutine(newRuneData[0]));
         });
         
@@ -94,14 +94,14 @@ public class SocketManager : MonoBehaviour
         
         socket.On(SocketEvents.Game.TURN_BASE_LIST_PUSH_DATA, data =>
         {
-            Debug.Log(data);
+            //Debug.Log(data);
             List<List<TurnBaseData>> response = JsonConvert.DeserializeObject<List<List<TurnBaseData>>>(data.ToString());
             UnityThread.executeCoroutine(TurnBaseListCoroutine(response[0]));
         });
         
         socket.On(SocketEvents.Game.MONSTER_LIST, data =>
         {
-            Debug.Log(data);
+            // Debug.Log(data);
             List<MonsterListData> response = JsonConvert.DeserializeObject<List<MonsterListData>>(data.ToString());
             UnityThread.executeCoroutine(MonsterListCoroutine(response[0]));
         });
@@ -124,7 +124,7 @@ public class SocketManager : MonoBehaviour
     private IEnumerator SwapRuneCoroutine(Vector2Int start, Vector2Int end)
     {
         Debug.Log(start.ToString() + " " + end.ToString());
-        GameManager.Instance.RuneManager.SwapRunes(Tuple.Create<int, int>(start.x, start.y), Tuple.Create<int, int>(end.x, end.y) );
+        GameManager.Instance.RuneManager.SwapRunes(Tuple.Create<int, int>(start.x, start.y), Tuple.Create<int, int>(end.x, end.y), start.x == end.x ? SwapType.Horizontal : SwapType.Vertical );
         yield return null;
     }
 
@@ -134,13 +134,13 @@ public class SocketManager : MonoBehaviour
         yield return null;
     }
     
-    private IEnumerator SaveStartMapCoroutine(List<List<int>> mapData)
+    private IEnumerator SaveStartMapCoroutine(List<List<string>> mapData)
     {
         MapStart = mapData;
         yield return null;
     }
     
-    private IEnumerator GenNewRuneCoroutine(List<List<int>> newRuneData)
+    private IEnumerator GenNewRuneCoroutine(List<List<string>> newRuneData)
     {
         GameManager.Instance.RuneManager.GenerateNewRune(newRuneData);
         yield return null;
