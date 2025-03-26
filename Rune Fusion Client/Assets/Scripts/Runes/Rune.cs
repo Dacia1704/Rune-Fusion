@@ -12,7 +12,8 @@ public class Rune : MonoBehaviour,IPoolingObject
     [HideInInspector] public int Col;
     [field: SerializeField] public RuneType Type{get;private set;}
     [field: SerializeField] public RuneForm Form{get;private set;}
-
+    
+    public bool IsChecked{get;private set;}
     public bool IsProtected { get; private set; }
     private ProtectRuneLayer protectRuneLayer;
     public PoolingObjectPropsSO PoolingObjectPropsSO { get; set; }
@@ -30,6 +31,7 @@ public class Rune : MonoBehaviour,IPoolingObject
     private void OnEnable()
     {
         IsProtected = false;
+        IsChecked = false;
         protectRuneLayer.Disappear();
     }
 
@@ -42,7 +44,8 @@ public class Rune : MonoBehaviour,IPoolingObject
 
     public void CheckMatches(SwapType swapType = SwapType.None)
     {
-        GameManager.Instance.RuneManager.OnRuneChangePosition?.Invoke(Tuple.Create<int, int>(Row,Col),swapType);
+        // GameManager.Instance.RuneManager.OnRuneChangePosition?.Invoke(Tuple.Create(Row,Col),swapType);
+        GameManager.Instance.RuneManager.OnRuneChangePostionAction(Tuple.Create(Row, Col), swapType);
     }
 
     public void ProtectRune()
@@ -52,10 +55,15 @@ public class Rune : MonoBehaviour,IPoolingObject
     }
     public void BreakProtectLayer()
     {
-        // Debug.Log($"Break protected row{Row}, col{Col}");
         IsProtected = false;
         protectRuneLayer.Disappear();
-        // CheckMatches();
+        SetIsChecked(false);
+        TextPos.text = Row + " " + Col;
+    }
+
+    public void SetIsChecked(bool isChecked)
+    {
+        IsChecked = isChecked;
     }
     
     

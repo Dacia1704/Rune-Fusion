@@ -1,15 +1,9 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Linq;
-using System.Runtime.InteropServices;
 using DG.Tweening;
 using Newtonsoft.Json;
-using Unity.VisualScripting;
-using UnityEditor.PackageManager;
 using UnityEngine;
-using Random = UnityEngine.Random;
 using Sequence = DG.Tweening.Sequence;
 
 /*Rune flow
@@ -24,8 +18,6 @@ using Sequence = DG.Tweening.Sequence;
 
 public class RuneManager : MonoBehaviour
 {
-    // [field: SerializeField] public RuneManagerSO RuneManagerSO { get; private set; }
-    
     public RuneObjectPoolManager RuneObjectPoolManager { get; private set; }
     
     public Rune[,] RunesMap {get;private set;} // list : start from bottom to top and from left to right;
@@ -35,12 +27,11 @@ public class RuneManager : MonoBehaviour
     private float sizeTile;
 
     public Action<Tuple<int, int>,SwapType> OnRuneChangePosition;
-
-    private int countCurrentUpdateRuneStateAnimation;
-    private int countCurrentLoadNewRuneAnimation;
-    private int countCurrentUniqueRuneAnimation;
-    private bool canChangeTurn;
+    [SerializeField] private bool canChangeTurn;
     private bool hasNewRunesToGen;
+    
+    [SerializeField] private int countRuneSequences;
+
 
     private void Awake()
     {
@@ -49,15 +40,11 @@ public class RuneManager : MonoBehaviour
 
     private void Start()
     {
-        countCurrentUpdateRuneStateAnimation = -1;
-        countCurrentLoadNewRuneAnimation = -1;
         canChangeTurn = false;
         hasNewRunesToGen = true;
+        countRuneSequences = -1;
+        Debug.Log("Release rune sequences: " + countRuneSequences);
         OnRuneChangePosition += OnRuneChangePostionAction;
-
-        StartCoroutine(GenNewRuneAfterUpdateRuneStateCoroutine());
-        StartCoroutine(MatchesRuneAfterGenNewRuneCoroutine());
-        StartCoroutine(CheckChangeTurn()); 
     }
     #region Map Core
     public float GetHeightRunesMap()
@@ -131,8 +118,8 @@ public class RuneManager : MonoBehaviour
             }
         }
         UpdateRunesPostionMap();
+        StartCoroutine(CheckChangeTurn()); 
     }
-
     public void GenerateNewRune(List<List<string>> typesList)
     {
         bool hasNewRune = false;
@@ -160,7 +147,9 @@ public class RuneManager : MonoBehaviour
             hasNewRunesToGen = false;
             return;
         }
-        
+
+        DOTween.CompleteAll();
+        Sequence sequence = DOTween.Sequence();
         for(int x=0;x<GameManager.Instance.GameManagerSO.WidthRuneMap;x++)
         {
             int count = 0;
@@ -187,93 +176,83 @@ public class RuneManager : MonoBehaviour
 
                     rune.SetRune(y + (GameManager.Instance.GameManagerSO.HeightRuneMap - count),x);
                     RunesMap[y + (GameManager.Instance.GameManagerSO.HeightRuneMap - count), x] = rune;
-                    if (countCurrentLoadNewRuneAnimation == -1)
-                    {
-                        countCurrentLoadNewRuneAnimation = 0;
-                    }
-                    countCurrentLoadNewRuneAnimation++;
-                    tileObject.transform.DOMove(RunesPositionMap[y+ (GameManager.Instance.GameManagerSO.HeightRuneMap - count),x],
-                        GameManager.Instance.GameManagerSO.DurationSwapRune).SetEase(Ease.InOutCubic).onComplete += (
-                        () =>
-                        {
-                            countCurrentLoadNewRuneAnimation--;
-                        });
+                    sequence.Join(tileObject.transform.DOMove(
+                        RunesPositionMap[y + (GameManager.Instance.GameManagerSO.HeightRuneMap - count), x],
+                        GameManager.Instance.GameManagerSO.DurationSwapRune).SetEase(Ease.InOutCubic));
                 }
             }
         }
-    }
-    private IEnumerator MatchesRuneAfterGenNewRuneCoroutine()
-    {
-        while (true)
+        
+        sequence.OnComplete( () =>
         {
-            yield return new WaitUntil(() => countCurrentLoadNewRuneAnimation == 0);
-            for(int x=0;x<GameManager.Instance.GameManagerSO.WidthRuneMap;x++)
-            {
-                for(int y=0;y<GameManager.Instance.GameManagerSO.HeightRuneMap;y++)
-                {
-                    if (RunesMap[y, x] != null)
-                    {
-                        RunesMap[y,x].CheckMatches();
-                    }
-                }
-            }
-
-            countCurrentLoadNewRuneAnimation = -1;
-        }
+            MatchesRuneAfterGenNewRune();
+        });
     }
-    public void UpdateRuneState()
+    private void MatchesRuneAfterGenNewRune()
     {
-        if (countCurrentUpdateRuneStateAnimation == -1)
-        {
-            countCurrentUpdateRuneStateAnimation= 0;
-        }
         for(int x=0;x<GameManager.Instance.GameManagerSO.WidthRuneMap;x++)
         {
             for(int y=0;y<GameManager.Instance.GameManagerSO.HeightRuneMap;y++)
             {
-                if (RunesMap[y, x] == null)
+                if (RunesMap[y, x] != null && !RunesMap[y,x].IsChecked )
                 {
-                    for (int z = y + 1; z < GameManager.Instance.GameManagerSO.HeightRuneMap; z++)
-                    {
-                        if (RunesMap[z, x] != null)
-                        {
-                            for (int t = z; t < GameManager.Instance.GameManagerSO.HeightRuneMap; t++)
-                            {
-                                if (RunesMap[t, x] != null)
-                                {
-                                    
-                                    Tuple<int, int> start = Tuple.Create<int, int>(t,x);
-                                    Tuple<int, int> end = Tuple.Create<int, int>(y+t-z,x);
-                                    RunesMap[end.Item1,end.Item2] = RunesMap[start.Item1,start.Item2];
-                                    countCurrentUpdateRuneStateAnimation++;
-                                    RunesMap[end.Item1,end.Item2].transform.DOMove(RunesPositionMap[end.Item1,end.Item2],
-                                        GameManager.Instance.GameManagerSO.DurationSwapRune).SetEase(Ease.InOutCubic).onComplete += (
-                                        () =>
-                                        {
-                                            countCurrentUpdateRuneStateAnimation--;
-                                        });
-                                    RunesMap[end.Item1,end.Item2].SetRune(end.Item1,end.Item2);
-                                    RunesMap[start.Item1,start.Item2] = null;
-                                }
-                            }
-                            break;
-                        }
-                    }
-                    break;
+                    RunesMap[y,x].CheckMatches();
+                }
+                else
+                {
+                    Debug.Log(2);
                 }
             }
         }
+        Debug.Log("Check");
+        StartCoroutine(UpdateRuneStateAfterCheck());
     }
-    private IEnumerator GenNewRuneAfterUpdateRuneStateCoroutine()
+    private IEnumerator UpdateRuneStateAfterCheck()
     {
-        while (true)
+        yield return new WaitUntil(() => countRuneSequences == 0);
+        Debug.Log("Set -1");
+        countRuneSequences = -1;
+        UpdateRuneState();
+    }
+    public void UpdateRuneState()
+    {
+        DOTween.CompleteAll();
+        Sequence sequence = DOTween.Sequence();
+        for(int x=0;x<GameManager.Instance.GameManagerSO.WidthRuneMap;x++)
         {
-            yield return new WaitUntil(() => countCurrentUpdateRuneStateAnimation == 0);
-            if (GameManager.Instance.BattleManager.TurnManager.isPlayerTurn)
+            List<Tuple<int,int>> runeLeftList = new List<Tuple<int,int>>();
+            for(int y=0;y<GameManager.Instance.GameManagerSO.HeightRuneMap;y++)
             {
-                SocketManager.Instance.RequestNewRune(ConvertRunesMapToServerData());
+                if (RunesMap[y, x] != null)
+                {
+                    runeLeftList.Add(Tuple.Create(y,x));
+                }
             }
-            countCurrentUpdateRuneStateAnimation = -1;
+            if (runeLeftList.Count == GameManager.Instance.GameManagerSO.HeightRuneMap) continue;
+            for (int y = 0; y < runeLeftList.Count; y++)
+            {
+                Tuple<int, int> start = runeLeftList[y];
+                Tuple<int, int> end = Tuple.Create(y,x);
+                if (start.Item1 == end.Item1) continue;
+                RunesMap[end.Item1,end.Item2] = RunesMap[start.Item1,start.Item2];
+                sequence.Join(RunesMap[end.Item1, end.Item2].transform.DOMove(
+                    RunesPositionMap[end.Item1, end.Item2],
+                    GameManager.Instance.GameManagerSO.DurationSwapRune).SetEase(Ease.InOutCubic));
+                RunesMap[end.Item1,end.Item2].SetRune(end.Item1,end.Item2);
+                RunesMap[start.Item1,start.Item2] = null;
+            }
+        }
+
+        sequence.OnComplete(() =>
+        {
+            GenNewRuneAfterUpdateRuneState();
+        });
+    }
+    private void GenNewRuneAfterUpdateRuneState()
+    {
+        if (GameManager.Instance.BattleManager.TurnManager.isPlayerTurn)
+        {
+            SocketManager.Instance.RequestNewRune(ConvertRunesMapToServerData());
         }
     }
     #endregion
@@ -281,6 +260,7 @@ public class RuneManager : MonoBehaviour
     #region Swap Runes
     public void SwapWithRightRune(Tuple<int,int> start)
     {
+        StartCoroutine(UpdateRuneStateAfterCheck());
         SwapRunes(Tuple.Create(start.Item1,start.Item2), Tuple.Create(start.Item1,start.Item2+1),SwapType.Horizontal);    
         canChangeTurn = true;
         SocketManager.Instance.SwapRune(new Vector2(start.Item1, start.Item2), new Vector2(start.Item1,start.Item2+1));
@@ -312,6 +292,7 @@ public class RuneManager : MonoBehaviour
     /// <param name="swapType">Swap Type</param>
     public void SwapRunes(Tuple<int, int> start, Tuple<int, int> end,SwapType swapType)
     {
+        StartCoroutine(UpdateRuneStateAfterCheck());
         if (RunesMap[start.Item1, start.Item2] == null || RunesMap[end.Item1, end.Item2] == null) return;
         Vector3 startPos = RunesPositionMap[start.Item1, start.Item2];
         Vector3 endPos = RunesPositionMap[end.Item1, end.Item2];
@@ -339,6 +320,7 @@ public class RuneManager : MonoBehaviour
     #region Release rune
     public void OnRuneChangePostionAction(Tuple<int, int> runeCheckIndex, SwapType swapType = SwapType.None)
     {
+        if(RunesMap[runeCheckIndex.Item1, runeCheckIndex.Item2] == null) return;
         Tuple<List<Tuple<int, int>>, RuneForm> check = MatchRune(runeCheckIndex, swapType);
         List<Tuple<int,int>> runeMatches = check.Item1;
         RuneType runeType = RuneType.PhysicAttack;
@@ -346,8 +328,15 @@ public class RuneManager : MonoBehaviour
         {
             runeType = RunesMap[runeMatches[0].Item1, runeMatches[0].Item2].Type;
         }
-
-        int countProtect = 0;
+        foreach (Tuple<int, int> runeMatch in runeMatches)
+        {
+            if (RunesMap[runeMatch.Item1, runeMatch.Item2] != null)
+            {
+                RunesMap[runeMatch.Item1, runeMatch.Item2].SetIsChecked(true);
+                RunesMap[runeMatch.Item1, runeMatch.Item2].TextPos.text = "C";
+            }
+        }
+        //check protect
         bool hasProtectRune = false;
         foreach (Tuple<int, int> runeMatch in runeMatches)
         {
@@ -356,91 +345,29 @@ public class RuneManager : MonoBehaviour
                 if (RunesMap[runeMatch.Item1, runeMatch.Item2].IsProtected)
                 {
                     hasProtectRune = true;
-                    // break;
-                    countProtect++;
+                    break;
                 }
             }
         }
-
-        if (hasProtectRune)
-        {
-            Debug.LogError("Has protect rune "+ countProtect);
-        }
+        HashSet<Tuple<int,int>> runeReleaseSet = new HashSet<Tuple<int,int>>();
         foreach (Tuple<int, int> runeMatch in runeMatches)
         {
             if (RunesMap[runeMatch.Item1, runeMatch.Item2] != null)
             {
                 if (RunesMap[runeMatch.Item1, runeMatch.Item2].Form == RuneForm.Horizontal)
                 {
-                    ReleaseRow(runeMatch.Item1, runeMatch.Item2);
+                    runeReleaseSet.UnionWith(ReleaseRowSequence(runeMatch.Item1, runeMatch.Item2));
                 }else if (RunesMap[runeMatch.Item1, runeMatch.Item2].Form == RuneForm.Vertical)
                 {
-                    ReleaseCol(runeMatch.Item2,runeMatch.Item1);
+                    runeReleaseSet.UnionWith(ReleaseColSequence(runeMatch.Item2, runeMatch.Item1));
                 } else if (RunesMap[runeMatch.Item1, runeMatch.Item2].Form == RuneForm.Explosive)
                 {
-                    ReleaseExplosiveRune(Tuple.Create(runeMatch.Item1, runeMatch.Item2));
+                    runeReleaseSet.UnionWith(ReleaseExplosiveRuneSequence(Tuple.Create(runeMatch.Item1, runeMatch.Item2)));
                 }
-                GameObject runeObj = RunesMap[runeMatch.Item1, runeMatch.Item2].gameObject;
-
+                
                 if (!RunesMap[runeMatch.Item1, runeMatch.Item2].IsProtected)
                 {
-                    runeObj.GetComponent<SpriteRenderer>().sortingOrder = 1;
-                    runeObj.transform.DOScale(new Vector3(sizeTile * 1.3f, sizeTile * 1.3f, sizeTile*1.3f ), GameManager.Instance.GameManagerSO.DurationDeleteRune)
-                        .OnComplete(() =>
-                        {
-                            runeObj.GetComponent<SpriteRenderer>().sortingOrder = 0;
-                            RuneObjectPoolManager.ReleaseRune(runeObj);
-                        });
-                    
-                    RunesMap[runeMatch.Item1, runeMatch.Item2] = null;
-                    if (Equals(runeMatch, runeCheckIndex) /*&& swapType != SwapType.None*/ && !hasProtectRune)
-                    {
-                        if (check.Item2 == RuneForm.Horizontal)
-                        {
-                            GameObject newRune = RuneObjectPoolManager.GetHorizontalRuneObjectFromIndex((int)runeType);
-                            Rune rune = newRune.GetComponent<Rune>();
-                            rune.Row = runeMatch.Item1;
-                            rune.Col = runeMatch.Item2;
-                            rune.TextPos.text = $"{runeMatch.Item1} {runeMatch.Item2}";
-                            newRune.transform.position = RunesPositionMap[runeMatch.Item1, runeMatch.Item2];
-                            newRune.transform.parent = transform;
-                            RunesMap[runeMatch.Item1, runeMatch.Item2] = rune;
-                            newRune.transform.localScale = new Vector3(sizeTile,sizeTile,sizeTile);
-                        }else if (check.Item2 == RuneForm.Vertical)
-                        {
-                            GameObject newRune = RuneObjectPoolManager.GetVerticalRuneObjectFromIndex((int)runeType);
-                            Rune rune = newRune.GetComponent<Rune>();
-                            rune.Row = runeMatch.Item1;
-                            rune.Col = runeMatch.Item2;
-                            rune.TextPos.text = $"{runeMatch.Item1} {runeMatch.Item2}";
-                            newRune.transform.position = RunesPositionMap[runeMatch.Item1, runeMatch.Item2];
-                            newRune.transform.parent = transform;
-                            RunesMap[runeMatch.Item1, runeMatch.Item2] = rune;
-                            newRune.transform.localScale = new Vector3(sizeTile,sizeTile,sizeTile);
-                        }else if (check.Item2 == RuneForm.Special)
-                        {
-                            GameObject newRune = RuneObjectPoolManager.GetSpecialRuneObjectFromIndex();
-                            Rune rune = newRune.GetComponent<Rune>();
-                            rune.Row = runeMatch.Item1;
-                            rune.Col = runeMatch.Item2;
-                            rune.TextPos.text = $"{runeMatch.Item1} {runeMatch.Item2}";
-                            newRune.transform.position = RunesPositionMap[runeMatch.Item1, runeMatch.Item2];
-                            newRune.transform.parent = transform;
-                            RunesMap[runeMatch.Item1, runeMatch.Item2] = rune;
-                            newRune.transform.localScale = new Vector3(sizeTile,sizeTile,sizeTile);
-                        } else if (check.Item2 == RuneForm.Explosive)
-                        {
-                            GameObject newRune = RuneObjectPoolManager.GetExplosiveRuneObjectFromIndex((int)runeType);
-                            Rune rune = newRune.GetComponent<Rune>();
-                            rune.Row = runeMatch.Item1;
-                            rune.Col = runeMatch.Item2;
-                            rune.TextPos.text = $"{runeMatch.Item1} {runeMatch.Item2}";
-                            newRune.transform.position = RunesPositionMap[runeMatch.Item1, runeMatch.Item2];
-                            newRune.transform.parent = transform;
-                            RunesMap[runeMatch.Item1, runeMatch.Item2] = rune;
-                            newRune.transform.localScale = new Vector3(sizeTile,sizeTile,sizeTile);
-                        }
-                    }
+                    runeReleaseSet.Add(Tuple.Create(runeMatch.Item1, runeMatch.Item2));
                 }
                 else
                 {
@@ -448,273 +375,80 @@ public class RuneManager : MonoBehaviour
                 }
             }
         }
-        //Debug.LogError("PauseToSee");
-
-        UpdateRuneState();
-    }
-    public void ReleaseRow(int rowIndex,int exceptCol=-1)
-    {
-        for(int x=0;x<GameManager.Instance.GameManagerSO.WidthRuneMap;x++)
+        if (countRuneSequences == -1)
         {
-            if (RunesMap[rowIndex, x] != null && x!=exceptCol)
-            {
-                if (!RunesMap[rowIndex, x].IsProtected)
-                {
-                    GameObject runeObj = RunesMap[rowIndex, x].gameObject;
-                    runeObj.GetComponent<SpriteRenderer>().sortingOrder = 1;
-                    runeObj.transform.DOScale(new Vector3(sizeTile * 1.3f, sizeTile * 1.3f, sizeTile*1.3f ), GameManager.Instance.GameManagerSO.DurationDeleteRune)
-                        .OnComplete(() =>
-                        {
-                            runeObj.GetComponent<SpriteRenderer>().sortingOrder = 0;
-                            RuneObjectPoolManager.ReleaseRune(runeObj);
-                        });
-                    RunesMap[rowIndex, x] = null;
-                }
-                else
-                {
-                    RunesMap[rowIndex, x].BreakProtectLayer();
-                }
-            }
+            Debug.Log("Set 0");
+            countRuneSequences = 0;
         }
-    }
-    public Sequence ReleaseRowSequence(int rowIndex, int exceptCol = -1)
-    {
+        if (runeReleaseSet.Count <= 0)
+        {
+            return;
+        }
         Sequence sequence = DOTween.Sequence();
-        for(int x=0;x<GameManager.Instance.GameManagerSO.WidthRuneMap;x++)
+        countRuneSequences++;
+        List<GameObject> runeReleaseList = new List<GameObject>();
+        foreach (Tuple<int, int> index in runeReleaseSet)
         {
-            if (RunesMap[rowIndex, x] != null && x!=exceptCol)
+            GameObject runeObj = RunesMap[index.Item1, index.Item2].gameObject;
+            runeReleaseList.Add(runeObj);
+            runeObj.GetComponent<SpriteRenderer>().sortingOrder = 1;
+            sequence.Join(runeObj.transform.DOScale(
+                new Vector3(sizeTile * 1.3f, sizeTile * 1.3f, sizeTile * 1.3f),
+                GameManager.Instance.GameManagerSO.DurationDeleteRune));
+            RunesMap[index.Item1, index.Item2] = null;
+            if (Equals(index, runeCheckIndex) && !hasProtectRune)
             {
-                if (!RunesMap[rowIndex, x].IsProtected)
+                if (check.Item2 == RuneForm.Horizontal)
                 {
-                    GameObject runeObj = RunesMap[rowIndex, x].gameObject;
-                    runeObj.GetComponent<SpriteRenderer>().sortingOrder = 1;
-
-                    sequence.Join(
-                        runeObj.transform.DOScale(new Vector3(sizeTile * 1.3f, sizeTile * 1.3f, sizeTile * 1.3f), GameManager.Instance.GameManagerSO.DurationDeleteRune)
-                            .OnComplete(() =>
-                            {
-                                runeObj.GetComponent<SpriteRenderer>().sortingOrder = 0;
-                                RuneObjectPoolManager.ReleaseRune(runeObj);
-                            })
-                    );
-                    
-                    RunesMap[rowIndex, x] = null;
-                }
-                else
+                    GameObject newRune = RuneObjectPoolManager.GetHorizontalRuneObjectFromIndex((int)runeType);
+                    Rune rune = newRune.GetComponent<Rune>();
+                    rune.SetRune(index.Item1, index.Item2);
+                    newRune.transform.position = RunesPositionMap[index.Item1, index.Item2];
+                    newRune.transform.parent = transform;
+                    RunesMap[index.Item1, index.Item2] = rune;
+                    newRune.transform.localScale = new Vector3(sizeTile,sizeTile,sizeTile);
+                }else if (check.Item2 == RuneForm.Vertical)
                 {
-                    RunesMap[rowIndex, x].BreakProtectLayer();
+                    GameObject newRune = RuneObjectPoolManager.GetVerticalRuneObjectFromIndex((int)runeType);
+                    Rune rune = newRune.GetComponent<Rune>();
+                    rune.SetRune(index.Item1, index.Item2);
+                    newRune.transform.position = RunesPositionMap[index.Item1, index.Item2];
+                    newRune.transform.parent = transform;
+                    RunesMap[index.Item1, index.Item2] = rune;
+                    newRune.transform.localScale = new Vector3(sizeTile,sizeTile,sizeTile);
+                }else if (check.Item2 == RuneForm.Special)
+                {
+                    GameObject newRune = RuneObjectPoolManager.GetSpecialRuneObjectFromIndex();
+                    Rune rune = newRune.GetComponent<Rune>();
+                    rune.SetRune(index.Item1, index.Item2);
+                    newRune.transform.position = RunesPositionMap[index.Item1, index.Item2];
+                    newRune.transform.parent = transform;
+                    RunesMap[index.Item1, index.Item2] = rune;
+                    newRune.transform.localScale = new Vector3(sizeTile,sizeTile,sizeTile);
+                } else if (check.Item2 == RuneForm.Explosive)
+                {
+                    GameObject newRune = RuneObjectPoolManager.GetExplosiveRuneObjectFromIndex((int)runeType);
+                    Rune rune = newRune.GetComponent<Rune>();
+                    rune.SetRune(index.Item1, index.Item2);
+                    newRune.transform.position = RunesPositionMap[index.Item1, index.Item2];
+                    newRune.transform.parent = transform; 
+                    RunesMap[index.Item1, index.Item2] = rune;
+                    newRune.transform.localScale = new Vector3(sizeTile,sizeTile,sizeTile);
                 }
             }
         }
-        return sequence;
+        sequence.OnComplete(() =>
+        {
+            foreach (GameObject runeObj in runeReleaseList)
+            {
+                runeObj.GetComponent<SpriteRenderer>().sortingOrder = 0;
+                RuneObjectPoolManager.ReleaseRune(runeObj);
+            }
+            countRuneSequences--;
+            Debug.Log("Release rune sequences: " + countRuneSequences);
+        });
     }
-        
-    public void ReleaseCol(int colIndex,int exceptRow=-1)
-    {
-        for(int y=0;y<GameManager.Instance.GameManagerSO.HeightRuneMap;y++)
-        {
-            if (RunesMap[y, colIndex] != null && y!=exceptRow)
-            {
-                if (!RunesMap[y, colIndex].IsProtected)
-                {
-                    GameObject runeObj = RunesMap[y, colIndex].gameObject;
-                    runeObj.GetComponent<SpriteRenderer>().sortingOrder = 1;
-                    runeObj.transform.DOScale(new Vector3(sizeTile * 1.3f, sizeTile * 1.3f, sizeTile*1.3f ), GameManager.Instance.GameManagerSO.DurationDeleteRune)
-                        .OnComplete(() =>
-                        {
-                            runeObj.GetComponent<SpriteRenderer>().sortingOrder = 0;
-                            RuneObjectPoolManager.ReleaseRune(runeObj);
-                        });
-                    RunesMap[y, colIndex] = null;
-                }
-                else
-                {
-                    RunesMap[y, colIndex].BreakProtectLayer();
-                }
-            }
-        }
-    }
-    public Sequence ReleaseColSequence(int colIndex,int exceptRow=-1)
-    {
-        Sequence sequence = DOTween.Sequence();
-        for(int y=0;y<GameManager.Instance.GameManagerSO.HeightRuneMap;y++)
-        {
-            if (RunesMap[y, colIndex] != null && y!=exceptRow)
-            {
-                if (!RunesMap[y, colIndex].IsProtected)
-                {
-                    GameObject runeObj = RunesMap[y, colIndex].gameObject;
-                    runeObj.GetComponent<SpriteRenderer>().sortingOrder = 1;
-
-                    sequence.Join(
-                        runeObj.transform.DOScale(new Vector3(sizeTile * 1.3f, sizeTile * 1.3f, sizeTile * 1.3f), GameManager.Instance.GameManagerSO.DurationDeleteRune)
-                            .OnComplete(() =>
-                            {
-                                runeObj.GetComponent<SpriteRenderer>().sortingOrder = 0;
-                                RuneObjectPoolManager.ReleaseRune(runeObj);
-                            })
-                    );
-                    RunesMap[y, colIndex] = null;
-                }
-                else
-                {
-                    RunesMap[y, colIndex].BreakProtectLayer();
-                }
-            }
-        }
-
-        return sequence;
-    }
-
-    public void ReleaseExplosiveRune(Tuple<int, int> runeIndex)
-    {
-        List<Tuple<int, int>> explosiveList = new List<Tuple<int, int>>
-        {
-            Tuple.Create(runeIndex.Item1 - 1, runeIndex.Item2 - 1),
-            Tuple.Create(runeIndex.Item1, runeIndex.Item2 - 1),
-            Tuple.Create(runeIndex.Item1+1, runeIndex.Item2-1),
-            Tuple.Create(runeIndex.Item1-1, runeIndex.Item2),
-            Tuple.Create(runeIndex.Item1, runeIndex.Item2),
-            Tuple.Create(runeIndex.Item1+1, runeIndex.Item2),
-            Tuple.Create(runeIndex.Item1-1, runeIndex.Item2+1),
-            Tuple.Create(runeIndex.Item1, runeIndex.Item2+1),
-            Tuple.Create(runeIndex.Item1+1, runeIndex.Item2+1)
-        };
-        foreach (Tuple<int,int> index in explosiveList)
-        {
-            if (index.Item1 < GameManager.Instance.GameManagerSO.HeightRuneMap && index.Item1 >= 0 &&
-                index.Item2 >= 0 && index.Item2 < GameManager.Instance.GameManagerSO.WidthRuneMap)
-            {
-                if (RunesMap[index.Item1, index.Item2] != null)
-                {
-                    if (!RunesMap[index.Item1, index.Item2].IsProtected)
-                    {
-                        GameObject runeObj = RunesMap[index.Item1, index.Item2].gameObject;
-                        runeObj.GetComponent<SpriteRenderer>().sortingOrder = 1;
-                        runeObj.transform.DOScale(new Vector3(sizeTile * 1.3f, sizeTile * 1.3f, sizeTile*1.3f ), GameManager.Instance.GameManagerSO.DurationDeleteRune)
-                            .OnComplete(() =>
-                            {
-                                runeObj.GetComponent<SpriteRenderer>().sortingOrder = 0;
-                                RuneObjectPoolManager.ReleaseRune(runeObj);
-                            });
-                        RunesMap[index.Item1, index.Item2] = null;
-                    }
-                    else
-                    {
-                        RunesMap[index.Item1, index.Item2].BreakProtectLayer();
-                    }
-                }
-            }
-        }
-    }
-    public Sequence ReleaseExplosiveRuneSequence(Tuple<int, int> runeIndex)
-    {
-        Sequence sequence = DOTween.Sequence();
-        List<Tuple<int, int>> explosiveList = new List<Tuple<int, int>>
-        {
-            Tuple.Create(runeIndex.Item1 - 1, runeIndex.Item2 - 1),
-            Tuple.Create(runeIndex.Item1, runeIndex.Item2 - 1),
-            Tuple.Create(runeIndex.Item1+1, runeIndex.Item2-1),
-            Tuple.Create(runeIndex.Item1-1, runeIndex.Item2),
-            Tuple.Create(runeIndex.Item1, runeIndex.Item2),
-            Tuple.Create(runeIndex.Item1+1, runeIndex.Item2),
-            Tuple.Create(runeIndex.Item1-1, runeIndex.Item2+1),
-            Tuple.Create(runeIndex.Item1, runeIndex.Item2+1),
-            Tuple.Create(runeIndex.Item1+1, runeIndex.Item2+1)
-        };
-        foreach (Tuple<int,int> index in explosiveList)
-        {
-            if (index.Item1 < GameManager.Instance.GameManagerSO.HeightRuneMap && index.Item1 >= 0 &&
-                index.Item2 >= 0 && index.Item2 < GameManager.Instance.GameManagerSO.WidthRuneMap)
-            {
-                if (RunesMap[index.Item1, index.Item2] != null)
-                {
-                    if (!RunesMap[index.Item1, index.Item2].IsProtected)
-                    {
-                        GameObject runeObj = RunesMap[index.Item1, index.Item2].gameObject;
-                        runeObj.GetComponent<SpriteRenderer>().sortingOrder = 1;
-
-                        sequence.Join(
-                            runeObj.transform.DOScale(new Vector3(sizeTile * 1.3f, sizeTile * 1.3f, sizeTile * 1.3f),
-                                    GameManager.Instance.GameManagerSO.DurationDeleteRune)
-                                .OnComplete(() =>
-                                {
-                                    runeObj.GetComponent<SpriteRenderer>().sortingOrder = 0;
-                                    RuneObjectPoolManager.ReleaseRune(runeObj);
-                                })
-                        );
-                        RunesMap[index.Item1, index.Item2] = null;
-                    }
-                    else
-                    {
-                        RunesMap[index.Item1, index.Item2].BreakProtectLayer();
-                    }
-                }
-            }
-        }
-
-        return sequence;
-    }
-    public void ReleaseAllRune() {
-    {
-        for(int x=0;x<GameManager.Instance.GameManagerSO.WidthRuneMap;x++)
-        {
-            for(int y=0;y<GameManager.Instance.GameManagerSO.HeightRuneMap;y++)
-            {
-                if (RunesMap[y, x] != null)
-                {
-                    if (!RunesMap[y, x].IsProtected)
-                    {
-                        GameObject runeObj = RunesMap[y, x].gameObject;
-                        runeObj.GetComponent<SpriteRenderer>().sortingOrder = 1;
-                        runeObj.transform.DOScale(new Vector3(sizeTile * 1.3f, sizeTile * 1.3f, sizeTile*1.3f ), GameManager.Instance.GameManagerSO.DurationDeleteRune)
-                            .OnComplete(() =>
-                            {
-                                runeObj.GetComponent<SpriteRenderer>().sortingOrder = 0;
-                                RuneObjectPoolManager.ReleaseRune(runeObj);
-                            });
-                        RunesMap[y, x] = null;
-                    }
-                    else
-                    {
-                        RunesMap[y, x].BreakProtectLayer();
-                    }
-                }
-            }
-        }
-    }}
-    public Sequence ReleaseAllRuneSequence() {
-    {
-        Sequence sequence = DOTween.Sequence();
-        for(int x=0;x<GameManager.Instance.GameManagerSO.WidthRuneMap;x++)
-        {
-            for(int y=0;y<GameManager.Instance.GameManagerSO.HeightRuneMap;y++)
-            {
-                if (RunesMap[y, x] != null)
-                {
-                    if (!RunesMap[y, x].IsProtected)
-                    {
-                        GameObject runeObj = RunesMap[y, x].gameObject;
-                        runeObj.GetComponent<SpriteRenderer>().sortingOrder = 1;
-                        sequence.Join(
-                        runeObj.transform.DOScale(new Vector3(sizeTile * 1.3f, sizeTile * 1.3f, sizeTile*1.3f ), GameManager.Instance.GameManagerSO.DurationDeleteRune)
-                            .OnComplete(() =>
-                            {
-                                runeObj.GetComponent<SpriteRenderer>().sortingOrder = 0;
-                                RuneObjectPoolManager.ReleaseRune(runeObj);
-                            })
-                        );
-                        RunesMap[y, x] = null;
-                    }
-                    else
-                    {
-                        RunesMap[y, x].BreakProtectLayer();
-                    }
-                }
-            }
-        }
-        return sequence;
-    }}
+    
     public bool ReleaseUniqueRune()
     {
         List<Rune> specialRuneList = new List<Rune>();
@@ -730,54 +464,167 @@ public class RuneManager : MonoBehaviour
                     if(RunesMap[y,x].Form == RuneForm.Special) specialRuneList.Add(RunesMap[y, x]);
                     if(RunesMap[y,x].Form == RuneForm.Horizontal) horizontalRuneList.Add(RunesMap[y, x]);
                     if(RunesMap[y,x].Form == RuneForm.Vertical) verticalRuneList.Add(RunesMap[y, x]);
-                    if(RunesMap[y,x].Form == RuneForm.Explosive) verticalRuneList.Add(RunesMap[y, x]);
+                    if(RunesMap[y,x].Form == RuneForm.Explosive) explosiveRuneList.Add(RunesMap[y, x]);
                 }
             }
         }
         Debug.Log($"SpecialList:{specialRuneList.Count} HorizontalList:{horizontalRuneList.Count} VerticalList:{verticalRuneList.Count} ExplosiveList:{explosiveRuneList.Count}");
         if (specialRuneList.Count == 0 && horizontalRuneList.Count == 0 && verticalRuneList.Count == 0) return false;
         
+        DOTween.CompleteAll();
         Sequence sequence = DOTween.Sequence();
-
+        HashSet<Tuple<int,int>> runeReleaseSet = new HashSet<Tuple<int,int>>();
         if (horizontalRuneList.Count > 0 || verticalRuneList.Count > 0)
         {
             foreach(Rune rune in horizontalRuneList)
             {
-                sequence.Join(ReleaseRowSequence(rune.Row));
+                runeReleaseSet.UnionWith(ReleaseRowSequence(rune.Row));
             }
             foreach (Rune rune in verticalRuneList)
             {
-                sequence.Join(ReleaseColSequence(rune.Col));
+                runeReleaseSet.UnionWith(ReleaseColSequence(rune.Col));
             }
-            sequence.onComplete += UpdateRuneState;
-            return true;
-        }
-
-        if (explosiveRuneList.Count>0)
+        }else if (explosiveRuneList.Count>0)
         {
             foreach (Rune rune in explosiveRuneList)
             {
-                sequence.Join(ReleaseExplosiveRuneSequence(Tuple.Create<int, int>(rune.Row,rune.Col)));
+                runeReleaseSet.UnionWith(ReleaseExplosiveRuneSequence(Tuple.Create(rune.Row,rune.Col)));
             }
-            sequence.onComplete += UpdateRuneState;
-            return true;
-        }
-
-        if (specialRuneList.Count > 0)
+        }else if (specialRuneList.Count > 0)
         {
-            sequence.Append(ReleaseAllRuneSequence());
-            sequence.onComplete += UpdateRuneState;
-            return true;
+            runeReleaseSet.UnionWith(ReleaseAllRuneSequence());
         }
+        
+        List<GameObject> runeReleaseList = new List<GameObject>();
+        foreach (Tuple<int, int> index in runeReleaseSet)
+        {
+            if (RunesMap[index.Item1, index.Item2] != null)
+            {
+                GameObject runeObj = RunesMap[index.Item1, index.Item2].gameObject;
+                runeReleaseList.Add(runeObj);
+                runeObj.GetComponent<SpriteRenderer>().sortingOrder = 1;
+                sequence.Join(runeObj.transform.DOScale(
+                    new Vector3(sizeTile * 1.3f, sizeTile * 1.3f, sizeTile * 1.3f),
+                    GameManager.Instance.GameManagerSO.DurationDeleteRune));
+                RunesMap[index.Item1, index.Item2] = null;
+            }
+        }
+        sequence.OnComplete(() =>
+        {
+            foreach (GameObject runeObj in runeReleaseList)
+            {
+                runeObj.GetComponent<SpriteRenderer>().sortingOrder = 0;
+                RuneObjectPoolManager.ReleaseRune(runeObj);
+            }
+            countRuneSequences=0;
+            StartCoroutine(UpdateRuneStateAfterCheck());
+        });
         return true;
     }
+    
+    public List<Tuple<int,int>> ReleaseRowSequence(int rowIndex, int exceptCol = -1)
+    {
+        List<Tuple<int,int>> runeReleaseList = new List<Tuple<int,int>>();
+        for(int x=0;x<GameManager.Instance.GameManagerSO.WidthRuneMap;x++)
+        {
+            if (RunesMap[rowIndex, x] != null && x!=exceptCol)
+            {
+                if (!RunesMap[rowIndex, x].IsProtected)
+                {
+                    runeReleaseList.Add(Tuple.Create(rowIndex,x));
+                }
+                else
+                {
+                    RunesMap[rowIndex, x].BreakProtectLayer();
+                }
+            }
+        }
+        return runeReleaseList;
+    }
+    public List<Tuple<int,int>> ReleaseColSequence(int colIndex,int exceptRow=-1)
+    {
+        List<Tuple<int,int>> runeReleaseList = new List<Tuple<int,int>>();
+        for(int y=0;y<GameManager.Instance.GameManagerSO.HeightRuneMap;y++)
+        {
+            if (RunesMap[y, colIndex] != null && y!=exceptRow)
+            {
+                if (!RunesMap[y, colIndex].IsProtected)
+                {
+                    runeReleaseList.Add(Tuple.Create(y, colIndex));
+                }
+                else
+                {
+                    RunesMap[y, colIndex].BreakProtectLayer();
+                }
+            }
+        }
+
+        return runeReleaseList;
+    }
+    public List<Tuple<int,int>> ReleaseExplosiveRuneSequence(Tuple<int, int> runeIndex)
+    {
+        List<Tuple<int, int>> explosiveList = new List<Tuple<int, int>>
+        {
+            Tuple.Create(runeIndex.Item1 - 1, runeIndex.Item2 - 1),
+            Tuple.Create(runeIndex.Item1, runeIndex.Item2 - 1),
+            Tuple.Create(runeIndex.Item1+1, runeIndex.Item2-1),
+            Tuple.Create(runeIndex.Item1-1, runeIndex.Item2),
+            Tuple.Create(runeIndex.Item1, runeIndex.Item2),
+            Tuple.Create(runeIndex.Item1+1, runeIndex.Item2),
+            Tuple.Create(runeIndex.Item1-1, runeIndex.Item2+1),
+            Tuple.Create(runeIndex.Item1, runeIndex.Item2+1),
+            Tuple.Create(runeIndex.Item1+1, runeIndex.Item2+1)
+        };
+        List<Tuple<int,int>> runeReleaseList = new List<Tuple<int,int>>();
+        foreach (Tuple<int,int> index in explosiveList)
+        {
+            if (index.Item1 < GameManager.Instance.GameManagerSO.HeightRuneMap && index.Item1 >= 0 &&
+                index.Item2 >= 0 && index.Item2 < GameManager.Instance.GameManagerSO.WidthRuneMap)
+            {
+                if (RunesMap[index.Item1, index.Item2] != null)
+                {
+                    if (!RunesMap[index.Item1, index.Item2].IsProtected)
+                    {
+                        runeReleaseList.Add(Tuple.Create(index.Item1, index.Item2));
+                    }
+                    else
+                    {
+                        RunesMap[index.Item1, index.Item2].BreakProtectLayer();
+                    }
+                }
+            }
+        }
+        return runeReleaseList;
+    }
+    public List<Tuple<int,int>> ReleaseAllRuneSequence() {
+    {
+        List<Tuple<int,int>> runeReleaseList = new List<Tuple<int,int>>();
+        for(int x=0;x<GameManager.Instance.GameManagerSO.WidthRuneMap;x++)
+        {
+            for(int y=0;y<GameManager.Instance.GameManagerSO.HeightRuneMap;y++)
+            {
+                if (RunesMap[y, x] != null)
+                {
+                    if (!RunesMap[y, x].IsProtected)
+                    {
+                        runeReleaseList.Add(Tuple.Create(y,x));
+                    }
+                    else
+                    {
+                        RunesMap[y, x].BreakProtectLayer();
+                    }
+                }
+            }
+        }
+        return runeReleaseList;
+    }}
+
     #endregion
     
     #region Check condition
     public Tuple<List<Tuple<int,int>>,RuneForm> MatchRune(Tuple<int,int> runeCheckIndex,SwapType swapType)
     {
         RuneType runeTypeToCheck = RunesMap[runeCheckIndex.Item1,runeCheckIndex.Item2].Type;
-
         List<Tuple<int,int>> runeHorizontal = new List<Tuple<int,int>>();
         runeHorizontal.Add(runeCheckIndex);
         
@@ -908,15 +755,16 @@ public class RuneManager : MonoBehaviour
         }
         return Tuple.Create(new List<Tuple<int, int>>(),RuneForm.Base);
     }
-    
     private IEnumerator CheckChangeTurn()
     {
         while (true)
         {
-            yield return new WaitUntil(() =>  countCurrentLoadNewRuneAnimation == -1 &&
-                                             countCurrentUpdateRuneStateAnimation == -1 && !hasNewRunesToGen);
+            Debug.Log("Check Next Turn");
+            yield return new WaitUntil(() => !hasNewRunesToGen);
             hasNewRunesToGen = true;
+            Debug.Log("Has New Runes To Gen");
             if (ReleaseUniqueRune()) continue;
+            Debug.Log("Release Unique Runes");
             if (!GameManager.Instance.BattleManager.TurnManager.isPlayerTurn || !canChangeTurn) continue;
             canChangeTurn = false;
             GameManager.Instance.BattleManager.TurnManager.OnEndTurn?.Invoke();

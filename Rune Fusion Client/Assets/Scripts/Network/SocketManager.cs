@@ -101,7 +101,7 @@ public class SocketManager : MonoBehaviour
         
         socket.On(SocketEvents.Game.MONSTER_LIST, data =>
         {
-            Debug.Log(data);
+            // Debug.Log(data);
             List<MonsterListData> response = JsonConvert.DeserializeObject<List<MonsterListData>>(data.ToString());
             UnityThread.executeCoroutine(MonsterListCoroutine(response[0]));
         });

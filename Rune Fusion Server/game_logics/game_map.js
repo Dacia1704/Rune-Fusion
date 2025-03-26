@@ -38,6 +38,8 @@ export default function generateRuneMap(mapData) {
 }
 
 export function generateNewRune(currentMap) {
+    console.log("current map");
+    console.log(currentMap);
     const newRuneMap = Array.from({ length: MapData.rows }, () =>
         Array(MapData.cols).fill("0-1")
     );

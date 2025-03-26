@@ -49,6 +49,6 @@ public abstract class MonsterBase : MonoBehaviour
 
     public virtual void Attack()
     {
-        // Debug.Log(gameObject.name + " is attacking");
+        Debug.Log(gameObject.name + " is attacking");
     }
 }
