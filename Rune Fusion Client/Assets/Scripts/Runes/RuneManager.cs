@@ -26,7 +26,6 @@ public class RuneManager : MonoBehaviour
     public Vector3[,] NewRunesPositionMap {get;private set;}
     private float sizeTile;
 
-    public Action<Tuple<int, int>,SwapType> OnRuneChangePosition;
     [SerializeField] private bool canChangeTurn;
     private bool hasNewRunesToGen;
     
@@ -43,8 +42,6 @@ public class RuneManager : MonoBehaviour
         canChangeTurn = false;
         hasNewRunesToGen = true;
         countRuneSequences = -1;
-        Debug.Log("Release rune sequences: " + countRuneSequences);
-        OnRuneChangePosition += OnRuneChangePostionAction;
     }
     #region Map Core
     public float GetHeightRunesMap()
@@ -198,19 +195,13 @@ public class RuneManager : MonoBehaviour
                 {
                     RunesMap[y,x].CheckMatches();
                 }
-                else
-                {
-                    Debug.Log(2);
-                }
             }
         }
-        Debug.Log("Check");
         StartCoroutine(UpdateRuneStateAfterCheck());
     }
     private IEnumerator UpdateRuneStateAfterCheck()
     {
         yield return new WaitUntil(() => countRuneSequences == 0);
-        Debug.Log("Set -1");
         countRuneSequences = -1;
         UpdateRuneState();
     }
@@ -377,7 +368,6 @@ public class RuneManager : MonoBehaviour
         }
         if (countRuneSequences == -1)
         {
-            Debug.Log("Set 0");
             countRuneSequences = 0;
         }
         if (runeReleaseSet.Count <= 0)
@@ -445,7 +435,6 @@ public class RuneManager : MonoBehaviour
                 RuneObjectPoolManager.ReleaseRune(runeObj);
             }
             countRuneSequences--;
-            Debug.Log("Release rune sequences: " + countRuneSequences);
         });
     }
     
@@ -469,7 +458,7 @@ public class RuneManager : MonoBehaviour
             }
         }
         Debug.Log($"SpecialList:{specialRuneList.Count} HorizontalList:{horizontalRuneList.Count} VerticalList:{verticalRuneList.Count} ExplosiveList:{explosiveRuneList.Count}");
-        if (specialRuneList.Count == 0 && horizontalRuneList.Count == 0 && verticalRuneList.Count == 0) return false;
+        if (specialRuneList.Count == 0 && horizontalRuneList.Count == 0 && verticalRuneList.Count == 0 && explosiveRuneList.Count==0) return false;
         
         DOTween.CompleteAll();
         Sequence sequence = DOTween.Sequence();
@@ -494,7 +483,6 @@ public class RuneManager : MonoBehaviour
         {
             runeReleaseSet.UnionWith(ReleaseAllRuneSequence());
         }
-        
         List<GameObject> runeReleaseList = new List<GameObject>();
         foreach (Tuple<int, int> index in runeReleaseSet)
         {
@@ -516,8 +504,7 @@ public class RuneManager : MonoBehaviour
                 runeObj.GetComponent<SpriteRenderer>().sortingOrder = 0;
                 RuneObjectPoolManager.ReleaseRune(runeObj);
             }
-            countRuneSequences=0;
-            StartCoroutine(UpdateRuneStateAfterCheck());
+            UpdateRuneState();
         });
         return true;
     }
@@ -759,12 +746,9 @@ public class RuneManager : MonoBehaviour
     {
         while (true)
         {
-            Debug.Log("Check Next Turn");
             yield return new WaitUntil(() => !hasNewRunesToGen);
             hasNewRunesToGen = true;
-            Debug.Log("Has New Runes To Gen");
             if (ReleaseUniqueRune()) continue;
-            Debug.Log("Release Unique Runes");
             if (!GameManager.Instance.BattleManager.TurnManager.isPlayerTurn || !canChangeTurn) continue;
             canChangeTurn = false;
             GameManager.Instance.BattleManager.TurnManager.OnEndTurn?.Invoke();
