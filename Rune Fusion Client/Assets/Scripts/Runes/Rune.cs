@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using DG.Tweening;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -65,9 +66,18 @@ public class Rune : MonoBehaviour,IPoolingObject
     {
         IsChecked = isChecked;
     }
-    
-    
-    
-    
+
+    public void StartHintAnimation()
+    {
+        transform.DOScale(1.1f, 0.5f)  
+            .SetLoops(-1, LoopType.Yoyo)
+            .SetEase(Ease.InOutSine);
+    }
+
+    public void StopHintAnimation()
+    {
+        transform.DOKill();
+        transform.DOScale(1f, 0f);
+    }
 }
 

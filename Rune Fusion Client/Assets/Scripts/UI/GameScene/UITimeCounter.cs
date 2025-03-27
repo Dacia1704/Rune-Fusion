@@ -11,6 +11,8 @@ public class UITimeCounter: UIBase
         private float timeTurn;
 
         public event Action OnTimeCounterEnd;
+        public event Action OnTimeCanHint;
+        private bool canCallTimeCanHint;
         
         private CanvasGroup canvasGroup;
         private void Awake()
@@ -30,6 +32,11 @@ public class UITimeCounter: UIBase
                 if (slider.value > 0)
                 {
                         slider.value = counter / timeTurn;
+                        if (canCallTimeCanHint && slider.value <= 0.4f)
+                        {
+                                OnTimeCanHint?.Invoke();
+                                canCallTimeCanHint = false;
+                        }
                 }
                 else
                 {
@@ -43,6 +50,7 @@ public class UITimeCounter: UIBase
                 slider.value = 1;
                 counter = time;
                 timeTurn = time;
+                canCallTimeCanHint = true;
         }
 
         public override void Hide()

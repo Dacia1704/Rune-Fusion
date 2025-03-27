@@ -13,8 +13,8 @@ public class TurnManager : MonoBehaviour
     public List<TurnBaseData> TurnBaseQueue { get; private set; }    
     
     private int playerIndex; 
-    [field: SerializeField]public bool isPlayerTurn { get; private set; }
-
+    [field: SerializeField]public bool IsPlayerTurn { get; private set; }
+    
     public event Action<List<TurnBaseData>> TurnBaseQueueChanged;
     public ActionLine ActionLine {get; private set;}
 
@@ -53,7 +53,6 @@ public class TurnManager : MonoBehaviour
             GameUIManager.Instance.UITimeCounter.SetCountTime(GameManager.Instance.GameManagerSO.TimeMonsterTurn);
             GameManager.Instance.BattleManager.MonsterTurn();
         }
-        GameManager.Instance.BattleManager.CanChangeTurn = false;
         StartCoroutine(EndTurnCoroutine());
     }
 
@@ -64,13 +63,15 @@ public class TurnManager : MonoBehaviour
     }
     public void StartTurn()
     {
-        isPlayerTurn = true;
+        IsPlayerTurn = true;
         GameManager.Instance.InputManager.SetEnableInput();
+        GameManager.Instance.BattleManager.CanChangeTurn = false;
     }
     public void EndTurn()
     {
-        isPlayerTurn = false;
+        IsPlayerTurn = false;
         GameManager.Instance.InputManager.SetDisableInput();
+        GameManager.Instance.BattleManager.CanChangeTurn = false;
     }
     public void UpdateTurnBaseQueue(List<TurnBaseData> turnBaseQueue)
     {
