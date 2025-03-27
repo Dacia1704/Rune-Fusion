@@ -14,6 +14,8 @@ public class BattleManager : MonoBehaviour
         
         public Dictionary<string,MonsterBase> MonsterTeam1Dictionary = new Dictionary<string, MonsterBase>();
         public Dictionary<string,MonsterBase> MonsterTeam2Dictionary = new Dictionary<string, MonsterBase>();
+
+        [HideInInspector]public bool CanChangeTurn;
         
 
         private void Awake()
@@ -123,6 +125,20 @@ public class BattleManager : MonoBehaviour
                 if (MonsterTeam1Dictionary.ContainsKey(id)) return MonsterTeam1Dictionary[id];
                 if (MonsterTeam2Dictionary.ContainsKey(id)) return MonsterTeam2Dictionary[id];
                 return null;
+        }
+        
+        public void MonsterTurn()
+        {
+                string currentTurnId = TurnManager.TurnBaseQueue[0].id_in_battle;
+                GetMonsterById(currentTurnId).Attack();
+                if (MonsterTeam1Dictionary.ContainsKey(currentTurnId) && SocketManager.Instance.PlayerData.playerindex == 0)
+                {
+                        GameManager.Instance.BattleManager.CanChangeTurn = true;
+                }
+                if (MonsterTeam2Dictionary.ContainsKey(currentTurnId) && SocketManager.Instance.PlayerData.playerindex == 1)
+                {
+                        GameManager.Instance.BattleManager.CanChangeTurn = true;
+                }
         }
         
         
