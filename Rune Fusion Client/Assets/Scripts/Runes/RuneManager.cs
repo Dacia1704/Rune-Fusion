@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using DG.Tweening;
 using Newtonsoft.Json;
 using UnityEngine;
+using UnityEngine.Serialization;
 using Sequence = DG.Tweening.Sequence;
 
 /*Rune flow
@@ -26,7 +27,7 @@ public class RuneManager : MonoBehaviour
     public Vector3[,] NewRunesPositionMap {get;private set;}
     private float sizeTile;
 
-    [SerializeField] private bool canChangeTurn;
+    [FormerlySerializedAs("canChangeTurn")] [SerializeField] private bool IsSwapped;
     private bool hasNewRunesToGen;
     
     [SerializeField] private int countRuneSequences;
@@ -39,7 +40,7 @@ public class RuneManager : MonoBehaviour
 
     private void Start()
     {
-        canChangeTurn = false;
+        IsSwapped = false;
         hasNewRunesToGen = true;
         countRuneSequences = -1;
     }
@@ -253,25 +254,25 @@ public class RuneManager : MonoBehaviour
     {
         StartCoroutine(UpdateRuneStateAfterCheck());
         SwapRunes(Tuple.Create(start.Item1,start.Item2), Tuple.Create(start.Item1,start.Item2+1),SwapType.Horizontal);    
-        canChangeTurn = true;
+        IsSwapped = true;
         SocketManager.Instance.SwapRune(new Vector2(start.Item1, start.Item2), new Vector2(start.Item1,start.Item2+1));
     }
     public void SwapWithLeftRune(Tuple<int,int> start)
     {
         SwapRunes(Tuple.Create(start.Item1,start.Item2), Tuple.Create(start.Item1,start.Item2-1),SwapType.Horizontal);    
-        canChangeTurn = true;
+        IsSwapped = true;
         SocketManager.Instance.SwapRune(new Vector2(start.Item1, start.Item2), new Vector2(start.Item1,start.Item2-1));
     }
     public void SwapWithTopRune(Tuple<int,int> start)
     {
         SwapRunes(Tuple.Create(start.Item1,start.Item2), Tuple.Create(start.Item1+1,start.Item2),SwapType.Vertical);    
-        canChangeTurn = true;
+        IsSwapped = true;
         SocketManager.Instance.SwapRune(new Vector2(start.Item1, start.Item2), new Vector2(start.Item1+1,start.Item2));
     }
     public void SwapWithBottomRune(Tuple<int,int> start)
     {
         SwapRunes(Tuple.Create(start.Item1,start.Item2), Tuple.Create(start.Item1-1,start.Item2),SwapType.Vertical);      
-        canChangeTurn = true;
+        IsSwapped = true;
         SocketManager.Instance.SwapRune(new Vector2(start.Item1, start.Item2), new Vector2(start.Item1-1,start.Item2));
     }
     
@@ -749,9 +750,9 @@ public class RuneManager : MonoBehaviour
             yield return new WaitUntil(() => !hasNewRunesToGen);
             hasNewRunesToGen = true;
             if (ReleaseUniqueRune()) continue;
-            if (!GameManager.Instance.BattleManager.TurnManager.isPlayerTurn || !canChangeTurn) continue;
-            canChangeTurn = false;
-            GameManager.Instance.BattleManager.TurnManager.OnEndTurn?.Invoke();
+            if (!GameManager.Instance.BattleManager.TurnManager.isPlayerTurn || !IsSwapped) continue;
+            IsSwapped = false;
+            GameManager.Instance.BattleManager.CanChangeTurn = true;
         }
     }
     #endregion

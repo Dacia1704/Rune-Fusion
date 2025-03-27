@@ -18,8 +18,6 @@ public class TurnManager : MonoBehaviour
     public event Action<List<TurnBaseData>> TurnBaseQueueChanged;
     public ActionLine ActionLine {get; private set;}
 
-    public Action OnEndTurn;
-
     private void Start()
     {
         playerIndex = SocketManager.Instance.PlayerData.playerindex;
@@ -27,10 +25,9 @@ public class TurnManager : MonoBehaviour
         TurnBaseQueue = new List<TurnBaseData>();
         ActionLine = FindFirstObjectByType<ActionLine>();
         TurnBaseQueueChanged += ActionLine.UpdateMonsterPoint;
-        OnEndTurn += SocketManager.Instance.UpdateTurnRequest;
     }
     
-    public void ExecuteTurn(/*List<TurnBaseData> turnBaseData*/)
+    public void ExecuteTurn()
     {
         string currentTurnId = TurnBaseQueue[0].id_in_battle;
         EndTurn();
@@ -41,6 +38,7 @@ public class TurnManager : MonoBehaviour
                 StartTurn();
                 Debug.Log("Player 1 Turn");
             }
+            GameUIManager.Instance.UITimeCounter.SetCountTime(GameManager.Instance.GameManagerSO.TimePlayerTurn);
         }else if (currentTurnId == "02" )
         {
             if (playerIndex == 1)
@@ -48,19 +46,21 @@ public class TurnManager : MonoBehaviour
                 StartTurn();
                 Debug.Log("Player 2 Turn");
             }
+            GameUIManager.Instance.UITimeCounter.SetCountTime(GameManager.Instance.GameManagerSO.TimePlayerTurn);
         }
         else
         {
-            BattleManager.Instance.GetMonsterById(currentTurnId).Attack();
-            if (BattleManager.Instance.MonsterTeam1Dictionary.ContainsKey(currentTurnId) && playerIndex == 0)
-            {
-                OnEndTurn?.Invoke();
-            }
-            if (BattleManager.Instance.MonsterTeam2Dictionary.ContainsKey(currentTurnId) && playerIndex == 1)
-            {
-                OnEndTurn?.Invoke();
-            }
+            GameUIManager.Instance.UITimeCounter.SetCountTime(GameManager.Instance.GameManagerSO.TimeMonsterTurn);
+            GameManager.Instance.BattleManager.MonsterTurn();
         }
+        GameManager.Instance.BattleManager.CanChangeTurn = false;
+        StartCoroutine(EndTurnCoroutine());
+    }
+
+    private IEnumerator EndTurnCoroutine()
+    {
+        yield return new WaitUntil(() => GameManager.Instance.BattleManager.CanChangeTurn);
+        SocketManager.Instance.UpdateTurnRequest();
     }
     public void StartTurn()
     {
