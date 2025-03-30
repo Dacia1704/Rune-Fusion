@@ -854,8 +854,8 @@ public class RuneManager : MonoBehaviour
                  runeCheckIndex.Item2 >= 0 && runeCheckIndex.Item2 < GameManager.Instance.GameManagerSO.WidthRuneMap)) continue;
             (RunesMapCopy[runeIndex.Item1][runeIndex.Item2],RunesMapCopy[runeCheckIndex.Item1][runeCheckIndex.Item2]) 
                 = (RunesMapCopy[runeCheckIndex.Item1][runeCheckIndex.Item2],RunesMapCopy[runeIndex.Item1][runeIndex.Item2]);
-            Debug.Log(runeCheckIndex.Item1 + " " + runeCheckIndex.Item2 + " " + RunesMapCopy[runeCheckIndex.Item1][runeCheckIndex.Item2].ToString());
-            Debug.Log(runeIndex.Item1 + " " + runeIndex.Item2 + " " + RunesMapCopy[runeIndex.Item1][runeIndex.Item2].ToString());
+            // Debug.Log(runeCheckIndex.Item1 + " " + runeCheckIndex.Item2 + " " + RunesMapCopy[runeCheckIndex.Item1][runeCheckIndex.Item2].ToString());
+            // Debug.Log(runeIndex.Item1 + " " + runeIndex.Item2 + " " + RunesMapCopy[runeIndex.Item1][runeIndex.Item2].ToString());
             List<Tuple<int,int>> runeHorizontal = new List<Tuple<int,int>>();
             runeHorizontal.Add(runeIndex);
             int leftIndex = runeCheckIndex.Item2 -1;
@@ -933,7 +933,7 @@ public class RuneManager : MonoBehaviour
             }
             if (runeHorizontal.Count >= 3 && runeVertical.Count >= 3)
             {
-                Debug.Log($"Bomb: runeHorizontal {runeHorizontal.Count} + runeVertical {runeVertical.Count}");
+                // Debug.Log($"Bomb: runeHorizontal {runeHorizontal.Count} + runeVertical {runeVertical.Count}");
                 List<Tuple<int,int>> comb = new List<Tuple<int,int>>();
                 comb.AddRange(runeHorizontal);
                 comb.AddRange(runeVertical);
@@ -956,12 +956,12 @@ public class RuneManager : MonoBehaviour
                 ans.Add(Tuple.Create(runeVertical,RuneForm.Base));
             }
         }
-        Debug.Log(runeIndex.Item1 + " " + runeIndex.Item2 + " " + ans.Count);
-        foreach (Tuple<List<Tuple<int, int>>, RuneForm> x in ans)
-        {
-            Debug.Log(string.Join(", ", x.Item1.Select(t => $"({t.Item1}, {t.Item2})")));
-        }
-        Debug.Log("-------------------");
+        // Debug.Log(runeIndex.Item1 + " " + runeIndex.Item2 + " " + ans.Count);
+        // foreach (Tuple<List<Tuple<int, int>>, RuneForm> x in ans)
+        // {
+        //     Debug.Log(string.Join(", ", x.Item1.Select(t => $"({t.Item1}, {t.Item2})")));
+        // }
+        // Debug.Log("-------------------");
         return ans;
     }
     

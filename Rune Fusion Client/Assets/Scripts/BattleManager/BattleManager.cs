@@ -11,6 +11,7 @@ public class BattleManager : MonoBehaviour
         [field: SerializeField] public MonsterListSO MonsterListSO {get; private set;}
         public TurnManager TurnManager {get; private set;}
         public ArenaManager ArenaManager { get; private set; }
+        public TargetManager TargetManager { get; private set; }
         
         public Dictionary<string,MonsterBase> MonsterTeam1Dictionary = new Dictionary<string, MonsterBase>();
         public Dictionary<string,MonsterBase> MonsterTeam2Dictionary = new Dictionary<string, MonsterBase>();
@@ -24,7 +25,7 @@ public class BattleManager : MonoBehaviour
                 {
                         Instance = this;
                 }
-
+        
                 MonsterListSO.Initialize();
         }
 
@@ -32,6 +33,8 @@ public class BattleManager : MonoBehaviour
         {
                 TurnManager = FindFirstObjectByType<TurnManager>();
                 ArenaManager = FindFirstObjectByType<ArenaManager>();
+                TargetManager = FindFirstObjectByType<TargetManager>();
+                GameManager.Instance.InputManager.OnMonsterTarget += TargetManager.TargetMonster;
                 // MonsterListData monsterListData = new MonsterListData();
                 // monsterListData.player1 = new List<MonsterData>
                 // {
@@ -103,6 +106,21 @@ public class BattleManager : MonoBehaviour
                 GameObject monster3Team2 = Instantiate(MonsterListSO.MonsterDictionary[monsterListData.player2[2].id].Prefab,ArenaManager.MonsterTeam2.StartPosList[2].transform.position, Quaternion.Euler(0, 180, 0));
                 MonsterTeam2Dictionary.Add(monsterListData.player2[2].id_in_battle, monster3Team2.GetComponent<MonsterBase>());
                 MonsterTeam2Dictionary[monsterListData.player2[2].id_in_battle].MonsterIndexinBattle = 2;
+
+                if (TurnManager.PlayerIndex == 1)
+                {
+                        foreach (MonsterBase monsterBase in MonsterTeam2Dictionary.Values)
+                        {
+                                monsterBase.SetOpponent();
+                        }
+                }
+                else
+                {
+                        foreach (MonsterBase monsterBase in MonsterTeam1Dictionary.Values)
+                        {
+                                monsterBase.SetOpponent();
+                        }
+                }
         }
 
         private IEnumerator StartAttack()
@@ -127,19 +145,6 @@ public class BattleManager : MonoBehaviour
                 return null;
         }
         
-        public void MonsterTurn()
-        {
-                string currentTurnId = TurnManager.TurnBaseQueue[0].id_in_battle;
-                GetMonsterById(currentTurnId).Attack();
-                if (MonsterTeam1Dictionary.ContainsKey(currentTurnId) && SocketManager.Instance.PlayerData.playerindex == 0)
-                {
-                        GameManager.Instance.BattleManager.CanChangeTurn = true;
-                }
-                if (MonsterTeam2Dictionary.ContainsKey(currentTurnId) && SocketManager.Instance.PlayerData.playerindex == 1)
-                {
-                        GameManager.Instance.BattleManager.CanChangeTurn = true;
-                }
-        }
         
         
 }

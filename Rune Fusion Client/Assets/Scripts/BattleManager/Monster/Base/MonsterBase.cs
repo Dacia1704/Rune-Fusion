@@ -51,4 +51,9 @@ public abstract class MonsterBase : MonoBehaviour
     {
         Debug.Log(gameObject.name + " is attacking");
     }
+
+    public void SetOpponent()
+    {
+        MonsterColliderManager.transform.tag = "Opponent";
+    }
 }
