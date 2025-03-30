@@ -44,7 +44,9 @@ public class RuneManager : MonoBehaviour
         IsSwapped = false;
         hasNewRunesToGen = true;
         countRuneSequences = -1;
+        
         GameUIManager.Instance.UITimeCounter.OnTimeCanHint += ShowHintRune;
+        GameUIManager.Instance.UITimeCounter.OnTimeCounterEnd += SwapRunesHint;
     }
     #region Map Core
     public float GetHeightRunesMap()
@@ -286,6 +288,7 @@ public class RuneManager : MonoBehaviour
     /// <param name="swapType">Swap Type</param>
     public void SwapRunes(Tuple<int, int> start, Tuple<int, int> end,SwapType swapType)
     {
+        GameUIManager.Instance.UITimeCounter.EndCountTime();
         StartCoroutine(UpdateRuneStateAfterCheck());
         if (RunesMap[start.Item1, start.Item2] == null || RunesMap[end.Item1, end.Item2] == null) return;
         DisableHintRuneList();
@@ -761,6 +764,58 @@ public class RuneManager : MonoBehaviour
     #endregion
     
     #region other
+
+    private void SwapRunesHint()
+    {
+        if (runeHintList.Count <= 0) return;
+        Tuple<int, int> runeHint = Tuple.Create(0,0);
+        int direction = (runeHintList[0].Item1 == runeHintList[1].Item1 || runeHintList[1].Item1 == runeHintList[2].Item1) ? 1 : 0; // 1 is row, 0 is col
+        if (direction == 1)
+        {
+            int indexSame = (runeHintList[0].Item1 == runeHintList[1].Item1) ? runeHintList[0].Item1 :
+                (runeHintList[0].Item1 == runeHintList[2].Item1) ? runeHintList[0].Item1 : runeHintList[1].Item1;
+            foreach (Tuple<int,int> rune in runeHintList)
+            {
+                if (rune.Item1 != indexSame)
+                {
+                    runeHint = rune;
+                    break;
+                }
+            }
+
+            if (runeHint.Item1 > indexSame)
+            {
+                SwapWithBottomRune(runeHint);
+            }
+            else
+            {
+                SwapWithTopRune(runeHint);
+            }
+        }
+        else
+        {
+            int indexSame = (runeHintList[0].Item2 == runeHintList[1].Item2) ? runeHintList[0].Item2 :
+                (runeHintList[0].Item2 == runeHintList[2].Item2) ? runeHintList[0].Item2 : runeHintList[1].Item2;
+            foreach (Tuple<int,int> rune in runeHintList)
+            {
+                if (rune.Item2 != indexSame)
+                {
+                    runeHint = rune;
+                    break;
+                }
+            }
+
+            if (runeHint.Item2 > indexSame)
+            {
+                SwapWithLeftRune(runeHint);
+            }
+            else
+            {
+                SwapWithRightRune(runeHint);
+            }
+        }
+        
+    }
     public void ShowHintRune()
     {
         if (!GameManager.Instance.BattleManager.TurnManager.IsPlayerTurn) return;
@@ -964,7 +1019,6 @@ public class RuneManager : MonoBehaviour
         // Debug.Log("-------------------");
         return ans;
     }
-    
     public string ConvertRunesMapToServerData()
     {
         int[][] data = new int[GameManager.Instance.GameManagerSO.HeightRuneMap][];

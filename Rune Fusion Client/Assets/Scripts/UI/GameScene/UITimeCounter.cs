@@ -11,6 +11,7 @@ public class UITimeCounter: UIBase
         private float timeTurn;
 
         public event Action OnTimeCounterEnd;
+        private bool canCallTimeEnd;
         public event Action OnTimeCanHint;
         private bool canCallTimeCanHint;
         
@@ -34,14 +35,25 @@ public class UITimeCounter: UIBase
                         slider.value = counter / timeTurn;
                         if (canCallTimeCanHint && slider.value <= 0.4f)
                         {
-                                OnTimeCanHint?.Invoke();
+                                if (GameManager.Instance.BattleManager.TurnManager.IsPlayerTurn)
+                                {
+                                        OnTimeCanHint?.Invoke();
+                                }
                                 canCallTimeCanHint = false;
                         }
                 }
                 else
                 {
-                        OnTimeCounterEnd?.Invoke();
-                        Hide();
+                        if (canCallTimeEnd)
+                        {
+                                if (GameManager.Instance.BattleManager.TurnManager.IsPlayerTurn)
+                                {
+                                        OnTimeCounterEnd?.Invoke();
+                                }
+                                canCallTimeEnd = false;
+                                Hide();
+                        }
+                        
                 }
         }
         public void SetCountTime(float time)
@@ -51,6 +63,16 @@ public class UITimeCounter: UIBase
                 counter = time;
                 timeTurn = time;
                 canCallTimeCanHint = true;
+                canCallTimeEnd = true;
+        }
+
+        public void EndCountTime()
+        {
+                counter = 0;
+                slider.value = 0;
+                canCallTimeCanHint = false;
+                canCallTimeEnd = false;
+                Hide();
         }
 
         public override void Hide()
