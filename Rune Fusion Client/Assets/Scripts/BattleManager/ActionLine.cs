@@ -40,7 +40,7 @@ public class ActionLine : MonoBehaviour
                 }
                 else
                 {
-                        Sprite monsterSprite = BattleManager.Instance.GetMonsterById(id).MonsterPropsSO.Icon;
+                        Sprite monsterSprite = BattleManager.Instance.GetMonsterByIdInBattle(id).MonsterPropsSO.Icon;
                         monsterPoint = new GameObject();
                         monsterPoint.AddComponent<SpriteRenderer>();
                         monsterPoint.GetComponent<SpriteRenderer>().sprite = monsterSprite;

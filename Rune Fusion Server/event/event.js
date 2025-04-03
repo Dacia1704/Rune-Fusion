@@ -19,7 +19,11 @@ const EVENTS = {
         GAME_START_REQUEST: "game_start_request",
         TURN_BASE_LIST_PUSH_DATA: "turn_base_list_push_data",
         TURN_BASE_LIST_REQUEST: "turn_base_list_request",
+    },
+    MONSTER: {
         MONSTER_LIST: "monster_list",
+        MONSTER_ACTION_REQUEST: "monster_action_request",
+        MONSTER_ACTION_RESPONSE: "monster_action_response",
     },
 };
 export default EVENTS;

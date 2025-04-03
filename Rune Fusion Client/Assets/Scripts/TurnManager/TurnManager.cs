@@ -74,20 +74,52 @@ public class TurnManager : MonoBehaviour
                        
             GameManager.Instance.InputManager.SetEnableMonsterInput();
         }
+        StartCoroutine(StartMonsterAttack());
         yield return new WaitUntil(() => isTimeMonsterEnd);
         isTimeMonsterEnd = false;
-        GameManager.Instance.BattleManager.GetMonsterById(currentTurnId).Attack();
+        
+        yield return new WaitUntil(() => GameManager.Instance.BattleManager.CheckAnimationMonster());
         if (GameManager.Instance.BattleManager.MonsterTeam1Dictionary.ContainsKey(currentTurnId) && SocketManager.Instance.PlayerData.playerindex == 0)
         {
             GameManager.Instance.BattleManager.CanChangeTurn = true;
         }
         if (GameManager.Instance.BattleManager.MonsterTeam2Dictionary.ContainsKey(currentTurnId) && SocketManager.Instance.PlayerData.playerindex == 1)
         {
-                       
             GameManager.Instance.BattleManager.CanChangeTurn = true;
         }
     }
-
+    private IEnumerator StartMonsterAttack()
+    {
+        yield return new WaitUntil(() => GameManager.Instance.BattleManager.TargetManager.TargetedMonster != null);
+        string currentTurnId = TurnBaseQueue[0].id_in_battle;
+        if (GameManager.Instance.BattleManager.MonsterTeam1Dictionary.ContainsKey(currentTurnId) && PlayerIndex==0)
+        {
+            SocketManager.Instance.RequestMonsterAction(currentTurnId,new List<string>(){GameManager.Instance.BattleManager.TargetManager.TargetedMonster.MonsterIdInBattle},"0");
+        }
+        else  if (GameManager.Instance.BattleManager.MonsterTeam2Dictionary.ContainsKey(currentTurnId) && PlayerIndex==1)
+        {
+            SocketManager.Instance.RequestMonsterAction(currentTurnId,new List<string>(){GameManager.Instance.BattleManager.TargetManager.TargetedMonster.MonsterIdInBattle},"0");
+        }
+        isTimeMonsterEnd = true;
+        GameUIManager.Instance.UITimeCounter.EndCountTime();
+        yield return null;
+    }
+    public void ExecuteMonsterAction(MonsterActionResponse monsterActionResponse)
+    {
+        GameManager.Instance.BattleManager.SetStartTurnMonsterAnimation(monsterActionResponse);
+        if (GameManager.Instance.BattleManager.MonsterTeam1Dictionary.ContainsKey(monsterActionResponse.monster_id))
+        {
+            GameManager.Instance.BattleManager.MonsterTeam1Dictionary[monsterActionResponse.monster_id]
+                .StartAttack(monsterActionResponse);
+        }
+        else
+        {
+            GameManager.Instance.BattleManager.MonsterTeam2Dictionary[monsterActionResponse.monster_id]
+                .StartAttack(monsterActionResponse);
+        }
+    }
+    
+    
     private IEnumerator EndTurnCoroutine()
     {
         yield return new WaitUntil(() => GameManager.Instance.BattleManager.CanChangeTurn);

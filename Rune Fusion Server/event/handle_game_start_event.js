@@ -1,6 +1,14 @@
 import EVENTS from "./event.js";
 import generateRuneMap from "../game_logics/game_map.js";
 import update_turn_monster from "../game_logics/turn_monster.js";
+import {
+    archerMonsterData,
+    armoredAxemanData,
+    knightData,
+    lancerData,
+    priestData,
+    wizardData,
+} from "../model/defaultMonsterData.js";
 export function handle_game_start_event(io, socket, roomsPlaying) {
     //fake data
     roomsPlaying[socket.roomId] = {
@@ -9,19 +17,16 @@ export function handle_game_start_event(io, socket, roomsPlaying) {
             data: roomsPlaying[socket.roomId].player1.data,
             monsters: [
                 {
-                    id: 0,
                     id_in_battle: "11",
-                    speed: 100,
+                    data: archerMonsterData,
                 },
                 {
-                    id: 1,
                     id_in_battle: "12",
-                    speed: 102,
+                    data: armoredAxemanData,
                 },
                 {
-                    id: 2,
                     id_in_battle: "13",
-                    speed: 96,
+                    data: knightData,
                 },
             ],
             ready: false,
@@ -31,40 +36,83 @@ export function handle_game_start_event(io, socket, roomsPlaying) {
             data: roomsPlaying[socket.roomId].player2.data,
             monsters: [
                 {
-                    id: 3,
                     id_in_battle: "21",
-                    speed: 112,
+                    data: lancerData,
                 },
                 {
-                    id: 4,
                     id_in_battle: "22",
-                    speed: 108,
+                    data: priestData,
                 },
                 {
-                    id: 5,
                     id_in_battle: "23",
-                    speed: 116,
+                    data: wizardData,
                 },
             ],
             ready: false,
         },
         turn_base_data: [
-            { id_in_battle: "11", speed: 100, progress: 0 },
-            { id_in_battle: "12", speed: 102, progress: 0 },
-            { id_in_battle: "13", speed: 96, progress: 0 },
-            { id_in_battle: "21", speed: 112, progress: 0 },
-            { id_in_battle: "22", speed: 108, progress: 0 },
-            { id_in_battle: "23", speed: 116, progress: 0 },
+            {
+                id_in_battle: "11",
+                speed: archerMonsterData.stats.speed,
+                progress: 0,
+            },
+            {
+                id_in_battle: "12",
+                speed: armoredAxemanData.stats.speed,
+                progress: 0,
+            },
+            { id_in_battle: "13", speed: knightData.stats.speed, progress: 0 },
+            { id_in_battle: "21", speed: lancerData.stats.speed, progress: 0 },
+            { id_in_battle: "22", speed: priestData.stats.speed, progress: 0 },
+            { id_in_battle: "23", speed: wizardData.stats.speed, progress: 0 },
             { id_in_battle: "01", speed: 122, progress: 0 }, // player1
-            { id_in_battle: "02", speed: 136, progress: 0 }, // player2
+            { id_in_battle: "02", speed: 132, progress: 0 }, // player2
         ], // id, speed, progress
     };
     //send monster list
     const mosterList = {
-        player1: roomsPlaying[socket.roomId].player1.monsters,
-        player2: roomsPlaying[socket.roomId].player2.monsters,
+        player1: [
+            {
+                id_in_battle:
+                    roomsPlaying[socket.roomId].player1.monsters[0]
+                        .id_in_battle,
+                id: roomsPlaying[socket.roomId].player1.monsters[0].data.id,
+            },
+            {
+                id_in_battle:
+                    roomsPlaying[socket.roomId].player1.monsters[1]
+                        .id_in_battle,
+                id: roomsPlaying[socket.roomId].player1.monsters[1].data.id,
+            },
+            {
+                id_in_battle:
+                    roomsPlaying[socket.roomId].player1.monsters[2]
+                        .id_in_battle,
+                id: roomsPlaying[socket.roomId].player1.monsters[2].data.id,
+            },
+        ],
+        player2: [
+            {
+                id_in_battle:
+                    roomsPlaying[socket.roomId].player2.monsters[0]
+                        .id_in_battle,
+                id: roomsPlaying[socket.roomId].player2.monsters[0].data.id,
+            },
+            {
+                id_in_battle:
+                    roomsPlaying[socket.roomId].player2.monsters[1]
+                        .id_in_battle,
+                id: roomsPlaying[socket.roomId].player2.monsters[1].data.id,
+            },
+            {
+                id_in_battle:
+                    roomsPlaying[socket.roomId].player2.monsters[2]
+                        .id_in_battle,
+                id: roomsPlaying[socket.roomId].player2.monsters[2].data.id,
+            },
+        ],
     };
-    io.to(socket.roomId).emit(EVENTS.GAME.MONSTER_LIST, mosterList);
+    io.to(socket.roomId).emit(EVENTS.MONSTER.MONSTER_LIST, mosterList);
 
     // send start map
     const mapData = {

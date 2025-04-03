@@ -12,15 +12,44 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fdeadb9ec84546d6aa661ec4ae0f7e41, type: 3}
   m_Name: WizardPropsSO
   m_EditorClassIdentifier: 
-  <Id>k__BackingField: 5
-  <BaseStats>k__BackingField:
-    Attack: 900
-    Defense: 220
-    Health: 7000
-    Speed: 116
-    Accuracy: 0.1
-    Resistance: 0.1
-  <Type>k__BackingField: 1
+  <MonsterData>k__BackingField:
+    <Id>k__BackingField: 5
+    <Name>k__BackingField: Wizard
+    <Type>k__BackingField: 1
+    <BaseStats>k__BackingField:
+      Attack: 700
+      Defense: 220
+      Health: 3800
+      Speed: 104
+      Accuracy: 0.7
+      Resistance: 0.1
+    <Skills>k__BackingField:
+    - Id: 0
+      Name: Basic Attack
+      Description: Basic Attack
+      ActionList:
+      - TargetType: 1
+        AreaEffect: 1
+        RandomType: 0
+        PercentAttack: 1
+        Penetration: 0
+        PercentHealth: 0
+        EffectType: 2
+        Effectiveness: 1
+      Icon: {fileID: 0}
+    - Id: 1
+      Name: Ultimate Skill
+      Description: Ultimate Skill
+      ActionList:
+      - TargetType: 1
+        AreaEffect: 0
+        RandomType: 0
+        PercentAttack: 1.2
+        Penetration: 0
+        PercentHealth: 0
+        EffectType: 10
+        Effectiveness: 0.7
+      Icon: {fileID: 0}
   <Icon>k__BackingField: {fileID: -472666207, guid: 288222d7407c92d43b06480fcffaa31f, type: 3}
   <AttackOffset>k__BackingField: 0
   <WizardFireBallPrefab>k__BackingField: {fileID: 9107807829003316585, guid: 0b28249f7ec790c42821ddbf228a2754, type: 3}

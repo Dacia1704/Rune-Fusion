@@ -99,22 +99,34 @@ public class SocketManager : MonoBehaviour
             UnityThread.executeCoroutine(TurnBaseListCoroutine(response[0]));
         });
         
-        socket.On(SocketEvents.Game.MONSTER_LIST, data =>
+        socket.On(SocketEvents.Monster.MONSTER_LIST, data =>
         {
             // Debug.Log(data);
             List<MonsterListData> response = JsonConvert.DeserializeObject<List<MonsterListData>>(data.ToString());
             UnityThread.executeCoroutine(MonsterListCoroutine(response[0]));
         });
         
+        socket.On(SocketEvents.Monster.MONSTER_ACTION_RESPONSE, data =>
+        {
+            List<MonsterActionResponse> response = JsonConvert.DeserializeObject<List<MonsterActionResponse>>(data.ToString());
+            UnityThread.executeCoroutine(MonsterActionCoroutine(response[0]));
+        });
+        
         socket.Connect();
     }
-
+    // get
+    private IEnumerator MonsterActionCoroutine(MonsterActionResponse monsterActionResponse)
+    {
+        GameManager.Instance.BattleManager.TurnManager.ExecuteMonsterAction(monsterActionResponse);
+        yield return null;
+    }
+    
     private IEnumerator MonsterListCoroutine(MonsterListData data)
     {
         BattleManager.Instance.SetUpMonster(data);
         yield return null;
     }
-
+    
     private IEnumerator TurnBaseListCoroutine(List<TurnBaseData> mapData)
     {
         BattleManager.Instance.TurnManager.UpdateTurnBaseQueue(mapData);
@@ -147,6 +159,7 @@ public class SocketManager : MonoBehaviour
     }
     
 
+    //Emit
     public void RequestNewRune(string mapData)
     {
         socket.Emit(SocketEvents.Rune.NEW_REQUEST, mapData);
@@ -167,8 +180,7 @@ public class SocketManager : MonoBehaviour
         };
         socket.Emit(SocketEvents.Rune.SWAP_RUNE, JsonUtility.ToJson(swapRuneData));
     }
-
-
+    
     private void OnApplicationQuit()
     {
         if(socket != null) socket.Disconnect();
@@ -184,5 +196,15 @@ public class SocketManager : MonoBehaviour
         Debug.Log("Update Turn Request");
         socket.Emit(SocketEvents.Game.TURN_BASE_LIST_REQUEST);
     }
-    
+
+    public void RequestMonsterAction(string monsterId, List<string> targetId, string skillId)
+    {
+        MonsterActionRequest monsterActionRequest = new MonsterActionRequest
+        {
+            monster_id = monsterId,
+            monster_target_id = targetId,
+            skill_id = skillId
+        };
+        socket.Emit(SocketEvents.Monster.MONSTER_ACTION_REQUEST,JsonUtility.ToJson(monsterActionRequest));
+    }
 }
