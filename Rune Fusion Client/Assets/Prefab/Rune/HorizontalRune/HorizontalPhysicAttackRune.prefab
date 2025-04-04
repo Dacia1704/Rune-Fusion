@@ -10,7 +10,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 3434921223832453370, guid: 1932d1a2d39395e46b8609d8429de408, type: 3}
       propertyPath: m_Name
-      value: BlankRune Variant
+      value: HorizontalPhysicAttackRune
       objectReference: {fileID: 0}
     - target: {fileID: 4479678585662852566, guid: 1932d1a2d39395e46b8609d8429de408, type: 3}
       propertyPath: m_Sprite

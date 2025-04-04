@@ -22,12 +22,12 @@ public class ActionLine : MonoBehaviour
 
         private void Start()
         {
-                // StartCoroutine(ExecuteTurnCoroutine());
+                spriteRenderer.size = new Vector2(CameraManager.Instance.GetWidthCamera() * 0.9f, spriteRenderer.size.y);
         }
 
-        public float GetActionLineHeight()
+        public float GetActionLineWidth()
         {
-                return spriteRenderer.bounds.size.y;
+                return spriteRenderer.bounds.size.x;
         }
 
         private void CreateMonsterPoint(string id,float progress)
@@ -46,14 +46,14 @@ public class ActionLine : MonoBehaviour
                         monsterPoint.GetComponent<SpriteRenderer>().sprite = monsterSprite;
                 }
                 monsterPoint.transform.SetParent(transform);
-                monsterPoint.transform.position = new Vector3( transform.position.x,transform.position.y-GetActionLineHeight()/2 +progress * GetActionLineHeight(), transform.position.z);
+                monsterPoint.transform.position = new Vector3( transform.position.x-GetActionLineWidth()/2 +progress * GetActionLineWidth(),transform.position.y, transform.position.z);
                 MonsterDictionary.Add(id, monsterPoint);
         }
 
         private void SetPositionMonsterPoint(string id, float progress)
         {
                 GameObject monsterPoint = MonsterDictionary[id];
-                Vector3 targetPosition = new Vector3( transform.position.x,transform.position.y-GetActionLineHeight()/2 +progress * GetActionLineHeight(), transform.position.z);
+                Vector3 targetPosition = new Vector3( transform.position.x-GetActionLineWidth()/2 +progress * GetActionLineWidth(),transform.position.y, transform.position.z);
                 if (animationCounter == -1) animationCounter = 0;
                 animationCounter += 1;
                 monsterPoint.transform.DOMove(targetPosition, 0.3f).SetEase(Ease.Linear).OnComplete(() =>

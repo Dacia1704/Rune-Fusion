@@ -763,7 +763,6 @@ public class RuneManager : MonoBehaviour
     }
     #endregion
     
-    
     #region hint
     private void SwapRunesHint()
     {
@@ -988,6 +987,7 @@ public class RuneManager : MonoBehaviour
         return ans;
     }
     #endregion
+    
     #region other
     
     public string ConvertRunesMapToServerData()
