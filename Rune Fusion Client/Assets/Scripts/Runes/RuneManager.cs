@@ -763,13 +763,14 @@ public class RuneManager : MonoBehaviour
     }
     #endregion
     
-    #region other
-
+    
+    #region hint
     private void SwapRunesHint()
     {
         if (runeHintList.Count <= 0) return;
         Tuple<int, int> runeHint = Tuple.Create(0,0);
         int direction = (runeHintList[0].Item1 == runeHintList[1].Item1 || runeHintList[1].Item1 == runeHintList[2].Item1) ? 1 : 0; // 1 is row, 0 is col
+        Debug.LogError(direction);
         if (direction == 1)
         {
             int indexSame = (runeHintList[0].Item1 == runeHintList[1].Item1) ? runeHintList[0].Item1 :
@@ -1019,6 +1020,9 @@ public class RuneManager : MonoBehaviour
         // Debug.Log("-------------------");
         return ans;
     }
+    #endregion
+    #region other
+    
     public string ConvertRunesMapToServerData()
     {
         int[][] data = new int[GameManager.Instance.GameManagerSO.HeightRuneMap][];
