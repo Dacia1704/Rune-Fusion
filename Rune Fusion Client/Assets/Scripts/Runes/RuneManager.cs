@@ -33,7 +33,7 @@ public class RuneManager : MonoBehaviour
     
     [SerializeField] private int countRuneSequences;
     
-    private List<Tuple<int,int>> runeHintList = new List<Tuple<int,int>>();
+    private Tuple<List<Tuple<int, int>>,RuneForm,Tuple<int,int>,SwapDirection> runeHintList;
     private void Awake()
     {
         RuneObjectPoolManager = FindFirstObjectByType<RuneObjectPoolManager>();
@@ -763,80 +763,51 @@ public class RuneManager : MonoBehaviour
     }
     #endregion
     
-    #region other
-
+    
+    #region hint
     private void SwapRunesHint()
     {
-        if (runeHintList.Count <= 0) return;
-        Tuple<int, int> runeHint = Tuple.Create(0,0);
-        int direction = (runeHintList[0].Item1 == runeHintList[1].Item1 || runeHintList[1].Item1 == runeHintList[2].Item1) ? 1 : 0; // 1 is row, 0 is col
-        if (direction == 1)
-        {
-            int indexSame = (runeHintList[0].Item1 == runeHintList[1].Item1) ? runeHintList[0].Item1 :
-                (runeHintList[0].Item1 == runeHintList[2].Item1) ? runeHintList[0].Item1 : runeHintList[1].Item1;
-            foreach (Tuple<int,int> rune in runeHintList)
-            {
-                if (rune.Item1 != indexSame)
-                {
-                    runeHint = rune;
-                    break;
-                }
-            }
+        if (runeHintList.Item1.Count <= 0) return;
 
-            if (runeHint.Item1 > indexSame)
-            {
-                SwapWithBottomRune(runeHint);
-            }
-            else
-            {
-                SwapWithTopRune(runeHint);
-            }
-        }
-        else
+        if (runeHintList.Item4 == SwapDirection.Left)
         {
-            int indexSame = (runeHintList[0].Item2 == runeHintList[1].Item2) ? runeHintList[0].Item2 :
-                (runeHintList[0].Item2 == runeHintList[2].Item2) ? runeHintList[0].Item2 : runeHintList[1].Item2;
-            foreach (Tuple<int,int> rune in runeHintList)
-            {
-                if (rune.Item2 != indexSame)
-                {
-                    runeHint = rune;
-                    break;
-                }
-            }
-
-            if (runeHint.Item2 > indexSame)
-            {
-                SwapWithLeftRune(runeHint);
-            }
-            else
-            {
-                SwapWithRightRune(runeHint);
-            }
+            SwapWithRightRune(runeHintList.Item3);
         }
+        else if (runeHintList.Item4 == SwapDirection.Right)
+        {
+            SwapWithLeftRune(runeHintList.Item3);
+        }
+        else if (runeHintList.Item4 == SwapDirection.Top)
+        {
+            SwapWithBottomRune(runeHintList.Item3);
+        }else if (runeHintList.Item4 == SwapDirection.Bottom)
+        {
+            SwapWithTopRune(runeHintList.Item3);
+        }
+        
         
     }
     public void ShowHintRune()
     {
         if (!GameManager.Instance.BattleManager.TurnManager.IsPlayerTurn) return;
-        List<List<Tuple<int,int>>> specialHintList = new List<List<Tuple<int,int>>>();
-        List<List<Tuple<int,int>>> fourComboHintList = new List<List<Tuple<int,int>>>();
-        List<List<Tuple<int,int>>> bombHintList = new List<List<Tuple<int,int>>>();
-        List<List<Tuple<int,int>>> baseHintList = new List<List<Tuple<int,int>>>();
+        List<Tuple<List<Tuple<int, int>>,RuneForm,Tuple<int,int>,SwapDirection>> specialHintList = new List<Tuple<List<Tuple<int, int>>,RuneForm,Tuple<int,int>,SwapDirection>>();
+        List<Tuple<List<Tuple<int, int>>,RuneForm,Tuple<int,int>,SwapDirection>> fourComboHintList = new List<Tuple<List<Tuple<int, int>>,RuneForm,Tuple<int,int>,SwapDirection>>();
+        List<Tuple<List<Tuple<int, int>>,RuneForm,Tuple<int,int>,SwapDirection>> bombHintList = new List<Tuple<List<Tuple<int, int>>,RuneForm,Tuple<int,int>,SwapDirection>>();
+        List<Tuple<List<Tuple<int, int>>,RuneForm,Tuple<int,int>,SwapDirection>> baseHintList = new List<Tuple<List<Tuple<int, int>>,RuneForm,Tuple<int,int>,SwapDirection>>();
         for (int x = 0; x < GameManager.Instance.GameManagerSO.WidthRuneMap; x++)
         {
             for (int y = 0; y < GameManager.Instance.GameManagerSO.HeightRuneMap; y++)
             {
-                List<Tuple<List<Tuple<int, int>>,RuneForm>> hintList = FindHintRune(Tuple.Create(y, x));
-                foreach (Tuple<List<Tuple<int, int>>,RuneForm> hint in hintList)
+                List<Tuple<List<Tuple<int, int>>,RuneForm,Tuple<int,int>,SwapDirection>> hintList = FindHintRune(Tuple.Create(y, x));
+                foreach (Tuple<List<Tuple<int, int>>,RuneForm,Tuple<int,int>,SwapDirection> hint in hintList)
                 {
                     switch (hint.Item2)
                     {
-                        case RuneForm.Special: specialHintList.Add(hint.Item1); break;
-                        case RuneForm.Horizontal: fourComboHintList.Add(hint.Item1); break;
-                        case RuneForm.Vertical: fourComboHintList.Add(hint.Item1); break;
-                        case RuneForm.Explosive: bombHintList.Add(hint.Item1); break;
-                        case RuneForm.Base: baseHintList.Add(hint.Item1); break;
+                        case RuneForm.Special: specialHintList.Add(hint); break;
+                        case RuneForm.Horizontal: fourComboHintList.Add(hint); break;
+                        case RuneForm.Vertical: fourComboHintList.Add(hint); break;
+                        case RuneForm.Explosive: bombHintList.Add(hint); break;
+                        case RuneForm.Base: baseHintList.Add(hint); break;
                     }
 
                     if (specialHintList.Count > 0)
@@ -864,24 +835,25 @@ public class RuneManager : MonoBehaviour
             HighlightHintRuneList(baseHintList[0]);
         }
     }
-    private void HighlightHintRuneList(List<Tuple<int, int>> hintRuneList)
+    private void HighlightHintRuneList(Tuple<List<Tuple<int, int>>,RuneForm,Tuple<int,int>,SwapDirection> hintRuneList)
     {
         runeHintList = hintRuneList;
-        foreach (Tuple<int, int> rune in hintRuneList)
+        foreach (Tuple<int, int> rune in hintRuneList.Item1)
         {
             RunesMap[rune.Item1, rune.Item2].StartHintAnimation();
         }
     }
     private void DisableHintRuneList()
     {
-        foreach (Tuple<int, int> rune in runeHintList)
+        if (runeHintList == null) return;
+        foreach (Tuple<int, int> rune in runeHintList.Item1)
         {
             RunesMap[rune.Item1, rune.Item2].StopHintAnimation();
         }
     }
-    private List<Tuple<List<Tuple<int, int>>,RuneForm>> FindHintRune(Tuple<int, int> runeIndex)
+    private List<Tuple<List<Tuple<int, int>>,RuneForm,Tuple<int,int>,SwapDirection>> FindHintRune(Tuple<int, int> runeIndex)
     {
-        List<Tuple<List<Tuple<int, int>>,RuneForm>> ans = new List<Tuple<List<Tuple<int, int>>,RuneForm>>();
+        List<Tuple<List<Tuple<int, int>>,RuneForm,Tuple<int,int>,SwapDirection>> ans = new List<Tuple<List<Tuple<int, int>>,RuneForm,Tuple<int,int>,SwapDirection>>();
         RuneType[][] RunesMapCopy = new RuneType[GameManager.Instance.GameManagerSO.HeightRuneMap][];
         for (int index = 0; index < GameManager.Instance.GameManagerSO.HeightRuneMap; index++)
         {
@@ -909,8 +881,11 @@ public class RuneManager : MonoBehaviour
                  runeCheckIndex.Item2 >= 0 && runeCheckIndex.Item2 < GameManager.Instance.GameManagerSO.WidthRuneMap)) continue;
             (RunesMapCopy[runeIndex.Item1][runeIndex.Item2],RunesMapCopy[runeCheckIndex.Item1][runeCheckIndex.Item2]) 
                 = (RunesMapCopy[runeCheckIndex.Item1][runeCheckIndex.Item2],RunesMapCopy[runeIndex.Item1][runeIndex.Item2]);
-            // Debug.Log(runeCheckIndex.Item1 + " " + runeCheckIndex.Item2 + " " + RunesMapCopy[runeCheckIndex.Item1][runeCheckIndex.Item2].ToString());
-            // Debug.Log(runeIndex.Item1 + " " + runeIndex.Item2 + " " + RunesMapCopy[runeIndex.Item1][runeIndex.Item2].ToString());
+            SwapDirection dir;
+            if ( Equals(runeCheckIndex, runeCheckList[0])) dir = SwapDirection.Left;
+            else if (Equals(runeCheckIndex, runeCheckList[1])) dir = SwapDirection.Right;
+            else if (Equals(runeCheckIndex, runeCheckList[2])) dir = SwapDirection.Bottom;
+            else dir = SwapDirection.Top;
             List<Tuple<int,int>> runeHorizontal = new List<Tuple<int,int>>();
             runeHorizontal.Add(runeIndex);
             int leftIndex = runeCheckIndex.Item2 -1;
@@ -980,45 +955,41 @@ public class RuneManager : MonoBehaviour
                 = (RunesMapCopy[runeCheckIndex.Item1][runeCheckIndex.Item2],RunesMapCopy[runeIndex.Item1][runeIndex.Item2]);
             if (runeHorizontal.Count >=5)
             {
-                ans.Add(Tuple.Create(runeHorizontal,RuneForm.Special));
+                ans.Add(Tuple.Create(runeHorizontal,RuneForm.Special,runeCheckIndex,dir));
             }
             if (runeVertical.Count >= 5)
             {
-                ans.Add(Tuple.Create(runeVertical,RuneForm.Special));
+                ans.Add(Tuple.Create(runeVertical,RuneForm.Special,runeCheckIndex,dir));
             }
             if (runeHorizontal.Count >= 3 && runeVertical.Count >= 3)
             {
-                // Debug.Log($"Bomb: runeHorizontal {runeHorizontal.Count} + runeVertical {runeVertical.Count}");
                 List<Tuple<int,int>> comb = new List<Tuple<int,int>>();
                 comb.AddRange(runeHorizontal);
                 comb.AddRange(runeVertical);
-                ans.Add(Tuple.Create(comb,RuneForm.Explosive));
+                ans.Add(Tuple.Create(comb,RuneForm.Explosive,runeCheckIndex,dir));
             }
             if (runeHorizontal.Count == 4)
             {
-                ans.Add(Tuple.Create(runeHorizontal,RuneForm.Horizontal));
+                ans.Add(Tuple.Create(runeHorizontal,RuneForm.Horizontal,runeCheckIndex,dir));
             }
             if (runeVertical.Count == 4)
             {
-                ans.Add(Tuple.Create(runeVertical,RuneForm.Vertical));
+                ans.Add(Tuple.Create(runeVertical,RuneForm.Vertical,runeCheckIndex,dir));
             }
             if (runeHorizontal.Count == 3 )
             {
-                ans.Add(Tuple.Create(runeHorizontal,RuneForm.Base));
+                ans.Add(Tuple.Create(runeHorizontal,RuneForm.Base,runeCheckIndex,dir));
             }
             if (runeVertical.Count == 3)
             {
-                ans.Add(Tuple.Create(runeVertical,RuneForm.Base));
+                ans.Add(Tuple.Create(runeVertical,RuneForm.Base,runeCheckIndex,dir));
             }
         }
-        // Debug.Log(runeIndex.Item1 + " " + runeIndex.Item2 + " " + ans.Count);
-        // foreach (Tuple<List<Tuple<int, int>>, RuneForm> x in ans)
-        // {
-        //     Debug.Log(string.Join(", ", x.Item1.Select(t => $"({t.Item1}, {t.Item2})")));
-        // }
-        // Debug.Log("-------------------");
         return ans;
     }
+    #endregion
+    #region other
+    
     public string ConvertRunesMapToServerData()
     {
         int[][] data = new int[GameManager.Instance.GameManagerSO.HeightRuneMap][];
