@@ -1,6 +1,7 @@
 ﻿
 using System;
 using System.Collections.Generic;
+using Newtonsoft.Json;
 using UnityEngine;
 using UnityEngine.Serialization;
 
@@ -65,14 +66,36 @@ public class TurnBaseData
 [Serializable]
 public class MonsterListData
 {
-        public List<MonsterData> player1;
-        public List<MonsterData> player2;
+        public List<MonsterInBattleData> player1;
+        public List<MonsterInBattleData> player2;
 }
 
 [Serializable]
-public class MonsterData
+public class MonsterInBattleData
 {
         public int id;
         public string id_in_battle;
-        public int speed;
+}
+
+[Serializable]
+public class MonsterActionRequest
+{
+        public string monster_id;
+        public List<string> monster_target_id;
+        public string skill_id;
+}
+[Serializable]
+public class MonsterActionResponse
+{
+        public string monster_id;
+        public List<string> monster_target_id;
+        public string skill_id;
+        public List<List<ActionResponse>> action_affect_list;
+}
+
+public class ActionResponse
+{
+        public string id_in_battle;
+        public int dam;
+        public List<int> effect_list;
 }

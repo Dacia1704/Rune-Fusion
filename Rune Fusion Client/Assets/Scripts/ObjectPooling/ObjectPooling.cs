@@ -31,7 +31,7 @@ public class ObjectPooling: MonoBehaviour
             },
             actionOnGet: obj => obj.SetActive(true),
             actionOnRelease: obj => obj.SetActive(false),
-            actionOnDestroy: Destroy,
+            actionOnDestroy: DestroyImmediate,
             collectionCheck: false,
             defaultCapacity: 30,
             maxSize: 50

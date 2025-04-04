@@ -12,14 +12,43 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8fe7857aabaa45d6a909d939a3b1460c, type: 3}
   m_Name: ArmoredAxemanPropsSO
   m_EditorClassIdentifier: 
-  <Id>k__BackingField: 1
-  <BaseStats>k__BackingField:
-    Attack: 500
-    Defense: 250
-    Health: 7000
-    Speed: 102
-    Accuracy: 0.2
-    Resistance: 0.2
-  <Type>k__BackingField: 3
+  <MonsterData>k__BackingField:
+    <Id>k__BackingField: 1
+    <Name>k__BackingField: Armored Axeman
+    <Type>k__BackingField: 2
+    <BaseStats>k__BackingField:
+      Attack: 500
+      Defense: 250
+      Health: 10000
+      Speed: 102
+      Accuracy: 0.5
+      Resistance: 0.4
+    <Skills>k__BackingField:
+    - Id: 0
+      Name: Basic Attack
+      Description: Basic Attack
+      ActionList:
+      - TargetType: 1
+        AreaEffect: 1
+        RandomType: 0
+        PercentAttack: 1
+        Penetration: 0
+        PercentHealth: 0
+        EffectType: 7
+        Effectiveness: 1
+      Icon: {fileID: 0}
+    - Id: 1
+      Name: Ultimate Skill
+      Description: Ultimate Skill
+      ActionList:
+      - TargetType: 1
+        AreaEffect: 1
+        RandomType: 0
+        PercentAttack: 1.1
+        Penetration: 0
+        PercentHealth: 0
+        EffectType: 9
+        Effectiveness: 1
+      Icon: {fileID: 0}
   <Icon>k__BackingField: {fileID: -453881697, guid: 21e8e054262c67543a73ab5b67500c92, type: 3}
   <AttackOffset>k__BackingField: 0.55

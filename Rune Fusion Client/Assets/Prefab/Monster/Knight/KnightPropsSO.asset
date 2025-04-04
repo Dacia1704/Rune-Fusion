@@ -12,14 +12,51 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8fe7857aabaa45d6a909d939a3b1460c, type: 3}
   m_Name: KnightPropsSO
   m_EditorClassIdentifier: 
-  <Id>k__BackingField: 2
-  <BaseStats>k__BackingField:
-    Attack: 1000
-    Defense: 120
-    Health: 6000
-    Speed: 96
-    Accuracy: 0.1
-    Resistance: 0.1
-  <Type>k__BackingField: 0
+  <MonsterData>k__BackingField:
+    <Id>k__BackingField: 2
+    <Name>k__BackingField: Knight
+    <Type>k__BackingField: 0
+    <BaseStats>k__BackingField:
+      Attack: 1000
+      Defense: 120
+      Health: 4000
+      Speed: 86
+      Accuracy: 0.4
+      Resistance: 0.3
+    <Skills>k__BackingField:
+    - Id: 0
+      Name: Basic Attack
+      Description: Basic Attack
+      ActionList:
+      - TargetType: 1
+        AreaEffect: 1
+        RandomType: 0
+        PercentAttack: 1
+        Penetration: 0
+        PercentHealth: 0
+        EffectType: 6
+        Effectiveness: 0.6
+      Icon: {fileID: 0}
+    - Id: 1
+      Name: Ultimate Skill
+      Description: Ultimate Skill
+      ActionList:
+      - TargetType: 2
+        AreaEffect: 1
+        RandomType: 0
+        PercentAttack: 0
+        Penetration: 0
+        PercentHealth: 0
+        EffectType: 4
+        Effectiveness: 1
+      - TargetType: 1
+        AreaEffect: 1
+        RandomType: 0
+        PercentAttack: 1.5
+        Penetration: 0.5
+        PercentHealth: 0
+        EffectType: 2
+        Effectiveness: 0.8
+      Icon: {fileID: 0}
   <Icon>k__BackingField: {fileID: 1801277718, guid: 5d400d968c3a574459dbfed53a37144e, type: 3}
   <AttackOffset>k__BackingField: 0.55

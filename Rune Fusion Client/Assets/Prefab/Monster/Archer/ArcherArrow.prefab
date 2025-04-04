@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 1716491313164867086}
   - component: {fileID: 7607621975094902808}
   - component: {fileID: 2645499457665047811}
-  - component: {fileID: 8603487355721828574}
+  - component: {fileID: 6705251534261576335}
   m_Layer: 0
   m_Name: ArcherArrow
   m_TagString: Untagged
@@ -135,7 +135,7 @@ BoxCollider2D:
   m_AutoTiling: 0
   m_Size: {x: 0.1666215, y: 0.0704028}
   m_EdgeRadius: 0
---- !u!114 &8603487355721828574
+--- !u!114 &6705251534261576335
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -144,6 +144,6 @@ MonoBehaviour:
   m_GameObject: {fileID: 4499762498449232529}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 46a4964c2ab0477f8c3dca0f1b4b4e9f, type: 3}
+  m_Script: {fileID: 11500000, guid: 78f70927f17c4f71afd255dbe5beaedd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 

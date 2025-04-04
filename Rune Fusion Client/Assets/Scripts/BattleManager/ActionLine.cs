@@ -22,7 +22,7 @@ public class ActionLine : MonoBehaviour
 
         private void Start()
         {
-                StartCoroutine(ExecuteTurnCoroutine());
+                // StartCoroutine(ExecuteTurnCoroutine());
         }
 
         public float GetActionLineHeight()
@@ -40,7 +40,7 @@ public class ActionLine : MonoBehaviour
                 }
                 else
                 {
-                        Sprite monsterSprite = BattleManager.Instance.GetMonsterById(id).MonsterPropsSO.Icon;
+                        Sprite monsterSprite = BattleManager.Instance.GetMonsterByIdInBattle(id).MonsterPropsSO.Icon;
                         monsterPoint = new GameObject();
                         monsterPoint.AddComponent<SpriteRenderer>();
                         monsterPoint.GetComponent<SpriteRenderer>().sprite = monsterSprite;
@@ -70,15 +70,16 @@ public class ActionLine : MonoBehaviour
                         if (!MonsterDictionary.ContainsKey(turnBaseData.id_in_battle)) CreateMonsterPoint(turnBaseData.id_in_battle,turnBaseData.progress);
                         SetPositionMonsterPoint(turnBaseData.id_in_battle, turnBaseData.progress);
                 }
+                StartCoroutine(ExecuteTurnCoroutine());
         }
 
         private IEnumerator ExecuteTurnCoroutine()
         {
-                while (true)
-                {
+                // while (true)
+                // {
                         yield return new WaitUntil(() => animationCounter == 0);
                         animationCounter = -1;
                         BattleManager.Instance.TurnManager.ExecuteTurn();
-                }
+                // }
         }
 }

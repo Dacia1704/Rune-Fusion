@@ -5,11 +5,16 @@ public class InputManager : MonoBehaviour
 {
         private Vector2 startMousePosition,endMousePosition;
         private float swipeThreshold;
-        private bool enableInput;
+        private bool enablePlayerInput;
+        private bool enableMonsterInput;
+
+        public event Action<MonsterBase> OnMonsterTarget;
 
         private void Awake()
         {
-                enableInput = true;
+                enablePlayerInput = false;
+                enableMonsterInput = false;
+                SetEnableMonsterInput();
         }
 
         private void Start()
@@ -19,7 +24,7 @@ public class InputManager : MonoBehaviour
 
         private void Update()
         {
-                if (enableInput)
+                if (enablePlayerInput)
                 {
                         if (Input.GetMouseButtonDown(0))
                         {
@@ -29,6 +34,24 @@ public class InputManager : MonoBehaviour
                         {
                                 endMousePosition = Input.mousePosition;
                                 DetectSwipe();
+                        }
+                }
+
+                if (enableMonsterInput)
+                {
+                        if (Input.GetMouseButtonDown(0)) 
+                        {
+                                Vector2 touchPosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+                                RaycastHit2D hit = Physics2D.Raycast(touchPosition, Vector2.zero);
+                                if (hit.collider != null)
+                                {
+                                        Transform touchedTransform = hit.collider.transform;
+
+                                        if (touchedTransform.CompareTag("Opponent"))
+                                        {
+                                                OnMonsterTarget?.Invoke(touchedTransform.parent.GetComponent<MonsterBase>());
+                                        }
+                                }
                         }
                 }
         }
@@ -112,14 +135,24 @@ public class InputManager : MonoBehaviour
                 }
         }
 
-        public void SetEnableInput()
+        public void SetEnablePlayerInput()
         {
-                enableInput = true;
+                enablePlayerInput = true;
         }
 
-        public void SetDisableInput()
+        public void SetDisablePlayerInput()
         {
-                enableInput = false;
+                enablePlayerInput = false;
+        }
+
+        public void SetEnableMonsterInput()
+        {
+                enableMonsterInput = true;
+        }
+
+        public void SetDisableMonsterInput()
+        {
+                enableMonsterInput = false;
         }
         
 }

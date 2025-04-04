@@ -11,6 +11,7 @@ import getRandomInt from "./utils/random.js";
 import { handle_find_match_event } from "./event/handle_find_match_event.js";
 import { handle_game_start_event } from "./event/handle_game_start_event.js";
 import update_turn_monster from "./game_logics/turn_monster.js";
+import { handle_monster_action_event } from "./event/handle_monster_action_event.js";
 //login
 const app = express();
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -96,6 +97,10 @@ io.on("connection", (socket) => {
             EVENTS.GAME.TURN_BASE_LIST_PUSH_DATA,
             roomsPlaying[socket.roomId].turn_base_data
         );
+    });
+
+    socket.on(EVENTS.MONSTER.MONSTER_ACTION_REQUEST, (data) => {
+        handle_monster_action_event(io, socket, roomsPlaying, data);
     });
 
     socket.on("disconnect", (data) => {

@@ -12,14 +12,60 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f18056c5304449f4a2b46552a3007991, type: 3}
   m_Name: ArcherPropsSO
   m_EditorClassIdentifier: 
-  <Name>k__BackingField: 0
-  <BaseStats>k__BackingField:
-    Attack: 1200
-    Defense: 100
-    Health: 5600
-    Speed: 100
-    Accuracy: 0.1
-    Resistance: 0.1
-  <Type>k__BackingField: 0
+  <MonsterData>k__BackingField:
+    <Id>k__BackingField: 0
+    <Name>k__BackingField: Archer
+    <Type>k__BackingField: 0
+    <BaseStats>k__BackingField:
+      Attack: 1200
+      Defense: 100
+      Health: 5600
+      Speed: 100
+      Accuracy: 0.5
+      Resistance: 0.1
+    <Skills>k__BackingField:
+    - Id: 0
+      Name: Basic Attack
+      Description: Basic Attack
+      ActionList:
+      - TargetType: 1
+        AreaEffect: 1
+        RandomType: 0
+        PercentAttack: 0.4
+        Penetration: 0
+        PercentHealth: 0
+        EffectType: 8
+        Effectiveness: 0.7
+      - TargetType: 1
+        AreaEffect: 1
+        RandomType: 0
+        PercentAttack: 0.5
+        Penetration: 0
+        PercentHealth: 0
+        EffectType: 8
+        Effectiveness: 0.7
+      - TargetType: 1
+        AreaEffect: 1
+        RandomType: 0
+        PercentAttack: 0.6
+        Penetration: 0
+        PercentHealth: 0
+        EffectType: 8
+        Effectiveness: 0.7
+      Icon: {fileID: 0}
+    - Id: 1
+      Name: Ultimate Skill
+      Description: Ultimate Skill
+      ActionList:
+      - TargetType: 1
+        AreaEffect: 1
+        RandomType: 0
+        PercentAttack: 1.5
+        Penetration: 0
+        PercentHealth: 0
+        EffectType: 0
+        Effectiveness: 0
+      Icon: {fileID: 0}
   <Icon>k__BackingField: {fileID: -698797226, guid: 516dcdcce8c86774994ee3780ad10aa0, type: 3}
+  <AttackOffset>k__BackingField: 0.2
   <ArrowPrefab>k__BackingField: {fileID: 4499762498449232529, guid: 01bd80b94c918224cb8f1eafd6cfe673, type: 3}
