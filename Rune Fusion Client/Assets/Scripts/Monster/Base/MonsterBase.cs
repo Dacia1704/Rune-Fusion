@@ -23,7 +23,7 @@ public abstract class MonsterBase : MonoBehaviour
     
     public int Dam { get; protected set; }
 
-    [HideInInspector] public bool IsAllAnimationEnd;
+    public bool IsAllAnimationEnd;
 
     protected UIHeathSkillBarManager UIHeathSkillBarManager { get; private set; }
 
@@ -57,7 +57,7 @@ public abstract class MonsterBase : MonoBehaviour
         stateMachine = new StateMachine();
         UIHeathSkillBarManager.SetMaxHealthBar(MonsterStatsInBattle.Health);
         UIHeathSkillBarManager.SetHealthBar(MonsterStatsInBattle.Health);
-
+        IsAllAnimationEnd = false;
         HitTaskComplete += ChangeNomalIdleState;
     }
     protected virtual void Update()
@@ -76,6 +76,7 @@ public abstract class MonsterBase : MonoBehaviour
     public virtual void StartHit(int dam)
     {
         Debug.Log(gameObject.name +" get Hit");
+        BattleManager.Instance.TargetManager.DisableTarget();
         stateMachine.ChangeState(new HurtState(this,dam));
     }
 
@@ -94,6 +95,7 @@ public abstract class MonsterBase : MonoBehaviour
     }
     public void GetDam(int dam)
     {
-        OnHealthChange?.Invoke(dam);
+        MonsterStatsInBattle.Health -= dam;
+        OnHealthChange?.Invoke(MonsterStatsInBattle.Health);
     }
 }

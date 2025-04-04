@@ -39,11 +39,11 @@ public class Archer : MonsterBase
                 yield return new WaitUntil(() => attackTaskCompleted);
                 attackTaskCompleted = false;
                 stateMachine.ChangeState(new AttackState(this));
-                Dam = monsterActionResponse.action_affect_list[0][1].dam;
+                Dam = monsterActionResponse.action_affect_list[1][0].dam;
                 yield return new WaitUntil(() => attackTaskCompleted);
                 attackTaskCompleted = false;
                 stateMachine.ChangeState(new AttackState(this));
-                Dam = monsterActionResponse.action_affect_list[0][2].dam;
+                Dam = monsterActionResponse.action_affect_list[2][0].dam;
                 yield return new WaitUntil(() => attackTaskCompleted);
                 attackTaskCompleted = false;
                 

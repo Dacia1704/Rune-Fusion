@@ -6,7 +6,7 @@
 
     public override void Enter()
     {
-        monster.MonsterAnimationManager.PlayAnimation(monster.MonsterAnimationManager.IdleAnimationName);
+        monster.MonsterAnimationManager.PlayAnimation(monster.MonsterAnimationManager.IdleAnimationName,0);
     }
 
     public override void Update()

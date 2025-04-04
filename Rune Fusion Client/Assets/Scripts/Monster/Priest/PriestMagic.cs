@@ -51,6 +51,6 @@ public class PriestMagic: FlyProjectile
 
     public void Destroy()
     {
-        DestroyImmediate(gameObject);
+        Destroy(gameObject);
     }
 }

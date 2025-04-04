@@ -2,7 +2,7 @@
 
 public class TargetManager: MonoBehaviour
 {
-    public GameObject TargetPrefab;
+    [SerializeField]public GameObject targetPrefab;
 
     private GameObject targetGo;
     
@@ -13,11 +13,7 @@ public class TargetManager: MonoBehaviour
         TargetedMonster = monster;
         if (targetGo == null)
         {
-            targetGo = Instantiate(TargetPrefab);
-        }
-        if (monster == null)
-        {
-            targetGo.SetActive(false);
+            targetGo = Instantiate(targetPrefab);
         }
         targetGo.SetActive(true);
         targetGo.transform.position = TargetedMonster.transform.position;
@@ -25,6 +21,8 @@ public class TargetManager: MonoBehaviour
 
     public void DisableTarget()
     {
+        if (targetGo == null) return;
+        TargetedMonster = null;
         targetGo.SetActive(false);
     }
 

@@ -27,6 +27,9 @@ public class GameManager : MonoBehaviour
         {
                 SocketManager.Instance.GameStartRequest();
                 StartCoroutine(GenMapCoroutine());
+                GameUIManager.Instance.UITimeCounter.OnTimeCounterEnd += InputManager.SetDisablePlayerInput;
+                GameUIManager.Instance.UITimeCounter.OnTimeCounterEnd += InputManager.SetDisableMonsterInput;
+                
         }
 
         private IEnumerator GenMapCoroutine()

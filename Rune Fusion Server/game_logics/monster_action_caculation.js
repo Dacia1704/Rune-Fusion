@@ -29,11 +29,12 @@ export default function monster_action_caculation(
         ) {
             buff = 0.7;
         }
-        monster_affect.dam =
+        monster_affect.dam = Math.floor(
             monsterPlayer.data.stats.attack *
-            action.percent_attack *
-            buff *
-            (1 - effectiveDef / (effectiveDef + 100));
+                action.percent_attack *
+                buff *
+                (1 - effectiveDef / (effectiveDef + 100))
+        );
         // cacul buff, debuff
         const ratio = Math.max(
             0.15,

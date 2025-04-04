@@ -108,8 +108,27 @@ public class SocketManager : MonoBehaviour
         
         socket.On(SocketEvents.Monster.MONSTER_ACTION_RESPONSE, data =>
         {
+            Debug.Log("MonsterAction " + data.ToString());
             List<MonsterActionResponse> response = JsonConvert.DeserializeObject<List<MonsterActionResponse>>(data.ToString());
             UnityThread.executeCoroutine(MonsterActionCoroutine(response[0]));
+            
+            // Debug.Log("monster action " + data.ToString());
+            // try
+            // {
+            //     List<MonsterActionResponse> response = JsonConvert.DeserializeObject<List<MonsterActionResponse>>(data.ToString());
+            //     if (response != null && response.Count > 0)
+            //     {
+            //         UnityThread.executeCoroutine(MonsterActionCoroutine(response[0]));
+            //     }
+            //     else
+            //     {
+            //         Debug.LogError("Response is null or empty");
+            //     }
+            // }
+            // catch (Exception ex)
+            // {
+            //     Debug.LogError("Error deserializing JSON: " + ex.Message);
+            // }
         });
         
         socket.Connect();

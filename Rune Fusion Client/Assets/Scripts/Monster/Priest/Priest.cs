@@ -7,6 +7,7 @@ public class Priest: MonsterBase
         {
                 base.Start();
                 stateMachine.ChangeState(new IdleState(this));
+                MonsterAnimationManager.OnAttack += FireMagic;
         }
         public override void StartAttack(MonsterActionResponse monsterActionResponse)
         {
@@ -23,6 +24,7 @@ public class Priest: MonsterBase
                 void AttackEventHandler() => attackTaskCompleted = true;
                 AttackTaskComplete += AttackEventHandler;
                 
+                Debug.Log("Priest attack");
                 stateMachine.ChangeState(new AttackState(this));
                 Dam = monsterActionResponse.action_affect_list[0][0].dam;
                 yield return new WaitUntil(() => attackTaskCompleted);

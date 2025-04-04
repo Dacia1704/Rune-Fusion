@@ -79,6 +79,6 @@ export function handle_monster_action_event(
         skill_id: data.skill_id,
         action_affect_list: actionResponse,
     };
-    console.log("monster_action_response:\n" + response.monster_id);
+    console.log("send action");
     io.in(socket.roomId).emit(EVENTS.MONSTER.MONSTER_ACTION_RESPONSE, response);
 }

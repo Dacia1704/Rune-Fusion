@@ -22,9 +22,9 @@ public class MonsterAnimationManager : MonoBehaviour
                 monster = GetComponentInParent<MonsterBase>();
         }
 
-        public virtual void PlayAnimation(string nameAnimation)
+        public virtual void PlayAnimation(string nameAnimation, float normalizedTime,int layer = 0 )
         {
-                animator.Play(nameAnimation);
+                animator.Play(nameAnimation,layer, normalizedTime);
         }
         
         public bool IsAnimationEnded(string animationName,int layerIndex=0)

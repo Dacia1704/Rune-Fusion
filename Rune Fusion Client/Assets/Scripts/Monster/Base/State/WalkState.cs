@@ -11,7 +11,7 @@ public class WalkState: State
 
     public override void Enter()
     {
-        monster.MonsterAnimationManager.PlayAnimation(monster.MonsterAnimationManager.WalkAnimationName);
+        monster.MonsterAnimationManager.PlayAnimation(monster.MonsterAnimationManager.WalkAnimationName,0);
         monster.transform.DOMove(this.target, 0.5f).SetEase(Ease.InOutCubic).OnComplete(() =>
         {
             monster.WalkTaskComplete?.Invoke();

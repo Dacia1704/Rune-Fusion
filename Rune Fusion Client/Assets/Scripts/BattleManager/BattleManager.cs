@@ -116,12 +116,7 @@ public class BattleManager : MonoBehaviour
                     MonsterTeam2Dictionary["22"].IsAllAnimationEnd &&
                     MonsterTeam2Dictionary["23"].IsAllAnimationEnd)
                 {
-                        MonsterTeam1Dictionary["11"].IsAllAnimationEnd = false;
-                        MonsterTeam1Dictionary["12"].IsAllAnimationEnd = false;
-                        MonsterTeam1Dictionary["13"].IsAllAnimationEnd = false;
-                        MonsterTeam2Dictionary["21"].IsAllAnimationEnd = false;
-                        MonsterTeam2Dictionary["22"].IsAllAnimationEnd = false;
-                        MonsterTeam2Dictionary["23"].IsAllAnimationEnd = false;
+                        SetFalseAnimation();
                         return true;
                 }
                 return false;
@@ -139,6 +134,16 @@ public class BattleManager : MonoBehaviour
                 {
                         GetMonsterByIdInBattle(idInBattle).IsAllAnimationEnd = false;
                 }
+        }
+
+        public void SetFalseAnimation()
+        {
+                MonsterTeam1Dictionary["11"].IsAllAnimationEnd = false;
+                MonsterTeam1Dictionary["12"].IsAllAnimationEnd = false;
+                MonsterTeam1Dictionary["13"].IsAllAnimationEnd = false;
+                MonsterTeam2Dictionary["21"].IsAllAnimationEnd = false;
+                MonsterTeam2Dictionary["22"].IsAllAnimationEnd = false;
+                MonsterTeam2Dictionary["23"].IsAllAnimationEnd = false;
         }
         
         

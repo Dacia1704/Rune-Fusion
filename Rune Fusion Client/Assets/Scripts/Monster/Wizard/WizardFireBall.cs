@@ -23,6 +23,6 @@ public class WizardFireBall: FlyProjectile
 
     public void Destroy()
     {
-        DestroyImmediate(gameObject);
+        Destroy(gameObject);
     }
 }

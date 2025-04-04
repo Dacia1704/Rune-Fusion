@@ -8,7 +8,7 @@ public class AttackState: State
 
     public override void Enter()
     {
-        monster.MonsterAnimationManager.PlayAnimation(monster.MonsterAnimationManager.AttackAnimationName);
+        monster.MonsterAnimationManager.PlayAnimation(monster.MonsterAnimationManager.AttackAnimationName,0);
     }
 
     public override void Update()
@@ -22,5 +22,6 @@ public class AttackState: State
 
     public override void Exit()
     {
+        
     }
 }

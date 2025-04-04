@@ -310,7 +310,7 @@ export const wizardData = new Monster({
         attack: 700,
         defend: 220,
         health: 3800,
-        speed: 116,
+        speed: 104,
         accuracy: 0.7,
         resistance: 0.1,
         effect_list: [],

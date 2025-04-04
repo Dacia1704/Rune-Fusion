@@ -22,7 +22,7 @@ public class ActionLine : MonoBehaviour
 
         private void Start()
         {
-                StartCoroutine(ExecuteTurnCoroutine());
+                // StartCoroutine(ExecuteTurnCoroutine());
         }
 
         public float GetActionLineHeight()
@@ -70,15 +70,16 @@ public class ActionLine : MonoBehaviour
                         if (!MonsterDictionary.ContainsKey(turnBaseData.id_in_battle)) CreateMonsterPoint(turnBaseData.id_in_battle,turnBaseData.progress);
                         SetPositionMonsterPoint(turnBaseData.id_in_battle, turnBaseData.progress);
                 }
+                StartCoroutine(ExecuteTurnCoroutine());
         }
 
         private IEnumerator ExecuteTurnCoroutine()
         {
-                while (true)
-                {
+                // while (true)
+                // {
                         yield return new WaitUntil(() => animationCounter == 0);
                         animationCounter = -1;
                         BattleManager.Instance.TurnManager.ExecuteTurn();
-                }
+                // }
         }
 }

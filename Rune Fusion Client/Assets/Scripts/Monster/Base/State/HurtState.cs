@@ -9,7 +9,7 @@
     public override void Enter()
     {
         monster.GetDam(dam);
-        monster.MonsterAnimationManager.PlayAnimation(monster.MonsterAnimationManager.HurtAnimationnName);
+        monster.MonsterAnimationManager.PlayAnimation(monster.MonsterAnimationManager.HurtAnimationnName,0);
     }
 
     public override void Update()

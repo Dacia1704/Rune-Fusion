@@ -27,5 +27,9 @@ export default function update_turn_monster(roomData) {
 
     turn_base_list.sort((a, b) => b.progress - a.progress || b.speed - a.speed); // if equal progress, compare speed
 
+    console.log(
+        "turn_base_list: " + turn_base_list.map((e) => e.id_in_battle).join(" ")
+    );
+
     roomData.turn_base_data = turn_base_list;
 }
