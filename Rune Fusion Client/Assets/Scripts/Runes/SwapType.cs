@@ -4,3 +4,11 @@
       Horizontal,
       Vertical,
 }
+
+public enum SwapDirection
+{
+      Left=0,
+      Right,
+      Top,
+      Bottom
+}
