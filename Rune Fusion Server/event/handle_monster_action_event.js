@@ -1,4 +1,6 @@
-import monster_action_caculation from "../game_logics/monster_action_caculation.js";
+import monster_action_to_ally_caculation from "../game_logics/monster_action_ally_caculation.js";
+import monster_action_to_opponent_caculation from "../game_logics/monster_action_opponent_caculation.js";
+import monster_action_to_self_caculation from "../game_logics/monster_action_self_calculation.js";
 import { effectType, skillArea, skillTargetType } from "../model/Monster.js";
 import EVENTS from "./event.js";
 
@@ -21,21 +23,27 @@ export function handle_monster_action_event(
                   (monster) => monster.id_in_battle === data.monster_id
               );
     console.log("monsterPlayer: " + monsterPlayer.id_in_battle);
+    let monsterAlly =
+        data.monster_id[0] === "0"
+            ? roomsPlaying[socket.roomId].player1.monsters
+            : roomsPlaying[socket.roomId].player2.monsters;
     let monsterTarget = [];
     data.monster_target_id.forEach((monsterId) => {
-        if (monsterId[0] == "1") {
-            monsterTarget.push(
-                roomsPlaying[socket.roomId].player1.monsters.find(
-                    (monster) => monster.id_in_battle === monsterId
-                )
+        data.monster_target_id.forEach((monsterId) => {
+            const monster1 = roomsPlaying[socket.roomId].player1.monsters.find(
+                (monster) => monster.id_in_battle === monsterId
             );
-        } else {
-            monsterTarget.push(
-                roomsPlaying[socket.roomId].player2.monsters.find(
-                    (monster) => monster.id_in_battle === monsterId
-                )
+            if (monster1) {
+                monsterTarget.push(monster1);
+            }
+
+            const monster2 = roomsPlaying[socket.roomId].player2.monsters.find(
+                (monster) => monster.id_in_battle === monsterId
             );
-        }
+            if (monster2) {
+                monsterTarget.push(monster2);
+            }
+        });
     });
     console.log("monsterTarget: " + monsterTarget.length);
     let actionResponse = [];
@@ -46,30 +54,25 @@ export function handle_monster_action_event(
     skill.action_list.forEach((action) => {
         let monstersAffect = [];
         if (action.target_type === skillTargetType.OPPONENT) {
-            if (action.area_effect === skillArea.SINGLE) {
-                actionResponse.push(
-                    monster_action_caculation(
-                        monsterPlayer,
-                        monsterTarget,
-                        action
-                    )
-                );
-            } else if (action.area_effect == skillArea.ALL) {
-                actionResponse.push(
-                    monster_action_caculation(
-                        monsterPlayer,
-                        monsterTarget,
-                        action
-                    )
-                );
-            }
+            actionResponse.push(
+                monster_action_to_opponent_caculation(
+                    monsterPlayer,
+                    monsterTarget,
+                    action
+                )
+            );
         } else if (action.target_type === skillTargetType.ALLY) {
-            if (action.area_effect === skillArea.SINGLE) {
-            } else if (action.area_effect == skillArea.ALL) {
-            } else {
-            }
+            actionResponse.push(
+                monster_action_to_ally_caculation(
+                    monsterPlayer,
+                    monsterAlly,
+                    action
+                )
+            );
         } else {
-            // self
+            actionResponse.push(
+                monster_action_to_self_caculation(monsterPlayer, action)
+            );
         }
     });
 

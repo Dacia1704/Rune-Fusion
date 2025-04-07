@@ -16,12 +16,15 @@ public abstract class MonsterBase : MonoBehaviour
     public MonsterColliderManager MonsterColliderManager { get; private set; }
     protected StateMachine stateMachine;
 
+    protected UIEffectManager UIEffectManager;
+    [HideInInspector] public List<EffectSkill> EffectList;
+    public Dictionary<MonsterBase, ActionResponse> CurrentTurnActionResponse;
+
     public Action AttackTaskComplete;
     public Action WalkTaskComplete;
     public Action SkillTaskComplete;
     public Action HitTaskComplete;
-    
-    public int Dam { get; protected set; }
+
 
     public bool IsAllAnimationEnd;
 
@@ -29,9 +32,7 @@ public abstract class MonsterBase : MonoBehaviour
 
     private TextMeshPro textMeshPro;
     
-    public List<MonsterBase> TargetList { get; protected set; }
-    
-    public event Action<int> OnHealthChange;
+    public Action<int> OnHealthChange;
 
     protected virtual void Awake()
     {
@@ -39,8 +40,10 @@ public abstract class MonsterBase : MonoBehaviour
         MonsterColliderManager = GetComponentInChildren<MonsterColliderManager>();
         textMeshPro = GetComponentInChildren<TextMeshPro>();
         UIHeathSkillBarManager = GetComponentInChildren<UIHeathSkillBarManager>();
+        UIEffectManager = GetComponentInChildren<UIEffectManager>();
+        EffectList = new List<EffectSkill>();
+        CurrentTurnActionResponse = new Dictionary<MonsterBase, ActionResponse>();
         OnHealthChange += UIHeathSkillBarManager.SetHealthBar;
-        TargetList = new List<MonsterBase>();
     }
 
     protected virtual void Start()
@@ -67,17 +70,16 @@ public abstract class MonsterBase : MonoBehaviour
     }
     public virtual void StartAttack(MonsterActionResponse monsterActionResponse)
     {
-        
     }
     public virtual void AttackInFrame()
     {
         
     }
-    public virtual void StartHit(int dam)
+    public virtual void StartHit(int dam,EffectSkill effect)
     {
         Debug.Log(gameObject.name +" get Hit");
         BattleManager.Instance.TargetManager.DisableTarget();
-        stateMachine.ChangeState(new HurtState(this,dam));
+        stateMachine.ChangeState(new HurtState(this,dam,effect));
     }
 
     protected void ChangeNomalIdleState()
@@ -93,9 +95,18 @@ public abstract class MonsterBase : MonoBehaviour
     {
         MonsterColliderManager.transform.tag = "Ally";
     }
-    public void GetDam(int dam)
+    public void GetDam(int dam,EffectSkill effect)
     {
         MonsterStatsInBattle.Health -= dam;
+        if (effect.EffectType != EffectType.None && effect.EffectType != EffectType.Heal)
+        {
+            if (!EffectList.Contains(effect) || effect.EffectType == EffectType.Burn)
+            {
+                EffectList.Add(effect);
+                GameObject effectObj = UIEffectManager.GetObjectByEffect(effect.EffectType);
+                effectObj.GetComponent<UIEffect>().SetDuration(effect.duration);
+            }
+        }
         OnHealthChange?.Invoke(MonsterStatsInBattle.Health);
     }
 }

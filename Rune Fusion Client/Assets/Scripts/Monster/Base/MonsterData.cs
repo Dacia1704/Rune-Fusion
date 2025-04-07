@@ -63,11 +63,19 @@ public class Skill
         // Case: can deal effect skill
         [JsonProperty("percent_health")]
         public float PercentHealth; // if heal
-        [JsonProperty("effect_type")]
-        public EffectType EffectType;
+        [JsonProperty("effect_skill")]
+        public EffectSkill EffectSkill;
         [JsonProperty("effectiveness")]
         public float Effectiveness;
         
+}
+[Serializable]
+public class EffectSkill
+{
+        [JsonProperty("effect_type")]
+        public EffectType EffectType;
+        [JsonProperty("duration")] 
+        public int duration;
 }
 
 
@@ -96,13 +104,13 @@ public enum EffectType
 {
         None,
         Heal,
-        Burn,
-        SpeedIncrement,
-        AttackIncrement,
-        DefendIncrement,
-        SpeedDecrement,
-        AttackDecrement,
-        DefendDecrement,
+        Burn, //5%
+        SpeedIncrement, //25%
+        AttackIncrement, //50%
+        DefendIncrement, //50%
+        SpeedDecrement, //25%
+        AttackDecrement, //25%
+        DefendDecrement, //50%
         Taunt,
         Frozen
 }

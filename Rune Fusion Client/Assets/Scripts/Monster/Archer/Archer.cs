@@ -1,4 +1,6 @@
 ﻿using System.Collections;
+using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class Archer : MonsterBase
@@ -12,10 +14,7 @@ public class Archer : MonsterBase
 
         public override void StartAttack(MonsterActionResponse monsterActionResponse)
         {
-                foreach (string id in monsterActionResponse.monster_target_id)
-                {
-                       TargetList.Add(BattleManager.Instance.GetMonsterByIdInBattle(id)); 
-                }
+                base.StartAttack(monsterActionResponse);
                 StartCoroutine(AttackCoroutine(monsterActionResponse));
         }
 
@@ -29,21 +28,35 @@ public class Archer : MonsterBase
                 void AttackEventHandler() => attackTaskCompleted = true;
                 AttackTaskComplete += AttackEventHandler;
                 // walk
+                CurrentTurnActionResponse.Clear();
+                foreach (ActionResponse actionResponseInEachMonster in monsterActionResponse.action_affect_list[0])
+                {
+                        CurrentTurnActionResponse.Add(BattleManager.Instance.GetMonsterByIdInBattle(actionResponseInEachMonster.id_in_battle), actionResponseInEachMonster);
+                }
                 stateMachine.ChangeState(new WalkState(this, GetPosPerformSkill()));
                 yield return new WaitUntil(() => walkTaskCompleted);
                 walkTaskCompleted = false;
-                
                 // attack 3 times continuous
                 stateMachine.ChangeState(new AttackState(this));
-                Dam = monsterActionResponse.action_affect_list[0][0].dam;
+                
                 yield return new WaitUntil(() => attackTaskCompleted);
                 attackTaskCompleted = false;
+                
+                CurrentTurnActionResponse.Clear();
+                foreach (ActionResponse actionResponseInEachMonster in monsterActionResponse.action_affect_list[1])
+                {
+                        CurrentTurnActionResponse.Add(BattleManager.Instance.GetMonsterByIdInBattle(actionResponseInEachMonster.id_in_battle), actionResponseInEachMonster);
+                }
                 stateMachine.ChangeState(new AttackState(this));
-                Dam = monsterActionResponse.action_affect_list[1][0].dam;
                 yield return new WaitUntil(() => attackTaskCompleted);
                 attackTaskCompleted = false;
+                
+                CurrentTurnActionResponse.Clear();
+                foreach (ActionResponse actionResponseInEachMonster in monsterActionResponse.action_affect_list[2])
+                {
+                        CurrentTurnActionResponse.Add(BattleManager.Instance.GetMonsterByIdInBattle(actionResponseInEachMonster.id_in_battle), actionResponseInEachMonster);
+                }
                 stateMachine.ChangeState(new AttackState(this));
-                Dam = monsterActionResponse.action_affect_list[2][0].dam;
                 yield return new WaitUntil(() => attackTaskCompleted);
                 attackTaskCompleted = false;
                 
@@ -57,18 +70,22 @@ public class Archer : MonsterBase
 
         private void FireArrow()
         {
-                ArcherArrow arrow = Instantiate(((ArcherPropsSO)MonsterPropsSO).ArrowPrefab, transform.position, Quaternion.identity).GetComponent<ArcherArrow>();
-                arrow.FlyToPos(TargetList[0].transform,Dam);
+                foreach (KeyValuePair<MonsterBase,ActionResponse> action in CurrentTurnActionResponse)
+                {
+                        ArcherArrow arrow = Instantiate(((ArcherPropsSO)MonsterPropsSO).ArrowPrefab, transform.position, Quaternion.identity).GetComponent<ArcherArrow>();
+                        arrow.FlyToPos(action.Key.transform,action.Value.dam,action.Value.effect);
+                }
         }
 
         private Vector3 GetPosPerformSkill()
         {
-                if (BattleManager.Instance.MonsterTeam1Dictionary.ContainsValue(TargetList[0]))
+                List<KeyValuePair<MonsterBase, ActionResponse>> targetList = CurrentTurnActionResponse.ToList();
+                if (BattleManager.Instance.MonsterTeam1Dictionary.ContainsValue(targetList[0].Key))
                 {
                         return BattleManager.Instance.ArenaManager.MonsterTeam2.PerformRangeSkillPosList[
-                                TargetList[0].MonsterIndexinBattle].position;
+                                targetList[0].Key.MonsterIndexinBattle].position;
                 }
                 return BattleManager.Instance.ArenaManager.MonsterTeam1.PerformRangeSkillPosList[
-                                TargetList[0].MonsterIndexinBattle].position;
+                                targetList[0].Key.MonsterIndexinBattle].position;
         }
 }

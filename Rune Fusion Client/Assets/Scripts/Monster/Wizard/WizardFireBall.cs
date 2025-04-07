@@ -9,7 +9,7 @@ public class WizardFireBall: FlyProjectile
         animator = GetComponent<Animator>();
     }
 
-    public override void FlyToPos(Transform target,int dam)
+    public override void FlyToPos(Transform target,int dam,EffectSkill effect)
     {
         if (target == null) return;
         transform.DOMove(target.position, 0.3f)
@@ -17,7 +17,7 @@ public class WizardFireBall: FlyProjectile
             .OnComplete(() =>
             {
                 animator.Play("Bust");
-                target.GetComponent<MonsterBase>().StartHit(dam);
+                target.GetComponent<MonsterBase>().StartHit(dam, effect);
             });
     }
 

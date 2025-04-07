@@ -1,4 +1,6 @@
 ﻿using System.Collections;
+using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class Priest: MonsterBase
@@ -11,10 +13,7 @@ public class Priest: MonsterBase
         }
         public override void StartAttack(MonsterActionResponse monsterActionResponse)
         {
-                foreach (string id in monsterActionResponse.monster_target_id)
-                {
-                        TargetList.Add(BattleManager.Instance.GetMonsterByIdInBattle(id)); 
-                }
+                base.StartAttack(monsterActionResponse);
                 StartCoroutine(AttackCoroutine(monsterActionResponse));
         }
 
@@ -25,30 +24,54 @@ public class Priest: MonsterBase
                 AttackTaskComplete += AttackEventHandler;
                 
                 Debug.Log("Priest attack");
+                CurrentTurnActionResponse.Clear();
+                foreach (ActionResponse actionResponseInEachMonster in monsterActionResponse.action_affect_list[0])
+                {
+                        CurrentTurnActionResponse.Add(BattleManager.Instance.GetMonsterByIdInBattle(actionResponseInEachMonster.id_in_battle), actionResponseInEachMonster);
+                }
                 stateMachine.ChangeState(new AttackState(this));
-                Dam = monsterActionResponse.action_affect_list[0][0].dam;
                 yield return new WaitUntil(() => attackTaskCompleted);
                 attackTaskCompleted = false;
+                
+                CurrentTurnActionResponse.Clear();
+                foreach (ActionResponse actionResponseInEachMonster in monsterActionResponse.action_affect_list[1])
+                {
+                        CurrentTurnActionResponse.Add(BattleManager.Instance.GetMonsterByIdInBattle(actionResponseInEachMonster.id_in_battle), actionResponseInEachMonster);
+                }
+                stateMachine.ChangeState(new IdleState(this));
+                Heal();
                 ChangeNomalIdleState();
         }
 
         public void FireMagic()
         {
-                PriestMagic magic = Instantiate(((PriestPropsSO)MonsterPropsSO).PriestMagicPrefab, transform.position, Quaternion.identity).GetComponent<PriestMagic>();
-                if (BattleManager.Instance.MonsterTeam1Dictionary.ContainsValue(this))
+                foreach (KeyValuePair<MonsterBase,ActionResponse> action in CurrentTurnActionResponse)
                 {
-                        magic.transform.position = new Vector3(
-                                transform.position.x + ((PriestPropsSO)MonsterPropsSO).PriestMagicSummonOffset.x,
-                                transform.position.y + ((PriestPropsSO)MonsterPropsSO).PriestMagicSummonOffset.y,
-                                transform.position.z + ((PriestPropsSO)MonsterPropsSO).PriestMagicSummonOffset.z);
+                        PriestMagic magic = Instantiate(((PriestPropsSO)MonsterPropsSO).PriestMagicPrefab, transform.position, Quaternion.identity).GetComponent<PriestMagic>();
+                        if (BattleManager.Instance.MonsterTeam1Dictionary.ContainsValue(this))
+                        {
+                                magic.transform.position = new Vector3(
+                                        transform.position.x + ((PriestPropsSO)MonsterPropsSO).PriestMagicSummonOffset.x,
+                                        transform.position.y + ((PriestPropsSO)MonsterPropsSO).PriestMagicSummonOffset.y,
+                                        transform.position.z + ((PriestPropsSO)MonsterPropsSO).PriestMagicSummonOffset.z);
+                        }
+                        else
+                        {
+                                magic.transform.position = new Vector3(
+                                        transform.position.x - ((PriestPropsSO)MonsterPropsSO).PriestMagicSummonOffset.x,
+                                        transform.position.y + ((PriestPropsSO)MonsterPropsSO).PriestMagicSummonOffset.y,
+                                        transform.position.z + ((PriestPropsSO)MonsterPropsSO).PriestMagicSummonOffset.z);
+                        }
+                        magic.FlyToPos(action.Key.transform,action.Value.dam,action.Value.effect);
                 }
-                else
+        }
+
+        public void Heal()
+        {
+                foreach (KeyValuePair<MonsterBase,ActionResponse> action in CurrentTurnActionResponse)
                 {
-                        magic.transform.position = new Vector3(
-                                transform.position.x - ((PriestPropsSO)MonsterPropsSO).PriestMagicSummonOffset.x,
-                                transform.position.y + ((PriestPropsSO)MonsterPropsSO).PriestMagicSummonOffset.y,
-                                transform.position.z + ((PriestPropsSO)MonsterPropsSO).PriestMagicSummonOffset.z);
-                }
-                magic.FlyToPos(TargetList[0].transform,1);
+                        action.Key.MonsterStatsInBattle.Health -= action.Value.dam;
+                        OnHealthChange?.Invoke(action.Key.MonsterStatsInBattle.Health);
+                }  
         }
 }

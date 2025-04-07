@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class Knight: MonsterBase
@@ -11,10 +12,7 @@ public class Knight: MonsterBase
         }
         public override void StartAttack(MonsterActionResponse monsterActionResponse)
         {
-                foreach (string id in monsterActionResponse.monster_target_id)
-                {
-                        TargetList.Add(BattleManager.Instance.GetMonsterByIdInBattle(id)); 
-                }
+                base.StartAttack(monsterActionResponse);
                 StartCoroutine(AttackCoroutine(monsterActionResponse));
         }
 
@@ -27,12 +25,17 @@ public class Knight: MonsterBase
                 void AttackEventHandler() => attackTaskCompleted = true;
                 AttackTaskComplete += AttackEventHandler;
                 //walk
+                CurrentTurnActionResponse.Clear();
+                foreach (ActionResponse actionResponseInEachMonster in monsterActionResponse.action_affect_list[0])
+                {
+                        CurrentTurnActionResponse.Add(BattleManager.Instance.GetMonsterByIdInBattle(actionResponseInEachMonster.id_in_battle), actionResponseInEachMonster);
+                }
                 stateMachine.ChangeState(new WalkState(this, GetPosPerformSkill()));
                 yield return new WaitUntil(() => walkTaskCompleted);
                 walkTaskCompleted = false;
                 //attack
                 stateMachine.ChangeState(new AttackState(this));
-                Dam = monsterActionResponse.action_affect_list[0][0].dam;
+                
                 yield return new WaitUntil(() => attackTaskCompleted);
                 attackTaskCompleted = false;
                 
@@ -45,28 +48,30 @@ public class Knight: MonsterBase
         }
         public override void AttackInFrame()
         {
-                foreach (MonsterBase monter in TargetList)
+                foreach (KeyValuePair<MonsterBase,ActionResponse> action in CurrentTurnActionResponse)
                 {
-                        monter.StartHit(Dam);
+                        action.Key.StartHit(action.Value.dam,action.Value.effect);
                 }
         }
 
         private Vector3 GetPosPerformSkill()
         {
-                if (BattleManager.Instance.MonsterTeam1Dictionary.ContainsValue(TargetList[0]))
+                List<KeyValuePair<MonsterBase, ActionResponse>> targetList = CurrentTurnActionResponse.ToList();
+                float offset = (MonsterPropsSO).AttackOffset * transform.lossyScale.x;
+                if (BattleManager.Instance.MonsterTeam1Dictionary.ContainsValue(targetList[0].Key))
                 {
                         return new Vector3(BattleManager.Instance.ArenaManager
-                                        .MonsterTeam1.StartPosList[TargetList[0].MonsterIndexinBattle].position.x + (MonsterPropsSO).AttackOffset
+                                        .MonsterTeam1.StartPosList[targetList[0].Key.MonsterIndexinBattle].position.x + offset
                                 , BattleManager.Instance.ArenaManager
-                                        .MonsterTeam1.StartPosList[TargetList[0].MonsterIndexinBattle].position.y
+                                        .MonsterTeam1.StartPosList[targetList[0].Key.MonsterIndexinBattle].position.y
                                 , BattleManager.Instance.ArenaManager
-                                        .MonsterTeam1.StartPosList[TargetList[0].MonsterIndexinBattle].position.z);
+                                        .MonsterTeam1.StartPosList[targetList[0].Key.MonsterIndexinBattle].position.z);
                 }
                 return new Vector3(BattleManager.Instance.ArenaManager
-                                .MonsterTeam2.StartPosList[TargetList[0].MonsterIndexinBattle].position.x - (MonsterPropsSO).AttackOffset
+                                .MonsterTeam2.StartPosList[targetList[0].Key.MonsterIndexinBattle].position.x - offset
                         , BattleManager.Instance.ArenaManager
-                                .MonsterTeam2.StartPosList[TargetList[0].MonsterIndexinBattle].position.y
+                                .MonsterTeam2.StartPosList[targetList[0].Key.MonsterIndexinBattle].position.y
                         , BattleManager.Instance.ArenaManager
-                                .MonsterTeam2.StartPosList[TargetList[0].MonsterIndexinBattle].position.z);
+                                .MonsterTeam2.StartPosList[targetList[0].Key.MonsterIndexinBattle].position.z);
         }
 }

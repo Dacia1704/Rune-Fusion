@@ -23,6 +23,7 @@ MonoBehaviour:
       Speed: 104
       Accuracy: 0.7
       Resistance: 0.1
+      EffectList: 
     <Skills>k__BackingField:
     - Id: 0
       Name: Basic Attack
@@ -34,7 +35,9 @@ MonoBehaviour:
         PercentAttack: 1
         Penetration: 0
         PercentHealth: 0
-        EffectType: 2
+        EffectSkill:
+          EffectType: 2
+          duration: 2
         Effectiveness: 1
       Icon: {fileID: 0}
     - Id: 1
@@ -47,7 +50,9 @@ MonoBehaviour:
         PercentAttack: 1.2
         Penetration: 0
         PercentHealth: 0
-        EffectType: 10
+        EffectSkill:
+          EffectType: 10
+          duration: 1
         Effectiveness: 0.7
       Icon: {fileID: 0}
   <Icon>k__BackingField: {fileID: -472666207, guid: 288222d7407c92d43b06480fcffaa31f, type: 3}

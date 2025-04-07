@@ -51,7 +51,10 @@ const skillSchema = new Schema({
     percent_attack: Number,
     penetration: Number,
     percent_health: Number,
-    effect_type: Number,
+    effect_skill: {
+        effect_type: Number,
+        duration: Number,
+    },
     effectiveness: Number,
 });
 

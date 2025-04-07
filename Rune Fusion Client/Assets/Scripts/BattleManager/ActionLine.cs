@@ -29,6 +29,15 @@ public class ActionLine : MonoBehaviour
         {
                 return spriteRenderer.bounds.size.x;
         }
+        public float GetActionLineHeight()
+        {
+                return spriteRenderer.bounds.size.y;
+        }
+
+        public void SetActionLinePostion(Vector3 pos)
+        {
+                transform.position = pos;
+        }
 
         private void CreateMonsterPoint(string id,float progress)
         {
@@ -45,7 +54,7 @@ public class ActionLine : MonoBehaviour
                         monsterPoint.AddComponent<SpriteRenderer>();
                         monsterPoint.GetComponent<SpriteRenderer>().sprite = monsterSprite;
                 }
-                monsterPoint.transform.SetParent(transform);
+                monsterPoint.transform.SetParent(transform,false);
                 monsterPoint.transform.position = new Vector3( transform.position.x-GetActionLineWidth()/2 +progress * GetActionLineWidth(),transform.position.y, transform.position.z);
                 MonsterDictionary.Add(id, monsterPoint);
         }
@@ -56,7 +65,7 @@ public class ActionLine : MonoBehaviour
                 Vector3 targetPosition = new Vector3( transform.position.x-GetActionLineWidth()/2 +progress * GetActionLineWidth(),transform.position.y, transform.position.z);
                 if (animationCounter == -1) animationCounter = 0;
                 animationCounter += 1;
-                monsterPoint.transform.DOMove(targetPosition, 0.3f).SetEase(Ease.Linear).OnComplete(() =>
+                monsterPoint.transform.DOMoveX(targetPosition.x, 0.3f).SetEase(Ease.Linear).OnComplete(() =>
                 {
                         animationCounter -= 1;
                         
