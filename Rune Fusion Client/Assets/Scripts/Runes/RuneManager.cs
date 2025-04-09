@@ -21,6 +21,9 @@ using Sequence = DG.Tweening.Sequence;
 public class RuneManager : MonoBehaviour
 {
     public RuneObjectPoolManager RuneObjectPoolManager { get; private set; }
+
+    [SerializeField] private GameObject BoldBGPrefab;
+    [SerializeField] private GameObject LightBGPrefab;
     
     public Rune[,] RunesMap {get;private set;} // list : start from bottom to top and from left to right;
     public Vector3[,] RunesPositionMap {get;private set;} // list : start from bottom to top and from left to right;
@@ -117,6 +120,11 @@ public class RuneManager : MonoBehaviour
                 tileObject.name = $"tile {y}-{x}";
                 RunesMap[y,x] = rune;
                 tileObject.transform.localScale = new Vector3(sizeTile,sizeTile,sizeTile);
+                
+                //create rune bg
+                GameObject bg = (x + y) % 2 == 0 ? Instantiate(BoldBGPrefab, transform): Instantiate(LightBGPrefab, transform);
+                bg.transform.position = tileObject.transform.position;
+                bg.transform.localScale = new Vector3(sizeTile,sizeTile,sizeTile);
             }
         }
         UpdateRunesPostionMap();
@@ -763,7 +771,6 @@ public class RuneManager : MonoBehaviour
     }
     #endregion
     
-    
     #region hint
     private void SwapRunesHint()
     {
@@ -988,6 +995,7 @@ public class RuneManager : MonoBehaviour
         return ans;
     }
     #endregion
+    
     #region other
     
     public string ConvertRunesMapToServerData()

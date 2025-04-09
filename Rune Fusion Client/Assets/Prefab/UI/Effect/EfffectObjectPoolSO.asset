@@ -1,0 +1,24 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 040c43541c63fe049bfa517d34b63f3b, type: 3}
+  m_Name: EfffectObjectPoolSO
+  m_EditorClassIdentifier: 
+  <PoolingObjectList>k__BackingField:
+  - {fileID: 11400000, guid: d6b1e25166d2b9b49a505f8514aeae3a, type: 2}
+  - {fileID: 11400000, guid: ba8a47d1fb072814e8b3669b8f7452d0, type: 2}
+  - {fileID: 11400000, guid: b5ef702c4ed17fc44bdd924ea3ac71db, type: 2}
+  - {fileID: 11400000, guid: 2df5b57048a8cea4fb01162a8d86c1f5, type: 2}
+  - {fileID: 11400000, guid: 5db38ffc2bcb5df4e84a5edbe476eb67, type: 2}
+  - {fileID: 11400000, guid: 697b319e1d315c44b89b6c3d860fd78d, type: 2}
+  - {fileID: 11400000, guid: d2da0f3a877022d4c834892499724214, type: 2}
+  - {fileID: 11400000, guid: e55dd5790db01b74095dd4beb97debc4, type: 2}
+  - {fileID: 11400000, guid: 1af1d484b4186fd4fab9d055516a93a3, type: 2}

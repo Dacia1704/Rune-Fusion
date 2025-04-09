@@ -14,7 +14,8 @@ public class MonsterAnimationManager : MonoBehaviour
         private Animator animator;
         private MonsterBase monster;
 
-        public event Action OnAttack; 
+        public event Action OnAttack;
+        public event Action OnSkill;
 
         protected virtual void Awake()
         {
@@ -44,8 +45,18 @@ public class MonsterAnimationManager : MonoBehaviour
                 OnAttack?.Invoke();
         }
 
+        public void Skill()
+        {
+                OnSkill?.Invoke();
+        }
+
         public virtual void AttackInFrame()
         {
                 monster.AttackInFrame();
+        }
+
+        public virtual void SkillInFrame()
+        {
+                monster.SkillInFrame();
         }
 }

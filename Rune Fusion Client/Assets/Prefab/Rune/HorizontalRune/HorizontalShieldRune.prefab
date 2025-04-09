@@ -10,7 +10,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 1110933661247139336, guid: 67bdcd5ca1f409e48a0f25f2d8cc8ff6, type: 3}
       propertyPath: m_Name
-      value: BlankRune Variant
+      value: HorizontalShieldRune
       objectReference: {fileID: 0}
     - target: {fileID: 2227765659344364324, guid: 67bdcd5ca1f409e48a0f25f2d8cc8ff6, type: 3}
       propertyPath: m_Sprite

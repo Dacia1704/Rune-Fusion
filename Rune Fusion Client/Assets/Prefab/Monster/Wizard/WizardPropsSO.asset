@@ -18,11 +18,12 @@ MonoBehaviour:
     <Type>k__BackingField: 1
     <BaseStats>k__BackingField:
       Attack: 700
-      Defense: 220
+      Defend: 0
       Health: 3800
       Speed: 104
       Accuracy: 0.7
       Resistance: 0.1
+      EffectList: []
     <Skills>k__BackingField:
     - Id: 0
       Name: Basic Attack
@@ -34,7 +35,9 @@ MonoBehaviour:
         PercentAttack: 1
         Penetration: 0
         PercentHealth: 0
-        EffectType: 2
+        EffectSkill:
+          EffectType: 2
+          duration: 2
         Effectiveness: 1
       Icon: {fileID: 0}
     - Id: 1
@@ -47,10 +50,13 @@ MonoBehaviour:
         PercentAttack: 1.2
         Penetration: 0
         PercentHealth: 0
-        EffectType: 10
+        EffectSkill:
+          EffectType: 10
+          duration: 1
         Effectiveness: 0.7
       Icon: {fileID: 0}
   <Icon>k__BackingField: {fileID: -472666207, guid: 288222d7407c92d43b06480fcffaa31f, type: 3}
   <AttackOffset>k__BackingField: 0
   <WizardFireBallPrefab>k__BackingField: {fileID: 9107807829003316585, guid: 0b28249f7ec790c42821ddbf228a2754, type: 3}
   <WizardFireBallSummonOffset>k__BackingField: {x: 0.2, y: 0, z: 0}
+  <WizardFrozenPrefab>k__BackingField: {fileID: 8454778272683347698, guid: 5719853088e9d1d4191d382d4af1ca2d, type: 3}

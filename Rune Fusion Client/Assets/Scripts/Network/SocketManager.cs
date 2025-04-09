@@ -111,29 +111,47 @@ public class SocketManager : MonoBehaviour
             Debug.Log("MonsterAction " + data.ToString());
             List<MonsterActionResponse> response = JsonConvert.DeserializeObject<List<MonsterActionResponse>>(data.ToString());
             UnityThread.executeCoroutine(MonsterActionCoroutine(response[0]));
+        });
+        
+        socket.On(SocketEvents.Monster.UPDATE_EFFECT_RESPONSE, data =>
+        {
+            Debug.Log("MonsterEffect " + data.ToString());
+            List<UpdateEffectResponse> response = JsonConvert.DeserializeObject<List<UpdateEffectResponse>>(data.ToString());
+            UnityThread.executeCoroutine(UpdateEffectCoroutine(response[0]));
             
-            // Debug.Log("monster action " + data.ToString());
             // try
             // {
-            //     List<MonsterActionResponse> response = JsonConvert.DeserializeObject<List<MonsterActionResponse>>(data.ToString());
+            //     List<UpdateEffectResponse> response = JsonConvert.DeserializeObject<List<UpdateEffectResponse>>(data.ToString());
             //     if (response != null && response.Count > 0)
             //     {
-            //         UnityThread.executeCoroutine(MonsterActionCoroutine(response[0]));
+            //         UnityThread.executeCoroutine(UpdateEffectCoroutine(response[0]));
             //     }
             //     else
             //     {
-            //         Debug.LogError("Response is null or empty");
+            //         Debug.LogWarning("Response is null or empty.");
             //     }
+            // }
+            // catch (JsonException jsonEx)
+            // {
+            //     Debug.LogError("JSON Deserialize error: " + jsonEx.Message);
+            //     Debug.LogError("Raw data: " + data.ToString());
             // }
             // catch (Exception ex)
             // {
-            //     Debug.LogError("Error deserializing JSON: " + ex.Message);
+            //     Debug.LogError("Unexpected error: " + ex.Message);
             // }
+            
         });
         
         socket.Connect();
     }
     // get
+    private IEnumerator UpdateEffectCoroutine(UpdateEffectResponse response)
+    {
+        Debug.Log("Call");
+        GameManager.Instance.BattleManager.UpdateMonsterEffect(response);
+        yield return null;
+    }
     private IEnumerator MonsterActionCoroutine(MonsterActionResponse monsterActionResponse)
     {
         GameManager.Instance.BattleManager.TurnManager.ExecuteMonsterAction(monsterActionResponse);
@@ -225,5 +243,10 @@ public class SocketManager : MonoBehaviour
             skill_id = skillId
         };
         socket.Emit(SocketEvents.Monster.MONSTER_ACTION_REQUEST,JsonUtility.ToJson(monsterActionRequest));
+    }
+
+    public void UpdateMonsterEffectRequest(string monsterId)
+    {
+        socket.Emit(SocketEvents.Monster.UPDATE_EFFECT_REQUEST,monsterId);
     }
 }

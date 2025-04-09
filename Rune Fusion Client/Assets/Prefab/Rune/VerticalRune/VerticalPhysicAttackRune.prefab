@@ -12,10 +12,18 @@ PrefabInstance:
       propertyPath: m_Sprite
       value: 
       objectReference: {fileID: 21300000, guid: 68570c10e58c94f42b378ab11138d99d, type: 3}
+    - target: {fileID: 1064171461315651988, guid: a0c7cd942255b624a8ed1bdd30bd9e42, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: 9dfc825aed78fcd4ba02077103263b40, type: 2}
     - target: {fileID: 2253201799667508408, guid: a0c7cd942255b624a8ed1bdd30bd9e42, type: 3}
       propertyPath: m_Name
-      value: BlankRune Variant
+      value: VerticalPhysicAttackRune
       objectReference: {fileID: 0}
+    - target: {fileID: 4818131162426884035, guid: a0c7cd942255b624a8ed1bdd30bd9e42, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: 9dfc825aed78fcd4ba02077103263b40, type: 2}
     - target: {fileID: 6869961260055688496, guid: a0c7cd942255b624a8ed1bdd30bd9e42, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0

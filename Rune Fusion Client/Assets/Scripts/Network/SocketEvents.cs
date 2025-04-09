@@ -31,5 +31,7 @@
         public const string MONSTER_LIST = "monster_list";
         public const string MONSTER_ACTION_REQUEST = "monster_action_request";
         public const string MONSTER_ACTION_RESPONSE = "monster_action_response";
+        public const string UPDATE_EFFECT_REQUEST = "update_effect_request";
+        public const string UPDATE_EFFECT_RESPONSE = "update_effect_response";
     }
 }

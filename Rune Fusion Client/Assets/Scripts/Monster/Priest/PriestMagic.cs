@@ -18,7 +18,7 @@ public class PriestMagic: FlyProjectile
         animator = GetComponent<Animator>();
     }
 
-    public override void FlyToPos(Transform target,int dam)
+    public override void FlyToPos(Transform target,int dam,EffectSkill effect)
     {
         if (target == null) return;
         prevPos = transform.position;
@@ -44,7 +44,7 @@ public class PriestMagic: FlyProjectile
             }).OnComplete(() =>
             {
                 transform.rotation = Quaternion.Euler(new Vector3(0, 0, 0));
-                target.GetComponent<MonsterBase>().StartHit(dam);
+                target.GetComponent<MonsterBase>().StartHit(dam,effect);
                 animator.Play("Bust");
             });
     }

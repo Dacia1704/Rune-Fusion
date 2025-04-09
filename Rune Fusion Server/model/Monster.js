@@ -44,6 +44,10 @@ export const effectType = {
     FROZEN: 10,
 };
 
+const effectSkill = new Schema({
+    effect_type: Number,
+    duration: Number,
+});
 const skillSchema = new Schema({
     target_type: Number,
     area_effect: Number,
@@ -51,7 +55,7 @@ const skillSchema = new Schema({
     percent_attack: Number,
     penetration: Number,
     percent_health: Number,
-    effect_type: Number,
+    effect_skill: effectSkill,
     effectiveness: Number,
 });
 
@@ -69,7 +73,7 @@ const monsterStats = new Schema({
     speed: Number,
     accuracy: Number,
     resistance: Number,
-    effect_list: [Number],
+    effect_list: [effectSkill],
 });
 
 const monsterSchema = new Schema({

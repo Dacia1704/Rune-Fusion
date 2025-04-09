@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class ArmoredAxeman: MonsterBase
@@ -10,16 +11,8 @@ public class ArmoredAxeman: MonsterBase
                 base.Start();
                 stateMachine.ChangeState(new IdleState(this));
         }
-        public override void StartAttack(MonsterActionResponse monsterActionResponse)
-        {
-                foreach (string id in monsterActionResponse.monster_target_id)
-                {
-                        TargetList.Add(BattleManager.Instance.GetMonsterByIdInBattle(id)); 
-                }
-                StartCoroutine(AttackCoroutine(monsterActionResponse));
-        }
 
-        public IEnumerator AttackCoroutine(MonsterActionResponse monsterActionResponse)
+        protected override IEnumerator AttackCoroutine(MonsterActionResponse monsterActionResponse)
         {
                 bool walkTaskCompleted = false;
                 void WalkEventHandler() => walkTaskCompleted = true;
@@ -28,12 +21,18 @@ public class ArmoredAxeman: MonsterBase
                 void AttackEventHandler() => attackTaskCompleted = true;
                 AttackTaskComplete += AttackEventHandler;
                 //walk
-                stateMachine.ChangeState(new WalkState(this, GetPosPerformSkill()));
+                GameManager.Instance.BattleManager.SetStartTurnMonsterAnimation(monsterActionResponse,0);
+                CurrentTurnActionResponse.Clear();
+                foreach (ActionResponse actionResponseInEachMonster in monsterActionResponse.action_affect_list[0])
+                {
+                        CurrentTurnActionResponse.Add(BattleManager.Instance.GetMonsterByIdInBattle(actionResponseInEachMonster.id_in_battle), actionResponseInEachMonster);
+                }
+                stateMachine.ChangeState(new WalkState(this, GetPosPerformAttack()));
                 yield return new WaitUntil(() => walkTaskCompleted);
                 walkTaskCompleted = false;
                 //attack
                 stateMachine.ChangeState(new AttackState(this));
-                Dam = monsterActionResponse.action_affect_list[0][0].dam;
+                
                 yield return new WaitUntil(() => attackTaskCompleted);
                 attackTaskCompleted = false;
                 
@@ -45,30 +44,76 @@ public class ArmoredAxeman: MonsterBase
                 ChangeNomalIdleState();
         }
 
-        public override void AttackInFrame()
+        protected override IEnumerator SkillCoroutine(MonsterActionResponse monsterActionResponse)
         {
-                foreach (MonsterBase monter in TargetList)
+                bool walkTaskCompleted = false;
+                void WalkEventHandler() => walkTaskCompleted = true;
+                WalkTaskComplete += WalkEventHandler;
+                bool skillTaskCompleted = false;
+                void SkillEventHandler() => skillTaskCompleted = true;
+                SkillTaskComplete += SkillEventHandler;
+                //walk
+                GameManager.Instance.BattleManager.SetStartTurnMonsterAnimation(monsterActionResponse,0);
+                CurrentTurnActionResponse.Clear();
+                foreach (ActionResponse actionResponseInEachMonster in monsterActionResponse.action_affect_list[0])
                 {
-                        monter.StartHit(Dam);
+                        CurrentTurnActionResponse.Add(BattleManager.Instance.GetMonsterByIdInBattle(actionResponseInEachMonster.id_in_battle), actionResponseInEachMonster);
                 }
+                stateMachine.ChangeState(new WalkState(this, GetPosPerformSkill()));
+                yield return new WaitUntil(() => walkTaskCompleted);
+                walkTaskCompleted = false;
+                //attack
+                stateMachine.ChangeState(new SkillState(this));
+                
+                yield return new WaitUntil(() => skillTaskCompleted);
+                skillTaskCompleted = false;
+                
+                stateMachine.ChangeState(new WalkState(this, 
+                        BattleManager.Instance.MonsterTeam1Dictionary.ContainsValue(this) ? 
+                                BattleManager.Instance.ArenaManager.MonsterTeam1.StartPosList[MonsterIndexinBattle].position:
+                                BattleManager.Instance.ArenaManager.MonsterTeam2.StartPosList[MonsterIndexinBattle].position));
+                yield return new WaitUntil(() => walkTaskCompleted);
+                ChangeNomalIdleState();
         }
 
-        private Vector3 GetPosPerformSkill()
+        protected override Vector3 GetPosPerformAttack()
         {
-                if (BattleManager.Instance.MonsterTeam1Dictionary.ContainsValue(TargetList[0]))
+                List<KeyValuePair<MonsterBase, ActionResponse>> targetList = CurrentTurnActionResponse.ToList();
+                float offset = (MonsterPropsSO).AttackOffset * transform.lossyScale.x;
+                if (BattleManager.Instance.MonsterTeam1Dictionary.ContainsValue(targetList[0].Key))
                 {
                         return new Vector3(BattleManager.Instance.ArenaManager
-                                        .MonsterTeam1.StartPosList[TargetList[0].MonsterIndexinBattle].position.x + (MonsterPropsSO).AttackOffset
+                                        .MonsterTeam1.StartPosList[targetList[0].Key.MonsterIndexinBattle].position.x + offset
                                 , BattleManager.Instance.ArenaManager
-                                        .MonsterTeam1.StartPosList[TargetList[0].MonsterIndexinBattle].position.y
+                                        .MonsterTeam1.StartPosList[targetList[0].Key.MonsterIndexinBattle].position.y
                                 , BattleManager.Instance.ArenaManager
-                                        .MonsterTeam1.StartPosList[TargetList[0].MonsterIndexinBattle].position.z);
+                                        .MonsterTeam1.StartPosList[targetList[0].Key.MonsterIndexinBattle].position.z);
                 }
                 return new Vector3(BattleManager.Instance.ArenaManager
-                                .MonsterTeam2.StartPosList[TargetList[0].MonsterIndexinBattle].position.x - (MonsterPropsSO).AttackOffset
+                                .MonsterTeam2.StartPosList[targetList[0].Key.MonsterIndexinBattle].position.x - offset
                         , BattleManager.Instance.ArenaManager
-                                .MonsterTeam2.StartPosList[TargetList[0].MonsterIndexinBattle].position.y
+                                .MonsterTeam2.StartPosList[targetList[0].Key.MonsterIndexinBattle].position.y
                         , BattleManager.Instance.ArenaManager
-                                .MonsterTeam2.StartPosList[TargetList[0].MonsterIndexinBattle].position.z);
+                                .MonsterTeam2.StartPosList[targetList[0].Key.MonsterIndexinBattle].position.z);
+        }
+        protected override Vector3 GetPosPerformSkill()
+        {
+                List<KeyValuePair<MonsterBase, ActionResponse>> targetList = CurrentTurnActionResponse.ToList();
+                float offset = (MonsterPropsSO).AttackOffset * transform.lossyScale.x;
+                if (BattleManager.Instance.MonsterTeam1Dictionary.ContainsValue(targetList[0].Key))
+                {
+                        return new Vector3(BattleManager.Instance.ArenaManager
+                                        .MonsterTeam1.StartPosList[targetList[0].Key.MonsterIndexinBattle].position.x + offset
+                                , BattleManager.Instance.ArenaManager
+                                        .MonsterTeam1.StartPosList[targetList[0].Key.MonsterIndexinBattle].position.y
+                                , BattleManager.Instance.ArenaManager
+                                        .MonsterTeam1.StartPosList[targetList[0].Key.MonsterIndexinBattle].position.z);
+                }
+                return new Vector3(BattleManager.Instance.ArenaManager
+                                .MonsterTeam2.StartPosList[targetList[0].Key.MonsterIndexinBattle].position.x - offset
+                        , BattleManager.Instance.ArenaManager
+                                .MonsterTeam2.StartPosList[targetList[0].Key.MonsterIndexinBattle].position.y
+                        , BattleManager.Instance.ArenaManager
+                                .MonsterTeam2.StartPosList[targetList[0].Key.MonsterIndexinBattle].position.z);
         }
 }

@@ -47,6 +47,11 @@ public class GameManager : MonoBehaviour
                 tilesTransform.position = new Vector2(tilesTransform.position.x,
                         -1 * CameraManager.Instance.GetHeightCamera() / 2 + RuneManager.GetHeightRunesMap()/2) ;
                 RuneManager.UpdateRunesPostionMap();
+                BattleManager.ArenaManager.transform.position = new Vector2(BattleManager.ArenaManager.transform.position.x,
+                        tilesTransform.position.y + RuneManager.GetHeightRunesMap()/2 +BattleManager.ArenaManager.GetArenaHeight()/2);
+                BattleManager.TurnManager.ActionLine.SetActionLinePostion(new Vector2(BattleManager.TurnManager.ActionLine.transform.position.x,
+                        BattleManager.ArenaManager.transform.position.y-BattleManager.ArenaManager.GetArenaHeight()/2 + BattleManager.TurnManager.ActionLine.GetActionLineHeight()/2 ));
+                GameUIManager.Instance.UIRunePoint.transform.position = BattleManager.TurnManager.ActionLine.transform.position + new Vector3(0, 0.5f, 0);
         }
         
         public void CheckIfMainThread()

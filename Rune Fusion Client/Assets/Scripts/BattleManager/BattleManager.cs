@@ -43,36 +43,42 @@ public class BattleManager : MonoBehaviour
                 MonsterTeam1Dictionary.Add(monsterListData.player1[0].id_in_battle, monster1Team1.GetComponent<MonsterBase>());
                 MonsterTeam1Dictionary[monsterListData.player1[0].id_in_battle].MonsterIndexinBattle = 0;
                 MonsterTeam1Dictionary[monsterListData.player1[0].id_in_battle].MonsterIdInBattle = monsterListData.player1[0].id_in_battle ;
+                MonsterTeam1Dictionary[monsterListData.player1[0].id_in_battle].transform.SetParent(ArenaManager.transform);
                 
                 GameObject monster2Team1 = Instantiate(MonsterListSO.MonsterDictionary[monsterListData.player1[1].id].Prefab,ArenaManager.MonsterTeam1.StartPosList[1].transform.position, Quaternion.identity);
                 monster2Team1.GetComponentInChildren<SpriteRenderer>().flipX = false;
                 MonsterTeam1Dictionary.Add(monsterListData.player1[1].id_in_battle, monster2Team1.GetComponent<MonsterBase>());
                 MonsterTeam1Dictionary[monsterListData.player1[1].id_in_battle].MonsterIndexinBattle = 1;
                 MonsterTeam1Dictionary[monsterListData.player1[1].id_in_battle].MonsterIdInBattle = monsterListData.player1[1].id_in_battle;
+                MonsterTeam1Dictionary[monsterListData.player1[1].id_in_battle].transform.SetParent(ArenaManager.transform);
                 
                 GameObject monster3Team1 = Instantiate(MonsterListSO.MonsterDictionary[monsterListData.player1[2].id].Prefab,ArenaManager.MonsterTeam1.StartPosList[2].transform.position, Quaternion.identity);
                 monster3Team1.GetComponentInChildren<SpriteRenderer>().flipX = false;
                 MonsterTeam1Dictionary.Add(monsterListData.player1[2].id_in_battle, monster3Team1.GetComponent<MonsterBase>());
                 MonsterTeam1Dictionary[monsterListData.player1[2].id_in_battle].MonsterIndexinBattle = 2;
                 MonsterTeam1Dictionary[monsterListData.player1[2].id_in_battle].MonsterIdInBattle = monsterListData.player1[2].id_in_battle;
+                MonsterTeam1Dictionary[monsterListData.player1[2].id_in_battle].transform.SetParent(ArenaManager.transform);
                 
                 GameObject monster1Team2 = Instantiate(MonsterListSO.MonsterDictionary[monsterListData.player2[0].id].Prefab,ArenaManager.MonsterTeam2.StartPosList[0].transform.position, Quaternion.identity);
                 monster1Team2.GetComponentInChildren<SpriteRenderer>().flipX = true;
                 MonsterTeam2Dictionary.Add(monsterListData.player2[0].id_in_battle, monster1Team2.GetComponent<MonsterBase>());
                 MonsterTeam2Dictionary[monsterListData.player2[0].id_in_battle].MonsterIndexinBattle = 0;
                 MonsterTeam2Dictionary[monsterListData.player2[0].id_in_battle].MonsterIdInBattle = monsterListData.player2[0].id_in_battle;
+                MonsterTeam2Dictionary[monsterListData.player2[0].id_in_battle].transform.SetParent(ArenaManager.transform);
                 
                 GameObject monster2Team2 = Instantiate(MonsterListSO.MonsterDictionary[monsterListData.player2[1].id].Prefab,ArenaManager.MonsterTeam2.StartPosList[1].transform.position, Quaternion.identity);
                 monster2Team2.GetComponentInChildren<SpriteRenderer>().flipX = true;
                 MonsterTeam2Dictionary.Add(monsterListData.player2[1].id_in_battle, monster2Team2.GetComponent<MonsterBase>());
                 MonsterTeam2Dictionary[monsterListData.player2[1].id_in_battle].MonsterIndexinBattle = 1;
                 MonsterTeam2Dictionary[monsterListData.player2[1].id_in_battle].MonsterIdInBattle = monsterListData.player2[1].id_in_battle;
+                MonsterTeam2Dictionary[monsterListData.player2[1].id_in_battle].transform.SetParent(ArenaManager.transform);
                 
                 GameObject monster3Team2 = Instantiate(MonsterListSO.MonsterDictionary[monsterListData.player2[2].id].Prefab,ArenaManager.MonsterTeam2.StartPosList[2].transform.position, Quaternion.identity);
                 monster3Team2.GetComponentInChildren<SpriteRenderer>().flipX = true;
                 MonsterTeam2Dictionary.Add(monsterListData.player2[2].id_in_battle, monster3Team2.GetComponent<MonsterBase>());
                 MonsterTeam2Dictionary[monsterListData.player2[2].id_in_battle].MonsterIndexinBattle = 2;
                 MonsterTeam2Dictionary[monsterListData.player2[2].id_in_battle].MonsterIdInBattle = monsterListData.player2[2].id_in_battle;
+                MonsterTeam2Dictionary[monsterListData.player2[2].id_in_battle].transform.SetParent(ArenaManager.transform);
                 
                 
                 if (TurnManager.PlayerIndex == 0)
@@ -122,7 +128,7 @@ public class BattleManager : MonoBehaviour
                 return false;
         }
 
-        public void SetStartTurnMonsterAnimation(MonsterActionResponse monsterActionResponse)
+        public void SetStartTurnMonsterAnimation(MonsterActionResponse monsterActionResponse,int turn)
         {
                 MonsterTeam1Dictionary["11"].IsAllAnimationEnd = true;
                 MonsterTeam1Dictionary["12"].IsAllAnimationEnd = true;
@@ -130,10 +136,11 @@ public class BattleManager : MonoBehaviour
                 MonsterTeam2Dictionary["21"].IsAllAnimationEnd = true;
                 MonsterTeam2Dictionary["22"].IsAllAnimationEnd = true;
                 MonsterTeam2Dictionary["23"].IsAllAnimationEnd = true;
-                foreach (string idInBattle in monsterActionResponse.monster_target_id)
+                foreach (ActionResponse monster in monsterActionResponse.action_affect_list[turn])
                 {
-                        GetMonsterByIdInBattle(idInBattle).IsAllAnimationEnd = false;
+                        GetMonsterByIdInBattle(monster.id_in_battle).IsAllAnimationEnd = false;
                 }
+                GetMonsterByIdInBattle(monsterActionResponse.monster_id).IsAllAnimationEnd = false;
         }
 
         public void SetFalseAnimation()
@@ -144,6 +151,11 @@ public class BattleManager : MonoBehaviour
                 MonsterTeam2Dictionary["21"].IsAllAnimationEnd = false;
                 MonsterTeam2Dictionary["22"].IsAllAnimationEnd = false;
                 MonsterTeam2Dictionary["23"].IsAllAnimationEnd = false;
+        }
+
+        public void UpdateMonsterEffect(UpdateEffectResponse monsterEffect)
+        {
+                StartCoroutine(GetMonsterByIdInBattle(monsterEffect.id_in_battle).UpdateEffect(monsterEffect.dam, monsterEffect.effect_list));
         }
         
         
