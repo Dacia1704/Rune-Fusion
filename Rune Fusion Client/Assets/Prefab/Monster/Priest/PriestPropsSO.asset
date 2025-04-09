@@ -18,12 +18,12 @@ MonoBehaviour:
     <Type>k__BackingField: 2
     <BaseStats>k__BackingField:
       Attack: 450
-      Defense: 300
+      Defend: 0
       Health: 8000
       Speed: 108
       Accuracy: 0.3
       Resistance: 0.6
-      EffectList: 
+      EffectList: []
     <Skills>k__BackingField:
     - Id: 0
       Name: Basic Attack
@@ -69,3 +69,4 @@ MonoBehaviour:
   <AttackOffset>k__BackingField: 0
   <PriestMagicPrefab>k__BackingField: {fileID: 8169885286773831492, guid: d618ccd8494bfc9468382682df40631d, type: 3}
   <PriestMagicSummonOffset>k__BackingField: {x: 0.2, y: 0.2, z: 0.2}
+  <PriestHealPrefab>k__BackingField: {fileID: 2999130953634446459, guid: 7185da3ce88a1154b8897458425405db, type: 3}

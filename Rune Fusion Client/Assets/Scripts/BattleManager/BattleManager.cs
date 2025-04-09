@@ -128,7 +128,7 @@ public class BattleManager : MonoBehaviour
                 return false;
         }
 
-        public void SetStartTurnMonsterAnimation(MonsterActionResponse monsterActionResponse)
+        public void SetStartTurnMonsterAnimation(MonsterActionResponse monsterActionResponse,int turn)
         {
                 MonsterTeam1Dictionary["11"].IsAllAnimationEnd = true;
                 MonsterTeam1Dictionary["12"].IsAllAnimationEnd = true;
@@ -136,10 +136,11 @@ public class BattleManager : MonoBehaviour
                 MonsterTeam2Dictionary["21"].IsAllAnimationEnd = true;
                 MonsterTeam2Dictionary["22"].IsAllAnimationEnd = true;
                 MonsterTeam2Dictionary["23"].IsAllAnimationEnd = true;
-                foreach (string idInBattle in monsterActionResponse.monster_target_id)
+                foreach (ActionResponse monster in monsterActionResponse.action_affect_list[turn])
                 {
-                        GetMonsterByIdInBattle(idInBattle).IsAllAnimationEnd = false;
+                        GetMonsterByIdInBattle(monster.id_in_battle).IsAllAnimationEnd = false;
                 }
+                GetMonsterByIdInBattle(monsterActionResponse.monster_id).IsAllAnimationEnd = false;
         }
 
         public void SetFalseAnimation()
@@ -150,6 +151,11 @@ public class BattleManager : MonoBehaviour
                 MonsterTeam2Dictionary["21"].IsAllAnimationEnd = false;
                 MonsterTeam2Dictionary["22"].IsAllAnimationEnd = false;
                 MonsterTeam2Dictionary["23"].IsAllAnimationEnd = false;
+        }
+
+        public void UpdateMonsterEffect(UpdateEffectResponse monsterEffect)
+        {
+                StartCoroutine(GetMonsterByIdInBattle(monsterEffect.id_in_battle).UpdateEffect(monsterEffect.dam, monsterEffect.effect_list));
         }
         
         

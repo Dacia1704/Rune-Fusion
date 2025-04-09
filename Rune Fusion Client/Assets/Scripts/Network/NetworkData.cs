@@ -93,9 +93,18 @@ public class MonsterActionResponse
         public List<List<ActionResponse>> action_affect_list; // mỗi phn tử action là 1 action của skill
 }
 
+[Serializable]
 public class ActionResponse
 {
         public string id_in_battle;     
         public int dam;
         public EffectSkill effect;
+}
+
+[Serializable]
+public class UpdateEffectResponse
+{
+        public string id_in_battle;
+        public int dam;
+        public List<EffectSkill> effect_list;
 }

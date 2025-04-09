@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using Newtonsoft.Json;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 [Serializable]
 public class MonsterData
@@ -17,16 +18,23 @@ public class MonsterData
 [Serializable]
 public class MonsterStats
 {
+        [JsonProperty("attack")]
         public int Attack;
-        public int Defense;
+        [JsonProperty("defend")]
+        public int Defend;
+        [JsonProperty("health")]
         public int Health;
+        [JsonProperty("speed")]
         public int Speed;
+        [JsonProperty("accuracy")]
         public float Accuracy;
+        [JsonProperty("resistance")]
         public float Resistance;
-        public List<EffectType> EffectList;
+        [JsonProperty("effect_list")]
+        public List<EffectSkill> EffectList;
         public override string ToString()
         {
-                return $"Atk: {Attack}, Def: {Defense}, Hp: {Health}, Spd: {Speed}, Acc: {Accuracy}, Res: {Resistance}";
+                return $"Atk: {Attack}, Def: {Defend}, Hp: {Health}, Spd: {Speed}, Acc: {Accuracy}, Res: {Resistance}";
         }
 }
 

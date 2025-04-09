@@ -12,6 +12,7 @@ import { handle_find_match_event } from "./event/handle_find_match_event.js";
 import { handle_game_start_event } from "./event/handle_game_start_event.js";
 import update_turn_monster from "./game_logics/turn_monster.js";
 import { handle_monster_action_event } from "./event/handle_monster_action_event.js";
+import monster_update_effect from "./game_logics/monster_update_effect.js";
 //login
 const app = express();
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -46,13 +47,7 @@ io.on("connection", (socket) => {
     console.log(`Player connect: ${socket.id}`);
 
     socket.on(EVENTS.PLAYER.FIND_MATCH, (playerData) => {
-        handle_find_match_event(
-            io,
-            socket,
-            playerData,
-            queuePlayerWaiting,
-            roomsPlaying
-        );
+        handle_find_match_event(io, socket, playerData, queuePlayerWaiting, roomsPlaying);
     });
 
     socket.on(EVENTS.GAME.GAME_START_REQUEST, (data) => {
@@ -63,10 +58,7 @@ io.on("connection", (socket) => {
             roomsPlaying[socket.roomId].player2.ready = true;
         }
 
-        if (
-            roomsPlaying[socket.roomId].player1.ready &&
-            roomsPlaying[socket.roomId].player2.ready
-        ) {
+        if (roomsPlaying[socket.roomId].player1.ready && roomsPlaying[socket.roomId].player2.ready) {
             // gửi map
             // gửi turn list
             handle_game_start_event(io, socket, roomsPlaying);
@@ -76,31 +68,38 @@ io.on("connection", (socket) => {
     socket.on(EVENTS.RUNE.SWAP_RUNE, (data) => {
         const swapRuneData = JSON.parse(data);
         console.log(socket.roomId);
-        socket
-            .to(socket.roomId)
-            .emit(EVENTS.RUNE.OPPONENT_SWAP_RUNE, swapRuneData);
+        socket.to(socket.roomId).emit(EVENTS.RUNE.OPPONENT_SWAP_RUNE, swapRuneData);
         console.log(swapRuneData);
     });
 
     socket.on(EVENTS.RUNE.NEW_REQUEST, (data) => {
         const mapData = JSON.parse(data);
-        io.to(socket.roomId).emit(
-            EVENTS.RUNE.NEW_RESPONSE,
-            generateNewRune(mapData)
-        );
+        io.to(socket.roomId).emit(EVENTS.RUNE.NEW_RESPONSE, generateNewRune(mapData));
     });
 
     socket.on(EVENTS.GAME.TURN_BASE_LIST_REQUEST, (data) => {
         console.log("turn request");
         update_turn_monster(roomsPlaying[socket.roomId]);
-        io.to(socket.roomId).emit(
-            EVENTS.GAME.TURN_BASE_LIST_PUSH_DATA,
-            roomsPlaying[socket.roomId].turn_base_data
-        );
+        io.to(socket.roomId).emit(EVENTS.GAME.TURN_BASE_LIST_PUSH_DATA, roomsPlaying[socket.roomId].turn_base_data);
     });
 
     socket.on(EVENTS.MONSTER.MONSTER_ACTION_REQUEST, (data) => {
         handle_monster_action_event(io, socket, roomsPlaying, data);
+    });
+
+    socket.on(EVENTS.MONSTER.UPDATE_EFFECT_REQUEST, (data) => {
+        const monsterData = data;
+        let monster;
+        if (monsterData[0] == "1") {
+            console.log("player 1");
+            monster = roomsPlaying[socket.roomId].player1.monsters.find((monster) => monster.id_in_battle == monsterData);
+        } else {
+            console.log("player 2");
+            monster = roomsPlaying[socket.roomId].player2.monsters.find((monster) => monster.id_in_battle == monsterData);
+        }
+        console.log("monster: " + monster);
+        const response = monster_update_effect(monster);
+        io.in(socket.roomId).emit(EVENTS.MONSTER.UPDATE_EFFECT_RESPONSE, response);
     });
 
     socket.on("disconnect", (data) => {

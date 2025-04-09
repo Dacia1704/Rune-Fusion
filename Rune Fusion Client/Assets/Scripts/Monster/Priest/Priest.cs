@@ -2,28 +2,27 @@
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 public class Priest: MonsterBase
 {
+        public List<GameObject> HealEffects = new List<GameObject>();
         protected override void Start()
         {
                 base.Start();
                 stateMachine.ChangeState(new IdleState(this));
                 MonsterAnimationManager.OnAttack += FireMagic;
-        }
-        public override void StartAttack(MonsterActionResponse monsterActionResponse)
-        {
-                base.StartAttack(monsterActionResponse);
-                StartCoroutine(AttackCoroutine(monsterActionResponse));
+                MonsterAnimationManager.OnSkill += HealEffect;
         }
 
-        public IEnumerator AttackCoroutine(MonsterActionResponse monsterActionResponse)
+        protected override IEnumerator AttackCoroutine(MonsterActionResponse monsterActionResponse)
         {
                 bool attackTaskCompleted = false;
                 void AttackEventHandler() => attackTaskCompleted = true;
                 AttackTaskComplete += AttackEventHandler;
                 
                 Debug.Log("Priest attack");
+                GameManager.Instance.BattleManager.SetStartTurnMonsterAnimation(monsterActionResponse,0);
                 CurrentTurnActionResponse.Clear();
                 foreach (ActionResponse actionResponseInEachMonster in monsterActionResponse.action_affect_list[0])
                 {
@@ -33,13 +32,34 @@ public class Priest: MonsterBase
                 yield return new WaitUntil(() => attackTaskCompleted);
                 attackTaskCompleted = false;
                 
+                GameManager.Instance.BattleManager.SetStartTurnMonsterAnimation(monsterActionResponse,1);
                 CurrentTurnActionResponse.Clear();
                 foreach (ActionResponse actionResponseInEachMonster in monsterActionResponse.action_affect_list[1])
                 {
                         CurrentTurnActionResponse.Add(BattleManager.Instance.GetMonsterByIdInBattle(actionResponseInEachMonster.id_in_battle), actionResponseInEachMonster);
                 }
-                stateMachine.ChangeState(new IdleState(this));
-                Heal();
+                HealEffect();
+                yield return new WaitUntil(() => HealEffects.Count == 0);
+                ChangeNomalIdleState();
+        }
+                
+        protected override IEnumerator SkillCoroutine(MonsterActionResponse monsterActionResponse)
+        {
+                bool skillTaskCompleted = false;
+                void SkillEventHandler() => skillTaskCompleted = true;
+                SkillTaskComplete += SkillEventHandler;
+                
+                Debug.Log("Priest skill");
+                GameManager.Instance.BattleManager.SetStartTurnMonsterAnimation(monsterActionResponse,0);
+                CurrentTurnActionResponse.Clear();
+                foreach (ActionResponse actionResponseInEachMonster in monsterActionResponse.action_affect_list[0])
+                {
+                        CurrentTurnActionResponse.Add(BattleManager.Instance.GetMonsterByIdInBattle(actionResponseInEachMonster.id_in_battle), actionResponseInEachMonster);
+                }
+                stateMachine.ChangeState(new SkillState(this));
+                yield return new WaitUntil(() => skillTaskCompleted);
+                skillTaskCompleted = false;
+                yield return new WaitUntil(() => HealEffects.Count == 0);
                 ChangeNomalIdleState();
         }
 
@@ -66,12 +86,13 @@ public class Priest: MonsterBase
                 }
         }
 
-        public void Heal()
+        public void HealEffect()
         {
                 foreach (KeyValuePair<MonsterBase,ActionResponse> action in CurrentTurnActionResponse)
                 {
-                        action.Key.MonsterStatsInBattle.Health -= action.Value.dam;
-                        OnHealthChange?.Invoke(action.Key.MonsterStatsInBattle.Health);
+                        PriestHeal healObj = Instantiate(((PriestPropsSO)MonsterPropsSO).PriestHealPrefab).GetComponent<PriestHeal>();
+                        healObj.Heal(action.Key.transform, action.Value.dam,this);
+                        HealEffects.Add(healObj.gameObject);
                 }  
         }
 }

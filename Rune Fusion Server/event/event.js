@@ -24,6 +24,8 @@ const EVENTS = {
         MONSTER_LIST: "monster_list",
         MONSTER_ACTION_REQUEST: "monster_action_request",
         MONSTER_ACTION_RESPONSE: "monster_action_response",
+        UPDATE_EFFECT_REQUEST: "update_effect_request",
+        UPDATE_EFFECT_RESPONSE: "update_effect_response",
     },
 };
 export default EVENTS;

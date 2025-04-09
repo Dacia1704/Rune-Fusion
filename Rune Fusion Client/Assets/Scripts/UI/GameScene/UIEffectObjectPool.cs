@@ -9,4 +9,12 @@ public class UIEffectManager : ObjectPooling
         {
                 return GetObject(effectType.ToString());
         }
+
+        public void ClearEffect()
+        {
+                foreach (Transform child in transform)
+                {
+                        ReleaseObject(child.gameObject);
+                }
+        }
 }

@@ -1,11 +1,4 @@
-import Monster, {
-    effectType,
-    monsterId,
-    monsterType,
-    skillArea,
-    skillRandomType,
-    skillTargetType,
-} from "./Monster.js";
+import Monster, { effectType, monsterId, monsterType, skillArea, skillRandomType, skillTargetType } from "./Monster.js";
 
 export const archerMonsterData = new Monster({
     id: monsterId.ARCHER,
