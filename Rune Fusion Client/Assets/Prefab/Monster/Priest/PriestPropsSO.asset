@@ -12,19 +12,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6c80b089ccb946f69f522757c0226f82, type: 3}
   m_Name: PriestPropsSO
   m_EditorClassIdentifier: 
-  <MonsterData>k__BackingField:
-    <Id>k__BackingField: 4
-    <Name>k__BackingField: Priest
-    <Type>k__BackingField: 2
-    <BaseStats>k__BackingField:
+  MonsterData:
+    Id: 4
+    Name: Priest
+    Type: 2
+    BaseStats:
       Attack: 450
-      Defend: 0
+      Defend: 300
       Health: 8000
       Speed: 108
       Accuracy: 0.3
       Resistance: 0.6
       EffectList: []
-    <Skills>k__BackingField:
+    Skills:
     - Id: 0
       Name: Basic Attack
       Description: Basic Attack
@@ -65,8 +65,8 @@ MonoBehaviour:
           duration: 1
         Effectiveness: 1
       Icon: {fileID: 0}
-  <Icon>k__BackingField: {fileID: 2127694498, guid: ad638f6a65669ce418ff56bb1bcbecfc, type: 3}
-  <AttackOffset>k__BackingField: 0
+  Icon: {fileID: 2038306881, guid: a8a668349b642754591fa3dc9b6429d3, type: 3}
+  AttackOffset: 0
   <PriestMagicPrefab>k__BackingField: {fileID: 8169885286773831492, guid: d618ccd8494bfc9468382682df40631d, type: 3}
   <PriestMagicSummonOffset>k__BackingField: {x: 0.2, y: 0.2, z: 0.2}
   <PriestHealPrefab>k__BackingField: {fileID: 2999130953634446459, guid: 7185da3ce88a1154b8897458425405db, type: 3}

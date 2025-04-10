@@ -3037,6 +3037,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   <MainMenuSceneName>k__BackingField: MainMenuScene
+  <PickSceneName>k__BackingField: PickScene
   <GameSceneName>k__BackingField: GameScene
   ProgressValue: 0
 --- !u!4 &894199848

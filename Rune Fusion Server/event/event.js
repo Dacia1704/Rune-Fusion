@@ -19,6 +19,11 @@ const EVENTS = {
         GAME_START_REQUEST: "game_start_request",
         TURN_BASE_LIST_PUSH_DATA: "turn_base_list_push_data",
         TURN_BASE_LIST_REQUEST: "turn_base_list_request",
+        PICK_MONSTER_POST: "pick_monster_post",
+        PICK_MONSTER_PUSH: "pick_monster_push",
+        PICK_MONSTER_CONFIRM_POST: "pick_monster_confirm_post",
+        PICK_MONSTER_CONFIRM_PUSH: "pick_monster_confirm_push",
+        END_PICK_MONSTER: "end_pick_monster",
     },
     MONSTER: {
         MONSTER_LIST: "monster_list",

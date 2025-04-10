@@ -8,11 +8,20 @@ using UnityEngine.Serialization;
 [Serializable]
 public class MonsterData
 {
-        [field: SerializeField] public MonsterId Id { get; private set; }
-        [field: SerializeField] public string Name { get; private set; }
-        [field: SerializeField] public MonsterType Type { get; private set; }
-        [field: SerializeField] public MonsterStats BaseStats { get; private set; }
-        [field: SerializeField] public List<MonsterSkill> Skills { get; private set; }
+        [JsonProperty("id")] 
+        public MonsterId Id;
+
+        [JsonProperty("name")]
+        public string Name;
+
+        [JsonProperty("type")]
+        public MonsterType Type;
+
+        [JsonProperty("stats")]
+        public MonsterStats BaseStats;
+
+        [JsonProperty("skills")]
+        public List<MonsterSkill> Skills;
 }
 
 [Serializable]

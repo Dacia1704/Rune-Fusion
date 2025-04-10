@@ -12,19 +12,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8fe7857aabaa45d6a909d939a3b1460c, type: 3}
   m_Name: KnightPropsSO
   m_EditorClassIdentifier: 
-  <MonsterData>k__BackingField:
-    <Id>k__BackingField: 2
-    <Name>k__BackingField: Knight
-    <Type>k__BackingField: 0
-    <BaseStats>k__BackingField:
+  MonsterData:
+    Id: 2
+    Name: Knight
+    Type: 0
+    BaseStats:
       Attack: 1000
-      Defense: 120
+      Defend: 120
       Health: 4000
       Speed: 86
       Accuracy: 0.4
       Resistance: 0.3
-      EffectList: 
-    <Skills>k__BackingField:
+      EffectList: []
+    Skills:
     - Id: 0
       Name: Basic Attack
       Description: Basic Attack
@@ -65,5 +65,5 @@ MonoBehaviour:
           duration: 2
         Effectiveness: 0.8
       Icon: {fileID: 0}
-  <Icon>k__BackingField: {fileID: 1801277718, guid: 5d400d968c3a574459dbfed53a37144e, type: 3}
-  <AttackOffset>k__BackingField: 0.55
+  Icon: {fileID: -1410451368, guid: 10e603f66c2a45942beff1b1c354fff0, type: 3}
+  AttackOffset: 0.2
