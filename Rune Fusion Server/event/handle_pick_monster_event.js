@@ -40,8 +40,20 @@ export function handle_pick_monster_event(io, socket, roomsPlaying, data) {
     const monsterIdsPlayer1 = monsterData.player1.map((mon) => (mon == null || mon == undefined ? -1 : mon.id));
     const monsterIdsPlayer2 = monsterData.player2.map((mon) => (mon == null || mon == undefined ? -1 : mon.id));
 
+    const picked_monsters = [];
+    roomsPlaying[socket.roomId].player1.monsters.forEach((mon) => {
+        if (mon.data != null) {
+            picked_monsters.push(mon.data.id);
+        }
+    });
+    roomsPlaying[socket.roomId].player2.monsters.forEach((mon) => {
+        if (mon.data != null) {
+            picked_monsters.push(mon.data.id);
+        }
+    });
     socket.to(socket.roomId).emit(EVENTS.GAME.PICK_MONSTER_PUSH, {
         player1: monsterIdsPlayer1,
         player2: monsterIdsPlayer2,
+        picked_monsters: picked_monsters,
     });
 }

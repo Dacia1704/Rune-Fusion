@@ -121,4 +121,5 @@ public class MonsterPickPush
 {
         public List<int> player1; // list id monster
         public List<int> player2;
+        public List<int> picked_monsters;
 }
