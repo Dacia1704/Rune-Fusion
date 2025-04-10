@@ -13,6 +13,7 @@ import { handle_game_start_event } from "./event/handle_game_start_event.js";
 import update_turn_monster from "./game_logics/turn_monster.js";
 import { handle_monster_action_event } from "./event/handle_monster_action_event.js";
 import monster_update_effect from "./game_logics/monster_update_effect.js";
+import { handle_pick_monster_event } from "./event/handle_pick_monster_event.js";
 //login
 const app = express();
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -48,6 +49,52 @@ io.on("connection", (socket) => {
 
     socket.on(EVENTS.PLAYER.FIND_MATCH, (playerData) => {
         handle_find_match_event(io, socket, playerData, queuePlayerWaiting, roomsPlaying);
+    });
+    socket.on(EVENTS.GAME.PICK_MONSTER_POST, (data) => {
+        console.log(data);
+        handle_pick_monster_event(io, socket, roomsPlaying, data);
+    });
+    socket.on(EVENTS.GAME.PICK_MONSTER_CONFIRM_POST, (data) => {
+        socket.to(socket.roomId).emit(EVENTS.GAME.PICK_MONSTER_CONFIRM_PUSH);
+        let isPickAll = true;
+        roomsPlaying[socket.roomId].player1.monsters.forEach((mon) => {
+            if (mon.data == null) {
+                isPickAll = false;
+            } else {
+                mon.is_locked = true;
+            }
+        });
+        roomsPlaying[socket.roomId].player2.monsters.forEach((mon) => {
+            if (mon.data == null) {
+                isPickAll = false;
+            } else {
+                mon.is_locked = true;
+            }
+        });
+        if (isPickAll) {
+            const fastestMonster1 = roomsPlaying[socket.roomId].player1.monsters.reduce((fastest, mon) => {
+                if (!mon || !mon.data) return fastest;
+                return !fastest || mon.data.stats.speed > fastest.data.stats.speed ? mon : fastest;
+            }, null);
+            const fastestMonster2 = roomsPlaying[socket.roomId].player2.monsters.reduce((fastest, mon) => {
+                if (!mon || !mon.data) return fastest;
+                return !fastest || mon.data.stats.speed > fastest.data.stats.speed ? mon : fastest;
+            }, null);
+
+            roomsPlaying[socket.roomId].turn_base_data.push({
+                id_in_battle: "01",
+                speed: fastestMonster1.data.stats.speed + 20,
+                progress: 0,
+            });
+            roomsPlaying[socket.roomId].turn_base_data.push({
+                id_in_battle: "02",
+                speed: fastestMonster2.data.stats.speed + 20,
+                progress: 0,
+            });
+            console.log(roomsPlaying[socket.roomId].player1.monsters[0].data.id + " " + roomsPlaying[socket.roomId].player1.monsters[1].data.id + " " + roomsPlaying[socket.roomId].player1.monsters[2].data.id);
+            console.log(roomsPlaying[socket.roomId].player2.monsters[0].data.id + " " + roomsPlaying[socket.roomId].player2.monsters[1].data.id + " " + roomsPlaying[socket.roomId].player2.monsters[2].data.id);
+            io.in(socket.roomId).emit(EVENTS.GAME.END_PICK_MONSTER);
+        }
     });
 
     socket.on(EVENTS.GAME.GAME_START_REQUEST, (data) => {

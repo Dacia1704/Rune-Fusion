@@ -84,7 +84,7 @@ public class SocketManager : MonoBehaviour
                 PlayerData = response[0].player2;
                 OpponentData = response[0].player1;
             }
-            UnityThread.executeCoroutine(ChangeSceneCoroutine(SceneLoadManager.Instance.GameSceneName));
+            UnityThread.executeCoroutine(ChangeSceneCoroutine(SceneLoadManager.Instance.PickSceneName));
         });
         socket.On(SocketEvents.Rune.OPPONENT_SWAP_RUNE, data =>
         {
@@ -118,34 +118,36 @@ public class SocketManager : MonoBehaviour
             Debug.Log("MonsterEffect " + data.ToString());
             List<UpdateEffectResponse> response = JsonConvert.DeserializeObject<List<UpdateEffectResponse>>(data.ToString());
             UnityThread.executeCoroutine(UpdateEffectCoroutine(response[0]));
-            
-            // try
-            // {
-            //     List<UpdateEffectResponse> response = JsonConvert.DeserializeObject<List<UpdateEffectResponse>>(data.ToString());
-            //     if (response != null && response.Count > 0)
-            //     {
-            //         UnityThread.executeCoroutine(UpdateEffectCoroutine(response[0]));
-            //     }
-            //     else
-            //     {
-            //         Debug.LogWarning("Response is null or empty.");
-            //     }
-            // }
-            // catch (JsonException jsonEx)
-            // {
-            //     Debug.LogError("JSON Deserialize error: " + jsonEx.Message);
-            //     Debug.LogError("Raw data: " + data.ToString());
-            // }
-            // catch (Exception ex)
-            // {
-            //     Debug.LogError("Unexpected error: " + ex.Message);
-            // }
-            
+        });
+        
+        socket.On(SocketEvents.Game.PICK_MONSTER_PUSH, data =>
+        {
+            Debug.Log("Monster pick "+ data.ToString());
+            List<MonsterPickPush> response = JsonConvert.DeserializeObject<List<MonsterPickPush>>(data.ToString());
+            UnityThread.executeCoroutine(UpdateMonsterPickData(response[0]));
+        });
+        socket.On(SocketEvents.Game.PICK_MONSTER_CONFIRM_PUSH, data =>
+        {
+            UnityThread.executeCoroutine(ConfirmMonsterTurnPickCoroutine());
+        });
+        socket.On(SocketEvents.Game.END_PICK_MONSTER, data =>
+        {
+            UnityThread.executeCoroutine(ChangeSceneCoroutine(SceneLoadManager.Instance.GameSceneName));
         });
         
         socket.Connect();
     }
     // get
+    private IEnumerator ConfirmMonsterTurnPickCoroutine()
+    {
+        PickSceneUIManager.Instance.PickSlotManager.ConfirmPick();
+        yield return null;
+    }
+    private IEnumerator UpdateMonsterPickData(MonsterPickPush push)
+    {
+        PickSceneUIManager.Instance.MonsterSlotManager.UpdateMonsterPick(push);
+        yield return null;
+    }
     private IEnumerator UpdateEffectCoroutine(UpdateEffectResponse response)
     {
         Debug.Log("Call");
@@ -248,5 +250,28 @@ public class SocketManager : MonoBehaviour
     public void UpdateMonsterEffectRequest(string monsterId)
     {
         socket.Emit(SocketEvents.Monster.UPDATE_EFFECT_REQUEST,monsterId);
+    }
+
+    public void PostMonsterPickData(List<MonsterPropsSO> p1, List<MonsterPropsSO> p2)
+    {
+
+        MonsterPickPost monsterPickPos = new MonsterPickPost();
+        monsterPickPos.player1 = new List<MonsterData>();
+        monsterPickPos.player2 = new List<MonsterData>();
+        foreach (MonsterPropsSO p in p1)
+        {
+            monsterPickPos.player1.Add(p == null ? null : p.MonsterData);
+        }
+        foreach (MonsterPropsSO p in p2)
+        {
+            monsterPickPos.player2.Add(p == null ? null : p.MonsterData);
+        }
+        Debug.Log(JsonConvert.SerializeObject(monsterPickPos));
+        socket.Emit(SocketEvents.Game.PICK_MONSTER_POST, JsonConvert.SerializeObject(monsterPickPos));
+    }
+
+    public void PostConfirmTurnPick()
+    {
+        socket.Emit(SocketEvents.Game.PICK_MONSTER_CONFIRM_POST);
     }
 }

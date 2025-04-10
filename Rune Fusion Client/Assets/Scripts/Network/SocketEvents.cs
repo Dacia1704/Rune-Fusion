@@ -24,6 +24,12 @@
         public const string GAME_START_REQUEST = "game_start_request";
         public const string TURN_BASE_LIST_PUSH_DATA = "turn_base_list_push_data";
         public const string TURN_BASE_LIST_REQUEST = "turn_base_list_request";
+        public const string PICK_MONSTER_POST = "pick_monster_post";
+        public const string PICK_MONSTER_PUSH = "pick_monster_push";
+        public const string PICK_MONSTER_CONFIRM_POST = "pick_monster_confirm_post";
+        public const string PICK_MONSTER_CONFIRM_PUSH = "pick_monster_confirm_push";
+        public const string END_PICK_MONSTER = "end_pick_monster";
+        
     }
 
     public static class Monster

@@ -7,6 +7,7 @@ public class SceneLoadManager : MonoBehaviour
 {
         public static SceneLoadManager Instance;
         [field: SerializeField ]public string MainMenuSceneName { get; private set; }
+        [field: SerializeField ]public string PickSceneName { get; private set; }
         [field: SerializeField ]public string GameSceneName { get; private set; }
 
         [HideInInspector] public float ProgressValue;

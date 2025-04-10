@@ -12,19 +12,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f18056c5304449f4a2b46552a3007991, type: 3}
   m_Name: ArcherPropsSO
   m_EditorClassIdentifier: 
-  <MonsterData>k__BackingField:
-    <Id>k__BackingField: 0
-    <Name>k__BackingField: Archer
-    <Type>k__BackingField: 0
-    <BaseStats>k__BackingField:
+  MonsterData:
+    Id: 0
+    Name: Archer
+    Type: 0
+    BaseStats:
       Attack: 1200
-      Defense: 100
+      Defend: 100
       Health: 5600
       Speed: 100
       Accuracy: 0.5
       Resistance: 0.1
-      EffectList: 
-    <Skills>k__BackingField:
+      EffectList: []
+    Skills:
     - Id: 0
       Name: Basic Attack
       Description: Basic Attack
@@ -59,7 +59,7 @@ MonoBehaviour:
           EffectType: 8
           duration: 1
         Effectiveness: 0.7
-      Icon: {fileID: 0}
+      Icon: {fileID: -601035835, guid: 6b8be814a27f03b4c939cadc03ebd590, type: 3}
     - Id: 1
       Name: Ultimate Skill
       Description: Ultimate Skill
@@ -67,7 +67,7 @@ MonoBehaviour:
       - TargetType: 1
         AreaEffect: 1
         RandomType: 0
-        PercentAttack: 1.5
+        PercentAttack: 0.4
         Penetration: 0
         PercentHealth: 0
         EffectSkill:
@@ -75,6 +75,6 @@ MonoBehaviour:
           duration: 0
         Effectiveness: 0
       Icon: {fileID: 0}
-  <Icon>k__BackingField: {fileID: -698797226, guid: 516dcdcce8c86774994ee3780ad10aa0, type: 3}
-  <AttackOffset>k__BackingField: 0.2
+  Icon: {fileID: -601035835, guid: 6b8be814a27f03b4c939cadc03ebd590, type: 3}
+  AttackOffset: 0
   <ArrowPrefab>k__BackingField: {fileID: 4499762498449232529, guid: 01bd80b94c918224cb8f1eafd6cfe673, type: 3}

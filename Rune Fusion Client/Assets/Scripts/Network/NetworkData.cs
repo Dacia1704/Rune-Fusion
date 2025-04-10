@@ -108,3 +108,17 @@ public class UpdateEffectResponse
         public int dam;
         public List<EffectSkill> effect_list;
 }
+
+[Serializable]
+public class MonsterPickPost
+{
+        public List<MonsterData> player1;
+        public List<MonsterData> player2;
+}
+
+[Serializable]
+public class MonsterPickPush
+{
+        public List<int> player1; // list id monster
+        public List<int> player2;
+}
