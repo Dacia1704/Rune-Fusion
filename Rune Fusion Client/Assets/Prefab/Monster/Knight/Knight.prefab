@@ -812,6 +812,7 @@ MonoBehaviour:
   ShouldUseSkill: 0
   IsAllAnimationEnd: 0
   IsUpdateEffect: 0
+  IsFrozen: 0
   FrozenGameObject: {fileID: 5215368025969191720}
 --- !u!1 &5921407765899962157
 GameObject:
@@ -875,7 +876,7 @@ Canvas:
   m_AdditionalShaderChannelsFlag: 0
   m_UpdateRectTransformForStandalone: 0
   m_SortingLayerID: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 2
   m_TargetDisplay: 0
 --- !u!114 &8335692308044785365
 MonoBehaviour:

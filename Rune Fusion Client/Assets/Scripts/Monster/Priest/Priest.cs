@@ -45,6 +45,7 @@ public class Priest: MonsterBase
                 
         protected override IEnumerator SkillCoroutine(MonsterActionResponse monsterActionResponse)
         {
+                MonsterAnimationManager.StartSkillEffect();
                 bool skillTaskCompleted = false;
                 void SkillEventHandler() => skillTaskCompleted = true;
                 SkillTaskComplete += SkillEventHandler;

@@ -667,8 +667,6 @@ public class RuneManager : MonoBehaviour
             player1 = SocketManager.Instance.PlayerData.playerindex == 0 ? RunePointsPlayer : RunePointsOpponent,
             player2 = SocketManager.Instance.PlayerData.playerindex == 1 ? RunePointsPlayer : RunePointsOpponent,
         };
-        Debug.Log("Player1: "+ string.Join(" ", points.player1));
-        Debug.Log("Player2: "+string.Join(" ", points.player2));
         OnRunePointsChanged?.Invoke(points);
         SocketManager.Instance.PostRunePoint(points);
     }
@@ -693,6 +691,16 @@ public class RuneManager : MonoBehaviour
         };
         RunePointsPlayer[(int)runeType] = Math.Clamp(RunePointsPlayer[(int)runeType] + amount, 0, GameManager.Instance.GameManagerSO.MaxRunePoint);
         OnRunePointsChanged?.Invoke(points);
+    }
+
+    public void PostPointData()
+    {
+        PointPushData points = new PointPushData
+        {
+            player1 = SocketManager.Instance.PlayerData.playerindex == 0 ? RunePointsPlayer : RunePointsOpponent,
+            player2 = SocketManager.Instance.PlayerData.playerindex == 1 ? RunePointsPlayer : RunePointsOpponent,
+        };
+        SocketManager.Instance.PostRunePoint(points);
     }
     #endregion
     

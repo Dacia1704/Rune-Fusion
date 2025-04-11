@@ -166,7 +166,7 @@ Canvas:
   m_AdditionalShaderChannelsFlag: 0
   m_UpdateRectTransformForStandalone: 0
   m_SortingLayerID: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 2
   m_TargetDisplay: 0
 --- !u!114 &1960327328281955409
 MonoBehaviour:
@@ -1243,6 +1243,7 @@ MonoBehaviour:
   ShouldUseSkill: 0
   IsAllAnimationEnd: 0
   IsUpdateEffect: 0
+  IsFrozen: 0
   FrozenGameObject: {fileID: 9113581044142508403}
 --- !u!1001 &4561789410891440948
 PrefabInstance:

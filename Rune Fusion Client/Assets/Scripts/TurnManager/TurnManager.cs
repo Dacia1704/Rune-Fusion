@@ -121,6 +121,7 @@ public class TurnManager : MonoBehaviour
         string currentTurnId = TurnBaseQueue[0].id_in_battle;
         MonsterBase monsterBase = GameManager.Instance.BattleManager.GetMonsterByIdInBattle(currentTurnId);
         SocketManager.Instance.RequestMonsterAction(currentTurnId,new List<string>(){GameManager.Instance.BattleManager.TargetManager.TargetedMonster.MonsterIdInBattle},monsterBase.ShouldUseSkill ?"1": "0");
+        GameManager.Instance.RuneManager.PostPointData();
         monsterBase.ShouldUseSkill = false;        
         isTimeMonsterEnd = true;
         GameUIManager.Instance.UITimeCounter.EndCountTime();
