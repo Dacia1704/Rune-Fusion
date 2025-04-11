@@ -116,6 +116,7 @@ public abstract class MonsterBase : MonoBehaviour
 
     protected void ChangeNomalIdleState()
     {
+        MonsterAnimationManager.EndSkillEffect();
         stateMachine.ChangeState(new IdleState(this));
         IsAllAnimationEnd = true;
     }

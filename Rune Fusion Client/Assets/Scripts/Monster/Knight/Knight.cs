@@ -43,6 +43,7 @@ public class Knight: MonsterBase
 
         protected override IEnumerator SkillCoroutine(MonsterActionResponse monsterActionResponse)
         {
+                MonsterAnimationManager.StartSkillEffect();
                 bool walkTaskCompleted = false;
                 void WalkEventHandler() => walkTaskCompleted = true;
                 WalkTaskComplete += WalkEventHandler;
