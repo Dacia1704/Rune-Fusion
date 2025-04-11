@@ -140,12 +140,7 @@ public class BattleManager : MonoBehaviour
 
         public void SetStartTurnMonsterAnimation(MonsterActionResponse monsterActionResponse,int turn)
         {
-                MonsterTeam1Dictionary["11"].IsAllAnimationEnd = true;
-                MonsterTeam1Dictionary["12"].IsAllAnimationEnd = true;
-                MonsterTeam1Dictionary["13"].IsAllAnimationEnd = true;
-                MonsterTeam2Dictionary["21"].IsAllAnimationEnd = true;
-                MonsterTeam2Dictionary["22"].IsAllAnimationEnd = true;
-                MonsterTeam2Dictionary["23"].IsAllAnimationEnd = true;
+                SetTrueAnimation();
                 foreach (ActionResponse monster in monsterActionResponse.action_affect_list[turn])
                 {
                         GetMonsterByIdInBattle(monster.id_in_battle).IsAllAnimationEnd = false;
@@ -161,6 +156,16 @@ public class BattleManager : MonoBehaviour
                 MonsterTeam2Dictionary["21"].IsAllAnimationEnd = false;
                 MonsterTeam2Dictionary["22"].IsAllAnimationEnd = false;
                 MonsterTeam2Dictionary["23"].IsAllAnimationEnd = false;
+        }
+
+        public void SetTrueAnimation()
+        {
+                MonsterTeam1Dictionary["11"].IsAllAnimationEnd = true;
+                MonsterTeam1Dictionary["12"].IsAllAnimationEnd = true;
+                MonsterTeam1Dictionary["13"].IsAllAnimationEnd = true;
+                MonsterTeam2Dictionary["21"].IsAllAnimationEnd = true;
+                MonsterTeam2Dictionary["22"].IsAllAnimationEnd = true;
+                MonsterTeam2Dictionary["23"].IsAllAnimationEnd = true;
         }
 
         public void UpdateMonsterEffect(UpdateEffectResponse monsterEffect)

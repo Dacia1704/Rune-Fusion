@@ -54,6 +54,16 @@ public class MonsterAnimationManager : MonoBehaviour
                 return false;
         }
 
+        public void PauseAnimation()
+        {
+                animator.speed = 0f;
+        }
+
+        public void ResumeAnimation()
+        {
+                animator.speed = 1f;
+        }
+
         public void Atttack()
         {
                 OnAttack?.Invoke();
