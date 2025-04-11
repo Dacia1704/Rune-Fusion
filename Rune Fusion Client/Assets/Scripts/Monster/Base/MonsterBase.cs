@@ -29,7 +29,7 @@ public abstract class MonsterBase : MonoBehaviour
 
     public bool IsAllAnimationEnd;
     public bool IsUpdateEffect;
-    protected bool IsFrozen;
+    public bool IsFrozen;
     [SerializeField]protected GameObject FrozenGameObject;
 
     protected UIHeathSkillBarManager UIHeathSkillBarManager { get; private set; }
@@ -163,6 +163,10 @@ public abstract class MonsterBase : MonoBehaviour
             }
         }
         OnHealthChange?.Invoke(MonsterStatsInBattle.Health);
+        if (IsFrozen)
+        {
+            IsAllAnimationEnd = true;
+        }
     }
 
     public void Buff()
@@ -247,12 +251,16 @@ public abstract class MonsterBase : MonoBehaviour
         IsFrozen = true;
         FrozenGameObject.SetActive(true);
         FrozenGameObject.GetComponent<Animator>().Play("Frozen");
+        MonsterAnimationManager.PauseAnimation();
+        IsAllAnimationEnd = true;
     }
 
     public void DisableFrozenEffect()
     {
         IsFrozen = false;
         FrozenGameObject.SetActive(false);
+        MonsterAnimationManager.ResumeAnimation();
+        ChangeNomalIdleState();
     }
 
     public void UpdateUIEffect()

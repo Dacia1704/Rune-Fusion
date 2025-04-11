@@ -265,6 +265,7 @@ public class SocketManager : MonoBehaviour
 
     public void UpdateMonsterEffectRequest(string monsterId)
     {
+        Debug.Log("Update Monster Effect Request");
         socket.Emit(SocketEvents.Monster.UPDATE_EFFECT_REQUEST,monsterId);
     }
 
