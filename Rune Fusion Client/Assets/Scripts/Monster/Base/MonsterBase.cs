@@ -33,24 +33,26 @@ public abstract class MonsterBase : MonoBehaviour
     [SerializeField]protected GameObject FrozenGameObject;
 
     protected UIHeathSkillBarManager UIHeathSkillBarManager { get; private set; }
-
-    // private TextMeshPro textMeshPro;
     
     public Action<int> OnHealthChange;
-
     protected virtual void Awake()
     {
         MonsterAnimationManager = GetComponentInChildren<MonsterAnimationManager>();
         MonsterColliderManager = GetComponentInChildren<MonsterColliderManager>();
-        // textMeshPro = GetComponentInChildren<TextMeshPro>();
         UIHeathSkillBarManager = GetComponentInChildren<UIHeathSkillBarManager>();
         UIEffectManager = GetComponentInChildren<UIEffectManager>();
         CurrentTurnActionResponse = new Dictionary<MonsterBase, ActionResponse>();
         OnHealthChange += UIHeathSkillBarManager.SetHealthBar;
+        GameManager.Instance.RuneManager.OnRunePointsChanged += UpdateSkillBar;
     }
 
     protected virtual void Start()
     {
+        stateMachine = new StateMachine();
+        IsAllAnimationEnd = false;
+        IsUpdateEffect = false;
+        IsFrozen = false;
+        HitTaskComplete += ChangeNomalIdleState;
         MonsterStatsInBattle = new MonsterStats
         {
             Attack = MonsterPropsSO.MonsterData.BaseStats.Attack,
@@ -61,21 +63,16 @@ public abstract class MonsterBase : MonoBehaviour
             Resistance = MonsterPropsSO.MonsterData.BaseStats.Resistance,
             EffectList = new List<EffectSkill>(),
         };
-        stateMachine = new StateMachine();
-        UIHeathSkillBarManager.SetMaxHealthBar(MonsterStatsInBattle.Health);
-        UIHeathSkillBarManager.SetHealthBar(MonsterStatsInBattle.Health);
+        UIHeathSkillBarManager.SetMaxHealthBar(MonsterPropsSO.MonsterData.BaseStats.Health);
+        UIHeathSkillBarManager.SetHealthBar(MonsterPropsSO.MonsterData.BaseStats.Health);
         UIHeathSkillBarManager.SetMaxSkillBar(MonsterPropsSO.MonsterData.Skills[1].PointCost);
-        UIHeathSkillBarManager.SetSkillBar(0);
-        IsAllAnimationEnd = false;
-        IsUpdateEffect = false;
-        IsFrozen = false;
-        HitTaskComplete += ChangeNomalIdleState;
-        GameManager.Instance.RuneManager.OnRunePointsChanged += UpdateSkillBar;
         ShouldUseSkill = false;
     }
+
+    
+    
     protected virtual void Update()
     {
-        // textMeshPro.text = MonsterStatsInBattle.ToString();
         stateMachine.Update();
     }
     public virtual void StartAttack(MonsterActionResponse monsterActionResponse)
@@ -269,9 +266,12 @@ public abstract class MonsterBase : MonoBehaviour
         }
     }
 
-    private void UpdateSkillBar(List<int> runePoints)
+    private void UpdateSkillBar(PointPushData runePoints)
     {
-        UIHeathSkillBarManager.SetSkillBar(runePoints[(int)MonsterPropsSO.MonsterData.Type]);
+        int point = MonsterIdInBattle[0] == '1' ? runePoints.player1[(int)MonsterPropsSO.MonsterData.Type] : runePoints.player2[(int)MonsterPropsSO.MonsterData.Type];
+        point = Math.Clamp(point, 0, MonsterPropsSO.MonsterData.Skills[1].PointCost);
+        Debug.Log(gameObject.name +" UpdateSkillBar: " + point);
+        UIHeathSkillBarManager.SetSkillBar(point);
     }
 
     public void ChangeSkillApperance()

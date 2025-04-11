@@ -21,15 +21,9 @@ public class UIHeathSkillBarManager : MonoBehaviour
         }
         public void SetSkillBar(int value)
         {
+                Debug.Log("Update skill bar1: "+ value + " " + skillBar.MaxValue);
                 skillBar.SetValue(value);
-                if (Mathf.Approximately(skillBar.Slider.maxValue, value))
-                {
-                        skillBar.FillImage.color = Color.yellow;
-                }
-                else
-                {
-                        skillBar.FillImage.color = Color.white;
-                }
+                skillBar.FillImage.color = skillBar.MaxValue == value ? Color.yellow : Color.blue;
         }
         
 }

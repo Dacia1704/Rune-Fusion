@@ -9,21 +9,25 @@ public class UIRunePointManager : UIBase
 
         private void Start()
         {
-                UpdateUIRunePoint(new List<int>(){0,0,0,0,0});
+                PointPushData points = new PointPushData();
+                points.player1 = new List<int>() { 0, 0, 0, 0, 0 };
+                points.player2 = new List<int>() { 0, 0, 0, 0, 0 };
+                UpdateUIRunePoint(points);
         }
 
-        public void UpdateUIRunePoint(List<int> runePoints)
+        public void UpdateUIRunePoint(PointPushData runePoints)
         {
-                for (int i = 0; i < runePoints.Count; i++)
+                List<int> points = SocketManager.Instance.PlayerData.playerindex==0 ? runePoints.player1 : runePoints.player2;
+                for (int i = 0; i < points.Count; i++)
                 {
                         if (i == (int)RuneType.Shield)
                         {
-                                uiShieldRunePoint.SetFillImage((float)runePoints[i]/(float)GameManager.Instance.GameManagerSO.MaxRunePoint);
+                                uiShieldRunePoint.SetFillImage((float)points[i]/(float)GameManager.Instance.GameManagerSO.MaxRunePoint);
                         }
                         else
                         {
-                                Debug.Log(i.ToString());
-                                uiRunePoint[i].SetPointText(runePoints[i]);
+                                // Debug.Log(i.ToString());
+                                uiRunePoint[i].SetPointText(points[i]);
                         }
                 }
         }

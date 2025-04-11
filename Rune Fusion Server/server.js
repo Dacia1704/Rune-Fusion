@@ -51,7 +51,7 @@ io.on("connection", (socket) => {
         handle_find_match_event(io, socket, playerData, queuePlayerWaiting, roomsPlaying);
     });
     socket.on(EVENTS.GAME.PICK_MONSTER_POST, (data) => {
-        console.log(data);
+        // console.log(data);
         handle_pick_monster_event(io, socket, roomsPlaying, data);
     });
     socket.on(EVENTS.GAME.PICK_MONSTER_CONFIRM_POST, (data) => {
@@ -125,6 +125,20 @@ io.on("connection", (socket) => {
             // gửi turn list
             handle_game_start_event(io, socket, roomsPlaying);
         }
+    });
+
+    socket.on(EVENTS.GAME.POINT_INIT_REQUEST, (data) => {
+        //send point init
+        const maxPoint = 100;
+        const initPoint = Math.floor(maxPoint);
+        const initPoint2 = Math.floor(maxPoint / 2);
+        roomsPlaying[socket.roomId].player1.rune_points = [initPoint, initPoint, initPoint, initPoint, initPoint];
+        roomsPlaying[socket.roomId].player2.rune_points = [initPoint2, initPoint2, initPoint2, initPoint2, initPoint2];
+        const point = {
+            player1: roomsPlaying[socket.roomId].player1.rune_points,
+            player2: roomsPlaying[socket.roomId].player2.rune_points,
+        };
+        io.to(socket.roomId).emit(EVENTS.GAME.POINT_INIT_RESPONSE, point);
     });
 
     socket.on(EVENTS.RUNE.SWAP_RUNE, (data) => {

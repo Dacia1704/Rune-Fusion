@@ -47,15 +47,4 @@ export function handle_game_start_event(io, socket, roomsPlaying) {
     //send turn update
     update_turn_monster(roomsPlaying[socket.roomId]);
     io.to(socket.roomId).emit(EVENTS.GAME.TURN_BASE_LIST_PUSH_DATA, roomsPlaying[socket.roomId].turn_base_data);
-
-    //send point init
-    const maxPoint = 100;
-    const initPoint = Math.floor(maxPoint);
-    roomsPlaying[socket.roomId].player1.rune_points = [initPoint, initPoint, initPoint, initPoint, initPoint];
-    roomsPlaying[socket.roomId].player2.rune_points = [initPoint, initPoint, initPoint, initPoint, initPoint];
-    const point = {
-        player1: roomsPlaying[socket.roomId].player1.rune_points,
-        player2: roomsPlaying[socket.roomId].player2.rune_points,
-    };
-    io.to(socket.roomId).emit(EVENTS.GAME.POINT_INIT, point);
 }

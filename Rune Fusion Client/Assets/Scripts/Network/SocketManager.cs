@@ -134,8 +134,9 @@ public class SocketManager : MonoBehaviour
         {
             UnityThread.executeCoroutine(ChangeSceneCoroutine(SceneLoadManager.Instance.GameSceneName));
         });
-        socket.On(SocketEvents.Game.POINT_INIT, data =>
+        socket.On(SocketEvents.Game.POINT_INIT_RESPONSE, data =>
         {
+            Debug.Log("Game point init" + data.ToString());
             List<PointPushData> response = JsonConvert.DeserializeObject<List<PointPushData>>(data.ToString());
             UnityThread.executeCoroutine(UpdatePointDataCoroutine(response[0]));
         });
@@ -289,4 +290,8 @@ public class SocketManager : MonoBehaviour
     {
         socket.Emit(SocketEvents.Game.PICK_MONSTER_CONFIRM_POST);
     }
+    public void RequestPointInit(){
+    {
+        socket.Emit(SocketEvents.Game.POINT_INIT_REQUEST);
+    }}
 }

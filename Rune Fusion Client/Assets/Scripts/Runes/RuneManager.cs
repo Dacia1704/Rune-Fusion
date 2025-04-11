@@ -39,11 +39,12 @@ public class RuneManager : MonoBehaviour
     private Tuple<List<Tuple<int, int>>,RuneForm,Tuple<int,int>,SwapDirection> runeHintList;
     public List<int> RunePointsPlayer { get; private set; } // order by RuneType
     public List<int> RunePointsOpponent { get; private set; } // order by RuneType
-    public event Action<List<int>> OnRunePointsChanged;
+    public event Action<PointPushData> OnRunePointsChanged;
     
     private void Awake()
     {
         RuneObjectPoolManager = FindFirstObjectByType<RuneObjectPoolManager>();
+        OnRunePointsChanged += GameUIManager.Instance.UIRunePointManager.UpdateUIRunePoint;
     }
 
     private void Start()
@@ -55,10 +56,9 @@ public class RuneManager : MonoBehaviour
         RunePointsOpponent = new List<int>{0,0,0,0,0};
         GameUIManager.Instance.UITimeCounter.OnTimeCanHint += ShowHintRune;
         GameUIManager.Instance.UITimeCounter.OnTimeCounterEnd += SwapRunesHint;
-        OnRunePointsChanged += GameUIManager.Instance.UIRunePointManager.UpdateUIRunePoint;
+        
     }
     #region Map Core
-
     public void UpdatePoint(PointPushData runePoints)
     {
         if (SocketManager.Instance.PlayerData.playerindex == 0)
@@ -73,7 +73,7 @@ public class RuneManager : MonoBehaviour
         }
         Debug.Log("Player1: "+ string.Join(" ", runePoints.player1));
         Debug.Log("Player2: "+string.Join(" ", runePoints.player2));
-        OnRunePointsChanged?.Invoke(RunePointsPlayer);
+        OnRunePointsChanged?.Invoke(runePoints);
     }
     public float GetHeightRunesMap()
     {
@@ -662,7 +662,14 @@ public class RuneManager : MonoBehaviour
             case RuneForm.Special: point = 10; break;
         }
         RunePointsPlayer[(int)rune.Type] += point;
-        OnRunePointsChanged?.Invoke(RunePointsPlayer);
+        PointPushData points = new PointPushData()
+        {
+            player1 = SocketManager.Instance.PlayerData.playerindex == 0 ? RunePointsPlayer : RunePointsOpponent,
+            player2 = SocketManager.Instance.PlayerData.playerindex == 1 ? RunePointsPlayer : RunePointsOpponent,
+        };
+        Debug.Log("Player1: "+ string.Join(" ", points.player1));
+        Debug.Log("Player2: "+string.Join(" ", points.player2));
+        OnRunePointsChanged?.Invoke(points);
     }
 
     public void ReleaseRunePoint(RuneType runeType, int amount)

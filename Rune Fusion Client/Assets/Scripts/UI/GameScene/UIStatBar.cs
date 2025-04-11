@@ -5,6 +5,7 @@ using UnityEngine.UI;
 
 public class UIStatBar: UIBase
 {
+        public int MaxValue { get; private set; }
         public Slider Slider { get; private set; }
         [field: SerializeField] public Image FillImage { get; private set; }
 
@@ -15,12 +16,16 @@ public class UIStatBar: UIBase
 
         public void SetMaxValue(int value)
         {
+                MaxValue = value;
                 Slider.maxValue = value;
         }
 
         public void SetValue(int value)
         {
-                if(value > Slider.maxValue) value = (int)Slider.maxValue;
+                if (value < 200)
+                {
+                        Debug.Log("Update skill bar2: "+ value);
+                }
                 this.DOKill();
                 Slider.DOValue(value, 0.1f).SetEase(Ease.Linear).OnComplete(() => Slider.value = value);
         }

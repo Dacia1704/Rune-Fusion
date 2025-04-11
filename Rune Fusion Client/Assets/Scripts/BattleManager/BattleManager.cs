@@ -80,7 +80,7 @@ public class BattleManager : MonoBehaviour
                 MonsterTeam2Dictionary[monsterListData.player2[2].id_in_battle].MonsterIdInBattle = monsterListData.player2[2].id_in_battle;
                 MonsterTeam2Dictionary[monsterListData.player2[2].id_in_battle].transform.SetParent(ArenaManager.transform);
                 
-                
+                SocketManager.Instance.RequestPointInit();
                 if (TurnManager.PlayerIndex == 0)
                 {
                         foreach (MonsterBase monsterBase in MonsterTeam2Dictionary.Values)
