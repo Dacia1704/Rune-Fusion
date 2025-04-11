@@ -294,4 +294,9 @@ public class SocketManager : MonoBehaviour
     {
         socket.Emit(SocketEvents.Game.POINT_INIT_REQUEST);
     }}
+
+    public void PostRunePoint(PointPushData pointPushData)
+    {
+        socket.Emit(SocketEvents.Game.POINT_UPDATE_POST, JsonUtility.ToJson(pointPushData));
+    }
 }

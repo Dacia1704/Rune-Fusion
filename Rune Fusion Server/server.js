@@ -131,9 +131,8 @@ io.on("connection", (socket) => {
         //send point init
         const maxPoint = 100;
         const initPoint = Math.floor(maxPoint);
-        const initPoint2 = Math.floor(maxPoint / 2);
         roomsPlaying[socket.roomId].player1.rune_points = [initPoint, initPoint, initPoint, initPoint, initPoint];
-        roomsPlaying[socket.roomId].player2.rune_points = [initPoint2, initPoint2, initPoint2, initPoint2, initPoint2];
+        roomsPlaying[socket.roomId].player2.rune_points = [initPoint, initPoint, initPoint, initPoint, initPoint];
         const point = {
             player1: roomsPlaying[socket.roomId].player1.rune_points,
             player2: roomsPlaying[socket.roomId].player2.rune_points,

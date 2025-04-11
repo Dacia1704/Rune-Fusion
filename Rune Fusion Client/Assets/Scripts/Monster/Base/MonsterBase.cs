@@ -44,6 +44,7 @@ public abstract class MonsterBase : MonoBehaviour
         CurrentTurnActionResponse = new Dictionary<MonsterBase, ActionResponse>();
         OnHealthChange += UIHeathSkillBarManager.SetHealthBar;
         GameManager.Instance.RuneManager.OnRunePointsChanged += UpdateSkillBar;
+        
     }
 
     protected virtual void Start()
@@ -68,8 +69,6 @@ public abstract class MonsterBase : MonoBehaviour
         UIHeathSkillBarManager.SetMaxSkillBar(MonsterPropsSO.MonsterData.Skills[1].PointCost);
         ShouldUseSkill = false;
     }
-
-    
     
     protected virtual void Update()
     {
@@ -274,16 +273,32 @@ public abstract class MonsterBase : MonoBehaviour
         UIHeathSkillBarManager.SetSkillBar(point);
     }
 
-    public void ChangeSkillApperance()
+    public void EnableSkillMode()
+    {
+        if (!ShouldUseSkill)
+        {
+            ShouldUseSkill = true;
+            ChangeSkillApperance();
+        }
+        else
+        {
+            ShouldUseSkill = false;
+            ChangeNomalApperance();
+        }
+    }
+
+    private void ChangeSkillApperance()
     {
         UIHeathSkillBarManager.SetSkillBar(0);
         GameManager.Instance.RuneManager.ReleaseRunePoint((RuneType)((int)MonsterPropsSO.MonsterData.Type),MonsterPropsSO.MonsterData.Skills[1].PointCost);
+        MonsterAnimationManager.StartSkillEffect();
     }
 
-    public void ChangeNomalApperance()
+    private void ChangeNomalApperance()
     {
         UIHeathSkillBarManager.SetSkillBar(MonsterPropsSO.MonsterData.Skills[1].PointCost);
         GameManager.Instance.RuneManager.AddRunePointByTpe((RuneType)((int)MonsterPropsSO.MonsterData.Type),MonsterPropsSO.MonsterData.Skills[1].PointCost);
+        MonsterAnimationManager.EndSkillEffect();
     }
     
 }

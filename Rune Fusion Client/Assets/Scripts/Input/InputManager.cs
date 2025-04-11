@@ -11,7 +11,7 @@ public class InputManager : MonoBehaviour
 
         private float lastClickTime;
         private MonsterBase lastClickMonsterAlly;
-        private float doubleClickThreshold =0.1f;
+        private float doubleClickThreshold =0.5f;
 
         public event Action<MonsterBase> OnMonsterTarget;
         public event Action<MonsterBase> OnMonsterAllyDoubleClick;
@@ -20,6 +20,7 @@ public class InputManager : MonoBehaviour
         {
                 enablePlayerInput = false;
                 enableMonsterInput = false;
+                enableSkillInput = false;
                 SetEnableMonsterInput();
         }
 
@@ -75,6 +76,7 @@ public class InputManager : MonoBehaviour
                                                 MonsterBase clickMonster = touchedTransform.parent.GetComponent<MonsterBase>();
                                                 if (lastClickMonsterAlly == clickMonster && Time.time - lastClickTime <= doubleClickThreshold)
                                                 {
+                                                      Debug.Log("Double click "+ clickMonster.gameObject.name);
                                                       OnMonsterAllyDoubleClick?.Invoke(clickMonster);  
                                                 }
                                                 lastClickMonsterAlly = clickMonster;
@@ -177,11 +179,13 @@ public class InputManager : MonoBehaviour
         public void SetEnableMonsterInput()
         {
                 enableMonsterInput = true;
+                enableSkillInput = true;
         }
 
         public void SetDisableMonsterInput()
         {
                 enableMonsterInput = false;
+                enableSkillInput = false;
         }
         
 }

@@ -670,16 +670,29 @@ public class RuneManager : MonoBehaviour
         Debug.Log("Player1: "+ string.Join(" ", points.player1));
         Debug.Log("Player2: "+string.Join(" ", points.player2));
         OnRunePointsChanged?.Invoke(points);
+        SocketManager.Instance.PostRunePoint(points);
     }
 
     public void ReleaseRunePoint(RuneType runeType, int amount)
     {
+        PointPushData points = new PointPushData()
+        {
+            player1 = SocketManager.Instance.PlayerData.playerindex == 0 ? RunePointsPlayer : RunePointsOpponent,
+            player2 = SocketManager.Instance.PlayerData.playerindex == 1 ? RunePointsPlayer : RunePointsOpponent,
+        };
         RunePointsPlayer[(int)runeType] -= amount;
+        OnRunePointsChanged?.Invoke(points);
     }
 
     public void AddRunePointByTpe(RuneType runeType, int amount)
     {
+        PointPushData points = new PointPushData()
+        {
+            player1 = SocketManager.Instance.PlayerData.playerindex == 0 ? RunePointsPlayer : RunePointsOpponent,
+            player2 = SocketManager.Instance.PlayerData.playerindex == 1 ? RunePointsPlayer : RunePointsOpponent,
+        };
         RunePointsPlayer[(int)runeType] += amount;
+        OnRunePointsChanged?.Invoke(points);
     }
     #endregion
     
