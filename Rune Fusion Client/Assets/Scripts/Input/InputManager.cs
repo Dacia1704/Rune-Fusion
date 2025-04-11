@@ -7,8 +7,14 @@ public class InputManager : MonoBehaviour
         private float swipeThreshold;
         private bool enablePlayerInput;
         private bool enableMonsterInput;
+        private bool enableSkillInput;
+
+        private float lastClickTime;
+        private MonsterBase lastClickMonsterAlly;
+        private float doubleClickThreshold =0.1f;
 
         public event Action<MonsterBase> OnMonsterTarget;
+        public event Action<MonsterBase> OnMonsterAllyDoubleClick;
 
         private void Awake()
         {
@@ -52,6 +58,29 @@ public class InputManager : MonoBehaviour
                                                 OnMonsterTarget?.Invoke(touchedTransform.parent.GetComponent<MonsterBase>());
                                         }
                                 }
+                        }
+                }
+
+                if (enableSkillInput)
+                {
+                        if (Input.GetMouseButtonDown(0))
+                        {
+                                Vector2 touchPosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+                                RaycastHit2D hit = Physics2D.Raycast(touchPosition, Vector2.zero);
+                                if (hit.collider != null)
+                                {
+                                        Transform touchedTransform = hit.collider.transform;
+                                        if (touchedTransform.CompareTag("Ally"))
+                                        {
+                                                MonsterBase clickMonster = touchedTransform.parent.GetComponent<MonsterBase>();
+                                                if (lastClickMonsterAlly == clickMonster && Time.time - lastClickTime <= doubleClickThreshold)
+                                                {
+                                                      OnMonsterAllyDoubleClick?.Invoke(clickMonster);  
+                                                }
+                                                lastClickMonsterAlly = clickMonster;
+                                                lastClickTime = Time.time;
+                                        }
+                                }  
                         }
                 }
         }

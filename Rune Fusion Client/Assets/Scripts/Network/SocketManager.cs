@@ -134,10 +134,25 @@ public class SocketManager : MonoBehaviour
         {
             UnityThread.executeCoroutine(ChangeSceneCoroutine(SceneLoadManager.Instance.GameSceneName));
         });
+        socket.On(SocketEvents.Game.POINT_INIT, data =>
+        {
+            List<PointPushData> response = JsonConvert.DeserializeObject<List<PointPushData>>(data.ToString());
+            UnityThread.executeCoroutine(UpdatePointDataCoroutine(response[0]));
+        });
+        socket.On(SocketEvents.Game.POINT_UPDATE_PUSH, data =>
+        {
+            List<PointPushData> response = JsonConvert.DeserializeObject<List<PointPushData>>(data.ToString());
+            UnityThread.executeCoroutine(UpdatePointDataCoroutine(response[0]));
+        });
         
         socket.Connect();
     }
     // get
+    private IEnumerator UpdatePointDataCoroutine(PointPushData data)
+    {
+        GameManager.Instance.RuneManager.UpdatePoint(data);
+        yield return null;
+    }
     private IEnumerator ConfirmMonsterTurnPickCoroutine()
     {
         PickSceneUIManager.Instance.PickSlotManager.ConfirmPick();

@@ -29,7 +29,10 @@
         public const string PICK_MONSTER_CONFIRM_POST = "pick_monster_confirm_post";
         public const string PICK_MONSTER_CONFIRM_PUSH = "pick_monster_confirm_push";
         public const string END_PICK_MONSTER = "end_pick_monster";
-        
+        public const string POINT_INIT= "point_init";
+        public const string POINT_UPDATE_POST = "point_update_post";
+        public const string POINT_UPDATE_PUSH = "point_update_push";
+
     }
 
     public static class Monster

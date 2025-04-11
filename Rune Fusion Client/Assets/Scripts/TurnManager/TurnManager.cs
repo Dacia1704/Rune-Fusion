@@ -112,7 +112,9 @@ public class TurnManager : MonoBehaviour
     {
         yield return new WaitUntil(() => GameManager.Instance.BattleManager.TargetManager.TargetedMonster != null);
         string currentTurnId = TurnBaseQueue[0].id_in_battle;
-        SocketManager.Instance.RequestMonsterAction(currentTurnId,new List<string>(){GameManager.Instance.BattleManager.TargetManager.TargetedMonster.MonsterIdInBattle},"1");
+        MonsterBase monsterBase = GameManager.Instance.BattleManager.GetMonsterByIdInBattle(currentTurnId);
+        SocketManager.Instance.RequestMonsterAction(currentTurnId,new List<string>(){GameManager.Instance.BattleManager.TargetManager.TargetedMonster.MonsterIdInBattle},monsterBase.ShouldUseSkill ?"1": "0");
+        monsterBase.ShouldUseSkill = false;        
         isTimeMonsterEnd = true;
         GameUIManager.Instance.UITimeCounter.EndCountTime();
         yield return null;

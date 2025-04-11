@@ -24,6 +24,8 @@ public abstract class MonsterBase : MonoBehaviour
     public Action SkillTaskComplete;
     public Action HitTaskComplete;
 
+    public bool ShouldUseSkill;
+
 
     public bool IsAllAnimationEnd;
     public bool IsUpdateEffect;
@@ -62,10 +64,14 @@ public abstract class MonsterBase : MonoBehaviour
         stateMachine = new StateMachine();
         UIHeathSkillBarManager.SetMaxHealthBar(MonsterStatsInBattle.Health);
         UIHeathSkillBarManager.SetHealthBar(MonsterStatsInBattle.Health);
+        UIHeathSkillBarManager.SetMaxSkillBar(MonsterPropsSO.MonsterData.Skills[1].PointCost);
+        UIHeathSkillBarManager.SetSkillBar(0);
         IsAllAnimationEnd = false;
         IsUpdateEffect = false;
         IsFrozen = false;
         HitTaskComplete += ChangeNomalIdleState;
+        GameManager.Instance.RuneManager.OnRunePointsChanged += UpdateSkillBar;
+        ShouldUseSkill = false;
     }
     protected virtual void Update()
     {
@@ -127,7 +133,9 @@ public abstract class MonsterBase : MonoBehaviour
     }
     public void GetDam(int dam,EffectSkill effect=null)
     {
-        MonsterStatsInBattle.Health -= dam;
+        int health = MonsterStatsInBattle.Health-dam;
+        
+        MonsterStatsInBattle.Health = Mathf.Clamp(health,0,MonsterPropsSO.MonsterData.BaseStats.Health);
         if ( effect!=null && effect.EffectType != EffectType.None && effect.EffectType != EffectType.Heal )
         {
             if (effect.EffectType == EffectType.Burn)
@@ -260,4 +268,22 @@ public abstract class MonsterBase : MonoBehaviour
             effectObj.GetComponent<UIEffect>().SetDuration(effect.duration);
         }
     }
+
+    private void UpdateSkillBar(List<int> runePoints)
+    {
+        UIHeathSkillBarManager.SetSkillBar(runePoints[(int)MonsterPropsSO.MonsterData.Type]);
+    }
+
+    public void ChangeSkillApperance()
+    {
+        UIHeathSkillBarManager.SetSkillBar(0);
+        GameManager.Instance.RuneManager.ReleaseRunePoint((RuneType)((int)MonsterPropsSO.MonsterData.Type),MonsterPropsSO.MonsterData.Skills[1].PointCost);
+    }
+
+    public void ChangeNomalApperance()
+    {
+        UIHeathSkillBarManager.SetSkillBar(MonsterPropsSO.MonsterData.Skills[1].PointCost);
+        GameManager.Instance.RuneManager.AddRunePointByTpe((RuneType)((int)MonsterPropsSO.MonsterData.Type),MonsterPropsSO.MonsterData.Skills[1].PointCost);
+    }
+    
 }

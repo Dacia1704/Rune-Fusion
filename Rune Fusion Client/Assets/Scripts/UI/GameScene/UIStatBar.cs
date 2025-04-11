@@ -5,22 +5,24 @@ using UnityEngine.UI;
 
 public class UIStatBar: UIBase
 {
-        private Slider slider;
+        public Slider Slider { get; private set; }
+        [field: SerializeField] public Image FillImage { get; private set; }
 
         private void Awake()
         {
-                slider = GetComponent<Slider>();
+                Slider = GetComponent<Slider>();
         }
 
         public void SetMaxValue(int value)
         {
-                slider.maxValue = value;
+                Slider.maxValue = value;
         }
 
         public void SetValue(int value)
         {
+                if(value > Slider.maxValue) value = (int)Slider.maxValue;
                 this.DOKill();
-                slider.DOValue(value, 0.1f).SetEase(Ease.Linear).OnComplete(() => slider.value = value);
+                Slider.DOValue(value, 0.1f).SetEase(Ease.Linear).OnComplete(() => Slider.value = value);
         }
         
         

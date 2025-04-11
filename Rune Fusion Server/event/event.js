@@ -24,6 +24,9 @@ const EVENTS = {
         PICK_MONSTER_CONFIRM_POST: "pick_monster_confirm_post",
         PICK_MONSTER_CONFIRM_PUSH: "pick_monster_confirm_push",
         END_PICK_MONSTER: "end_pick_monster",
+        POINT_INIT: "point_init",
+        POINT_UPDATE_POST: "point_update_post",
+        POINT_UPDATE_PUSH: "point_update_push",
     },
     MONSTER: {
         MONSTER_LIST: "monster_list",

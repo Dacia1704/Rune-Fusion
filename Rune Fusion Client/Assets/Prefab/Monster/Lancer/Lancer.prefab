@@ -103,6 +103,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b3fc8277e37a4499be188b990a1b81c1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  <FillImage>k__BackingField: {fileID: 5344564148172787034}
 --- !u!1 &1045622125126628386
 GameObject:
   m_ObjectHideFlags: 0
@@ -990,6 +991,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b3fc8277e37a4499be188b990a1b81c1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  <FillImage>k__BackingField: {fileID: 765082439877667669}
 --- !u!1 &7687307577633723957
 GameObject:
   m_ObjectHideFlags: 0
@@ -1236,6 +1238,7 @@ MonoBehaviour:
     EffectList: []
   MonsterIndexinBattle: 0
   MonsterIdInBattle: 
+  ShouldUseSkill: 0
   IsAllAnimationEnd: 0
   IsUpdateEffect: 0
   FrozenGameObject: {fileID: 9113581044142508403}

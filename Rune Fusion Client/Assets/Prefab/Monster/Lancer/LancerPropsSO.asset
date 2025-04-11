@@ -40,6 +40,7 @@ MonoBehaviour:
           duration: 2
         Effectiveness: 1
       Icon: {fileID: 0}
+      PointCost: 0
     - Id: 1
       Name: Ultimate Skill
       Description: Ultimate Skill
@@ -55,5 +56,6 @@ MonoBehaviour:
           duration: 2
         Effectiveness: 1
       Icon: {fileID: 0}
+      PointCost: 80
   Icon: {fileID: -1535648711, guid: e2693a9f917b6b04d9f0feab9c6809b6, type: 3}
   AttackOffset: 0.4

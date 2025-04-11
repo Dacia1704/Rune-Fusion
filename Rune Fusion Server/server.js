@@ -72,6 +72,21 @@ io.on("connection", (socket) => {
             }
         });
         if (isPickAll) {
+            roomsPlaying[socket.roomId].player1.monsters.forEach((mon) => {
+                roomsPlaying[socket.roomId].turn_base_data.push({
+                    id_in_battle: mon.id_in_battle,
+                    speed: mon.data.stats.speed,
+                    progress: 0,
+                });
+            });
+            roomsPlaying[socket.roomId].player2.monsters.forEach((mon) => {
+                roomsPlaying[socket.roomId].turn_base_data.push({
+                    id_in_battle: mon.id_in_battle,
+                    speed: mon.data.stats.speed,
+                    progress: 0,
+                });
+            });
+
             const fastestMonster1 = roomsPlaying[socket.roomId].player1.monsters.reduce((fastest, mon) => {
                 if (!mon || !mon.data) return fastest;
                 return !fastest || mon.data.stats.speed > fastest.data.stats.speed ? mon : fastest;
@@ -147,6 +162,13 @@ io.on("connection", (socket) => {
         console.log("monster: " + monster);
         const response = monster_update_effect(monster);
         io.in(socket.roomId).emit(EVENTS.MONSTER.UPDATE_EFFECT_RESPONSE, response);
+    });
+
+    socket.on(EVENTS.GAME.POINT_UPDATE_POST, (data) => {
+        const postData = JSON.parse(data);
+        roomsPlaying[socket.roomId].player1.rune_points = postData.player1;
+        roomsPlaying[socket.roomId].player2.rune_points = postData.player2;
+        socket.to(socket.roomId).emit(EVENTS.GAME.POINT_UPDATE_PUSH, postData);
     });
 
     socket.on("disconnect", (data) => {

@@ -60,6 +60,8 @@ public class MonsterSkill
         public List<Skill> ActionList;
         [JsonIgnore]
         public Sprite Icon;
+        [JsonProperty("point_cost")]
+        public int PointCost;
 }
 
 [Serializable]
@@ -85,6 +87,7 @@ public class Skill
         [JsonProperty("effectiveness")]
         public float Effectiveness;
         
+
 }
 [Serializable]
 public class EffectSkill

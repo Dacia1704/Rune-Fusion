@@ -6,7 +6,7 @@ public class GameUIManager: MonoBehaviour
 {
         public static GameUIManager Instance { get; private set; }
         public UITimeCounter UITimeCounter { get; private set; }
-        public UIRunePoint UIRunePoint { get; private set; }
+        public UIRunePointManager UIRunePointManager { get; private set; }
 
         public TextMeshProUGUI TurnText;
 
@@ -14,7 +14,7 @@ public class GameUIManager: MonoBehaviour
         {
                 Instance = this;
                 UITimeCounter = GetComponentInChildren<UITimeCounter>();
-                UIRunePoint = FindFirstObjectByType<UIRunePoint>();
+                UIRunePointManager = FindFirstObjectByType<UIRunePointManager>();
         }
 
         public void SetTurnText(string turnText, Color textColor)

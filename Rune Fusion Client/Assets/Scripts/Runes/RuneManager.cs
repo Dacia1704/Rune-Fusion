@@ -31,12 +31,16 @@ public class RuneManager : MonoBehaviour
     public Vector3[,] NewRunesPositionMap {get;private set;}
     private float sizeTile;
 
-    [FormerlySerializedAs("canChangeTurn")] [SerializeField] private bool IsSwapped;
+    [SerializeField] private bool IsSwapped;
     private bool hasNewRunesToGen;
     
     [SerializeField] private int countRuneSequences;
     
     private Tuple<List<Tuple<int, int>>,RuneForm,Tuple<int,int>,SwapDirection> runeHintList;
+    public List<int> RunePointsPlayer { get; private set; } // order by RuneType
+    public List<int> RunePointsOpponent { get; private set; } // order by RuneType
+    public event Action<List<int>> OnRunePointsChanged;
+    
     private void Awake()
     {
         RuneObjectPoolManager = FindFirstObjectByType<RuneObjectPoolManager>();
@@ -47,11 +51,30 @@ public class RuneManager : MonoBehaviour
         IsSwapped = false;
         hasNewRunesToGen = true;
         countRuneSequences = -1;
-        
+        RunePointsPlayer = new List<int>{0,0,0,0,0};
+        RunePointsOpponent = new List<int>{0,0,0,0,0};
         GameUIManager.Instance.UITimeCounter.OnTimeCanHint += ShowHintRune;
         GameUIManager.Instance.UITimeCounter.OnTimeCounterEnd += SwapRunesHint;
+        OnRunePointsChanged += GameUIManager.Instance.UIRunePointManager.UpdateUIRunePoint;
     }
     #region Map Core
+
+    public void UpdatePoint(PointPushData runePoints)
+    {
+        if (SocketManager.Instance.PlayerData.playerindex == 0)
+        {
+            RunePointsPlayer = runePoints.player1;
+            RunePointsOpponent = runePoints.player2;
+        }
+        else
+        {
+            RunePointsPlayer = runePoints.player2;
+            RunePointsOpponent = runePoints.player1;
+        }
+        Debug.Log("Player1: "+ string.Join(" ", runePoints.player1));
+        Debug.Log("Player2: "+string.Join(" ", runePoints.player2));
+        OnRunePointsChanged?.Invoke(RunePointsPlayer);
+    }
     public float GetHeightRunesMap()
     {
         sizeTile = CameraManager.Instance.GetWidthCamera()/ GameManager.Instance.GameManagerSO.WidthRuneMap;
@@ -448,6 +471,7 @@ public class RuneManager : MonoBehaviour
             {
                 runeObj.GetComponent<SpriteRenderer>().sortingOrder = 0;
                 RuneObjectPoolManager.ReleaseRune(runeObj);
+                AddRunePoint(runeObj.GetComponent<Rune>());
             }
             countRuneSequences--;
         });
@@ -518,6 +542,7 @@ public class RuneManager : MonoBehaviour
             {
                 runeObj.GetComponent<SpriteRenderer>().sortingOrder = 0;
                 RuneObjectPoolManager.ReleaseRune(runeObj);
+                AddRunePoint(runeObj.GetComponent<Rune>());
             }
             UpdateRuneState();
         });
@@ -621,6 +646,34 @@ public class RuneManager : MonoBehaviour
         return runeReleaseList;
     }}
 
+    public void AddRunePoint(Rune rune)
+    {
+        // base 3
+        // horizontal/ vertical = 5
+        // explosive = 5
+        // special = 10
+        int point = 0;
+        switch (rune.Form)
+        {
+            case RuneForm.Base: point = 3; break;
+            case RuneForm.Explosive: point = 5; break;
+            case RuneForm.Horizontal: point = 5; break;
+            case RuneForm.Vertical: point = 5; break;
+            case RuneForm.Special: point = 10; break;
+        }
+        RunePointsPlayer[(int)rune.Type] += point;
+        OnRunePointsChanged?.Invoke(RunePointsPlayer);
+    }
+
+    public void ReleaseRunePoint(RuneType runeType, int amount)
+    {
+        RunePointsPlayer[(int)runeType] -= amount;
+    }
+
+    public void AddRunePointByTpe(RuneType runeType, int amount)
+    {
+        RunePointsPlayer[(int)runeType] += amount;
+    }
     #endregion
     
     #region Check condition
