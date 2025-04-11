@@ -33,7 +33,7 @@ export function handle_find_match_event(io, socket, playerData, queuePlayerWaiti
                         is_locked: false,
                     },
                 ],
-
+                rune_points: [0, 0, 0, 0, 0],
                 ready: false,
             },
             player2: {
@@ -56,6 +56,7 @@ export function handle_find_match_event(io, socket, playerData, queuePlayerWaiti
                         is_locked: false,
                     },
                 ],
+                rune_points: [0, 0, 0, 0, 0],
                 ready: false,
             },
             turn_base_data: [], // id_in_battle, speed, progress

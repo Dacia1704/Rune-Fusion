@@ -134,10 +134,26 @@ public class SocketManager : MonoBehaviour
         {
             UnityThread.executeCoroutine(ChangeSceneCoroutine(SceneLoadManager.Instance.GameSceneName));
         });
+        socket.On(SocketEvents.Game.POINT_INIT_RESPONSE, data =>
+        {
+            Debug.Log("Game point init" + data.ToString());
+            List<PointPushData> response = JsonConvert.DeserializeObject<List<PointPushData>>(data.ToString());
+            UnityThread.executeCoroutine(UpdatePointDataCoroutine(response[0]));
+        });
+        socket.On(SocketEvents.Game.POINT_UPDATE_PUSH, data =>
+        {
+            List<PointPushData> response = JsonConvert.DeserializeObject<List<PointPushData>>(data.ToString());
+            UnityThread.executeCoroutine(UpdatePointDataCoroutine(response[0]));
+        });
         
         socket.Connect();
     }
     // get
+    private IEnumerator UpdatePointDataCoroutine(PointPushData data)
+    {
+        GameManager.Instance.RuneManager.UpdatePoint(data);
+        yield return null;
+    }
     private IEnumerator ConfirmMonsterTurnPickCoroutine()
     {
         PickSceneUIManager.Instance.PickSlotManager.ConfirmPick();
@@ -273,5 +289,14 @@ public class SocketManager : MonoBehaviour
     public void PostConfirmTurnPick()
     {
         socket.Emit(SocketEvents.Game.PICK_MONSTER_CONFIRM_POST);
+    }
+    public void RequestPointInit(){
+    {
+        socket.Emit(SocketEvents.Game.POINT_INIT_REQUEST);
+    }}
+
+    public void PostRunePoint(PointPushData pointPushData)
+    {
+        socket.Emit(SocketEvents.Game.POINT_UPDATE_POST, JsonUtility.ToJson(pointPushData));
     }
 }

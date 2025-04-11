@@ -5,22 +5,29 @@ using UnityEngine.UI;
 
 public class UIStatBar: UIBase
 {
-        private Slider slider;
+        public int MaxValue { get; private set; }
+        public Slider Slider { get; private set; }
+        [field: SerializeField] public Image FillImage { get; private set; }
 
         private void Awake()
         {
-                slider = GetComponent<Slider>();
+                Slider = GetComponent<Slider>();
         }
 
         public void SetMaxValue(int value)
         {
-                slider.maxValue = value;
+                MaxValue = value;
+                Slider.maxValue = value;
         }
 
         public void SetValue(int value)
         {
+                if (value < 200)
+                {
+                        Debug.Log("Update skill bar2: "+ value);
+                }
                 this.DOKill();
-                slider.DOValue(value, 0.1f).SetEase(Ease.Linear).OnComplete(() => slider.value = value);
+                Slider.DOValue(value, 0.1f).SetEase(Ease.Linear).OnComplete(() => Slider.value = value);
         }
         
         

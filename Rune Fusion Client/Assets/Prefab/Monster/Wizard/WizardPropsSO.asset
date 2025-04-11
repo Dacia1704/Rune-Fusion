@@ -40,6 +40,7 @@ MonoBehaviour:
           duration: 2
         Effectiveness: 1
       Icon: {fileID: 0}
+      PointCost: 0
     - Id: 1
       Name: Ultimate Skill
       Description: Ultimate Skill
@@ -55,6 +56,7 @@ MonoBehaviour:
           duration: 1
         Effectiveness: 0.7
       Icon: {fileID: 0}
+      PointCost: 80
   Icon: {fileID: 2030362658, guid: 1a81268b71f5d57459ff0c915322a780, type: 3}
   AttackOffset: 0
   <WizardFireBallPrefab>k__BackingField: {fileID: 9107807829003316585, guid: 0b28249f7ec790c42821ddbf228a2754, type: 3}

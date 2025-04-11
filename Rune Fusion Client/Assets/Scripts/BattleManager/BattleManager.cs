@@ -35,6 +35,7 @@ public class BattleManager : MonoBehaviour
                 ArenaManager = FindFirstObjectByType<ArenaManager>();
                 TargetManager = FindFirstObjectByType<TargetManager>();
                 GameManager.Instance.InputManager.OnMonsterTarget += TargetManager.TargetMonster;
+                GameManager.Instance.InputManager.OnMonsterAllyDoubleClick += SkillInputManager;
         }
         public void SetUpMonster(MonsterListData monsterListData)
         {
@@ -80,7 +81,7 @@ public class BattleManager : MonoBehaviour
                 MonsterTeam2Dictionary[monsterListData.player2[2].id_in_battle].MonsterIdInBattle = monsterListData.player2[2].id_in_battle;
                 MonsterTeam2Dictionary[monsterListData.player2[2].id_in_battle].transform.SetParent(ArenaManager.transform);
                 
-                
+                SocketManager.Instance.RequestPointInit();
                 if (TurnManager.PlayerIndex == 0)
                 {
                         foreach (MonsterBase monsterBase in MonsterTeam2Dictionary.Values)
@@ -102,6 +103,15 @@ public class BattleManager : MonoBehaviour
                         {
                                 monsterBase.SetAlly();
                         }
+                }
+        }
+
+        public void SkillInputManager(MonsterBase monster)
+        {
+                if (TurnManager.TurnBaseQueue[0].id_in_battle == monster.MonsterIdInBattle)
+                {
+                        monster.EnableSkillMode();
+                        Debug.Log("Enable skill" + monster.gameObject.name);
                 }
         }
 

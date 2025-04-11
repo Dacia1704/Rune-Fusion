@@ -9,8 +9,10 @@ public class UIMonsterSlotManager: MonoBehaviour
         public List<MonsterPropsSO> PickList {get; private set;}
 
         public Action<List<MonsterPropsSO>> OnPickChange;
+        private Dictionary<int,UIMonsterSlot> monsterSlotsDictionary;
         private void Start()
         {
+                monsterSlotsDictionary = new Dictionary<int, UIMonsterSlot>();
                 GenMonsterList();
                 PickSceneUIManager.Instance.OnStartPickTurn += StartPickTurn;
                 PickList = new List<MonsterPropsSO>();
@@ -21,6 +23,7 @@ public class UIMonsterSlotManager: MonoBehaviour
                 {
                         UIMonsterSlot monsterSlot = Instantiate(UIMonsterSlotPrefab, transform).GetComponent<UIMonsterSlot>();
                         monsterSlot.SetUp(monsterData,this);
+                        monsterSlotsDictionary.Add((int)monsterData.MonsterData.Id,monsterSlot);
                 }
         }
 
@@ -35,8 +38,7 @@ public class UIMonsterSlotManager: MonoBehaviour
                 {
                         PickList.Add(monsterDataList.Find((mon) => (int)(mon.MonsterData.Id) == id));
                 }
-                
-                
+                UpdatePickedMonster(data.picked_monsters);
                 OnPickChange?.Invoke(PickList);
         }
 
@@ -96,13 +98,11 @@ public class UIMonsterSlotManager: MonoBehaviour
                 return false;
         }
 
-        private void EnableInput()
+        private void UpdatePickedMonster(List<int> monsterIds)
         {
-                
-        }
-
-        private void DisableInput()
-        {
-                
+                foreach (int id in monsterIds)
+                {
+                        monsterSlotsDictionary[id].EnableCheck();
+                }
         }
 }

@@ -19,3 +19,4 @@ MonoBehaviour:
   <DurationDeleteRune>k__BackingField: 0.2
   <TimePlayerTurn>k__BackingField: 7
   <TimeMonsterTurn>k__BackingField: 3
+  <MaxRunePoint>k__BackingField: 100

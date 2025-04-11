@@ -51,7 +51,7 @@ io.on("connection", (socket) => {
         handle_find_match_event(io, socket, playerData, queuePlayerWaiting, roomsPlaying);
     });
     socket.on(EVENTS.GAME.PICK_MONSTER_POST, (data) => {
-        console.log(data);
+        // console.log(data);
         handle_pick_monster_event(io, socket, roomsPlaying, data);
     });
     socket.on(EVENTS.GAME.PICK_MONSTER_CONFIRM_POST, (data) => {
@@ -72,6 +72,21 @@ io.on("connection", (socket) => {
             }
         });
         if (isPickAll) {
+            roomsPlaying[socket.roomId].player1.monsters.forEach((mon) => {
+                roomsPlaying[socket.roomId].turn_base_data.push({
+                    id_in_battle: mon.id_in_battle,
+                    speed: mon.data.stats.speed,
+                    progress: 0,
+                });
+            });
+            roomsPlaying[socket.roomId].player2.monsters.forEach((mon) => {
+                roomsPlaying[socket.roomId].turn_base_data.push({
+                    id_in_battle: mon.id_in_battle,
+                    speed: mon.data.stats.speed,
+                    progress: 0,
+                });
+            });
+
             const fastestMonster1 = roomsPlaying[socket.roomId].player1.monsters.reduce((fastest, mon) => {
                 if (!mon || !mon.data) return fastest;
                 return !fastest || mon.data.stats.speed > fastest.data.stats.speed ? mon : fastest;
@@ -112,6 +127,19 @@ io.on("connection", (socket) => {
         }
     });
 
+    socket.on(EVENTS.GAME.POINT_INIT_REQUEST, (data) => {
+        //send point init
+        const maxPoint = 100;
+        const initPoint = Math.floor(maxPoint);
+        roomsPlaying[socket.roomId].player1.rune_points = [initPoint, initPoint, initPoint, initPoint, initPoint];
+        roomsPlaying[socket.roomId].player2.rune_points = [initPoint, initPoint, initPoint, initPoint, initPoint];
+        const point = {
+            player1: roomsPlaying[socket.roomId].player1.rune_points,
+            player2: roomsPlaying[socket.roomId].player2.rune_points,
+        };
+        io.to(socket.roomId).emit(EVENTS.GAME.POINT_INIT_RESPONSE, point);
+    });
+
     socket.on(EVENTS.RUNE.SWAP_RUNE, (data) => {
         const swapRuneData = JSON.parse(data);
         console.log(socket.roomId);
@@ -147,6 +175,13 @@ io.on("connection", (socket) => {
         console.log("monster: " + monster);
         const response = monster_update_effect(monster);
         io.in(socket.roomId).emit(EVENTS.MONSTER.UPDATE_EFFECT_RESPONSE, response);
+    });
+
+    socket.on(EVENTS.GAME.POINT_UPDATE_POST, (data) => {
+        const postData = JSON.parse(data);
+        roomsPlaying[socket.roomId].player1.rune_points = postData.player1;
+        roomsPlaying[socket.roomId].player2.rune_points = postData.player2;
+        socket.to(socket.roomId).emit(EVENTS.GAME.POINT_UPDATE_PUSH, postData);
     });
 
     socket.on("disconnect", (data) => {

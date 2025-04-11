@@ -885,8 +885,8 @@ RectTransform:
   m_Children: []
   m_Father: {fileID: 890818153}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0.5}
-  m_AnchorMax: {x: 0, y: 0.5}
+  m_AnchorMin: {x: 1, y: 0.5}
+  m_AnchorMax: {x: 1, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
@@ -1123,6 +1123,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 577953615}
+  - component: {fileID: 577953616}
   m_Layer: 5
   m_Name: DefendPoint
   m_TagString: Untagged
@@ -1151,6 +1152,18 @@ RectTransform:
   m_AnchoredPosition: {x: 243, y: 0}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &577953616
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 577953614}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 98a5ccb5e3734b9a961fa0e3d708bcf9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &656160009
 GameObject:
   m_ObjectHideFlags: 0
@@ -1231,8 +1244,8 @@ RectTransform:
   m_Children: []
   m_Father: {fileID: 1454118930}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 1, y: 0.5}
-  m_AnchorMax: {x: 1, y: 0.5}
+  m_AnchorMin: {x: 0, y: 0.5}
+  m_AnchorMax: {x: 0, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
@@ -1909,6 +1922,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 890818153}
+  - component: {fileID: 890818154}
   m_Layer: 5
   m_Name: PhysicAttackPoint
   m_TagString: Untagged
@@ -1934,9 +1948,21 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -513, y: 0}
+  m_AnchoredPosition: {x: -486, y: 0}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &890818154
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 890818152}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 98a5ccb5e3734b9a961fa0e3d708bcf9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &919702180
 GameObject:
   m_ObjectHideFlags: 0
@@ -2242,8 +2268,8 @@ RectTransform:
   m_Children: []
   m_Father: {fileID: 1454118930}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0.5}
-  m_AnchorMax: {x: 0, y: 0.5}
+  m_AnchorMin: {x: 1, y: 0.5}
+  m_AnchorMax: {x: 1, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
@@ -2314,6 +2340,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d827d5ee545b490e9394ef57bc315516, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  uiRunePoint:
+  - {fileID: 890818154}
+  - {fileID: 1454118931}
+  - {fileID: 577953616}
+  - {fileID: 1618786444}
+  uiShieldRunePoint: {fileID: 2052396084}
 --- !u!4 &1193465388
 Transform:
   m_ObjectHideFlags: 0
@@ -2551,6 +2583,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1454118930}
+  - component: {fileID: 1454118931}
   m_Layer: 5
   m_Name: MagicAttackPoint
   m_TagString: Untagged
@@ -2576,9 +2609,21 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -281, y: 0}
+  m_AnchoredPosition: {x: -254.00005, y: 0}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &1454118931
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1454118929}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 98a5ccb5e3734b9a961fa0e3d708bcf9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1503742555
 GameObject:
   m_ObjectHideFlags: 0
@@ -2863,6 +2908,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1618786443}
+  - component: {fileID: 1618786444}
   m_Layer: 5
   m_Name: HealthPoint
   m_TagString: Untagged
@@ -2891,6 +2937,18 @@ RectTransform:
   m_AnchoredPosition: {x: 509, y: 0}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &1618786444
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1618786442}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 98a5ccb5e3734b9a961fa0e3d708bcf9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1645229349
 GameObject:
   m_ObjectHideFlags: 0
@@ -2923,8 +2981,8 @@ RectTransform:
   m_Children: []
   m_Father: {fileID: 890818153}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 1, y: 0.5}
-  m_AnchorMax: {x: 1, y: 0.5}
+  m_AnchorMin: {x: 0, y: 0.5}
+  m_AnchorMax: {x: 0, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
@@ -3164,7 +3222,7 @@ MonoBehaviour:
   m_PreserveAspect: 0
   m_FillCenter: 1
   m_FillMethod: 1
-  m_FillAmount: 1
+  m_FillAmount: 0.5
   m_FillClockwise: 1
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
@@ -3740,8 +3798,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2052396083}
+  - component: {fileID: 2052396084}
   m_Layer: 5
-  m_Name: Shield
+  m_Name: ShieldPoint
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3768,6 +3827,19 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &2052396084
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2052396082}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d068fdee523449fa9420cbb894fba9dd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  fillImage: {fileID: 1744639565}
 --- !u!1 &2053942335
 GameObject:
   m_ObjectHideFlags: 0
@@ -3991,9 +4063,9 @@ SceneRoots:
   - {fileID: 755990548}
   - {fileID: 413200831}
   - {fileID: 2094798999}
-  - {fileID: 1791785944}
   - {fileID: 1591008029}
   - {fileID: 1193465388}
   - {fileID: 113068143}
   - {fileID: 878072201}
   - {fileID: 451218728}
+  - {fileID: 1791785944}

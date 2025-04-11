@@ -9,7 +9,8 @@ public class GameManagerSO : ScriptableObject
         [field: SerializeField] public float DurationSwapRune { get; private set; }
         [field: SerializeField] public float DurationDeleteRune { get; private set; }
         [field: SerializeField] public float TimePlayerTurn { get; private set; }
-        [field: SerializeField] public float TimeMonsterTurn { get; private set; }
+        [field: SerializeField] public int TimeMonsterTurn { get; private set; }
+        [field: SerializeField] public int MaxRunePoint { get; private set; }
         
         public void SetWidthRuneMap(int widthRuneMap)
         {

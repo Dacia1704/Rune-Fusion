@@ -14,6 +14,8 @@ public class MonsterAnimationManager : MonoBehaviour
         private Animator animator;
         private MonsterBase monster;
 
+        [SerializeField] private Animator skillEffect;
+
         public event Action OnAttack;
         public event Action OnSkill;
 
@@ -21,6 +23,18 @@ public class MonsterAnimationManager : MonoBehaviour
         {
                 animator = GetComponent<Animator>();
                 monster = GetComponentInParent<MonsterBase>();
+                skillEffect.gameObject.SetActive(false);
+        }
+
+        public void StartSkillEffect()
+        {
+                skillEffect.gameObject.SetActive(true);
+                skillEffect.Play("SkillStart");
+        }
+
+        public void EndSkillEffect()
+        {
+                skillEffect.gameObject.SetActive(false);
         }
 
         public virtual void PlayAnimation(string nameAnimation, float normalizedTime,int layer = 0 )
