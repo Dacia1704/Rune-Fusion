@@ -661,8 +661,8 @@ public class RuneManager : MonoBehaviour
             case RuneForm.Vertical: point = 5; break;
             case RuneForm.Special: point = 10; break;
         }
-        RunePointsPlayer[(int)rune.Type] += point;
-        PointPushData points = new PointPushData()
+        RunePointsPlayer[(int)rune.Type] = Math.Clamp(RunePointsPlayer[(int)rune.Type] + point, 0, GameManager.Instance.GameManagerSO.MaxRunePoint);
+        PointPushData points = new PointPushData
         {
             player1 = SocketManager.Instance.PlayerData.playerindex == 0 ? RunePointsPlayer : RunePointsOpponent,
             player2 = SocketManager.Instance.PlayerData.playerindex == 1 ? RunePointsPlayer : RunePointsOpponent,
@@ -680,7 +680,7 @@ public class RuneManager : MonoBehaviour
             player1 = SocketManager.Instance.PlayerData.playerindex == 0 ? RunePointsPlayer : RunePointsOpponent,
             player2 = SocketManager.Instance.PlayerData.playerindex == 1 ? RunePointsPlayer : RunePointsOpponent,
         };
-        RunePointsPlayer[(int)runeType] -= amount;
+        RunePointsPlayer[(int)runeType] = Math.Clamp(RunePointsPlayer[(int)runeType] -amount, 0, GameManager.Instance.GameManagerSO.MaxRunePoint);
         OnRunePointsChanged?.Invoke(points);
     }
 
@@ -691,7 +691,7 @@ public class RuneManager : MonoBehaviour
             player1 = SocketManager.Instance.PlayerData.playerindex == 0 ? RunePointsPlayer : RunePointsOpponent,
             player2 = SocketManager.Instance.PlayerData.playerindex == 1 ? RunePointsPlayer : RunePointsOpponent,
         };
-        RunePointsPlayer[(int)runeType] += amount;
+        RunePointsPlayer[(int)runeType] = Math.Clamp(RunePointsPlayer[(int)runeType] + amount, 0, GameManager.Instance.GameManagerSO.MaxRunePoint);
         OnRunePointsChanged?.Invoke(points);
     }
     #endregion
