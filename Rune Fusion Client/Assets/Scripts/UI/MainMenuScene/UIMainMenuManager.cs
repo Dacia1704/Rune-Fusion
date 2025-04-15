@@ -18,8 +18,8 @@ public class UIMainMenuManager: MonoBehaviour
                 UIRegisterScreen = GetComponentInChildren<UIRegisterScreen>();
                 UIFindMatchScreen = GetComponentInChildren<UIFindMatchScreen>();
                 UISubScreenPosition = UIRegisterScreen.transform.position;
-                UIRegisterScreen.Hide();
-                UIFindMatchScreen.Hide();
+                // UIRegisterScreen.Hide();
+                // UIFindMatchScreen.Hide();
                 currentUIScreen = UILoginScreen;
         }
 
