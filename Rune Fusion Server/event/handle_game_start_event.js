@@ -1,7 +1,6 @@
 import EVENTS from "./event.js";
 import generateRuneMap from "../game_logics/game_map.js";
 import update_turn_monster from "../game_logics/turn_monster.js";
-import { archerMonsterData, armoredAxemanData, knightData, lancerData, priestData, wizardData } from "../model/defaultMonsterData.js";
 
 export function handle_game_start_event(io, socket, roomsPlaying) {
     //send monster list

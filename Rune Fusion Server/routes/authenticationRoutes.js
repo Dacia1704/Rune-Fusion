@@ -2,8 +2,8 @@ import mongoose from "mongoose";
 import config from "../config/keys.js";
 import Account from "../model/account.js";
 import jwt from "jsonwebtoken";
-mongoose.connect(config.mongoURI + "loginDb");
 
+mongoose.connect(config.mongoURI + "RuneFushion");
 export default (app) => {
     app.post("/account", async (req, res) => {
         const { rUsername, rPassword } = req.body;

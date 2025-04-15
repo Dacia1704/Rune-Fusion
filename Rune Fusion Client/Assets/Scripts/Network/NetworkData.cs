@@ -112,8 +112,8 @@ public class UpdateEffectResponse
 [Serializable]
 public class MonsterPickPost
 {
-        public List<MonsterData> player1;
-        public List<MonsterData> player2;
+        public List<int> player1;
+        public List<int> player2;
 }
 
 [Serializable]
@@ -129,4 +129,11 @@ public class PointPushData
 {
         public List<int> player1;
         public List<int> player2;
+}
+
+[Serializable]
+public class InitMonsterData
+{
+        public List<int> own_monster_list;
+        public List<MonsterData> monsters;
 }

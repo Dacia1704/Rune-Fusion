@@ -20,8 +20,10 @@ public class MonsterData
         [JsonProperty("stats")]
         public MonsterStats BaseStats;
 
-        [JsonProperty("skills")]
+        [JsonProperty("skill")]
         public List<MonsterSkill> Skills;
+        
+        
 }
 
 [Serializable]

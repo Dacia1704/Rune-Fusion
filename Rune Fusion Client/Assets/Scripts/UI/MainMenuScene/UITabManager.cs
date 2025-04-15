@@ -5,24 +5,22 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class UITabsManager : MonoBehaviour
+public class UITabsManager : UIBase
 {
     [SerializeField] private GameObject[] tabs;
     [SerializeField] private Button[] tabButtons;
     [SerializeField] private Sprite inactiveTabBG;
     [SerializeField] private Sprite activeTabBG;
-    // [SerializeField] private Vector2 inactiveTabButtonSize;
-    // [SerializeField] private Vector2 activeTabButtonSize;
-    private void Start()
+    private void Awake()
     {
-        for (int i = 0; i < tabButtons.Length; i++)
+        for (var i = 0; i < tabButtons.Length; i++)
         {
-            int id = i;
+            var id = i;
             tabButtons[id].onClick.AddListener(()=> SwitchToTab(id));
         }
     }
 
-    public void SwitchToTab(int tabID)
+    private void SwitchToTab(int tabID)
     {
         foreach (GameObject go in tabs)
         {

@@ -15,13 +15,19 @@ MonoBehaviour:
   RawMonsterList:
   - Id: 0
     Prefab: {fileID: 194948121589655648, guid: 93552ba7e01c7e641a387a5f622f079e, type: 3}
+    MonsterProps: {fileID: 11400000, guid: 8685736e8a66b76428c836c2d75b1137, type: 2}
   - Id: 1
     Prefab: {fileID: 8460804626131508548, guid: 13c67a70d496a524aa2e6fb37cf75193, type: 3}
+    MonsterProps: {fileID: 11400000, guid: 7628a845f61b8e84aa0733bdac64ed7a, type: 2}
   - Id: 2
     Prefab: {fileID: 5005611509202537719, guid: 8da23d8aff88e674b8b9b5a0b2b13c44, type: 3}
+    MonsterProps: {fileID: 11400000, guid: 312859425582ff348baf1da7df35bf6e, type: 2}
   - Id: 3
     Prefab: {fileID: 9195887370331663537, guid: ac2ad783d0de9ea4387a5706b55c5a32, type: 3}
+    MonsterProps: {fileID: 11400000, guid: 64b7fedb39ed0314da75d9ab4104667b, type: 2}
   - Id: 4
     Prefab: {fileID: 8029546634821679309, guid: ba86cec488b634340b1796bb6f64e723, type: 3}
+    MonsterProps: {fileID: 11400000, guid: 71b732fefb120c14596ca2a8d7139d38, type: 2}
   - Id: 5
     Prefab: {fileID: 8498982835875173557, guid: d14e97545d79edb4ab4cb9d028279449, type: 3}
+    MonsterProps: {fileID: 11400000, guid: 66c0360869de22549a0926f798ad208f, type: 2}
