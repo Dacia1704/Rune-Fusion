@@ -3,6 +3,7 @@ import generateRuneMap from "../game_logics/game_map.js";
 import update_turn_monster from "../game_logics/turn_monster.js";
 import mongoose from "mongoose";
 import config from "../config/keys.js";
+import Monster from "../model/Monster.js";
 
 mongoose.connect(config.mongoURI + "RuneFushion");
 export async function handle_pick_monster_event(io, socket, roomsPlaying, data) {
