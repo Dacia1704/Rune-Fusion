@@ -76,13 +76,23 @@ const monsterStats = new Schema({
     effect_list: [effectSkill],
 });
 
+const talentPointSchema = new Schema({
+    id: Number,
+    attack: Number,
+    defend: Number,
+    health: Number,
+    speed: Number,
+    accuracy: Number,
+    resistance: Number,
+});
 const monsterSchema = new Schema({
     id: Number,
     name: String,
     type: Number,
     stats: monsterStats,
+    talentPoint: talentPointSchema,
     skill: [monsterSkillSchema],
 });
 
-const Monster = mongoose.model("monsters", monsterSchema);
-export default Monster;
+export const Monster = mongoose.model("monsters", monsterSchema);
+export const TalenPoints = mongoose.model("talenPoints", talentPointSchema);

@@ -30,8 +30,8 @@ export default function monster_action_to_opponent_caculation(monsterPlayer, mon
         monster_affect.dam = Math.floor(monsterPlayer.data.stats.attack * action.percent_attack * buffAtk * (1 - effectiveDef / (effectiveDef + 400)));
         // cacul buff, debuff
         if (action.effect_skill.effect_type !== effectType.NONE && action.effect_skill.effect_type !== effectType.HEAL) {
-            // const ratio = Math.max(0.15, monsterPlayer.data.stats.accuracy - opponent.data.stats.resistance);
-            const ratio = 1;
+            const ratio = Math.max(0.15, monsterPlayer.data.stats.accuracy - opponent.data.stats.resistance);
+            // const ratio = 0.8;
             const randomNum = Math.random() * (1.01 - 0.01) + 0.01;
             if (randomNum < ratio) {
                 monster_affect.effect = {

@@ -30,11 +30,13 @@ public abstract class MonsterBase : MonoBehaviour
     public bool IsAllAnimationEnd;
     public bool IsUpdateEffect;
     public bool IsFrozen;
+    public bool IsAlive;
+    public bool IsDead;
     [SerializeField]protected GameObject FrozenGameObject;
 
-    protected UIHeathSkillBarManager UIHeathSkillBarManager { get; private set; }
+    public UIHeathSkillBarManager UIHeathSkillBarManager { get; private set; }
     
-    public Action<int> OnHealthChange;
+    public Action<int,bool,MonsterBase> OnHealthChange;
     protected virtual void Awake()
     {
         MonsterAnimationManager = GetComponentInChildren<MonsterAnimationManager>();
@@ -54,6 +56,7 @@ public abstract class MonsterBase : MonoBehaviour
         IsUpdateEffect = false;
         IsFrozen = false;
         HitTaskComplete += ChangeNomalIdleState;
+        IsAlive = true;
         MonsterStatsInBattle = new MonsterStats
         {
             Attack = MonsterPropsSO.MonsterData.BaseStats.Attack,
@@ -73,6 +76,13 @@ public abstract class MonsterBase : MonoBehaviour
     protected virtual void Update()
     {
         stateMachine.Update();
+
+        if (!IsAlive)
+        {
+            stateMachine.ChangeState(new DeathState(this));
+            IsAlive = true;
+            IsDead = true;
+        }
     }
     public virtual void StartAttack(MonsterActionResponse monsterActionResponse)
     {
@@ -163,7 +173,7 @@ public abstract class MonsterBase : MonoBehaviour
                 }
             }
         }
-        OnHealthChange?.Invoke(MonsterStatsInBattle.Health);
+        OnHealthChange?.Invoke(MonsterStatsInBattle.Health,true,this);
         if (IsFrozen)
         {
             IsAllAnimationEnd = true;

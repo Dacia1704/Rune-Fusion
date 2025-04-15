@@ -20,17 +20,25 @@ public class UIStatBar: UIBase
                 Slider.maxValue = value;
         }
 
-        public void SetValue(int value)
+        public void SetValue(int value, bool IsHpBar = false, MonsterBase monsterBase = null)
         {
                 if (value < 200)
                 {
-                        Debug.Log("Update skill bar2: "+ value);
+                        Debug.Log("Update skill bar2: " + value);
                 }
+
                 this.DOKill();
-                Slider.DOValue(value, 0.1f).SetEase(Ease.Linear).OnComplete(() => Slider.value = value);
+                Slider.DOValue(value, 0.1f).SetEase(Ease.Linear).OnComplete(() =>
+                {
+                        if (IsHpBar && monsterBase && value ==0)
+                        {
+                                monsterBase.IsAlive = false;
+                        }       
+                        Slider.value = value;
+                });
         }
-        
-        
-        
-        
+
+
+
+
 }

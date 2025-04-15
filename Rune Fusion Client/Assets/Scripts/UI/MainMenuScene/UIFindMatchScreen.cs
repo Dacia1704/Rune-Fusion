@@ -7,7 +7,6 @@ using UnityEngine.UI;
 public class UIFindMatchScreen : UIBase
 {
         [SerializeField] private Button findMatchButton;
-        [SerializeField] private Button backButton;
         private TextMeshProUGUI findMatchButtonText;
         private void Awake()
         {
@@ -26,10 +25,6 @@ public class UIFindMatchScreen : UIBase
                         StartCoroutine(FindMatchButtonTextAnimation());
                         SocketManager.Instance.FindMatch();
                         findMatchButton.interactable = false;
-                });
-                backButton.onClick.AddListener(() =>
-                {
-                        UIMainMenuManager.Instance.ChangeToLoginScreen();
                 });
         }
 

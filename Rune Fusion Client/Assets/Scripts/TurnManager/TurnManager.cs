@@ -82,36 +82,42 @@ public class TurnManager : MonoBehaviour
         MonsterBase monsterBase = GameManager.Instance.BattleManager.GetMonsterByIdInBattle(currentTurnId);
         if (GameManager.Instance.BattleManager.MonsterTeam1Dictionary.ContainsKey(currentTurnId) && SocketManager.Instance.PlayerData.playerindex == 0)
         {
-            if (!monsterBase.IsFrozen)
+            if (!monsterBase.IsDead)
             {
-                GameManager.Instance.InputManager.SetEnableMonsterInput();
-                StartCoroutine(StartMonsterAttack());
-                GameManager.Instance.BattleManager.SetFalseAnimation();
-                yield return new WaitUntil(() => isTimeMonsterEnd);
-                isTimeMonsterEnd = false;
-                yield return new WaitUntil(() => GameManager.Instance.BattleManager.CheckAnimationMonster());
+                if (!monsterBase.IsFrozen)
+                {
+                    GameManager.Instance.InputManager.SetEnableMonsterInput();
+                    StartCoroutine(StartMonsterAttack());
+                    GameManager.Instance.BattleManager.SetFalseAnimation();
+                    yield return new WaitUntil(() => isTimeMonsterEnd);
+                    isTimeMonsterEnd = false;
+                    yield return new WaitUntil(() => GameManager.Instance.BattleManager.CheckAnimationMonster());
+                }
+                GameManager.Instance.InputManager.SetDisableMonsterInput();
+                monsterBase.IsUpdateEffect = false;
+                SocketManager.Instance.UpdateMonsterEffectRequest(currentTurnId);
+                yield return new WaitUntil(() => monsterBase.IsUpdateEffect);
             }
-            GameManager.Instance.InputManager.SetDisableMonsterInput();
-            monsterBase.IsUpdateEffect = false;
-            SocketManager.Instance.UpdateMonsterEffectRequest(currentTurnId);
-            yield return new WaitUntil(() => monsterBase.IsUpdateEffect);
             GameManager.Instance.BattleManager.CanChangeTurn = true;
         }
         else if (GameManager.Instance.BattleManager.MonsterTeam2Dictionary.ContainsKey(currentTurnId) && SocketManager.Instance.PlayerData.playerindex == 1)
         {
-            if (!monsterBase.IsFrozen)
+            if (!monsterBase.IsDead)
             {
-                GameManager.Instance.InputManager.SetEnableMonsterInput();
-                StartCoroutine(StartMonsterAttack());
-                GameManager.Instance.BattleManager.SetFalseAnimation();
-                yield return new WaitUntil(() => isTimeMonsterEnd);
-                isTimeMonsterEnd = false;
-                yield return new WaitUntil(() => GameManager.Instance.BattleManager.CheckAnimationMonster());
+                if (!monsterBase.IsFrozen)
+                {
+                    GameManager.Instance.InputManager.SetEnableMonsterInput();
+                    StartCoroutine(StartMonsterAttack());
+                    GameManager.Instance.BattleManager.SetFalseAnimation();
+                    yield return new WaitUntil(() => isTimeMonsterEnd);
+                    isTimeMonsterEnd = false;
+                    yield return new WaitUntil(() => GameManager.Instance.BattleManager.CheckAnimationMonster());
+                }
+                GameManager.Instance.InputManager.SetDisableMonsterInput();
+                monsterBase.IsUpdateEffect = false;
+                SocketManager.Instance.UpdateMonsterEffectRequest(currentTurnId);
+                yield return new WaitUntil(() => monsterBase.IsUpdateEffect);
             }
-            GameManager.Instance.InputManager.SetDisableMonsterInput();
-            monsterBase.IsUpdateEffect = false;
-            SocketManager.Instance.UpdateMonsterEffectRequest(currentTurnId);
-            yield return new WaitUntil(() => monsterBase.IsUpdateEffect);
             GameManager.Instance.BattleManager.CanChangeTurn = true;
         }
     }

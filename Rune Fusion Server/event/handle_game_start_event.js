@@ -2,6 +2,7 @@ import EVENTS from "./event.js";
 import generateRuneMap from "../game_logics/game_map.js";
 import update_turn_monster from "../game_logics/turn_monster.js";
 import { archerMonsterData, armoredAxemanData, knightData, lancerData, priestData, wizardData } from "../model/defaultMonsterData.js";
+
 export function handle_game_start_event(io, socket, roomsPlaying) {
     //send monster list
     const mosterList = {
@@ -43,7 +44,6 @@ export function handle_game_start_event(io, socket, roomsPlaying) {
         numTypes: 5,
     };
     io.to(socket.roomId).emit(EVENTS.RUNE.GENERATE_START_MAP, generateRuneMap(mapData));
-
     //send turn update
     update_turn_monster(roomsPlaying[socket.roomId]);
     io.to(socket.roomId).emit(EVENTS.GAME.TURN_BASE_LIST_PUSH_DATA, roomsPlaying[socket.roomId].turn_base_data);

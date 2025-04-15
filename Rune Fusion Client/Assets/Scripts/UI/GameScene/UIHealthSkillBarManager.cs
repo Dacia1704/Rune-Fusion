@@ -15,9 +15,9 @@ public class UIHeathSkillBarManager : MonoBehaviour
                 skillBar.SetMaxValue(value);
         }
         
-        public void SetHealthBar(int value)
+        public void SetHealthBar(int value,bool isHpBar = false, MonsterBase monsterBase = null)
         {
-                healthBar.SetValue(value);
+                healthBar.SetValue(value,isHpBar,monsterBase);
         }
         public void SetSkillBar(int value)
         {

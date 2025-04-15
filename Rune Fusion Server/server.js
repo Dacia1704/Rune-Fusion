@@ -14,16 +14,20 @@ import update_turn_monster from "./game_logics/turn_monster.js";
 import { handle_monster_action_event } from "./event/handle_monster_action_event.js";
 import monster_update_effect from "./game_logics/monster_update_effect.js";
 import { handle_pick_monster_event } from "./event/handle_pick_monster_event.js";
+import mongoose from "mongoose";
+
+mongoose.connect(config.mongoURI + "talentPoint");
+
 //login
 const app = express();
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 authenticationRoutes(app);
 registationRoutes(app);
+
 const server = app.listen(config.port, () => {
     console.log(`Express server is running on port ${config.port}`);
 });
-
 //socket logic game
 const io = new Server(server);
 // middleware được gọi khi 1 socket cố kết nối với server
@@ -46,6 +50,9 @@ let queuePlayerWaiting = [];
 let roomsPlaying = {};
 io.on("connection", (socket) => {
     console.log(`Player connect: ${socket.id}`);
+    socket.on(EVENTS.GAME.TALENT_POINT_REQUEST, (data) => {
+        // sẽ có idplayer
+    });
 
     socket.on(EVENTS.PLAYER.FIND_MATCH, (playerData) => {
         handle_find_match_event(io, socket, playerData, queuePlayerWaiting, roomsPlaying);
@@ -111,7 +118,6 @@ io.on("connection", (socket) => {
             io.in(socket.roomId).emit(EVENTS.GAME.END_PICK_MONSTER);
         }
     });
-
     socket.on(EVENTS.GAME.GAME_START_REQUEST, (data) => {
         if (roomsPlaying[socket.roomId].player1.socket == socket) {
             roomsPlaying[socket.roomId].player1.ready = true;
@@ -126,7 +132,6 @@ io.on("connection", (socket) => {
             handle_game_start_event(io, socket, roomsPlaying);
         }
     });
-
     socket.on(EVENTS.GAME.POINT_INIT_REQUEST, (data) => {
         //send point init
         const maxPoint = 100;
@@ -139,29 +144,24 @@ io.on("connection", (socket) => {
         };
         io.to(socket.roomId).emit(EVENTS.GAME.POINT_INIT_RESPONSE, point);
     });
-
     socket.on(EVENTS.RUNE.SWAP_RUNE, (data) => {
         const swapRuneData = JSON.parse(data);
         console.log(socket.roomId);
         socket.to(socket.roomId).emit(EVENTS.RUNE.OPPONENT_SWAP_RUNE, swapRuneData);
         console.log(swapRuneData);
     });
-
     socket.on(EVENTS.RUNE.NEW_REQUEST, (data) => {
         const mapData = JSON.parse(data);
         io.to(socket.roomId).emit(EVENTS.RUNE.NEW_RESPONSE, generateNewRune(mapData));
     });
-
     socket.on(EVENTS.GAME.TURN_BASE_LIST_REQUEST, (data) => {
         console.log("turn request");
         update_turn_monster(roomsPlaying[socket.roomId]);
         io.to(socket.roomId).emit(EVENTS.GAME.TURN_BASE_LIST_PUSH_DATA, roomsPlaying[socket.roomId].turn_base_data);
     });
-
     socket.on(EVENTS.MONSTER.MONSTER_ACTION_REQUEST, (data) => {
         handle_monster_action_event(io, socket, roomsPlaying, data);
     });
-
     socket.on(EVENTS.MONSTER.UPDATE_EFFECT_REQUEST, (data) => {
         const monsterData = data;
         let monster;
@@ -176,14 +176,12 @@ io.on("connection", (socket) => {
         const response = monster_update_effect(monster);
         io.in(socket.roomId).emit(EVENTS.MONSTER.UPDATE_EFFECT_RESPONSE, response);
     });
-
     socket.on(EVENTS.GAME.POINT_UPDATE_POST, (data) => {
         const postData = JSON.parse(data);
         roomsPlaying[socket.roomId].player1.rune_points = postData.player1;
         roomsPlaying[socket.roomId].player2.rune_points = postData.player2;
         socket.to(socket.roomId).emit(EVENTS.GAME.POINT_UPDATE_PUSH, postData);
     });
-
     socket.on("disconnect", (data) => {
         console.log("Disconnect");
         for (let roomId in roomsPlaying) {
