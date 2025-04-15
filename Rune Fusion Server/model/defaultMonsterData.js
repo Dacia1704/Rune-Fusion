@@ -13,6 +13,14 @@ export const archerMonsterData = new Monster({
         resistance: 0.1,
         effect_list: [],
     },
+    talentPoint: {
+        attack: 0,
+        defend: 0,
+        health: 0,
+        speed: 0,
+        accuracy: 0,
+        resistance: 0,
+    },
     skill: [
         {
             id: "0",
@@ -96,6 +104,14 @@ export const armoredAxemanData = new Monster({
         resistance: 0.4,
         effect_list: [],
     },
+    talentPoint: {
+        attack: 0,
+        defend: 0,
+        health: 0,
+        speed: 0,
+        accuracy: 0,
+        resistance: 0,
+    },
     skill: [
         {
             id: "0",
@@ -152,6 +168,14 @@ export const knightData = new Monster({
         accuracy: 0.4,
         resistance: 0.3,
         effect_list: [],
+    },
+    talentPoint: {
+        attack: 0,
+        defend: 0,
+        health: 0,
+        speed: 0,
+        accuracy: 0,
+        resistance: 0,
     },
     skill: [
         {
@@ -223,6 +247,14 @@ export const lancerData = new Monster({
         resistance: 0.5,
         effect_list: [],
     },
+    talentPoint: {
+        attack: 0,
+        defend: 0,
+        health: 0,
+        speed: 0,
+        accuracy: 0,
+        resistance: 0,
+    },
     skill: [
         {
             id: "0",
@@ -279,6 +311,14 @@ export const priestData = new Monster({
         accuracy: 0.3,
         resistance: 0.6,
         effect_list: [],
+    },
+    talentPoint: {
+        attack: 0,
+        defend: 0,
+        health: 0,
+        speed: 0,
+        accuracy: 0,
+        resistance: 0,
     },
     skill: [
         {
@@ -349,6 +389,14 @@ export const wizardData = new Monster({
         accuracy: 0.7,
         resistance: 0.1,
         effect_list: [],
+    },
+    talentPoint: {
+        attack: 0,
+        defend: 0,
+        health: 0,
+        speed: 0,
+        accuracy: 0,
+        resistance: 0,
     },
     skill: [
         {

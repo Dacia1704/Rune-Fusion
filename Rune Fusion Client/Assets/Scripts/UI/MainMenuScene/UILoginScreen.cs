@@ -79,7 +79,7 @@ public class UILoginScreen: UIBase
                                 SocketManager.Instance.SetPlayerNetworkData(returnedAccount.user.username, returnedAccount.user._id,-1);
                                 SocketManager.Instance.SetToken(returnedAccount.token);
                                 UIMainMenuManager.Instance.ChangeToNewScreen(UIMainMenuManager.Instance
-                                        .UIFindMatchScreen);  
+                                        .UITabManager);  
                                 SocketManager.Instance.SetUpConnectSocket();
                         }
                         else if(request.responseCode == 401)
@@ -119,12 +119,12 @@ public class UILoginScreen: UIBase
 
         public void DaciaLogin()
         {
-                usernameInputField.text = "dacia";
-                passwordInputField.text = "123";
+                usernameInputField.text = "Dacia";
+                passwordInputField.text = "12345";
         }  
         public void SeichiLogin()
         {
-                usernameInputField.text = "seichi";
-                passwordInputField.text = "123";
+                usernameInputField.text = "Seichi";
+                passwordInputField.text = "12345";
         }  
 }

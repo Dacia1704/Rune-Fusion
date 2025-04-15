@@ -2,7 +2,7 @@ import mongoose from "mongoose";
 import config from "../config/keys.js";
 import Account from "../model/account.js";
 
-mongoose.connect(config.mongoURI + "loginDb");
+mongoose.connect(config.mongoURI + "RuneFushion");
 
 export default (app) => {
     app.post("/register", async (req, res) => {
@@ -18,6 +18,7 @@ export default (app) => {
             let newAccount = new Account({
                 username: rUsername,
                 password: rPassword,
+                own_monster_list: [0, 1, 2, 3, 4, 5],
             });
             await newAccount.save();
             res.status(200).json({

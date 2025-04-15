@@ -26,7 +26,7 @@ public class BattleManager : MonoBehaviour
                         Instance = this;
                 }
         
-                MonsterListSO.Initialize();
+                // MonsterListSO.Initialize();
         }
 
         private void Start()

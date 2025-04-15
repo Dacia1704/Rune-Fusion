@@ -55,7 +55,14 @@ public class SocketManager : MonoBehaviour
         socket.OnConnected += (sender, e) =>
         {
             Debug.Log("Socket connected");
+            GetInitMonstersData();
         };
+        socket.On(SocketEvents.Game.MONSTER_DATA_RESPONSE, data =>
+        {
+            Debug.Log("Get Monster Data Init");
+            List<InitMonsterData> monsterData = JsonConvert.DeserializeObject<List<InitMonsterData>>(data.ToString());
+            UnityThread.executeCoroutine(InitMonstersDataCoroutine(monsterData[0]));
+        });
         
         socket.On(SocketEvents.Rune.GENERATE_START_MAP, data =>
         {
@@ -149,6 +156,11 @@ public class SocketManager : MonoBehaviour
         socket.Connect();
     }
     // get
+    private IEnumerator InitMonstersDataCoroutine(InitMonsterData initMonstersData)
+    {
+        UIMainMenuManager.Instance.InitializeMonsterData(initMonstersData);
+        yield return null;
+    }
     private IEnumerator UpdatePointDataCoroutine(PointPushData data)
     {
         GameManager.Instance.RuneManager.UpdatePoint(data);
@@ -273,15 +285,15 @@ public class SocketManager : MonoBehaviour
     {
 
         MonsterPickPost monsterPickPos = new MonsterPickPost();
-        monsterPickPos.player1 = new List<MonsterData>();
-        monsterPickPos.player2 = new List<MonsterData>();
+        monsterPickPos.player1 = new List<int>();
+        monsterPickPos.player2 = new List<int>();
         foreach (MonsterPropsSO p in p1)
         {
-            monsterPickPos.player1.Add(p == null ? null : p.MonsterData);
+            monsterPickPos.player1.Add(p == null ? -1 : (int)p.MonsterData.Id);
         }
         foreach (MonsterPropsSO p in p2)
         {
-            monsterPickPos.player2.Add(p == null ? null : p.MonsterData);
+            monsterPickPos.player2.Add(p == null ? -1 : (int)p.MonsterData.Id);
         }
         Debug.Log(JsonConvert.SerializeObject(monsterPickPos));
         socket.Emit(SocketEvents.Game.PICK_MONSTER_POST, JsonConvert.SerializeObject(monsterPickPos));
@@ -299,5 +311,11 @@ public class SocketManager : MonoBehaviour
     public void PostRunePoint(PointPushData pointPushData)
     {
         socket.Emit(SocketEvents.Game.POINT_UPDATE_POST, JsonUtility.ToJson(pointPushData));
+    }
+
+    public void GetInitMonstersData()
+    {
+        Debug.Log("Get Init Monsters Data");
+        socket.Emit(SocketEvents.Game.MONSTER_DATA_REQUEST,JsonUtility.ToJson(PlayerData));
     }
 }

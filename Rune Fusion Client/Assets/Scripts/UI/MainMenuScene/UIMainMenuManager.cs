@@ -7,20 +7,24 @@ public class UIMainMenuManager: MonoBehaviour
         public static UIMainMenuManager Instance { get; private set; }
         public UILoginScreen UILoginScreen { get; private set; }
         public UIRegisterScreen UIRegisterScreen { get; private set; }
-        public UIFindMatchScreen UIFindMatchScreen { get; private set; }
+        public UITabsManager UITabManager { get; private set; }
         private UIBase currentUIScreen;
         private Vector3 UISubScreenPosition;
+        
+        [field: SerializeField] public MonsterListSO MonsterListSO {get; private set;}
 
         private void Awake()
         {
                 Instance = this;
                 UILoginScreen = GetComponentInChildren<UILoginScreen>();
                 UIRegisterScreen = GetComponentInChildren<UIRegisterScreen>();
-                UIFindMatchScreen = GetComponentInChildren<UIFindMatchScreen>();
+                UITabManager = GetComponentInChildren<UITabsManager>();
                 UISubScreenPosition = UIRegisterScreen.transform.position;
-                // UIRegisterScreen.Hide();
-                // UIFindMatchScreen.Hide();
+                UIRegisterScreen.Hide();
+                UITabManager.Hide();
                 currentUIScreen = UILoginScreen;
+                
+                MonsterListSO.Initialize();
         }
 
         public void ChangeToLoginScreen()
@@ -51,5 +55,21 @@ public class UIMainMenuManager: MonoBehaviour
                         currentScreen.GetComponent<CanvasGroup>().DOFade(0f, 0.5f).SetEase(Ease.InOutCubic).onComplete += () => { currentScreen.Hide(); };
                 }
                 currentUIScreen = newUIScreen;
+        }
+
+        public void InitializeMonsterData(InitMonsterData initMonsterData)
+        {
+                foreach (var monster in initMonsterData.monsters)
+                {
+                        MonsterSourceData mon = MonsterListSO.MonsterDictionary[(int)monster.Id];
+                        mon.MonsterProps.MonsterData = monster;
+                        mon.SetOwn(false);
+                }
+
+                foreach (var own in initMonsterData.own_monster_list)
+                {
+                        MonsterSourceData mon = MonsterListSO.MonsterDictionary[own];
+                        mon.SetOwn(true);
+                }
         }
 }

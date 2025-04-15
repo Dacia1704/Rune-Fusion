@@ -94,5 +94,5 @@ const monsterSchema = new Schema({
     skill: [monsterSkillSchema],
 });
 
-export const Monster = mongoose.model("monsters", monsterSchema);
-export const TalenPoints = mongoose.model("talenPoints", talentPointSchema);
+const Monster = mongoose.model("monsters", monsterSchema);
+export default Monster;
