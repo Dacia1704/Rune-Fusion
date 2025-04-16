@@ -22,6 +22,8 @@ public class UIMainMenuManager: MonoBehaviour
                 UITabManager = GetComponentInChildren<UITabsManager>();
                 UIDetailMonster = GetComponentInChildren<UIDetailMonster>();
                 UISubScreenPosition = UIRegisterScreen.transform.position;
+                UITabManager.transform.position = UISubScreenPosition;
+                UIDetailMonster.transform.position = UISubScreenPosition;
                 currentUIScreen = UILoginScreen;
                 MonsterListSO.Initialize();
         }
@@ -51,13 +53,13 @@ public class UIMainMenuManager: MonoBehaviour
                 if (currentScreen != UILoginScreen)
                 {
                         swapSequence
-                                .Append(currentScreen.GetComponent<CanvasGroup>().DOFade(0f, 0.05f).SetEase(Ease.InOutCubic))
+                                .Append(currentScreen.GetComponent<CanvasGroup>().DOFade(0f, 0.2f).SetEase(Ease.InOutCubic))
                                 .Append(currentScreen.transform.DOMove(UISubScreenPosition, 0f).SetEase(Ease.InOutCubic))
                                 .onComplete += () => { currentScreen.Hide(); };
                 }
                 else
                 {
-                        swapSequence.Append(currentScreen.GetComponent<CanvasGroup>().DOFade(0f, 0.05f).SetEase(Ease.InOutCubic))
+                        swapSequence.Append(currentScreen.GetComponent<CanvasGroup>().DOFade(0f, 0.2f).SetEase(Ease.InOutCubic))
                                 .onComplete += () => { currentScreen.Hide(); };
                 }
                 swapSequence.Append(newUIScreen.transform.DOMove(Vector3.zero, 0.5f).SetEase(Ease.InOutCubic));
