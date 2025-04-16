@@ -8,5 +8,6 @@ public class MonsterPropsSO : ScriptableObject
 {
         public MonsterData MonsterData;
         public Sprite Icon;
+        public Animator ModelAnimator;
         public float AttackOffset;
 }

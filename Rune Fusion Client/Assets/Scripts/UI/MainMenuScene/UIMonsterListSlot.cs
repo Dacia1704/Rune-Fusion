@@ -28,6 +28,7 @@ public class UIMonsterListSlot: UIBase, IPointerClickHandler
         public void OnPointerClick(PointerEventData eventData)
         {
                 if (!IsHasMonster) return;
-                
+                UIMainMenuManager.Instance.ChangeToNewScreen(UIMainMenuManager.Instance.UIDetailMonster);
+                UIMainMenuManager.Instance.UIDetailMonster.SetUp(MonsterPropsSO);
         }
 }

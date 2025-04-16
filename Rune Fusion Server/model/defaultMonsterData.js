@@ -24,8 +24,8 @@ export const archerMonsterData = new Monster({
     skill: [
         {
             id: "0",
-            name: "Basic Attack",
-            description: "Basic Attack",
+            name: "Triple Arrow Break",
+            description: "Attacks a single enemy 3 times in a row, dealing 40%, 50%, and 60% of the caster's ATK respectively. Each hit has a 70% chance to apply Defend Decrement for 1 turn.",
             action_list: [
                 {
                     target_type: skillTargetType.OPPONENT,
@@ -70,15 +70,15 @@ export const archerMonsterData = new Monster({
         },
         {
             id: "1",
-            name: "Ultimate Skill",
-            description: "Ultimate Skill",
+            name: "Heartpiercer",
+            description: "Fires a deadly powerful arrow that pierces through enemy defenses, dealing 150% of the caster's ATK and ignoring 30% of the target's DEF",
             action_list: [
                 {
                     target_type: skillTargetType.OPPONENT,
                     area_effect: skillArea.SINGLE,
                     random_type: skillRandomType.NONE,
-                    percent_attack: 0.4,
-                    penetration: 0,
+                    percent_attack: 1.5,
+                    penetration: 0.3,
                     percent_health: 0,
                     effect_skill: {
                         effect_type: effectType.NONE,
@@ -115,8 +115,8 @@ export const armoredAxemanData = new Monster({
     skill: [
         {
             id: "0",
-            name: "Basic Attack",
-            description: "Basic Attack",
+            name: "Crippling Blow",
+            description: "Swings a heavy axe at a single enemy, dealing 100% of ATK. Has a 100% chance to apply Attack Decrement for 2 turns.",
             action_list: [
                 {
                     target_type: skillTargetType.OPPONENT,
@@ -135,8 +135,8 @@ export const armoredAxemanData = new Monster({
         },
         {
             id: "1",
-            name: "Ultimate Skill",
-            description: "Ultimate Skill",
+            name: "Unbreakable Roar",
+            description: "Lets out a thunderous roar, striking a single enemy for 110% of ATK and forcing them to attack the Axeman for 2 turns with Taunt.",
             action_list: [
                 {
                     target_type: skillTargetType.OPPONENT,
@@ -180,8 +180,8 @@ export const knightData = new Monster({
     skill: [
         {
             id: "0",
-            name: "Basic Attack",
-            description: "Basic Attack",
+            name: "Weighted Strike",
+            description: "Delivers a heavy blow to a single enemy, dealing 100% of ATK with a 60% chance to apply Speed Decrement for 1 turn.",
             action_list: [
                 {
                     target_type: skillTargetType.OPPONENT,
@@ -200,8 +200,8 @@ export const knightData = new Monster({
         },
         {
             id: "1",
-            name: "Ultimate Skill",
-            description: "Ultimate Skill",
+            name: "Blazing Crusade",
+            description: "Empowers self with Attack Increment for 2 turns, then strikes a single enemy for 150% of ATK, ignoring 50% of DEF. Has an 80% chance to apply Burn for 2 turns.",
             action_list: [
                 {
                     target_type: skillTargetType.SELF,
@@ -258,8 +258,8 @@ export const lancerData = new Monster({
     skill: [
         {
             id: "0",
-            name: "Basic Attack",
-            description: "Basic Attack",
+            name: "Piercing Lunge",
+            description: "Strikes a single enemy for 100% ATK and applies Attack Decrement for 2 turns.",
             action_list: [
                 {
                     target_type: skillTargetType.OPPONENT,
@@ -278,8 +278,8 @@ export const lancerData = new Monster({
         },
         {
             id: "1",
-            name: "Ultimate Skill",
-            description: "Ultimate Skill",
+            name: "Whirlwind Formation",
+            description: "Unleashes a sweeping strike on all enemies, dealing 110% of ATK and applying Speed Decrement for 2 turns.",
             action_list: [
                 {
                     target_type: skillTargetType.OPPONENT,
@@ -323,8 +323,8 @@ export const priestData = new Monster({
     skill: [
         {
             id: "0",
-            name: "Basic Attack",
-            description: "Basic Attack",
+            name: "Healing Touch",
+            description: "Deals 100% of ATK damage to a single enemy and heals the ally with the lowest HP by 20% of their total health.",
             action_list: [
                 {
                     target_type: skillTargetType.OPPONENT,
@@ -356,8 +356,8 @@ export const priestData = new Monster({
         },
         {
             id: "1",
-            name: "Ultimate Skill",
-            description: "Ultimate Skill",
+            name: "Divine Blessing",
+            description: "Heals all allies for 40% of their health.",
             action_list: [
                 {
                     target_type: skillTargetType.ALLY,
@@ -401,8 +401,8 @@ export const wizardData = new Monster({
     skill: [
         {
             id: "0",
-            name: "Basic Attack",
-            description: "Basic Attack",
+            name: "Ignite",
+            description: "Deals 100% of ATK damage to a single enemy and applies Burn for 2 turns.",
             action_list: [
                 {
                     target_type: skillTargetType.OPPONENT,
@@ -421,8 +421,8 @@ export const wizardData = new Monster({
         },
         {
             id: "1",
-            name: "Ultimate Skill",
-            description: "Ultimate Skill",
+            name: "Frozen Abyss",
+            description: "Deals 120% of ATK damage to all enemies and applies Frozen for 1 turn.",
             action_list: [
                 {
                     target_type: skillTargetType.OPPONENT,
