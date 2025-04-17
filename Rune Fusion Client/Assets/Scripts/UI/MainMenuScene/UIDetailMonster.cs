@@ -54,20 +54,39 @@ public class UIDetailMonster: UIBase
                 }
                 Debug.Log(monsterPropsSO.MonsterData.BaseStats.Attack);
                 Debug.Log(monsterPropsSO.MonsterData.TalentPoint.Attack);
-                atkStat.SetStatText(monsterPropsSO.MonsterData.BaseStats.Attack.ToString(), monsterPropsSO.MonsterData.TalentPoint.Attack.ToString());
+                atkStat.SetStatText(((int)Mathf.Ceil(CalculateStatWithTalentPoints(monsterPropsSO.MonsterData.BaseStats.Attack, monsterPropsSO.MonsterData.TalentPoint.Attack))).ToString(), monsterPropsSO.MonsterData.TalentPoint.Attack.ToString());
                 TotalUsedTalentPoints += monsterPropsSO.MonsterData.TalentPoint.Attack;
-                defStat.SetStatText(monsterPropsSO.MonsterData.BaseStats.Defend.ToString(), monsterPropsSO.MonsterData.TalentPoint.Defend.ToString());
+                defStat.SetStatText(((int)Mathf.Ceil(CalculateStatWithTalentPoints(monsterPropsSO.MonsterData.BaseStats.Defend, monsterPropsSO.MonsterData.TalentPoint.Defend))).ToString(), monsterPropsSO.MonsterData.TalentPoint.Defend.ToString());
                 TotalUsedTalentPoints += monsterPropsSO.MonsterData.TalentPoint.Defend;
-                hpStat.SetStatText(monsterPropsSO.MonsterData.BaseStats.Health.ToString(), monsterPropsSO.MonsterData.TalentPoint.Health.ToString());
+                hpStat.SetStatText(((int)Mathf.Ceil(CalculateStatWithTalentPoints(monsterPropsSO.MonsterData.BaseStats.Health, monsterPropsSO.MonsterData.TalentPoint.Health))).ToString(), monsterPropsSO.MonsterData.TalentPoint.Health.ToString());
                 TotalUsedTalentPoints += monsterPropsSO.MonsterData.TalentPoint.Health;
-                spdStat.SetStatText(monsterPropsSO.MonsterData.BaseStats.Speed.ToString(), monsterPropsSO.MonsterData.TalentPoint.Speed.ToString());
+                spdStat.SetStatText(((int)Mathf.Ceil(CalculateStatWithTalentPoints(monsterPropsSO.MonsterData.BaseStats.Speed, monsterPropsSO.MonsterData.TalentPoint.Speed))).ToString(), monsterPropsSO.MonsterData.TalentPoint.Speed.ToString());
                 TotalUsedTalentPoints += monsterPropsSO.MonsterData.TalentPoint.Speed;
                 accStat.SetStatText((int)(monsterPropsSO.MonsterData.BaseStats.Accuracy * 100) + "%", monsterPropsSO.MonsterData.TalentPoint.Accuracy.ToString());
+                accStat.SetStatText((int)(CalculateStatWithTalentPoints(monsterPropsSO.MonsterData.BaseStats.Accuracy, monsterPropsSO.MonsterData.TalentPoint.Accuracy) * 100) + "%", monsterPropsSO.MonsterData.TalentPoint.Accuracy.ToString());
                 TotalUsedTalentPoints += monsterPropsSO.MonsterData.TalentPoint.Accuracy;
-                resStat.SetStatText((int)(monsterPropsSO.MonsterData.BaseStats.Resistance * 100) + "%", monsterPropsSO.MonsterData.TalentPoint.Resistance.ToString());
+                resStat.SetStatText((int)(CalculateStatWithTalentPoints(monsterPropsSO.MonsterData.BaseStats.Resistance, monsterPropsSO.MonsterData.TalentPoint.Resistance) * 100) + "%", monsterPropsSO.MonsterData.TalentPoint.Resistance.ToString());
                 TotalUsedTalentPoints += monsterPropsSO.MonsterData.TalentPoint.Resistance;
                 basicSkill.SetSkillText(monsterPropsSO.MonsterData.Skills[0].Name,monsterPropsSO.MonsterData.Skills[0].Description);
                 ultimateSkill.SetSkillText(monsterPropsSO.MonsterData.Skills[1].Name,monsterPropsSO.MonsterData.Skills[1].Description);
+        }
+
+        private float CalculateStatWithTalentPoints(float statValue,int talentPoints)
+        {
+                float addStat = 0;
+                for (int i = 1; i <= talentPoints; i++)
+                {
+                        if (i <= 10)
+                        {
+                                addStat += (statValue * 0.03f);
+                        }
+                        else
+                        {
+                                int modifier = (int)Mathf.Ceil((i - 10f) / 5f);
+                                addStat += (statValue * (0.03f/Mathf.Pow(2, modifier)));
+                        }
+                }
+                return statValue + addStat;
         }
 
         public void HandleMinusTalentPointAction(StatType statType)
