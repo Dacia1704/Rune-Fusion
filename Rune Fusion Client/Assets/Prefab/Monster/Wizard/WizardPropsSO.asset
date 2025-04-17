@@ -24,6 +24,13 @@ MonoBehaviour:
       Accuracy: 0.7
       Resistance: 0.1
       EffectList: []
+    TalentPoint:
+      Attack: 0
+      Defend: 0
+      Health: 0
+      Speed: 0
+      Accuracy: 0
+      Resistance: 0
     Skills:
     - Id: 0
       Name: Basic Attack
@@ -58,6 +65,7 @@ MonoBehaviour:
       Icon: {fileID: 0}
       PointCost: 80
   Icon: {fileID: 2030362658, guid: 1a81268b71f5d57459ff0c915322a780, type: 3}
+  ModelAnimatorController: {fileID: 9100000, guid: 03f7f1db389efac41b36ee67d512d56c, type: 2}
   AttackOffset: 0
   <WizardFireBallPrefab>k__BackingField: {fileID: 9107807829003316585, guid: 0b28249f7ec790c42821ddbf228a2754, type: 3}
   <WizardFireBallSummonOffset>k__BackingField: {x: 0.2, y: 0, z: 0}

@@ -21,8 +21,14 @@ public class UIStatMonster: UIBase
         private void Start()
         {
                 monsterDetail = GetComponentInParent<UIDetailMonster>();
-                minusButton.onClick.AddListener(()=> monsterDetail.OnClickMinus.Invoke(StatType));
-                plusButton.onClick.AddListener(() => monsterDetail.OnClickPlus.Invoke(StatType));
+                minusButton.onClick.AddListener(() =>
+                {
+                        monsterDetail.OnClickMinus.Invoke(StatType);
+                });
+                plusButton.onClick.AddListener(() =>
+                {
+                        monsterDetail.OnClickPlus.Invoke(StatType);
+                });
         }
 
         public void SetStatText(string stat, string talentPoint)
@@ -30,4 +36,9 @@ public class UIStatMonster: UIBase
                 statText.text = stat;
                 talentPointText.text = talentPoint;
         }
+
+        // public float CalculateStatValueWithTalentPoint()
+        // {
+        //         
+        // }
 }

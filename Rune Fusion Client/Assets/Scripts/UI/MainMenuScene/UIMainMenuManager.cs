@@ -77,8 +77,15 @@ public class UIMainMenuManager: MonoBehaviour
 
                 foreach (var own in initMonsterData.own_monster_list)
                 {
-                        MonsterSourceData mon = MonsterListSO.MonsterDictionary[own];
+                        MonsterSourceData mon = MonsterListSO.MonsterDictionary[own.id];
+                        mon.MonsterProps.MonsterData.TalentPoint = own.talent_point;
                         mon.SetOwn(true);
                 }
+        }
+
+        public void UpdateTalentPoint(MonsterTalentPointRequestUpdateData talentPointData)
+        {
+                MonsterListSO.MonsterDictionary[(int)talentPointData.id_monster].MonsterProps.MonsterData.TalentPoint = talentPointData.talent_point;
+                UIDetailMonster.SetUp(MonsterListSO.MonsterDictionary[(int)talentPointData.id_monster].MonsterProps);
         }
 }

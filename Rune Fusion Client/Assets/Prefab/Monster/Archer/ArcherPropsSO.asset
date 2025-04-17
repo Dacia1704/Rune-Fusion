@@ -17,17 +17,26 @@ MonoBehaviour:
     Name: Archer
     Type: 0
     BaseStats:
-      Attack: 1200
+      Attack: 0
       Defend: 100
       Health: 5600
       Speed: 100
       Accuracy: 0.5
       Resistance: 0.1
       EffectList: []
+    TalentPoint:
+      Attack: 0
+      Defend: 0
+      Health: 0
+      Speed: 0
+      Accuracy: 0
+      Resistance: 0
     Skills:
     - Id: 0
-      Name: Basic Attack
-      Description: Basic Attack
+      Name: Triple Arrow Break
+      Description: Attacks a single enemy 3 times in a row, dealing 40%, 50%, and
+        60% of the caster's ATK respectively. Each hit has a 70% chance to apply
+        Defend Decrement for 1 turn.
       ActionList:
       - TargetType: 1
         AreaEffect: 1
@@ -59,24 +68,26 @@ MonoBehaviour:
           EffectType: 8
           duration: 1
         Effectiveness: 0.7
-      Icon: {fileID: -601035835, guid: 6b8be814a27f03b4c939cadc03ebd590, type: 3}
+      Icon: {fileID: 0}
       PointCost: 0
     - Id: 1
-      Name: Ultimate Skill
-      Description: Ultimate Skill
+      Name: Heartpiercer
+      Description: Fires a deadly powerful arrow that pierces through enemy defenses,
+        dealing 150% of the caster's ATK and ignoring 30% of the target's DEF
       ActionList:
       - TargetType: 1
         AreaEffect: 1
         RandomType: 0
-        PercentAttack: 0.4
-        Penetration: 0
+        PercentAttack: 1.5
+        Penetration: 0.3
         PercentHealth: 0
         EffectSkill:
           EffectType: 0
           duration: 0
         Effectiveness: 0
       Icon: {fileID: 0}
-      PointCost: 60
+      PointCost: 0
   Icon: {fileID: -601035835, guid: 6b8be814a27f03b4c939cadc03ebd590, type: 3}
+  ModelAnimatorController: {fileID: 9100000, guid: a9f807e37c5b79d4282f5563d5a9184c, type: 2}
   AttackOffset: 0
   <ArrowPrefab>k__BackingField: {fileID: 4499762498449232529, guid: 01bd80b94c918224cb8f1eafd6cfe673, type: 3}
