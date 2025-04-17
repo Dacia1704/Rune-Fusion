@@ -1,6 +1,6 @@
 import mongoose from "mongoose";
 import config from "../config/keys.js";
-import Account from "../model/account.js";
+import Account from "../model/Account.js";
 mongoose.connect(config.mongoURI + "RuneFushion");
 export async function updateMonsterTalentPointInAccount(userId, monsterId, newTalentPoint) {
     try {
