@@ -14,7 +14,8 @@ public class UILoginScreen: UIBase
         [field: SerializeField] private TextMeshProUGUI loginAlertText;
         [field: SerializeField] private Button loginButton;
         [field: SerializeField] private Button registerButton;
-        private string authenticationEndPoint = "http://localhost:3000/account";
+        // private string authenticationEndPoint = "http://localhost:3000/account";
+        private string authenticationEndPoint = "https://rune-fusion.onrender.com/account";
         
         private void Start()
         {

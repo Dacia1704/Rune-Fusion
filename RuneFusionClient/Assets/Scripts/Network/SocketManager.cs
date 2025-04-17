@@ -45,7 +45,8 @@ public class SocketManager : MonoBehaviour
 
     public void SetUpConnectSocket()
     {
-        socket = new SocketIOUnity("http://localhost:3000", new SocketIOOptions()
+        // socket = new SocketIOUnity("http://localhost:3000", new SocketIOOptions()
+        socket = new SocketIOUnity("https://rune-fusion.onrender.com/", new SocketIOOptions()
         {
             Query = new Dictionary<string, string>()
             {

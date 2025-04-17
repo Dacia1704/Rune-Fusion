@@ -1,3 +1,4 @@
+import dotenv from "dotenv";
 import { Server } from "socket.io";
 import generateRuneMap, { generateNewRune } from "./game_logics/game_map.js";
 import EVENTS from "./event/event.js";
@@ -13,10 +14,10 @@ import update_turn_monster from "./game_logics/turn_monster.js";
 import { handle_monster_action_event } from "./event/handle_monster_action_event.js";
 import monster_update_effect from "./game_logics/monster_update_effect.js";
 import { handle_pick_monster_event } from "./event/handle_pick_monster_event.js";
-import { init_monster_data } from "./game_logics/init_monster_data.js";
-import { archerMonsterData, armoredAxemanData, knightData, lancerData, priestData, wizardData } from "./model/defaultMonsterData.js";
 import { handle_monster_data_request } from "./event/handle_monster_data_request.js";
 import { updateMonsterTalentPointInAccount } from "./game_logics/update_monster_talent_point_in_account.js";
+
+dotenv.config();
 
 //login
 const app = express();
