@@ -134,6 +134,21 @@ public class PointPushData
 [Serializable]
 public class InitMonsterData
 {
-        public List<int> own_monster_list;
+        public List<MonsterTalentPointData> own_monster_list;
         public List<MonsterData> monsters;
+}
+
+[Serializable]
+public class MonsterTalentPointData
+{
+        public int id;
+        public TalentPoint talent_point;
+}
+
+[Serializable]
+public class MonsterTalentPointRequestUpdateData
+{
+        public string id_player;
+        public int id_monster;
+        public TalentPoint talent_point;
 }

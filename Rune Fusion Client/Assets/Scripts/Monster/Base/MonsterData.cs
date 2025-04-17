@@ -20,10 +20,40 @@ public class MonsterData
         [JsonProperty("stats")]
         public MonsterStats BaseStats;
 
+        [JsonProperty("talentPoint")] 
+        public TalentPoint TalentPoint;
+
         [JsonProperty("skill")]
         public List<MonsterSkill> Skills;
         
         
+}
+
+[Serializable]
+public class TalentPoint
+{
+        [JsonProperty("attack")]
+        public int Attack;
+        [JsonProperty("defend")]
+        public int Defend;
+        [JsonProperty("health")]
+        public int Health;
+        [JsonProperty("speed")]
+        public int Speed;
+        [JsonProperty("accuracy")]
+        public int Accuracy;
+        [JsonProperty("resistance")]
+        public int Resistance;
+}
+
+public enum StatType
+{
+        Attack,
+        Defend,
+        Health,
+        Speed,
+        Accuracy,
+        Resistance,
 }
 
 [Serializable]

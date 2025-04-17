@@ -24,6 +24,13 @@ MonoBehaviour:
       Accuracy: 0.4
       Resistance: 0.3
       EffectList: []
+    TalentPoint:
+      Attack: 0
+      Defend: 0
+      Health: 0
+      Speed: 0
+      Accuracy: 0
+      Resistance: 0
     Skills:
     - Id: 0
       Name: Basic Attack
@@ -68,4 +75,5 @@ MonoBehaviour:
       Icon: {fileID: 0}
       PointCost: 63
   Icon: {fileID: -1410451368, guid: 10e603f66c2a45942beff1b1c354fff0, type: 3}
+  ModelAnimatorController: {fileID: 9100000, guid: c209e11ad546af44e985251d3b45a503, type: 2}
   AttackOffset: 0.2

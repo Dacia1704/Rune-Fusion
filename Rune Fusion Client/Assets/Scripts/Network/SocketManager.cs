@@ -59,7 +59,7 @@ public class SocketManager : MonoBehaviour
         };
         socket.On(SocketEvents.Game.MONSTER_DATA_RESPONSE, data =>
         {
-            Debug.Log("Get Monster Data Init");
+            Debug.Log("Get Monster Data Init " + data.ToString());
             List<InitMonsterData> monsterData = JsonConvert.DeserializeObject<List<InitMonsterData>>(data.ToString());
             UnityThread.executeCoroutine(InitMonstersDataCoroutine(monsterData[0]));
         });
@@ -152,10 +152,20 @@ public class SocketManager : MonoBehaviour
             List<PointPushData> response = JsonConvert.DeserializeObject<List<PointPushData>>(data.ToString());
             UnityThread.executeCoroutine(UpdatePointDataCoroutine(response[0]));
         });
-        
+        socket.On(SocketEvents.Game.TALENT_POINT_UPDATE_RESPONSE, data =>
+        {
+            Debug.Log("Talent point update" + data.ToString());
+            List<MonsterTalentPointRequestUpdateData> response = JsonConvert.DeserializeObject<List<MonsterTalentPointRequestUpdateData>>(data.ToString());
+            UnityThread.executeCoroutine(UpdateTalentPointDataCoroutine(response[0]));
+        });
         socket.Connect();
     }
     // get
+    private IEnumerator UpdateTalentPointDataCoroutine(MonsterTalentPointRequestUpdateData data)
+    {
+        UIMainMenuManager.Instance.UpdateTalentPoint(data);
+        yield return null;
+    }
     private IEnumerator InitMonstersDataCoroutine(InitMonsterData initMonstersData)
     {
         UIMainMenuManager.Instance.InitializeMonsterData(initMonstersData);
@@ -317,5 +327,11 @@ public class SocketManager : MonoBehaviour
     {
         Debug.Log("Get Init Monsters Data");
         socket.Emit(SocketEvents.Game.MONSTER_DATA_REQUEST,JsonUtility.ToJson(PlayerData));
+    }
+
+    public void RequestUpdateTalentPoint(MonsterTalentPointRequestUpdateData monsterTalentPointRequestUpdate)
+    {
+        socket.Emit(SocketEvents.Game.TALENT_POINT_UPDATE_REQUEST,JsonConvert.SerializeObject(monsterTalentPointRequestUpdate));
+        // Debug.Log(JsonUtility.ToJson(monsterTalentPointRequestUpdate));
     }
 }

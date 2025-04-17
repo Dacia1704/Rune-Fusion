@@ -76,7 +76,7 @@ const monsterStats = new Schema({
     effect_list: [effectSkill],
 });
 
-const talentPointSchema = new Schema({
+export const talentPointSchema = new Schema({
     id: Number,
     attack: Number,
     defend: Number,

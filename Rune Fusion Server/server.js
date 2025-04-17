@@ -16,6 +16,7 @@ import { handle_pick_monster_event } from "./event/handle_pick_monster_event.js"
 import { init_monster_data } from "./game_logics/init_monster_data.js";
 import { archerMonsterData, armoredAxemanData, knightData, lancerData, priestData, wizardData } from "./model/defaultMonsterData.js";
 import { handle_monster_data_request } from "./event/handle_monster_data_request.js";
+import { updateMonsterTalentPointInAccount } from "./game_logics/update_monster_talent_point_in_account.js";
 
 //login
 const app = express();
@@ -60,7 +61,12 @@ io.on("connection", (socket) => {
     socket.on(EVENTS.GAME.MONSTER_DATA_REQUEST, (data /*has player._id*/) => {
         handle_monster_data_request(io, socket, data);
     });
-    socket.on(EVENTS.GAME.TALENT_POINT_REQUEST, (data) => {});
+    socket.on(EVENTS.GAME.TALENT_POINT_UPDATE_REQUEST, (data) => {
+        const monsterData = JSON.parse(data);
+        console.log(monsterData);
+        updateMonsterTalentPointInAccount(monsterData.id_player, monsterData.id_monster, monsterData.talent_point);
+        socket.emit(EVENTS.GAME.TALENT_POINT_UPDATE_RESPONSE, monsterData);
+    });
 
     socket.on(EVENTS.PLAYER.FIND_MATCH, (playerData) => {
         handle_find_match_event(io, socket, playerData, queuePlayerWaiting, roomsPlaying);
