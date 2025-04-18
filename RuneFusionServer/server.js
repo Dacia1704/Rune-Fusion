@@ -150,7 +150,7 @@ io.on("connection", (socket) => {
     socket.on(EVENTS.GAME.POINT_INIT_REQUEST, (data) => {
         //send point init
         const maxPoint = 100;
-        const initPoint = Math.floor(maxPoint);
+        const initPoint = Math.floor(maxPoint / 2);
         roomsPlaying[socket.roomId].player1.rune_points = [initPoint, initPoint, initPoint, initPoint, initPoint];
         roomsPlaying[socket.roomId].player2.rune_points = [initPoint, initPoint, initPoint, initPoint, initPoint];
         const point = {

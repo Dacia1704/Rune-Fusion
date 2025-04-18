@@ -67,6 +67,7 @@ export const archerMonsterData = new Monster({
                     effectiveness: 0.7,
                 },
             ],
+            // point_cost: ,
         },
         {
             id: "1",

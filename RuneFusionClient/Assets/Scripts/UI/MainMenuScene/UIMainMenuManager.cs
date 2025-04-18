@@ -49,6 +49,8 @@ public class UIMainMenuManager: MonoBehaviour
         {
                 newUIScreen.Show();
                 UIBase currentScreen = currentUIScreen;
+                UIBase newScreen = newUIScreen;
+                newScreen.GetComponent<CanvasGroup>().DOFade(1f, 0.2f).SetEase(Ease.InOutCubic);
                 Sequence swapSequence = DOTween.Sequence();
                 if (currentScreen != UILoginScreen)
                 {

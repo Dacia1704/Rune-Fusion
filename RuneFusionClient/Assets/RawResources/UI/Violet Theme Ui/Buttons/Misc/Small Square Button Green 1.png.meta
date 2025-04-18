@@ -1,17 +1,10 @@
 fileFormatVersion: 2
-guid: 931f6455943555649a61ed7f1c76cbf6
-AssetOrigin:
-  serializedVersion: 1
-  productId: 235559
-  packageName: Violet Themed UI
-  packageVersion: 1.1
-  assetPath: Assets/Violet Theme Ui/Buttons/Misc/Small Square Button Violet.png
-  uploadId: 700144
+guid: 738db98ba7c44dc44bf5bc798405a6c5
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: 3624760936692437016
-    second: Small Square Button Violet_0
+      213: -52179173452712981
+    second: Small Square Button Green_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -133,23 +126,23 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: Small Square Button Violet_0
+      name: Small Square Button Green_0
       rect:
         serializedVersion: 2
-        x: 0
-        y: 0
-        width: 138
-        height: 149
+        x: 19
+        y: 24
+        width: 100
+        height: 100
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
-      border: {x: 19, y: 28, z: 19, w: 19}
+      border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 810d34bfddcbd4230800000000000000
-      internalID: 3624760936692437016
+      spriteID: be37da5715f964ff0800000000000000
+      internalID: -52179173452712981
       vertices: []
       indices: 
       edges: []
@@ -158,7 +151,7 @@ TextureImporter:
     customData: 
     physicsShape: []
     bones: []
-    spriteID: 8dc27a9c5076bdf4fbbf28f46c858db6
+    spriteID: 7f8605c3308dced44bab962d9210487b
     internalID: 0
     vertices: []
     indices: 
@@ -168,7 +161,7 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      Small Square Button Violet_0: 3624760936692437016
+      Small Square Button Green_0: -52179173452712981
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

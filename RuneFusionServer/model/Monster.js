@@ -64,6 +64,7 @@ const monsterSkillSchema = new Schema({
     name: String,
     description: String,
     action_list: [skillSchema],
+    point_cost: Number,
 });
 
 const monsterStats = new Schema({
