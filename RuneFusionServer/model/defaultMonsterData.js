@@ -67,7 +67,7 @@ export const archerMonsterData = new Monster({
                     effectiveness: 0.7,
                 },
             ],
-            // point_cost: ,
+            point_cost: 0,
         },
         {
             id: "1",
@@ -88,6 +88,7 @@ export const archerMonsterData = new Monster({
                     effectiveness: 0,
                 },
             ],
+            point_cost: 50,
         },
     ],
 });
@@ -133,6 +134,7 @@ export const armoredAxemanData = new Monster({
                     effectiveness: 1,
                 },
             ],
+            point_cost: 0,
         },
         {
             id: "1",
@@ -153,6 +155,7 @@ export const armoredAxemanData = new Monster({
                     effectiveness: 1,
                 },
             ],
+            point_cost: 55,
         },
     ],
 });
@@ -198,6 +201,7 @@ export const knightData = new Monster({
                     effectiveness: 0.6,
                 },
             ],
+            point_cost: 0,
         },
         {
             id: "1",
@@ -231,6 +235,7 @@ export const knightData = new Monster({
                     effectiveness: 0.8,
                 },
             ],
+            point_cost: 65,
         },
     ],
 });
@@ -276,6 +281,7 @@ export const lancerData = new Monster({
                     effectiveness: 1,
                 },
             ],
+            point_cost: 0,
         },
         {
             id: "1",
@@ -296,6 +302,7 @@ export const lancerData = new Monster({
                     effectiveness: 1,
                 },
             ],
+            point_cost: 75,
         },
     ],
 });
@@ -354,6 +361,7 @@ export const priestData = new Monster({
                     effectiveness: 1,
                 },
             ],
+            point_cost: 0,
         },
         {
             id: "1",
@@ -374,6 +382,7 @@ export const priestData = new Monster({
                     effectiveness: 1,
                 },
             ],
+            point_cost: 70,
         },
     ],
 });
@@ -419,6 +428,7 @@ export const wizardData = new Monster({
                     effectiveness: 1,
                 },
             ],
+            point_cost: 0,
         },
         {
             id: "1",
@@ -439,6 +449,7 @@ export const wizardData = new Monster({
                     effectiveness: 0.7,
                 },
             ],
+            point_cost: 80,
         },
     ],
 });

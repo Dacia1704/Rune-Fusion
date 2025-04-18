@@ -11,7 +11,9 @@ public class UISkillMonster: UIBase,IPointerDownHandler,IPointerUpHandler
         [SerializeField] private TextMeshProUGUI nameText;
         [SerializeField] private TextMeshProUGUI descriptionText;
         
-        private Dictionary<string,string> keyWordsDictionary = new Dictionary<string,string>();
+        private Dictionary<string,EffectDesData> keyWordsDictionary = new Dictionary<string,EffectDesData>();
+        
+        [SerializeField] private EffectDescriptionSO effectDescriptionSO;
         
         private bool isHolding = false;
         private float holdTime = 0f;
@@ -36,10 +38,13 @@ public class UISkillMonster: UIBase,IPointerDownHandler,IPointerUpHandler
                                 if (linkIndex != -1)
                                 {
                                         var linkInfo = descriptionText.textInfo.linkInfo[linkIndex];
+                                        
+                                        string linkText = linkInfo.GetLinkText();   
                                         if (linkInfo.GetLinkID() == "effect")
                                         {
                                                 isShowEffectDes = true;
                                                 UIMainMenuManager.Instance.UIDetailMonster.EffectDescription.Show();
+                                                UIMainMenuManager.Instance.UIDetailMonster.EffectDescription.SetStatDes(keyWordsDictionary[linkText].SpriteEffect,keyWordsDictionary[linkText].DescriptionEffect);
                                         }
                                 }
                         }
@@ -90,15 +95,10 @@ public class UISkillMonster: UIBase,IPointerDownHandler,IPointerUpHandler
 
         public void InitKeyWordsDictionary()
         {
-                keyWordsDictionary.Add("Burn", "Deals damage over time. Damage fixed by 5% hp of monster.");
-                keyWordsDictionary.Add("Speed Increment", "Increases SPD by 25%.");
-                keyWordsDictionary.Add("Attack Increment", "Increases ATK by 50%.");
-                keyWordsDictionary.Add("Defend Increment", "Increases DEF by 50%.");
-                keyWordsDictionary.Add("Speed Decrement", "Decreases SPD by 25%.");
-                keyWordsDictionary.Add("Attack Decrement", "Decreases ATK by 25%.");
-                keyWordsDictionary.Add("Defend Decrement", "Decreases DEF by 50%.");
-                keyWordsDictionary.Add("Taunt", "Forces enemies to target this monster land taunt.");
-                keyWordsDictionary.Add("Frozen", "Frozen monster. That monster can't attack in this state.");
+                foreach (EffectDesData des in effectDescriptionSO.EffectDescriptionList)
+                {
+                        keyWordsDictionary.Add(des.NameEffect,des);  
+                }
         }
 
         public void SetSkillText(string n, string des)

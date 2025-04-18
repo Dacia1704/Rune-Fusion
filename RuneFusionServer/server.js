@@ -16,6 +16,8 @@ import monster_update_effect from "./game_logics/monster_update_effect.js";
 import { handle_pick_monster_event } from "./event/handle_pick_monster_event.js";
 import { handle_monster_data_request } from "./event/handle_monster_data_request.js";
 import { updateMonsterTalentPointInAccount } from "./game_logics/update_monster_talent_point_in_account.js";
+import { init_monster_data } from "./game_logics/init_monster_data.js";
+import { archerMonsterData, armoredAxemanData, knightData, lancerData, priestData, wizardData } from "./model/defaultMonsterData.js";
 
 dotenv.config();
 
@@ -30,12 +32,12 @@ const server = app.listen(config.port, () => {
     console.log(`Express server is running on port ${config.port}`);
 });
 
-// init_monster_data(archerMonsterData);
-// init_monster_data(armoredAxemanData);
-// init_monster_data(knightData);
-// init_monster_data(lancerData);
-// init_monster_data(priestData);
-// init_monster_data(wizardData);
+init_monster_data(archerMonsterData);
+init_monster_data(armoredAxemanData);
+init_monster_data(knightData);
+init_monster_data(lancerData);
+init_monster_data(priestData);
+init_monster_data(wizardData);
 
 //socket logic game
 const io = new Server(server);

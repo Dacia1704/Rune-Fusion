@@ -17,7 +17,7 @@ MonoBehaviour:
     Name: Archer
     Type: 0
     BaseStats:
-      Attack: 0
+      Attack: 1200
       Defend: 100
       Health: 5600
       Speed: 100
@@ -25,7 +25,7 @@ MonoBehaviour:
       Resistance: 0.1
       EffectList: []
     TalentPoint:
-      Attack: 0
+      Attack: 11
       Defend: 0
       Health: 0
       Speed: 0
@@ -86,7 +86,7 @@ MonoBehaviour:
           duration: 0
         Effectiveness: 0
       Icon: {fileID: 0}
-      PointCost: 0
+      PointCost: 50
   Icon: {fileID: -601035835, guid: 6b8be814a27f03b4c939cadc03ebd590, type: 3}
   ModelAnimatorController: {fileID: 9100000, guid: a9f807e37c5b79d4282f5563d5a9184c, type: 2}
   AttackOffset: 0

@@ -33,8 +33,9 @@ MonoBehaviour:
       Resistance: 0
     Skills:
     - Id: 0
-      Name: Basic Attack
-      Description: Basic Attack
+      Name: Piercing Lunge
+      Description: Strikes a single enemy for 100% ATK and applies Attack Decrement
+        for 2 turns.
       ActionList:
       - TargetType: 1
         AreaEffect: 1
@@ -49,8 +50,9 @@ MonoBehaviour:
       Icon: {fileID: 0}
       PointCost: 0
     - Id: 1
-      Name: Ultimate Skill
-      Description: Ultimate Skill
+      Name: Whirlwind Formation
+      Description: Unleashes a sweeping strike on all enemies, dealing 110% of ATK
+        and applying Speed Decrement for 2 turns.
       ActionList:
       - TargetType: 1
         AreaEffect: 0
@@ -63,7 +65,7 @@ MonoBehaviour:
           duration: 2
         Effectiveness: 1
       Icon: {fileID: 0}
-      PointCost: 80
+      PointCost: 75
   Icon: {fileID: -1535648711, guid: e2693a9f917b6b04d9f0feab9c6809b6, type: 3}
-  ModelAnimatorController: {fileID: 9100000, guid: bc7395004b46de3449df891d4d1cf19b, type: 2}
+  ModelAnimatorController: {fileID: 9100000, guid: 989ce5e709e2e474cb227f36cd991b8a, type: 2}
   AttackOffset: 0.4
