@@ -1500,7 +1500,7 @@ GameObject:
   - component: {fileID: 270059117}
   - component: {fileID: 270059119}
   m_Layer: 5
-  m_Name: Notification
+  m_Name: EffectDes
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1577,6 +1577,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5ecedc4445174929b47c17e533b317ad, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  iconImage: {fileID: 559185102}
+  descriptionText: {fileID: 1136606006}
 --- !u!1 &275388979
 GameObject:
   m_ObjectHideFlags: 0
@@ -14190,6 +14192,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   nameText: {fileID: 851687923}
   descriptionText: {fileID: 2090478248}
+  effectDescriptionSO: {fileID: 11400000, guid: 45437a97eca2d464992496e8e7953ac1, type: 2}
 --- !u!1 &1985984715
 GameObject:
   m_ObjectHideFlags: 0
@@ -14241,6 +14244,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   nameText: {fileID: 465718601}
   descriptionText: {fileID: 1518439631}
+  effectDescriptionSO: {fileID: 11400000, guid: 45437a97eca2d464992496e8e7953ac1, type: 2}
 --- !u!1 &2000868817
 GameObject:
   m_ObjectHideFlags: 0
