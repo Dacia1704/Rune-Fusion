@@ -108,7 +108,7 @@ public class BattleManager : MonoBehaviour
 
         public void SkillInputManager(MonsterBase monster)
         {
-                if (TurnManager.TurnBaseQueue[0].id_in_battle == monster.MonsterIdInBattle)
+                if (TurnManager.TurnBaseQueue[0].id_in_battle == monster.MonsterIdInBattle && monster.MonsterPropsSO.MonsterData.Skills[1].PointCost <= GameManager.Instance.RuneManager.RunePointsPlayer[(int)monster.MonsterPropsSO.MonsterData.Type])
                 {
                         monster.EnableSkillMode();
                         Debug.Log("Enable skill" + monster.gameObject.name);

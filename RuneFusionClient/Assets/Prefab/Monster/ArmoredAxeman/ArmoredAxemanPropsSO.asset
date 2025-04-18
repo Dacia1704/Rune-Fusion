@@ -33,8 +33,9 @@ MonoBehaviour:
       Resistance: 0
     Skills:
     - Id: 0
-      Name: Basic Attack
-      Description: Basic Attack
+      Name: Crippling Blow
+      Description: Swings a heavy axe at a single enemy, dealing 100% of ATK. Has
+        a 100% chance to apply Attack Decrement for 2 turns.
       ActionList:
       - TargetType: 1
         AreaEffect: 1
@@ -49,8 +50,9 @@ MonoBehaviour:
       Icon: {fileID: 0}
       PointCost: 0
     - Id: 1
-      Name: Ultimate Skill
-      Description: Ultimate Skill
+      Name: Unbreakable Roar
+      Description: Lets out a thunderous roar, striking a single enemy for 110% of
+        ATK and forcing them to attack the Axeman for 2 turns with Taunt.
       ActionList:
       - TargetType: 1
         AreaEffect: 1
@@ -63,7 +65,7 @@ MonoBehaviour:
           duration: 2
         Effectiveness: 1
       Icon: {fileID: 0}
-      PointCost: 65
+      PointCost: 55
   Icon: {fileID: 1157812396, guid: 2dee717aee25f464b998098fc103f1cb, type: 3}
   ModelAnimatorController: {fileID: 9100000, guid: d80dd913605da3f4995972d719e7c66b, type: 2}
   AttackOffset: 0.2

@@ -33,8 +33,9 @@ MonoBehaviour:
       Resistance: 0
     Skills:
     - Id: 0
-      Name: Basic Attack
-      Description: Basic Attack
+      Name: Ignite
+      Description: Deals 100% of ATK damage to a single enemy and applies Burn for
+        2 turns.
       ActionList:
       - TargetType: 1
         AreaEffect: 1
@@ -49,8 +50,9 @@ MonoBehaviour:
       Icon: {fileID: 0}
       PointCost: 0
     - Id: 1
-      Name: Ultimate Skill
-      Description: Ultimate Skill
+      Name: Frozen Abyss
+      Description: Deals 120% of ATK damage to all enemies and applies Frozen for
+        1 turn.
       ActionList:
       - TargetType: 1
         AreaEffect: 0
@@ -63,7 +65,7 @@ MonoBehaviour:
           duration: 1
         Effectiveness: 0.7
       Icon: {fileID: 0}
-      PointCost: 80
+      PointCost: 85
   Icon: {fileID: 2030362658, guid: 1a81268b71f5d57459ff0c915322a780, type: 3}
   ModelAnimatorController: {fileID: 9100000, guid: 03f7f1db389efac41b36ee67d512d56c, type: 2}
   AttackOffset: 0

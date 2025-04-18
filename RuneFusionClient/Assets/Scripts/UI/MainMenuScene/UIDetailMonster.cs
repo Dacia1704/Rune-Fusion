@@ -2,10 +2,12 @@
 using TMPro;
 using UnityEngine;
 using UnityEngine.Serialization;
+using UnityEngine.UI;
 
 public class UIDetailMonster: UIBase
 {
         [SerializeField] private TextMeshProUGUI nameText;
+        [SerializeField] private Button closeButton;
         [SerializeField] private UIStatMonster atkStat;
         [SerializeField] private UIStatMonster defStat;
         [SerializeField] private UIStatMonster hpStat;
@@ -39,6 +41,10 @@ public class UIDetailMonster: UIBase
 
                 OnClickMinus += HandleMinusTalentPointAction;
                 OnClickPlus += HandlePlusTalentPointAction;
+                closeButton.onClick.AddListener(() =>
+                {
+                        UIMainMenuManager.Instance.ChangeToNewScreen(UIMainMenuManager.Instance.UITabManager);
+                });
         }
         
 
@@ -48,10 +54,6 @@ public class UIDetailMonster: UIBase
                 TotalUsedTalentPoints = 0;
                 nameText.text = monsterPropsSO.MonsterData.Name;
                 monsterModelAnimator.runtimeAnimatorController = monsterPropsSO.ModelAnimatorController;
-                if (monsterPropsSO == null)
-                {
-                        Debug.Log("null");
-                }
                 Debug.Log(monsterPropsSO.MonsterData.BaseStats.Attack);
                 Debug.Log(monsterPropsSO.MonsterData.TalentPoint.Attack);
                 atkStat.SetStatText(((int)Mathf.Ceil(CalculateStatWithTalentPoints(monsterPropsSO.MonsterData.BaseStats.Attack, monsterPropsSO.MonsterData.TalentPoint.Attack))).ToString(), monsterPropsSO.MonsterData.TalentPoint.Attack.ToString());
@@ -78,12 +80,12 @@ public class UIDetailMonster: UIBase
                 {
                         if (i <= 10)
                         {
-                                addStat += (statValue * 0.03f);
+                                addStat += (statValue * 0.05f);
                         }
                         else
                         {
                                 int modifier = (int)Mathf.Ceil((i - 10f) / 5f);
-                                addStat += (statValue * (0.03f/Mathf.Pow(2, modifier)));
+                                addStat += (statValue * (0.05f/Mathf.Pow(2, modifier)));
                         }
                 }
                 return statValue + addStat;

@@ -33,8 +33,9 @@ MonoBehaviour:
       Resistance: 0
     Skills:
     - Id: 0
-      Name: Basic Attack
-      Description: Basic Attack
+      Name: Weighted Strike
+      Description: Delivers a heavy blow to a single enemy, dealing 100% of ATK with
+        a 60% chance to apply Speed Decrement for 1 turn.
       ActionList:
       - TargetType: 1
         AreaEffect: 1
@@ -49,8 +50,10 @@ MonoBehaviour:
       Icon: {fileID: 0}
       PointCost: 0
     - Id: 1
-      Name: Ultimate Skill
-      Description: Ultimate Skill
+      Name: Blazing Crusade
+      Description: Empowers self with Attack Increment for 2 turns, then strikes
+        a single enemy for 150% of ATK, ignoring 50% of DEF. Has an 80% chance to
+        apply Burn for 2 turns.
       ActionList:
       - TargetType: 2
         AreaEffect: 1
@@ -73,7 +76,7 @@ MonoBehaviour:
           duration: 2
         Effectiveness: 0.8
       Icon: {fileID: 0}
-      PointCost: 63
+      PointCost: 65
   Icon: {fileID: -1410451368, guid: 10e603f66c2a45942beff1b1c354fff0, type: 3}
   ModelAnimatorController: {fileID: 9100000, guid: c209e11ad546af44e985251d3b45a503, type: 2}
   AttackOffset: 0.2

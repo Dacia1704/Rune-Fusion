@@ -5,15 +5,13 @@ using UnityEngine.UI;
 
 public class UIEffectDescription: UIBase
 {
-        private Image iconImage;
-        private TextMeshProUGUI descriptionText;
+        [SerializeField] private Image iconImage;
+        [SerializeField] private TextMeshProUGUI descriptionText;
         private RectTransform rectTransform;
 
 
         private void Awake()
         {
-                iconImage = GetComponentInChildren<Image>();
-                descriptionText = GetComponentInChildren<TextMeshProUGUI>();
                 rectTransform = GetComponent<RectTransform>();
         }
 

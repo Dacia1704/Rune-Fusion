@@ -22,6 +22,10 @@ public class SocketManager : MonoBehaviour
 
     public List<List<string>> MapStart { get; private set; }
 
+    public string Endpoint { get; private set; } = "http://localhost:3000";
+    // public string Endpoint { get; private set; } = "https://rune-fusion.onrender.com";
+    
+
     private void Awake()
     {
         Instance = this;
@@ -45,8 +49,7 @@ public class SocketManager : MonoBehaviour
 
     public void SetUpConnectSocket()
     {
-        // socket = new SocketIOUnity("http://localhost:3000", new SocketIOOptions()
-        socket = new SocketIOUnity("https://rune-fusion.onrender.com/", new SocketIOOptions()
+        socket = new SocketIOUnity(Endpoint, new SocketIOOptions()
         {
             Query = new Dictionary<string, string>()
             {

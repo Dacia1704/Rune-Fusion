@@ -1,0 +1,51 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d330c4f24ffc468d918d74ae862e14cd, type: 3}
+  m_Name: EffectDescriptionSO
+  m_EditorClassIdentifier: 
+  EffectDescriptionList:
+  - EffectType: 2
+    NameEffect: Burn
+    DescriptionEffect: Deals damage over time. Damage fixed by 5% hp of monster.
+    SpriteEffect: {fileID: 7406662006849995675, guid: 4b36c3a1cd28b8a45857f2a1060971af, type: 3}
+  - EffectType: 3
+    NameEffect: Speed Increment
+    DescriptionEffect: Increases SPD by 25%.
+    SpriteEffect: {fileID: 1514181049279601983, guid: b5e6721eeb35c4b4b9f569946695225e, type: 3}
+  - EffectType: 4
+    NameEffect: Attack Increment
+    DescriptionEffect: Increases ATK by 50%.
+    SpriteEffect: {fileID: -7634800435284293121, guid: eb9b2efbf740cb34aa14e88aa30b3e4e, type: 3}
+  - EffectType: 5
+    NameEffect: Defend Increment
+    DescriptionEffect: Increases DEF by 50%.
+    SpriteEffect: {fileID: 2087931828202778420, guid: 9f4b28b46c583ff468960173c13baad4, type: 3}
+  - EffectType: 6
+    NameEffect: Speed Decrement
+    DescriptionEffect: Decreases SPD by 25%.
+    SpriteEffect: {fileID: -5076294567193456680, guid: c93838362ee3e56459aa185395ade3cb, type: 3}
+  - EffectType: 7
+    NameEffect: Attack Decrement
+    DescriptionEffect: Decreases ATK by 25%.
+    SpriteEffect: {fileID: 3280174808033768222, guid: fbdbb5161d03765449019bc46544884e, type: 3}
+  - EffectType: 8
+    NameEffect: Defend Decrement
+    DescriptionEffect: Decreases DEF by 50%.
+    SpriteEffect: {fileID: 7911172285868780410, guid: 267fb60cd404f3f4dbb3659f4ba4c65c, type: 3}
+  - EffectType: 9
+    NameEffect: Taunt
+    DescriptionEffect: Forces enemies to target this monster land taunt.
+    SpriteEffect: {fileID: -7392692730172310125, guid: 3c1fa29a256251945bbd374df262f9ee, type: 3}
+  - EffectType: 10
+    NameEffect: Frozen
+    DescriptionEffect: Frozen monster that can't attack in this state.
+    SpriteEffect: {fileID: 36207291187918886, guid: 3080a8545257f0c4abd8bb577462454a, type: 3}
