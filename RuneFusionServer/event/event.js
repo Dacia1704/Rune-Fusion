@@ -32,6 +32,8 @@ const EVENTS = {
         TALENT_POINT_UPDATE_RESPONSE: "talent_point_update_response",
         MONSTER_DATA_REQUEST: "monster_data_request",
         MONSTER_DATA_RESPONSE: "monster_data_response",
+        SUMMON_REQUEST: "summon_request",
+        SUMMON_RESPONSE: "summon_response",
     },
     MONSTER: {
         MONSTER_LIST: "monster_list",

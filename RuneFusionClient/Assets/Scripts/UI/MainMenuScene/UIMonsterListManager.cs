@@ -4,12 +4,19 @@ using UnityEngine;
 
 public class UIMonsterListManager: UIBase
 {
+        public static UIMonsterListManager Instance { get;private set; }
         [SerializeField] private GameObject UIMonsterListSlotPrefab;
         [SerializeField] private List<MonsterPropsSO> monsterDataList;
-        private Dictionary<int,UIMonsterListSlot> monsterSlotsDictionary;
+        public Dictionary<int,UIMonsterListSlot> MonsterSlotsDictionary;
+
+        private void Awake()
+        {
+                Instance = this;
+        }
+
         private void Start()
         {
-                monsterSlotsDictionary = new Dictionary<int, UIMonsterListSlot>();
+                MonsterSlotsDictionary = new Dictionary<int, UIMonsterListSlot>();
                 GenMonsterList();
         }
         private void GenMonsterList()
@@ -18,7 +25,7 @@ public class UIMonsterListManager: UIBase
                 {
                         UIMonsterListSlot monsterSlot = Instantiate(UIMonsterListSlotPrefab, transform).GetComponent<UIMonsterListSlot>();
                         monsterSlot.SetUp(monsterData,this);
-                        monsterSlotsDictionary.Add((int)monsterData.MonsterData.Id,monsterSlot);
+                        MonsterSlotsDictionary.Add((int)monsterData.MonsterData.Id,monsterSlot);
                 }
         }
 }

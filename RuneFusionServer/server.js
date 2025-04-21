@@ -18,6 +18,7 @@ import { handle_monster_data_request } from "./event/handle_monster_data_request
 import { updateMonsterTalentPointInAccount } from "./game_logics/update_monster_talent_point_in_account.js";
 import { init_monster_data } from "./game_logics/init_monster_data.js";
 import { archerMonsterData, armoredAxemanData, knightData, lancerData, priestData, wizardData } from "./model/defaultMonsterData.js";
+import { handle_summon_event } from "./event/handle_summon_event.js";
 
 dotenv.config();
 
@@ -69,6 +70,9 @@ io.on("connection", (socket) => {
         console.log(monsterData);
         updateMonsterTalentPointInAccount(monsterData.id_player, monsterData.id_monster, monsterData.talent_point);
         socket.emit(EVENTS.GAME.TALENT_POINT_UPDATE_RESPONSE, monsterData);
+    });
+    socket.on(EVENTS.GAME.SUMMON_REQUEST, (data) => {
+        handle_summon_event(io, socket, data);
     });
 
     socket.on(EVENTS.PLAYER.FIND_MATCH, (playerData) => {

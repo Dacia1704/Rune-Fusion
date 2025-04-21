@@ -37,6 +37,8 @@
         public const string TALENT_POINT_UPDATE_RESPONSE = "talent_point_update_response";
         public const string MONSTER_DATA_REQUEST = "monster_data_request";
         public const string MONSTER_DATA_RESPONSE = "monster_data_response";
+        public const string SUMMON_REQUEST = "summon_request";
+        public const string SUMMON_RESPONSE = "summon_response";
     }
 
     public static class Monster

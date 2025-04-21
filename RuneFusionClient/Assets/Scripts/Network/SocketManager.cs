@@ -162,9 +162,19 @@ public class SocketManager : MonoBehaviour
             List<MonsterTalentPointRequestUpdateData> response = JsonConvert.DeserializeObject<List<MonsterTalentPointRequestUpdateData>>(data.ToString());
             UnityThread.executeCoroutine(UpdateTalentPointDataCoroutine(response[0]));
         });
+        socket.On(SocketEvents.Game.SUMMON_RESPONSE, data =>
+        {
+            List<SummonResponseData> response = JsonConvert.DeserializeObject<List<SummonResponseData>>(data.ToString());
+            UnityThread.executeCoroutine(SummonResponseCoroutine(response[0]));
+        });
         socket.Connect();
     }
     // get
+    private IEnumerator SummonResponseCoroutine(SummonResponseData responseData)
+    {
+        UISummonManager.Instance.OnSummonResponseData?.Invoke(responseData);
+        yield return null;
+    }
     private IEnumerator UpdateTalentPointDataCoroutine(MonsterTalentPointRequestUpdateData data)
     {
         UIMainMenuManager.Instance.UpdateTalentPoint(data);
@@ -336,6 +346,15 @@ public class SocketManager : MonoBehaviour
     public void RequestUpdateTalentPoint(MonsterTalentPointRequestUpdateData monsterTalentPointRequestUpdate)
     {
         socket.Emit(SocketEvents.Game.TALENT_POINT_UPDATE_REQUEST,JsonConvert.SerializeObject(monsterTalentPointRequestUpdate));
-        // Debug.Log(JsonUtility.ToJson(monsterTalentPointRequestUpdate));
+    }
+
+    public void RequestSummonData(int times)
+    {
+        SummonRequestData summonRequestData = new SummonRequestData()
+        {
+            player_id = PlayerData.id,
+            summon_times = times,
+        };
+        socket.Emit(SocketEvents.Game.SUMMON_REQUEST, JsonConvert.SerializeObject(summonRequestData));
     }
 }

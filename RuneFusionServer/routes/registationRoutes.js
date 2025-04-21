@@ -86,6 +86,8 @@ export default (app) => {
                         },
                     },
                 ],
+                gold: 0,
+                scroll: 0,
             });
             await newAccount.save();
             res.status(200).json({

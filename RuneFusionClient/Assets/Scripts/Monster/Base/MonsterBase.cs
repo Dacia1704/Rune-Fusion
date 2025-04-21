@@ -33,6 +33,7 @@ public abstract class MonsterBase : MonoBehaviour
     public bool IsAlive;
     public bool IsDead;
     [SerializeField]protected GameObject FrozenGameObject;
+    [SerializeField] protected GameObject ShieldObject;
 
     public UIHeathSkillBarManager UIHeathSkillBarManager { get; private set; }
     
