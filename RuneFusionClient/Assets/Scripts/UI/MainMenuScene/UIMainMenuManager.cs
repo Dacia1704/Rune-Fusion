@@ -9,6 +9,7 @@ public class UIMainMenuManager: MonoBehaviour
         public UIRegisterScreen UIRegisterScreen { get; private set; }
         public UITabsManager UITabManager { get; private set; }
         public UIDetailMonster UIDetailMonster { get; private set; }
+        public UIPlayerResource UIPlayerResource { get; private set; }
         private UIBase currentUIScreen;
         private Vector3 UISubScreenPosition;
         
@@ -21,6 +22,7 @@ public class UIMainMenuManager: MonoBehaviour
                 UIRegisterScreen = GetComponentInChildren<UIRegisterScreen>();
                 UITabManager = GetComponentInChildren<UITabsManager>();
                 UIDetailMonster = GetComponentInChildren<UIDetailMonster>();
+                UIPlayerResource = GetComponentInChildren<UIPlayerResource>();
                 UISubScreenPosition = UIRegisterScreen.transform.position;
                 UITabManager.transform.position = UISubScreenPosition;
                 UIDetailMonster.transform.position = UISubScreenPosition;
@@ -76,13 +78,10 @@ public class UIMainMenuManager: MonoBehaviour
                         mon.MonsterProps.MonsterData = monster;
                         mon.SetOwn(false);
                 }
-
-                foreach (var own in initMonsterData.own_monster_list)
+                UIMonsterListManager.Instance.OnMonstersOwnDataResponse?.Invoke(new MonstersOwnResponseData()
                 {
-                        MonsterSourceData mon = MonsterListSO.MonsterDictionary[own.id];
-                        mon.MonsterProps.MonsterData.TalentPoint = own.talent_point;
-                        mon.SetOwn(true);
-                }
+                        own_monster_list = initMonsterData.own_monster_list,
+                });
         }
 
         public void UpdateTalentPoint(MonsterTalentPointRequestUpdateData talentPointData)

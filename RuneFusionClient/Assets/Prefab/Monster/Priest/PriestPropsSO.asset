@@ -76,7 +76,7 @@ MonoBehaviour:
       Icon: {fileID: 0}
       PointCost: 70
   Icon: {fileID: 2038306881, guid: a8a668349b642754591fa3dc9b6429d3, type: 3}
-  ModelAnimatorController: {fileID: 0}
+  ModelAnimatorController: {fileID: 9100000, guid: bc7395004b46de3449df891d4d1cf19b, type: 2}
   AttackOffset: 0
   <PriestMagicPrefab>k__BackingField: {fileID: 8169885286773831492, guid: d618ccd8494bfc9468382682df40631d, type: 3}
   <PriestMagicSummonOffset>k__BackingField: {x: 0.2, y: 0.2, z: 0.2}

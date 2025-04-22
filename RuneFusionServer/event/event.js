@@ -34,9 +34,13 @@ const EVENTS = {
         MONSTER_DATA_RESPONSE: "monster_data_response",
         SUMMON_REQUEST: "summon_request",
         SUMMON_RESPONSE: "summon_response",
+        UPDATE_RESOURCE_RESPONSE: "update_resource_response",
+        UPDATE_RESOURCE_REQUEST: "update_resource_request",
     },
     MONSTER: {
         MONSTER_LIST: "monster_list",
+        MONSTER_OWN_RESQUEST: "monster_own_request",
+        MONSTER_OWN_RESPONSE: "monster_own_response",
         MONSTER_ACTION_REQUEST: "monster_action_request",
         MONSTER_ACTION_RESPONSE: "monster_action_response",
         UPDATE_EFFECT_REQUEST: "update_effect_request",

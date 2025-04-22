@@ -3368,7 +3368,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &439806510
 RectTransform:
   m_ObjectHideFlags: 0
@@ -7924,6 +7924,7 @@ GameObject:
   m_Component:
   - component: {fileID: 939466774}
   - component: {fileID: 939466775}
+  - component: {fileID: 939466776}
   m_Layer: 5
   m_Name: Avatar
   m_TagString: Untagged
@@ -7961,6 +7962,20 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 939466773}
   m_CullTransparentMesh: 1
+--- !u!114 &939466776
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 939466773}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 822beca9e8994537b55964d2b68e1836, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  textGold: {fileID: 387830134}
+  textScroll: {fileID: 1843556491}
 --- !u!1 &946057677
 GameObject:
   m_ObjectHideFlags: 0

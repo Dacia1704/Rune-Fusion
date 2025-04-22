@@ -21,10 +21,10 @@ public class UISummonEffect: UIBase
                 summonEffect.SetActive(false);
                 if (result.monster_id >= 0)
                 {
-                        characterImage.sprite = UIMonsterListManager.Instance.MonsterSlotsDictionary[result.monster_id].MonsterPropsSO.Icon;
+                        characterImage.sprite = UIMainMenuManager.Instance.MonsterListSO.MonsterDictionary[result.monster_id].MonsterProps.Icon;
                         characterImage.gameObject.SetActive(true);
                         goldImage.gameObject.SetActive(false);
-                        resultText.text = UIMonsterListManager.Instance.MonsterSlotsDictionary[result.monster_id].MonsterPropsSO.MonsterData.Name;
+                        resultText.text = UIMainMenuManager.Instance.MonsterListSO.MonsterDictionary[result.monster_id].MonsterProps.MonsterData.Name;
                 }
                 else
                 {

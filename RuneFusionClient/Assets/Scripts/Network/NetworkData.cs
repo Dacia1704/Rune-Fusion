@@ -173,3 +173,25 @@ public class SummonResponseData
 {
         public List<SummonResult> summon_results;
 }
+[Serializable]
+public class MonstersOwnRequestData
+{
+        public string player_id;
+}
+[Serializable]
+public class MonstersOwnResponseData
+{
+        public List<MonsterTalentPointData> own_monster_list;
+}
+
+[Serializable]
+public class ResourceData
+{
+        public int gold;
+        public int scroll;
+}
+[Serializable]
+public class ResourceRequestData
+{
+        public string player_id;
+}

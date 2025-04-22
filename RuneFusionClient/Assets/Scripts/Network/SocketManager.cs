@@ -2,8 +2,10 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Sockets;
 using Newtonsoft.Json;
 using SocketIOClient;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Serialization;
 
@@ -59,7 +61,9 @@ public class SocketManager : MonoBehaviour
         socket.OnConnected += (sender, e) =>
         {
             Debug.Log("Socket connected");
+            UnityThread.executeCoroutine(ChangeToTabScreen());
             GetInitMonstersData();
+            ResquestResourceData();
         };
         socket.On(SocketEvents.Game.MONSTER_DATA_RESPONSE, data =>
         {
@@ -167,9 +171,37 @@ public class SocketManager : MonoBehaviour
             List<SummonResponseData> response = JsonConvert.DeserializeObject<List<SummonResponseData>>(data.ToString());
             UnityThread.executeCoroutine(SummonResponseCoroutine(response[0]));
         });
+        socket.On(SocketEvents.Monster.MONSTER_OWN_RESPONSE, data =>
+        {
+            List<MonstersOwnResponseData> response = JsonConvert.DeserializeObject<List<MonstersOwnResponseData>>(data.ToString());
+            UnityThread.executeCoroutine(UpdateMonsterOwnListCoroutine(response[0]));
+        });
+        socket.On(SocketEvents.Game.UPDATE_RESOURCE_RESPONSE, data =>
+        {
+            Debug.Log(data.ToString());
+            List<ResourceData> response = JsonConvert.DeserializeObject<List<ResourceData>>(data.ToString());
+            UnityThread.executeCoroutine(UpdateResourceCoroutine(response[0]));
+        });
         socket.Connect();
     }
     // get
+    private IEnumerator ChangeToTabScreen()
+    {
+        UIMainMenuManager.Instance.ChangeToNewScreen(UIMainMenuManager.Instance
+            .UITabManager);  
+        yield return null;
+    }
+    private IEnumerator UpdateResourceCoroutine(ResourceData resourceData)
+    {
+        UIMainMenuManager.Instance.UIPlayerResource.SetResourceText(resourceData.gold, resourceData.scroll);
+        yield return null;
+    }
+    private IEnumerator UpdateMonsterOwnListCoroutine(MonstersOwnResponseData response)
+    {
+        Debug.Log(1);
+        UIMonsterListManager.Instance.OnMonstersOwnDataResponse?.Invoke(response);
+        yield return null;
+    }
     private IEnumerator SummonResponseCoroutine(SummonResponseData responseData)
     {
         UISummonManager.Instance.OnSummonResponseData?.Invoke(responseData);
@@ -356,5 +388,24 @@ public class SocketManager : MonoBehaviour
             summon_times = times,
         };
         socket.Emit(SocketEvents.Game.SUMMON_REQUEST, JsonConvert.SerializeObject(summonRequestData));
+    }
+
+    public void RequestMonsterOwnData()
+    {
+        MonstersOwnRequestData requestData = new MonstersOwnRequestData()
+        {
+            player_id = PlayerData.id,
+        };
+        socket.Emit(SocketEvents.Monster.MONSTER_OWN_RESQUEST, JsonConvert.SerializeObject(requestData));
+    }
+
+    public void ResquestResourceData()
+    {
+        ResourceRequestData requestData = new ResourceRequestData()
+        {
+            player_id = PlayerData.id,
+        };
+        Debug.Log("Request Resource Data");
+        socket.Emit(SocketEvents.Game.UPDATE_RESOURCE_REQUEST, JsonConvert.SerializeObject(requestData));
     }
 }

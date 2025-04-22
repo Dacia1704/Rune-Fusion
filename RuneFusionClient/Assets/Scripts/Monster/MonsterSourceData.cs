@@ -7,7 +7,7 @@ public class MonsterSourceData
     public MonsterId Id;
     public GameObject Prefab;
     public MonsterPropsSO MonsterProps;
-    public bool IsOwn { get; private set; }
+    public bool IsOwn { get; private set; } = false;
 
     public void SetOwn(bool isOwn)
     {
