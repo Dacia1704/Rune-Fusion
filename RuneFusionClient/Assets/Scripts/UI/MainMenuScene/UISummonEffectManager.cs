@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using DG.Tweening;
 using UnityEngine;
@@ -9,8 +10,7 @@ public class UISummonEffectManager: UIBase
         private List<RectTransform> summonPositionList;
         [SerializeField] private RectTransform summonOncePosition;
         [SerializeField] private GameObject summonEffectPrefab;
-        
-        private List<GameObject> summonEffectList = new List<GameObject>();
+        [SerializeField] private Transform summonEffectParent;
         private void Awake()
         {
                 summonPositionList = new List<RectTransform>();
@@ -24,32 +24,38 @@ public class UISummonEffectManager: UIBase
 
         public void SummonOnce(SummonResult summonResult,RectTransform pos)
         {
-                GameObject summonObject = Instantiate(this.summonEffectPrefab, this.transform);
+                GameObject summonObject = Instantiate(this.summonEffectPrefab, summonEffectParent);
                 summonObject.GetComponent<RectTransform>().anchoredPosition = pos.anchoredPosition;
                 summonObject.GetComponent<UISummonEffect>().SetUp(summonResult,summonOncePosition);
 
-                foreach (GameObject obj in summonEffectList)
+                foreach (Transform obj in summonEffectParent)
                 {
-                        Destroy(obj);
+                        obj.gameObject.SetActive(false);
                 }
-                summonEffectList.Clear();
-                summonEffectList.Add(summonObject);
         }
 
         public void SummonTenTimes(List<SummonResult> summonResults,RectTransform pos)
         {
-                foreach (GameObject obj in summonEffectList)
+                foreach (Transform obj in summonEffectParent)
                 {
-                        Destroy(obj);
+                        obj.gameObject.SetActive(false);
                 }
-                summonEffectList.Clear();
                 for (int i=0;i<summonResults.Count;i++)
                 {
-                        Debug.Log(i);
-                        GameObject summonObject = Instantiate(this.summonEffectPrefab, this.transform);
+                        GameObject summonObject = Instantiate(this.summonEffectPrefab, summonEffectParent);
                         summonObject.GetComponent<RectTransform>().anchoredPosition = pos.anchoredPosition;
                         summonObject.GetComponent<UISummonEffect>().SetUp(summonResults[i],summonPositionList[i]);
-                        summonEffectList.Add(summonObject);
+                }
+        }
+
+        public void DestroyDisableObjects()
+        {
+                foreach (Transform obj in summonEffectParent)
+                {
+                        if (!obj.gameObject.activeInHierarchy)
+                        {
+                                Destroy(obj.gameObject);
+                        }
                 }
         }
         

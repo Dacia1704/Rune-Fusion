@@ -7,30 +7,44 @@ public class UISummonManager: UIBase
         public static UISummonManager Instance { get; private set; }
         [SerializeField] private Button SummonOnceButton;
         [SerializeField] private Button SummonTenTimesButton;
-        private UISummonEffectManager summonEffectManager;
+        public UISummonEffectManager SummonEffectManager { get; private set; }
         public Action<SummonResponseData> OnSummonResponseData { get; private set; }
         private void Awake()
         {
                 Instance = this;
-                summonEffectManager = GetComponentInChildren<UISummonEffectManager>();
+                SummonEffectManager = GetComponentInChildren<UISummonEffectManager>();
                 SummonOnceButton.onClick.AddListener(() =>
                 {
                         SocketManager.Instance.RequestSummonData(1);
+                        SetSummonTenTimesButtonInteractable(false);
+                        SetSummonOnceButtonInteractable(false);
                 });
                 SummonTenTimesButton.onClick.AddListener(() =>
                 {
                         SocketManager.Instance.RequestSummonData(10);
+                        SetSummonOnceButtonInteractable(false);
+                        SetSummonTenTimesButtonInteractable(false);
                 });
                 OnSummonResponseData += (SummonResponseData summonResponseData) =>
                 {
                         if (summonResponseData.summon_results.Count > 1)
                         {
-                                summonEffectManager.SummonTenTimes(summonResponseData.summon_results,SummonTenTimesButton.transform as RectTransform);
+                                SummonEffectManager.SummonTenTimes(summonResponseData.summon_results,SummonTenTimesButton.transform as RectTransform);
                         }
                         else
                         {
-                                summonEffectManager.SummonOnce(summonResponseData.summon_results[0],SummonOnceButton.transform as RectTransform);
+                                SummonEffectManager.SummonOnce(summonResponseData.summon_results[0],SummonOnceButton.transform as RectTransform);
                         }
                 };
         }
+
+        public void SetSummonOnceButtonInteractable(bool isInteractable)
+        {
+                SummonOnceButton.interactable = isInteractable;
+        }
+        public void SetSummonTenTimesButtonInteractable(bool isInteractable)
+        {
+                SummonTenTimesButton.interactable = isInteractable;
+        }
+        
 }

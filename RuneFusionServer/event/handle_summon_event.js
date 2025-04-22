@@ -55,6 +55,7 @@ export async function handle_summon_event(io, socket, data) {
                 $set: {
                     own_monster_list: player.own_monster_list,
                     gold: player.gold + amountGold,
+                    scroll: player.scroll - summonData.summon_times,
                 },
             }
         );

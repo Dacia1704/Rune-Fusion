@@ -6,6 +6,7 @@ TagManager:
   tags:
   - Opponent
   - Ally
+  - FxTemporaire
   layers:
   - Default
   - TransparentFX
@@ -13,7 +14,7 @@ TagManager:
   - 
   - Water
   - UI
-  - 
+  - UIUpper
   - 
   - 
   - 
@@ -42,6 +43,9 @@ TagManager:
   m_SortingLayers:
   - name: Default
     uniqueID: 0
+    locked: 0
+  - name: 
+    uniqueID: 1943865895
     locked: 0
   m_RenderingLayers:
   - Default

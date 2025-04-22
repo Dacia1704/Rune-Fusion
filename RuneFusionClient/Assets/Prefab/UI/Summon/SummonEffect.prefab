@@ -367,6 +367,7 @@ MonoBehaviour:
   resultText: {fileID: 5682401078955766919}
   goldImage: {fileID: 6372599634672760804}
   animator: {fileID: 4195808085946095930}
+  bumpEffect: {fileID: 9157105887711914197, guid: c4f829cb7dd4b864caf8832ec5b1ee55, type: 3}
 --- !u!1 &4085963642772500816
 GameObject:
   m_ObjectHideFlags: 0

@@ -8,9 +8,7 @@ mongoose.connect(config.mongoURI + "RuneFushion");
 export async function handle_resource_event(io, socket, data) {
     try {
         const playerData = JSON.parse(data);
-        console.log(playerData);
         const player = await Account.findOne({ _id: playerData.player_id });
-        console.log(player);
         const response = {
             gold: player.gold,
             scroll: player.scroll,
