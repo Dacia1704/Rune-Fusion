@@ -80,8 +80,6 @@ public class UILoginScreen: UIBase
                                 SetAlertText($"{returnedAccount.user._id} Login Successful. Welcome {returnedAccount.user.username}",1);
                                 SocketManager.Instance.SetPlayerNetworkData(returnedAccount.user.username, returnedAccount.user._id,-1);
                                 SocketManager.Instance.SetToken(returnedAccount.token);
-                                UIMainMenuManager.Instance.ChangeToNewScreen(UIMainMenuManager.Instance
-                                        .UITabManager);  
                                 SocketManager.Instance.SetUpConnectSocket();
                         }
                         else if(request.responseCode == 401)

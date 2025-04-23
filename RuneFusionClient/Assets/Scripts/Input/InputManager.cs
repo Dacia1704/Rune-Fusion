@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using UnityEngine;
 
 public class InputManager : MonoBehaviour
@@ -8,6 +9,9 @@ public class InputManager : MonoBehaviour
         private bool enablePlayerInput;
         private bool enableMonsterInput;
         private bool enableSkillInput;
+        
+        private bool isWaitForShieldInput;
+        private MonsterBase shieldInputMonster;
 
         private float lastClickTime;
         private MonsterBase lastClickMonsterAlly;
@@ -16,17 +20,32 @@ public class InputManager : MonoBehaviour
         public event Action<MonsterBase> OnMonsterTarget;
         public event Action<MonsterBase> OnMonsterAllyDoubleClick;
 
+        public event Action<MonsterBase> OnShieldTarget; // null is cancel
+
         private void Awake()
         {
                 enablePlayerInput = false;
                 enableMonsterInput = false;
                 enableSkillInput = false;
+                isWaitForShieldInput = false;
                 SetEnableMonsterInput();
         }
 
         private void Start()
         {
                 swipeThreshold = GameManager.Instance.GameManagerSO.SwipeThreshold;
+                
+                GameUIManager.Instance.UIRunePointManager.UIShieldRunePoint.OnClickShieldButton += () =>
+                {
+                        if (isWaitForShieldInput)
+                        {
+                                OnShieldTarget?.Invoke(null);
+                        }
+                        else
+                        {
+                                StartCoroutine(ActiveShieldCoroutine());
+                        }
+                };
         }
 
         private void Update()
@@ -83,6 +102,25 @@ public class InputManager : MonoBehaviour
                                                 lastClickTime = Time.time;
                                         }
                                 }  
+                        }
+                }
+
+                if (isWaitForShieldInput)
+                {
+                        if (Input.GetMouseButtonDown(0)) 
+                        {
+                                Vector2 touchPosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+                                RaycastHit2D hit = Physics2D.Raycast(touchPosition, Vector2.zero);
+                                if (hit.collider != null)
+                                {
+                                        Transform touchedTransform = hit.collider.transform;
+
+                                        if (touchedTransform.CompareTag("Ally"))
+                                        {
+                                                shieldInputMonster = touchedTransform.parent.GetComponent<MonsterBase>();
+                                                isWaitForShieldInput = false;
+                                        }
+                                }
                         }
                 }
         }
@@ -186,6 +224,12 @@ public class InputManager : MonoBehaviour
         {
                 enableMonsterInput = false;
                 enableSkillInput = false;
+        }
+        public IEnumerator ActiveShieldCoroutine()
+        {
+                isWaitForShieldInput = true;
+                yield return new WaitUntil(() => !isWaitForShieldInput);
+                OnShieldTarget?.Invoke(shieldInputMonster);
         }
         
 }

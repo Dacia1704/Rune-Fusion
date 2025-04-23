@@ -13,8 +13,7 @@ public class SceneLoadManager : MonoBehaviour
         [HideInInspector] public float ProgressValue;
         
         public string NextSceneName { get; private set; }
-
-
+        
         private void Awake()
         {
                 Instance = this;

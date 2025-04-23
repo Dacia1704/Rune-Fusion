@@ -11,23 +11,26 @@ public class UIMonsterListSlot: UIBase, IPointerClickHandler
         public MonsterPropsSO MonsterPropsSO {get; private set;}
         [SerializeField] private Image monsterIcon;
         [SerializeField] private GameObject blurLayer;
-        public bool IsHasMonster { get; private set; }
+        private bool isHasMonster;
 
-        public void SetUp(MonsterPropsSO data,UIMonsterListManager slotManager,bool hasMonster = true)
+        public void SetUp(MonsterPropsSO data,UIMonsterListManager slotManager,bool isOwn)
         {
+                isHasMonster = isOwn;
                 MonsterPropsSO = data;
                 monsterIcon.sprite = data.Icon;
                 monsterListSlotManager = slotManager;
-                if (hasMonster)
+                if(!isHasMonster){
+                        blurLayer.SetActive(true);
+                }
+                else
                 {
-                        IsHasMonster = true;
                         blurLayer.SetActive(false);
                 }
         }
 
         public void OnPointerClick(PointerEventData eventData)
         {
-                if (!IsHasMonster) return;
+                if (!isHasMonster) return;
                 UIMainMenuManager.Instance.ChangeToNewScreen(UIMainMenuManager.Instance.UIDetailMonster);
                 UIMainMenuManager.Instance.UIDetailMonster.SetUp(MonsterPropsSO);
         }

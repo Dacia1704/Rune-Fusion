@@ -33,6 +33,8 @@ public abstract class MonsterBase : MonoBehaviour
     public bool IsAlive;
     public bool IsDead;
     [SerializeField]protected GameObject FrozenGameObject;
+    [SerializeField] protected GameObject ShieldObject;
+    private int shield;
 
     public UIHeathSkillBarManager UIHeathSkillBarManager { get; private set; }
     
@@ -51,6 +53,7 @@ public abstract class MonsterBase : MonoBehaviour
 
     protected virtual void Start()
     {
+        shield = 0;
         stateMachine = new StateMachine();
         IsAllAnimationEnd = false;
         IsUpdateEffect = false;
@@ -140,6 +143,22 @@ public abstract class MonsterBase : MonoBehaviour
     }
     public void GetDam(int dam,EffectSkill effect=null)
     {
+        Debug.Log(gameObject.name +" has "+ MonsterStatsInBattle.Health +" "+ shield +" get dam "+ dam);
+        if (shield > dam)
+        {
+            shield -= dam;
+            dam = 0;
+        }
+        else
+        {
+            shield = 0;
+            dam -= shield;
+        }
+        if (shield <= 0)
+        {
+            DisableShield();
+        }
+        Debug.Log(gameObject.name +" get dam: "+ dam);
         int health = MonsterStatsInBattle.Health-dam;
         
         MonsterStatsInBattle.Health = Mathf.Clamp(health,0,MonsterPropsSO.MonsterData.BaseStats.Health);
@@ -225,14 +244,13 @@ public abstract class MonsterBase : MonoBehaviour
 
     public virtual IEnumerator UpdateEffect(int dam,List<EffectSkill> effects)
     {
+        Debug.Log("UpdateEffect " + gameObject.name);
         if (dam > 0)
         {
-            Debug.Log(1);
             StartHit(dam,null);
         }
         else
         {
-            Debug.Log(2);
             IsAllAnimationEnd = true;
         }
         yield return new WaitUntil(() => IsAllAnimationEnd);
@@ -318,6 +336,20 @@ public abstract class MonsterBase : MonoBehaviour
         UIHeathSkillBarManager.SetSkillBar(MonsterPropsSO.MonsterData.Skills[1].PointCost);
         GameManager.Instance.RuneManager.AddRunePointByTpe((RuneType)((int)MonsterPropsSO.MonsterData.Type),MonsterPropsSO.MonsterData.Skills[1].PointCost);
         MonsterAnimationManager.EndSkillEffect();
+    }
+
+    public void EnableShield(int shieldAmount)
+    {
+        Debug.Log(gameObject.name + "EnableShield: " + shieldAmount);
+        ShieldObject.SetActive(true);
+        int shieldValue = (int)(MonsterPropsSO.MonsterData.BaseStats.Health * 0.0025f * shieldAmount);
+        Debug.Log(gameObject.name +" enable shield: " + shieldValue);
+        shield += shieldValue;
+    }
+
+    private void DisableShield()
+    {
+        ShieldObject.SetActive(false);
     }
     
 }

@@ -152,3 +152,52 @@ public class MonsterTalentPointRequestUpdateData
         public int id_monster;
         public TalentPoint talent_point;
 }
+
+[Serializable]
+public class SummonRequestData
+{
+        public string player_id;
+        public int summon_times;
+}
+
+[Serializable]
+public class SummonResult
+{
+        public int monster_id;
+        public int gold;
+        
+}
+
+[Serializable]
+public class SummonResponseData
+{
+        public List<SummonResult> summon_results;
+}
+[Serializable]
+public class MonstersOwnRequestData
+{
+        public string player_id;
+}
+[Serializable]
+public class MonstersOwnResponseData
+{
+        public List<MonsterTalentPointData> own_monster_list;
+}
+
+[Serializable]
+public class ResourceData
+{
+        public int gold;
+        public int scroll;
+}
+[Serializable]
+public class ResourceRequestData
+{
+        public string player_id;
+}
+[Serializable]
+public class UseShieldData
+{
+        public string player_id;
+        public string monster_id_in_battle;
+}

@@ -10,6 +10,8 @@ const accountSchema = new Schema({
     username: String,
     password: String,
     own_monster_list: [ownMonsterSchema],
+    gold: Number,
+    scroll: Number,
 });
 
 const Account = mongoose.model("accounts", accountSchema);

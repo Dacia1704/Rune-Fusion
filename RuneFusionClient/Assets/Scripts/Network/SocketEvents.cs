@@ -14,9 +14,8 @@
     {
         public const string FIND_MATCH = "find_match";
         public const string MATCH_FOUND = "match_found";
-        public const string CURRENT_TURN = "current_turn";
-        public const string TURN_REQUEST = "turn_request";
-        public const string TURN_RESPONSE = "turn_response";
+        public const string USE_SHIELD_PUSH = "use_shield_request";
+        public const string USE_SHIELD_RESPONSE = "use_shield_response";
     }
 
     public static class Game
@@ -37,11 +36,17 @@
         public const string TALENT_POINT_UPDATE_RESPONSE = "talent_point_update_response";
         public const string MONSTER_DATA_REQUEST = "monster_data_request";
         public const string MONSTER_DATA_RESPONSE = "monster_data_response";
+        public const string SUMMON_REQUEST = "summon_request";
+        public const string SUMMON_RESPONSE = "summon_response";
+        public const string UPDATE_RESOURCE_RESPONSE = "update_resource_response";
+        public const string UPDATE_RESOURCE_REQUEST = "update_resource_request";
     }
 
     public static class Monster
     {
         public const string MONSTER_LIST = "monster_list";
+        public const string MONSTER_OWN_RESQUEST = "monster_own_request";
+        public const string MONSTER_OWN_RESPONSE = "monster_own_response";
         public const string MONSTER_ACTION_REQUEST = "monster_action_request";
         public const string MONSTER_ACTION_RESPONSE = "monster_action_response";
         public const string UPDATE_EFFECT_REQUEST = "update_effect_request";

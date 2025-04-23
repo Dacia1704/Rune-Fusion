@@ -19,73 +19,75 @@ export default (app) => {
                 username: rUsername,
                 password: rPassword,
                 own_monster_list: [
-                    {
-                        id: 0,
-                        talent_point: {
-                            attack: 0,
-                            defend: 0,
-                            health: 0,
-                            speed: 0,
-                            accuracy: 0,
-                            resistance: 0,
-                        },
-                    },
-                    {
-                        id: 1,
-                        talent_point: {
-                            attack: 0,
-                            defend: 0,
-                            health: 0,
-                            speed: 0,
-                            accuracy: 0,
-                            resistance: 0,
-                        },
-                    },
-                    {
-                        id: 2,
-                        talent_point: {
-                            attack: 0,
-                            defend: 0,
-                            health: 0,
-                            speed: 0,
-                            accuracy: 0,
-                            resistance: 0,
-                        },
-                    },
-                    {
-                        id: 3,
-                        talent_point: {
-                            attack: 0,
-                            defend: 0,
-                            health: 0,
-                            speed: 0,
-                            accuracy: 0,
-                            resistance: 0,
-                        },
-                    },
-                    {
-                        id: 4,
-                        talent_point: {
-                            attack: 0,
-                            defend: 0,
-                            health: 0,
-                            speed: 0,
-                            accuracy: 0,
-                            resistance: 0,
-                        },
-                    },
-                    {
-                        id: 5,
-                        talent_point: {
-                            attack: 0,
-                            defend: 0,
-                            health: 0,
-                            speed: 0,
-                            accuracy: 0,
-                            resistance: 0,
-                        },
-                    },
+                    // {
+                    //     id: 0,
+                    //     talent_point: {
+                    //         attack: 0,
+                    //         defend: 0,
+                    //         health: 0,
+                    //         speed: 0,
+                    //         accuracy: 0,
+                    //         resistance: 0,
+                    //     },
+                    // },
+                    // {
+                    //     id: 1,
+                    //     talent_point: {
+                    //         attack: 0,
+                    //         defend: 0,
+                    //         health: 0,
+                    //         speed: 0,
+                    //         accuracy: 0,
+                    //         resistance: 0,
+                    //     },
+                    // },
+                    // {
+                    //     id: 2,
+                    //     talent_point: {
+                    //         attack: 0,
+                    //         defend: 0,
+                    //         health: 0,
+                    //         speed: 0,
+                    //         accuracy: 0,
+                    //         resistance: 0,
+                    //     },
+                    // },
+                    // {
+                    //     id: 3,
+                    //     talent_point: {
+                    //         attack: 0,
+                    //         defend: 0,
+                    //         health: 0,
+                    //         speed: 0,
+                    //         accuracy: 0,
+                    //         resistance: 0,
+                    //     },
+                    // },
+                    // {
+                    //     id: 4,
+                    //     talent_point: {
+                    //         attack: 0,
+                    //         defend: 0,
+                    //         health: 0,
+                    //         speed: 0,
+                    //         accuracy: 0,
+                    //         resistance: 0,
+                    //     },
+                    // },
+                    // {
+                    //     id: 5,
+                    //     talent_point: {
+                    //         attack: 0,
+                    //         defend: 0,
+                    //         health: 0,
+                    //         speed: 0,
+                    //         accuracy: 0,
+                    //         resistance: 0,
+                    //     },
+                    // },
                 ],
+                gold: 0,
+                scroll: 0,
             });
             await newAccount.save();
             res.status(200).json({

@@ -10,7 +10,7 @@ export function handle_monster_action_event(io, socket, roomsPlaying, actionData
     const data = JSON.parse(actionData);
     console.log(data);
     const monsterPlayer = data.monster_id[0] === "1" ? roomsPlaying[socket.roomId].player1.monsters.find((monster) => monster.id_in_battle === data.monster_id) : roomsPlaying[socket.roomId].player2.monsters.find((monster) => monster.id_in_battle === data.monster_id);
-    const skill = monsterPlayer.data.skills.find((element) => element.id === data.skill_id);
+    const skill = monsterPlayer.data.skill.find((element) => element.id === data.skill_id);
     let monsterAlly = data.monster_id[0] === "1" ? roomsPlaying[socket.roomId].player1.monsters : roomsPlaying[socket.roomId].player2.monsters;
     let monsterTarget = [];
     data.monster_target_id.forEach((monsterId) => {
@@ -47,6 +47,6 @@ export function handle_monster_action_event(io, socket, roomsPlaying, actionData
         skill_id: data.skill_id,
         action_affect_list: actionResponse,
     };
-    console.log("send action");
+    console.log(response);
     io.in(socket.roomId).emit(EVENTS.MONSTER.MONSTER_ACTION_RESPONSE, response);
 }

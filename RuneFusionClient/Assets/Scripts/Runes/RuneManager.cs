@@ -37,8 +37,8 @@ public class RuneManager : MonoBehaviour
     [SerializeField] private int countRuneSequences;
     
     private Tuple<List<Tuple<int, int>>,RuneForm,Tuple<int,int>,SwapDirection> runeHintList;
-    public List<int> RunePointsPlayer { get; private set; } // order by RuneType
-    public List<int> RunePointsOpponent { get; private set; } // order by RuneType
+    [field: SerializeField] public List<int> RunePointsPlayer { get; private set; } // order by RuneType
+    [field: SerializeField] public List<int> RunePointsOpponent { get; private set; } // order by RuneType
     public event Action<PointPushData> OnRunePointsChanged;
     
     private void Awake()
@@ -680,6 +680,18 @@ public class RuneManager : MonoBehaviour
         };
         RunePointsPlayer[(int)runeType] = Math.Clamp(RunePointsPlayer[(int)runeType] -amount, 0, GameManager.Instance.GameManagerSO.MaxRunePoint);
         OnRunePointsChanged?.Invoke(points);
+    }
+
+    public void ReleaseShieldRunePoint(UseShieldData data)
+    {
+        if (data.player_id == SocketManager.Instance.PlayerData.id)
+        {
+            RunePointsPlayer[(int)RuneType.Shield] = 0;
+        }
+        else
+        {
+            RunePointsOpponent[(int)RuneType.Shield] = 0;
+        }
     }
 
     public void AddRunePointByTpe(RuneType runeType, int amount)

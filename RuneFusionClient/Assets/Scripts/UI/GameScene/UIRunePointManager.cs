@@ -1,11 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 public class UIRunePointManager : UIBase
 {
         [SerializeField] private List<UIRunePoint> uiRunePoint;
-        [SerializeField] private UIShieldRunePoint uiShieldRunePoint;
+        [field: SerializeField] public UIShieldRunePoint UIShieldRunePoint { get; private set; }
 
         private void Start()
         {
@@ -22,7 +23,7 @@ public class UIRunePointManager : UIBase
                 {
                         if (i == (int)RuneType.Shield)
                         {
-                                uiShieldRunePoint.SetFillImage((float)points[i]/(float)GameManager.Instance.GameManagerSO.MaxRunePoint);
+                                UIShieldRunePoint.SetFillImage((float)points[i]/(float)GameManager.Instance.GameManagerSO.MaxRunePoint);
                         }
                         else
                         {
