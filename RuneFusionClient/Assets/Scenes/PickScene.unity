@@ -1261,6 +1261,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 64b7fedb39ed0314da75d9ab4104667b, type: 2}
   - {fileID: 11400000, guid: 71b732fefb120c14596ca2a8d7139d38, type: 2}
   - {fileID: 11400000, guid: 66c0360869de22549a0926f798ad208f, type: 2}
+  <MonsterListSO>k__BackingField: {fileID: 11400000, guid: 772d15ce8bc99eb4eb2e7cae2ba2992e, type: 2}
 --- !u!1001 &1299202868
 PrefabInstance:
   m_ObjectHideFlags: 0

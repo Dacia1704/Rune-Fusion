@@ -14,6 +14,8 @@ const EVENTS = {
         TURN_REQUEST: "turn_request",
         TURN_RESPONSE: "turn_response",
         PICK_MONSTER: "pick_monster",
+        USE_SHIELD_PUSH: "use_shield_request",
+        USE_SHIELD_RESPONSE: "use_shield_response",
     },
     GAME: {
         GAME_START_REQUEST: "game_start_request",

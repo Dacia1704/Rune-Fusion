@@ -12,7 +12,6 @@ import { handle_find_match_event } from "./event/handle_find_match_event.js";
 import { handle_game_start_event } from "./event/handle_game_start_event.js";
 import update_turn_monster from "./game_logics/turn_monster.js";
 import { handle_monster_action_event } from "./event/handle_monster_action_event.js";
-import monster_update_effect from "./game_logics/monster_update_effect.js";
 import { handle_pick_monster_event } from "./event/handle_pick_monster_event.js";
 import { handle_monster_data_request } from "./event/handle_monster_data_request.js";
 import { updateMonsterTalentPointInAccount } from "./game_logics/update_monster_talent_point_in_account.js";
@@ -21,7 +20,7 @@ import { archerMonsterData, armoredAxemanData, knightData, lancerData, priestDat
 import { handle_summon_event } from "./event/handle_summon_event.js";
 import { handle_monster_own_request } from "./event/handle_monster_own_request.js";
 import { handle_resource_event } from "./event/handle_resource_event.js";
-
+import monster_update_effect from "./event/monster_update_effect.js";
 dotenv.config();
 
 //login
@@ -82,7 +81,10 @@ io.on("connection", (socket) => {
     socket.on(EVENTS.GAME.UPDATE_RESOURCE_REQUEST, (data) => {
         handle_resource_event(io, socket, data);
     });
-
+    socket.on(EVENTS.PLAYER.USE_SHIELD_PUSH, (data) => {
+        const playerData = JSON.parse(data);
+        io.in(socket.roomId).emit(EVENTS.PLAYER.USE_SHIELD_RESPONSE, playerData);
+    });
     socket.on(EVENTS.PLAYER.FIND_MATCH, (playerData) => {
         handle_find_match_event(io, socket, playerData, queuePlayerWaiting, roomsPlaying);
     });
@@ -195,15 +197,13 @@ io.on("connection", (socket) => {
         const monsterData = data;
         let monster;
         if (monsterData[0] == "1") {
-            console.log("player 1");
+            console.log("player 1 update effect");
             monster = roomsPlaying[socket.roomId].player1.monsters.find((monster) => monster.id_in_battle == monsterData);
         } else {
-            console.log("player 2");
+            console.log("player 2 update effect");
             monster = roomsPlaying[socket.roomId].player2.monsters.find((monster) => monster.id_in_battle == monsterData);
         }
-        console.log("monster: " + monster);
-        const response = monster_update_effect(monster);
-        io.in(socket.roomId).emit(EVENTS.MONSTER.UPDATE_EFFECT_RESPONSE, response);
+        monster_update_effect(io, socket, monster);
     });
     socket.on(EVENTS.GAME.POINT_UPDATE_POST, (data) => {
         const postData = JSON.parse(data);

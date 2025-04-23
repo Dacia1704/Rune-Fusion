@@ -2345,7 +2345,7 @@ MonoBehaviour:
   - {fileID: 1454118931}
   - {fileID: 577953616}
   - {fileID: 1618786444}
-  <UIShieldRunePoint>k__BackingField: {fileID: 0}
+  <UIShieldRunePoint>k__BackingField: {fileID: 2052396084}
 --- !u!4 &1193465388
 Transform:
   m_ObjectHideFlags: 0

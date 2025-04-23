@@ -182,9 +182,19 @@ public class SocketManager : MonoBehaviour
             List<ResourceData> response = JsonConvert.DeserializeObject<List<ResourceData>>(data.ToString());
             UnityThread.executeCoroutine(UpdateResourceCoroutine(response[0]));
         });
+        socket.On(SocketEvents.Player.USE_SHIELD_RESPONSE, data =>
+        {
+            List<UseShieldData> response = JsonConvert.DeserializeObject<List<UseShieldData>>(data.ToString());
+            UnityThread.executeCoroutine(UseShieldCoroutine(response[0]));
+        });
         socket.Connect();
     }
     // get
+    private IEnumerator UseShieldCoroutine(UseShieldData useShieldData)
+    {
+        GameManager.Instance.BattleManager.UpdateMonsterShield(useShieldData);
+        yield return null;
+    }
     private IEnumerator ChangeToTabScreen()
     {
         UIMainMenuManager.Instance.ChangeToNewScreen(UIMainMenuManager.Instance
@@ -234,7 +244,7 @@ public class SocketManager : MonoBehaviour
     }
     private IEnumerator UpdateEffectCoroutine(UpdateEffectResponse response)
     {
-        Debug.Log("Call");
+        Debug.Log(JsonUtility.ToJson(response));
         GameManager.Instance.BattleManager.UpdateMonsterEffect(response);
         yield return null;
     }
@@ -407,5 +417,16 @@ public class SocketManager : MonoBehaviour
         };
         Debug.Log("Request Resource Data");
         socket.Emit(SocketEvents.Game.UPDATE_RESOURCE_REQUEST, JsonConvert.SerializeObject(requestData));
+    }
+
+    public void PushUseShieldData(string id)
+    {
+        UseShieldData data = new UseShieldData()
+        {
+            player_id = PlayerData.id,
+            monster_id_in_battle = id,
+        };
+        Debug.Log("Push Use Shield Data");
+        socket.Emit(SocketEvents.Player.USE_SHIELD_PUSH,JsonConvert.SerializeObject(data));
     }
 }

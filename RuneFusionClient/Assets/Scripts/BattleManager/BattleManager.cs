@@ -133,8 +133,17 @@ public class BattleManager : MonoBehaviour
                 }
                 else
                 {
-                        
+                        SocketManager.Instance.PushUseShieldData(monster.MonsterIdInBattle);
                 }
+        }
+        public void UpdateMonsterShield(UseShieldData useShieldData)
+        {
+                MonsterBase monster = GetMonsterByIdInBattle(useShieldData.monster_id_in_battle);
+                int shieldRunePoint = SocketManager.Instance.PlayerData.id == useShieldData.player_id
+                        ? GameManager.Instance.RuneManager.RunePointsPlayer[(int)RuneType.Shield]
+                        : GameManager.Instance.RuneManager.RunePointsOpponent[(int)RuneType.Shield];
+                monster.EnableShield(shieldRunePoint);
+                GameManager.Instance.RuneManager.ReleaseShieldRunePoint(useShieldData);
         }
 
         public MonsterBase GetMonsterByIdInBattle(string id)
@@ -193,6 +202,8 @@ public class BattleManager : MonoBehaviour
         {
                 StartCoroutine(GetMonsterByIdInBattle(monsterEffect.id_in_battle).UpdateEffect(monsterEffect.dam, monsterEffect.effect_list));
         }
+
+        
 
         
         

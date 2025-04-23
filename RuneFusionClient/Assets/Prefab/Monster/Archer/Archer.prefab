@@ -193,6 +193,7 @@ MonoBehaviour:
   IsAlive: 0
   IsDead: 0
   FrozenGameObject: {fileID: 6153727454672587879}
+  ShieldObject: {fileID: 6889682406965080201}
 --- !u!1 &543322993831549562
 GameObject:
   m_ObjectHideFlags: 0
@@ -1079,7 +1080,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4710841879243088189}
-  - component: {fileID: 5978057963669195748}
   - component: {fileID: 4088244463444072974}
   m_Layer: 0
   m_Name: Shield
@@ -1087,7 +1087,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &4710841879243088189
 Transform:
   m_ObjectHideFlags: 0
@@ -1098,33 +1098,11 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0.044, z: 0}
-  m_LocalScale: {x: 0.76135, y: 0.76135, z: 0.76135}
+  m_LocalScale: {x: 0.65, y: 0.65, z: 0.65}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 7279626583713982087}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!95 &5978057963669195748
-Animator:
-  serializedVersion: 7
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6889682406965080201}
-  m_Enabled: 1
-  m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: c41a8addd7d4db04bb1fe9cf1f92e1eb, type: 2}
-  m_CullingMode: 0
-  m_UpdateMode: 0
-  m_ApplyRootMotion: 0
-  m_LinearVelocityBlending: 0
-  m_StabilizeFeet: 0
-  m_AnimatePhysics: 0
-  m_WarningMessage: 
-  m_HasTransformHierarchy: 1
-  m_AllowConstantClipSamplingOptimization: 1
-  m_KeepAnimatorStateOnDisable: 0
-  m_WriteDefaultValuesOnDisable: 0
 --- !u!212 &4088244463444072974
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -1169,7 +1147,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: -4083282487885485058, guid: d859d1e4e01d9a94fbd550c0b3acd181, type: 3}
+  m_Sprite: {fileID: 308756595079027927, guid: b3d4175aaaaac3b4f8067a56a2988092, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 0.79607844}
   m_FlipX: 0
   m_FlipY: 0

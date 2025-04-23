@@ -27,7 +27,7 @@ public class InputManager : MonoBehaviour
                 enablePlayerInput = false;
                 enableMonsterInput = false;
                 enableSkillInput = false;
-                isWaitForShieldInput = true;
+                isWaitForShieldInput = false;
                 SetEnableMonsterInput();
         }
 
@@ -118,7 +118,7 @@ public class InputManager : MonoBehaviour
                                         if (touchedTransform.CompareTag("Ally"))
                                         {
                                                 shieldInputMonster = touchedTransform.parent.GetComponent<MonsterBase>();
-                                                isWaitForShieldInput = true;
+                                                isWaitForShieldInput = false;
                                         }
                                 }
                         }

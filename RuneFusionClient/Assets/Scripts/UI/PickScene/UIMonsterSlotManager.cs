@@ -6,6 +6,7 @@ public class UIMonsterSlotManager: MonoBehaviour
 {
         [SerializeField] private GameObject UIMonsterSlotPrefab;
         [SerializeField] private List<MonsterPropsSO> monsterDataList;
+        [field: SerializeField] public MonsterListSO MonsterListSO {get; private set;}
         public List<MonsterPropsSO> PickList {get; private set;}
 
         public Action<List<MonsterPropsSO>> OnPickChange;
@@ -21,9 +22,12 @@ public class UIMonsterSlotManager: MonoBehaviour
         {
                 foreach (MonsterPropsSO monsterData in monsterDataList)
                 {
-                        UIMonsterSlot monsterSlot = Instantiate(UIMonsterSlotPrefab, transform).GetComponent<UIMonsterSlot>();
-                        monsterSlot.SetUp(monsterData,this);
-                        monsterSlotsDictionary.Add((int)monsterData.MonsterData.Id,monsterSlot);
+                        if (MonsterListSO.MonsterDictionary[(int)monsterData.MonsterData.Id].IsOwn)
+                        {
+                                UIMonsterSlot monsterSlot = Instantiate(UIMonsterSlotPrefab, transform).GetComponent<UIMonsterSlot>();
+                                monsterSlot.SetUp(monsterData,this);
+                                monsterSlotsDictionary.Add((int)monsterData.MonsterData.Id,monsterSlot);
+                        }
                 }
         }
 
@@ -102,7 +106,10 @@ public class UIMonsterSlotManager: MonoBehaviour
         {
                 foreach (int id in monsterIds)
                 {
-                        monsterSlotsDictionary[id].EnableCheck();
+                        if (monsterSlotsDictionary.ContainsKey(id))
+                        {
+                                monsterSlotsDictionary[id].EnableCheck();
+                        }
                 }
         }
 }

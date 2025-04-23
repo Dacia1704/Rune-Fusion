@@ -14,9 +14,8 @@
     {
         public const string FIND_MATCH = "find_match";
         public const string MATCH_FOUND = "match_found";
-        public const string CURRENT_TURN = "current_turn";
-        public const string TURN_REQUEST = "turn_request";
-        public const string TURN_RESPONSE = "turn_response";
+        public const string USE_SHIELD_PUSH = "use_shield_request";
+        public const string USE_SHIELD_RESPONSE = "use_shield_response";
     }
 
     public static class Game

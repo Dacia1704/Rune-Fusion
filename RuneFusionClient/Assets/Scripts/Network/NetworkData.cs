@@ -195,3 +195,9 @@ public class ResourceRequestData
 {
         public string player_id;
 }
+[Serializable]
+public class UseShieldData
+{
+        public string player_id;
+        public string monster_id_in_battle;
+}
