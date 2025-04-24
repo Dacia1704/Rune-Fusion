@@ -57,6 +57,8 @@ public class Rune : MonoBehaviour,IPoolingObject
     public void BreakProtectLayer()
     {
         IsProtected = false;
+        GameObject destroyEffect = GameManager.Instance.RuneManager.RuneObjectPoolManager.GetProtectDestroyEffectObject();
+        destroyEffect.transform.position = transform.position;
         protectRuneLayer.Disappear();
         SetIsChecked(false);
         TextPos.text = Row + " " + Col;

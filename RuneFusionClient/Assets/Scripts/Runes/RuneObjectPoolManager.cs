@@ -8,6 +8,7 @@ public class RuneObjectPoolManager : MonoBehaviour
         [field: SerializeField] public ObjectPooling HorizontalRuneObjectPooling { get; private set; }
         [field: SerializeField] public ObjectPooling ExplosiveRuneObjectPooling { get; private set; }
         [field: SerializeField] public ObjectPooling SpecialRuneObjectPooling { get; private set; }
+        [field: SerializeField] public ObjectPooling RuneDestroyEffectObjectPooling {get; private set;}
         
         //release
         public void ReleaseRune(GameObject runeObj)
@@ -23,6 +24,12 @@ public class RuneObjectPoolManager : MonoBehaviour
                         case RuneForm.Explosive: ExplosiveRuneObjectPooling.ReleaseObject(runeObj); break;
                 }
         }
+
+        public void ReleaseDestroyEffect(GameObject runeObj)
+        {
+                RuneDestroyEffectObjectPooling.ReleaseObject(runeObj);
+        } 
+        
         
         //object
         public GameObject GetBasicRuneObjectFromIndex(int index)
@@ -46,6 +53,16 @@ public class RuneObjectPoolManager : MonoBehaviour
         public GameObject GetSpecialRuneObjectFromIndex()
         {
                 return SpecialRuneObjectPooling.GetObject(GetSpecialRuneKey());
+        }
+
+        public GameObject GetRuneDestroyEffectObject(int runeType, int runeForm)
+        {
+                return RuneDestroyEffectObjectPooling.GetObject(GetRuneDestroyEffectKey(runeType, runeForm));
+        }
+
+        public GameObject GetProtectDestroyEffectObject()
+        {
+                return RuneDestroyEffectObjectPooling.GetObject(GetProtectDestroyEffectKey());
         }
         
         
@@ -72,6 +89,27 @@ public class RuneObjectPoolManager : MonoBehaviour
         private string GetSpecialRuneKey()
         {
                 return "Special";
+        }
+
+        private string GetRuneDestroyEffectKey(int runeType, int runeForm)
+        {
+                switch (runeForm)
+                {
+                        case (int)RuneForm.Horizontal: return "HorizontalRuneDestroyEffect"; 
+                        case (int)RuneForm.Vertical: return "VerticalRuneDestroyEffect"; 
+                        case (int)RuneForm.Explosive: return "ExplosiveRuneDestroyEffect"; 
+                        case (int)RuneForm.Special: return "SpecialRuneDestroyEffect"; 
+                        case (int)RuneForm.Base: return ((RuneType)runeType).ToString() + "RuneDestroyEffect"; 
+                }
+
+                return "";
+
+
+        }
+
+        private string GetProtectDestroyEffectKey()
+        {
+                return "ProtectDestroyEffect";
         }
         
         

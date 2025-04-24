@@ -1,0 +1,16 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1070e3aeea7977c4484af383e1defc5f, type: 3}
+  m_Name: HealthRuneDestroyEffectPoolingObject
+  m_EditorClassIdentifier: 
+  KeyObject: HealthRuneDestroyEffect
+  ObjectPrefab: {fileID: 4799905970847645526, guid: 4cd7cfaae853816429c6cca4fd0f2a2f, type: 3}
