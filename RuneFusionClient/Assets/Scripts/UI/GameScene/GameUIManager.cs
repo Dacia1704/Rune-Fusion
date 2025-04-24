@@ -22,5 +22,4 @@ public class GameUIManager: MonoBehaviour
                 TurnText.text = turnText;
                 TurnText.color = textColor;
         }
-        
 }

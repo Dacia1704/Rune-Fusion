@@ -18,6 +18,7 @@ public class Rune : MonoBehaviour,IPoolingObject
     public bool IsProtected { get; private set; }
     private ProtectRuneLayer protectRuneLayer;
     public PoolingObjectPropsSO PoolingObjectPropsSO { get; set; }
+    private AudioSource audioSource;
     
     
     
@@ -25,8 +26,15 @@ public class Rune : MonoBehaviour,IPoolingObject
     
     private void Awake()
     {
+        gameObject.AddComponent<AudioSource>();
+        audioSource = GetComponent<AudioSource>();
         TextPos = GetComponentInChildren<TextMeshPro>();
         protectRuneLayer = GetComponentInChildren<ProtectRuneLayer>();
+    }
+
+    private void Start()
+    {
+        audioSource.outputAudioMixerGroup = AudioManager.Instance.AudioPropsSO.SFXAudioMixerGroup;
     }
 
     private void OnEnable()
@@ -57,11 +65,25 @@ public class Rune : MonoBehaviour,IPoolingObject
     public void BreakProtectLayer()
     {
         IsProtected = false;
+        audioSource.clip = AudioManager.Instance.AudioPropsSO.ProtectBreakSound;
+        audioSource.Play();
         GameObject destroyEffect = GameManager.Instance.RuneManager.RuneObjectPoolManager.GetProtectDestroyEffectObject();
         destroyEffect.transform.position = transform.position;
         protectRuneLayer.Disappear();
         SetIsChecked(false);
         TextPos.text = Row + " " + Col;
+    }
+
+    public void PlayFallSound()
+    {
+        audioSource.clip = AudioManager.Instance.AudioPropsSO.RuneFallSound;
+        audioSource.Play();
+    }
+
+    public void PlayMatchesSound()
+    {
+        audioSource.clip = AudioManager.Instance.AudioPropsSO.RuneMatchesSound;
+        audioSource.Play();
     }
 
     public void SetIsChecked(bool isChecked)

@@ -182,6 +182,7 @@ io.on("connection", (socket) => {
         console.log(swapRuneData);
     });
     socket.on(EVENTS.RUNE.NEW_REQUEST, (data) => {
+        console.log("new rune request");
         const mapData = JSON.parse(data);
         io.to(socket.roomId).emit(EVENTS.RUNE.NEW_RESPONSE, generateNewRune(mapData));
     });

@@ -46,10 +46,7 @@ public class UITimeCounter: UIBase
                 {
                         if (canCallTimeEnd)
                         {
-                                if (GameManager.Instance.BattleManager.TurnManager.IsPlayerTurn)
-                                {
-                                        OnTimeCounterEnd?.Invoke();
-                                }
+                                OnTimeCounterEnd?.Invoke();
                                 canCallTimeEnd = false;
                                 Hide();
                         }

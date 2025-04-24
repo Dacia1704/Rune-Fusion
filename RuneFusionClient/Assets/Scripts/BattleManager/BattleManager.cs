@@ -21,7 +21,7 @@ public class BattleManager : MonoBehaviour
         
 
         [HideInInspector]public bool CanChangeTurn;
-        
+        private AudioSource audioSource;
 
         private void Awake()
         {
@@ -29,6 +29,7 @@ public class BattleManager : MonoBehaviour
                 {
                         Instance = this;
                 }
+                audioSource = GetComponent<AudioSource>();
         }
 
         private void Start()
@@ -39,6 +40,7 @@ public class BattleManager : MonoBehaviour
                 GameManager.Instance.InputManager.OnMonsterTarget += TargetManager.TargetMonster;
                 GameManager.Instance.InputManager.OnMonsterAllyDoubleClick += SkillInputManager;
                 GameManager.Instance.InputManager.OnShieldTarget += ShieldMonster;
+                
         }
 
         public void SetUpMonster(MonsterListData monsterListData)
@@ -201,6 +203,35 @@ public class BattleManager : MonoBehaviour
         public void UpdateMonsterEffect(UpdateEffectResponse monsterEffect)
         {
                 StartCoroutine(GetMonsterByIdInBattle(monsterEffect.id_in_battle).UpdateEffect(monsterEffect.dam, monsterEffect.effect_list));
+        }
+
+        public MonsterBase AutoChooseTargetMonster(string monsterId)
+        {
+                MonsterBase weakestMonster = null;
+                if (MonsterTeam1Dictionary.ContainsKey(monsterId))
+                {
+                        weakestMonster = MonsterTeam2Dictionary.First().Value;
+                        foreach (MonsterBase monster in MonsterTeam2Dictionary.Values)
+                        {
+                                if (monster.MonsterStatsInBattle.Health < weakestMonster.MonsterStatsInBattle.Health)
+                                {
+                                        weakestMonster = monster;
+                                }
+                        }
+                }
+                else
+                {
+                        weakestMonster = MonsterTeam1Dictionary.First().Value;
+                        foreach (MonsterBase monster in MonsterTeam1Dictionary.Values)
+                        {
+                                if (monster.MonsterStatsInBattle.Health < weakestMonster.MonsterStatsInBattle.Health)
+                                {
+                                        weakestMonster = monster;
+                                }
+                        }
+                }
+
+                return weakestMonster;
         }
 
         

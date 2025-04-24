@@ -1,0 +1,25 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 05decf3164f3454e8acf86e654b76bcd, type: 3}
+  m_Name: AudioPropsSO
+  m_EditorClassIdentifier: 
+  <BGM>k__BackingField: {fileID: 0}
+  <ButtonClickSound>k__BackingField: {fileID: 8300000, guid: 3d444555e9aef884ab6e840f33aec7dd, type: 3}
+  <ClickSound>k__BackingField: {fileID: 8300000, guid: a70a2ba457f3aac47b09c7b29fb8c7a0, type: 3}
+  <ProtectBreakSound>k__BackingField: {fileID: 8300000, guid: 233b54d25b9a1614d9e7c118e15764c0, type: 3}
+  <RuneBreakSound>k__BackingField: {fileID: 8300000, guid: 2fb1eafb4d65f7940b307a3d09629577, type: 3}
+  <RuneFallSound>k__BackingField: {fileID: 8300000, guid: c120bef155a8f974d843202f1035f234, type: 3}
+  <RuneMatchesSound>k__BackingField: {fileID: 8300000, guid: 194de4dea54d5c64ba85d142a105cf0e, type: 3}
+  <StartGameSound>k__BackingField: {fileID: 8300000, guid: 3c332d370cfbf7945bc20fd83135e10f, type: 3}
+  <MasterAudioMixerGroup>k__BackingField: {fileID: 24300002, guid: 63f257ff423b50143810a650ff713a8c, type: 2}
+  <BGMAudioMixerGroup>k__BackingField: {fileID: -921377023446476175, guid: 63f257ff423b50143810a650ff713a8c, type: 2}
+  <SFXAudioMixerGroup>k__BackingField: {fileID: 1256579054570553247, guid: 63f257ff423b50143810a650ff713a8c, type: 2}

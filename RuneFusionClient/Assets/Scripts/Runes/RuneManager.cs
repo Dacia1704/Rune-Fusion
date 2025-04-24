@@ -41,6 +41,8 @@ public class RuneManager : MonoBehaviour
     [field: SerializeField] public List<int> RunePointsOpponent { get; private set; } // order by RuneType
     public event Action<PointPushData> OnRunePointsChanged;
     
+    List<Tuple<int, int>> preventiveList = new List<Tuple<int, int>>();
+    
     private void Awake()
     {
         RuneObjectPoolManager = FindFirstObjectByType<RuneObjectPoolManager>();
@@ -56,6 +58,10 @@ public class RuneManager : MonoBehaviour
         RunePointsOpponent = new List<int>{0,0,0,0,0};
         GameUIManager.Instance.UITimeCounter.OnTimeCanHint += ShowHintRune;
         GameUIManager.Instance.UITimeCounter.OnTimeCounterEnd += SwapRunesHint;
+        preventiveList.Add(Tuple.Create(1, 1));
+        preventiveList.Add(Tuple.Create(1, 3));
+        preventiveList.Add(Tuple.Create(4, 1));
+        preventiveList.Add(Tuple.Create(4, 3));
         
     }
     #region Map Core
@@ -266,6 +272,7 @@ public class RuneManager : MonoBehaviour
                     RunesPositionMap[end.Item1, end.Item2],
                     GameManager.Instance.GameManagerSO.DurationSwapRune).SetEase(Ease.InOutCubic));
                 RunesMap[end.Item1,end.Item2].SetRune(end.Item1,end.Item2);
+                RunesMap[end.Item1,end.Item2].PlayFallSound();
                 RunesMap[start.Item1,start.Item2] = null;
             }
         }
@@ -420,17 +427,15 @@ public class RuneManager : MonoBehaviour
             GameObject runeObj = RunesMap[index.Item1, index.Item2].gameObject;
             runeReleaseList.Add(runeObj);
             runeObj.GetComponent<SpriteRenderer>().sortingOrder = 1;
-            // sequence.Join(runeObj.transform.DOScale(
-            //     new Vector3(sizeTile * 1.3f, sizeTile * 1.3f, sizeTile * 1.3f),
-            //     GameManager.Instance.GameManagerSO.DurationDeleteRune));
             sequence.Join(runeObj.transform.DOShakePosition(
-                0.4f,
+                0.5f,
                 strength: 0.1f, 
                 vibrato: 10,    
                 randomness: 90, 
                 snapping: false, 
                 fadeOut: true
             ));
+            RunesMap[index.Item1, index.Item2].PlayMatchesSound();
             RunesMap[index.Item1, index.Item2] = null;
             if (Equals(index, runeCheckIndex) && !hasProtectRune)
             {
@@ -541,9 +546,14 @@ public class RuneManager : MonoBehaviour
                 GameObject runeObj = RunesMap[index.Item1, index.Item2].gameObject;
                 runeReleaseList.Add(runeObj);
                 runeObj.GetComponent<SpriteRenderer>().sortingOrder = 1;
-                sequence.Join(runeObj.transform.DOScale(
-                    new Vector3(sizeTile * 1.3f, sizeTile * 1.3f, sizeTile * 1.3f),
-                    GameManager.Instance.GameManagerSO.DurationDeleteRune));
+                sequence.Join(runeObj.transform.DOShakePosition(
+                    0.5f,
+                    strength: 0.1f, 
+                    vibrato: 10,    
+                    randomness: 90, 
+                    snapping: false, 
+                    fadeOut: true
+                ));
                 RunesMap[index.Item1, index.Item2] = null;
             }
         }
@@ -881,7 +891,20 @@ public class RuneManager : MonoBehaviour
     #region hint
     private void SwapRunesHint()
     {
-        if (runeHintList.Item1.Count <= 0) return;
+        if (GameManager.Instance.BattleManager.TurnManager.IsPlayerTurn == false) return;
+        if (runeHintList.Item1.Count <= 0)
+        {
+            int random = UnityEngine.Random.Range(0, 5);
+            if (random % 2 == 0)
+            {
+                SwapWithRightRune(preventiveList[random]);
+            }
+            else
+            {
+                SwapWithLeftRune(preventiveList[random]);
+            }
+            return;
+        }
 
         if (runeHintList.Item4 == SwapDirection.Left)
         {
@@ -948,6 +971,7 @@ public class RuneManager : MonoBehaviour
         {
             HighlightHintRuneList(baseHintList[0]);
         }
+        
     }
     private void HighlightHintRuneList(Tuple<List<Tuple<int, int>>,RuneForm,Tuple<int,int>,SwapDirection> hintRuneList)
     {

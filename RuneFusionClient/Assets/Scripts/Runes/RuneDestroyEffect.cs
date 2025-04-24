@@ -5,10 +5,23 @@ using UnityEngine;
 public class RuneDestroyEffect: MonoBehaviour, IPoolingObject
 {
     public PoolingObjectPropsSO PoolingObjectPropsSO { get; set; }
+    private AudioSource audioSource;
+
+    private void Awake()
+    {
+        gameObject.AddComponent<AudioSource>();
+        audioSource = GetComponent<AudioSource>();
+    }
+    private void Start()
+    {
+        audioSource.clip = AudioManager.Instance.AudioPropsSO.RuneBreakSound;
+        audioSource.outputAudioMixerGroup = AudioManager.Instance.AudioPropsSO.SFXAudioMixerGroup;
+    }
 
     private void OnEnable()
     {
         StartCoroutine(AutoReturnToPool());
+        audioSource.Play();
     }
 
     private IEnumerator AutoReturnToPool()
