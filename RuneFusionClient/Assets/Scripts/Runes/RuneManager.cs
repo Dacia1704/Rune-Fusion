@@ -420,9 +420,17 @@ public class RuneManager : MonoBehaviour
             GameObject runeObj = RunesMap[index.Item1, index.Item2].gameObject;
             runeReleaseList.Add(runeObj);
             runeObj.GetComponent<SpriteRenderer>().sortingOrder = 1;
-            sequence.Join(runeObj.transform.DOScale(
-                new Vector3(sizeTile * 1.3f, sizeTile * 1.3f, sizeTile * 1.3f),
-                GameManager.Instance.GameManagerSO.DurationDeleteRune));
+            // sequence.Join(runeObj.transform.DOScale(
+            //     new Vector3(sizeTile * 1.3f, sizeTile * 1.3f, sizeTile * 1.3f),
+            //     GameManager.Instance.GameManagerSO.DurationDeleteRune));
+            sequence.Join(runeObj.transform.DOShakePosition(
+                0.4f,
+                strength: 0.1f, 
+                vibrato: 10,    
+                randomness: 90, 
+                snapping: false, 
+                fadeOut: true
+            ));
             RunesMap[index.Item1, index.Item2] = null;
             if (Equals(index, runeCheckIndex) && !hasProtectRune)
             {
@@ -469,9 +477,12 @@ public class RuneManager : MonoBehaviour
         {
             foreach (GameObject runeObj in runeReleaseList)
             {
+                Rune rune = runeObj.GetComponent<Rune>();
+                GameObject destroyEffect = RuneObjectPoolManager.GetRuneDestroyEffectObject( (int)rune.Type,(int)rune.Form);
+                destroyEffect.transform.position = rune.transform.position;
                 runeObj.GetComponent<SpriteRenderer>().sortingOrder = 0;
                 RuneObjectPoolManager.ReleaseRune(runeObj);
-                AddRunePoint(runeObj.GetComponent<Rune>());
+                AddRunePoint(rune);
             }
             countRuneSequences--;
         });
@@ -540,9 +551,12 @@ public class RuneManager : MonoBehaviour
         {
             foreach (GameObject runeObj in runeReleaseList)
             {
+                Rune rune = runeObj.GetComponent<Rune>();
+                GameObject destroyEffect = RuneObjectPoolManager.GetRuneDestroyEffectObject( (int)rune.Type,(int)rune.Form);
+                destroyEffect.transform.position = rune.transform.position;
                 runeObj.GetComponent<SpriteRenderer>().sortingOrder = 0;
                 RuneObjectPoolManager.ReleaseRune(runeObj);
-                AddRunePoint(runeObj.GetComponent<Rune>());
+                AddRunePoint(rune);
             }
             UpdateRuneState();
         });

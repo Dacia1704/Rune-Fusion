@@ -853,6 +853,51 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &472509328
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 472509329}
+  - component: {fileID: 472509330}
+  m_Layer: 0
+  m_Name: DestroyEffectPool
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &472509329
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 472509328}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 755990548}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &472509330
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 472509328}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6a99b57dcd47b7b49acf180374109e08, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  objectPoolProps: {fileID: 11400000, guid: df33823a3f3e7944bb6622ec159c939d, type: 2}
 --- !u!1 &516876054
 GameObject:
   m_ObjectHideFlags: 0
@@ -1577,11 +1622,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   <BasicRuneObjectPooling>k__BackingField: {fileID: 751601127}
-  <PoisonRuneObjectPooling>k__BackingField: {fileID: 0}
+  <PoisonRuneObjectPooling>k__BackingField: {fileID: 339278868}
   <VerticalRuneObjectPooling>k__BackingField: {fileID: 2085768454}
   <HorizontalRuneObjectPooling>k__BackingField: {fileID: 68189494}
   <ExplosiveRuneObjectPooling>k__BackingField: {fileID: 2053942337}
   <SpecialRuneObjectPooling>k__BackingField: {fileID: 2098372479}
+  <RuneDestroyEffectObjectPooling>k__BackingField: {fileID: 472509330}
 --- !u!4 &755990548
 Transform:
   m_ObjectHideFlags: 0
@@ -1601,6 +1647,7 @@ Transform:
   - {fileID: 68189495}
   - {fileID: 2053942336}
   - {fileID: 2098372478}
+  - {fileID: 472509329}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &777941100
@@ -2501,6 +2548,8 @@ MonoBehaviour:
   LightBGPrefab: {fileID: 4865059283511174667, guid: 1a91169e76aa94247b5a52f04f704fc0, type: 3}
   IsSwapped: 0
   countRuneSequences: 0
+  <RunePointsPlayer>k__BackingField: 
+  <RunePointsOpponent>k__BackingField: 
 --- !u!4 &1435721391
 Transform:
   m_ObjectHideFlags: 0
