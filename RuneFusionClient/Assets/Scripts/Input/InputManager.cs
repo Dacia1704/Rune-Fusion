@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class InputManager : MonoBehaviour
 {
+        
         private Vector2 startMousePosition,endMousePosition;
         private float swipeThreshold;
         private bool enablePlayerInput;
@@ -24,11 +25,14 @@ public class InputManager : MonoBehaviour
 
         private void Awake()
         {
+                
                 enablePlayerInput = false;
                 enableMonsterInput = false;
                 enableSkillInput = false;
                 isWaitForShieldInput = false;
                 SetEnableMonsterInput();
+                
+                DontDestroyOnLoad(gameObject);
         }
 
         private void Start()
