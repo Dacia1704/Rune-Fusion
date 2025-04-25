@@ -41,6 +41,8 @@ public class BattleManager : MonoBehaviour
                 GameManager.Instance.InputManager.OnMonsterAllyDoubleClick += SkillInputManager;
                 GameManager.Instance.InputManager.OnShieldTarget += ShieldMonster;
                 
+                BGMManager.Instance.PlayBGMCombat();
+                
         }
 
         public void SetUpMonster(MonsterListData monsterListData)

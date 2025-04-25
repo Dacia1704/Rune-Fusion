@@ -10,7 +10,7 @@ public class ObjectPooling: MonoBehaviour
 
     [SerializeField] protected ObjectPoolPropsSO objectPoolProps;
 
-    private void Awake()
+    protected virtual void Awake()
     {
         pools = new Dictionary<string,ObjectPool<GameObject>>();
     }

@@ -12,7 +12,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 05decf3164f3454e8acf86e654b76bcd, type: 3}
   m_Name: AudioPropsSO
   m_EditorClassIdentifier: 
-  <BGM>k__BackingField: {fileID: 0}
+  <MasterAudioMixerGroup>k__BackingField: {fileID: 24300002, guid: 63f257ff423b50143810a650ff713a8c, type: 2}
+  <BGMAudioMixerGroup>k__BackingField: {fileID: -921377023446476175, guid: 63f257ff423b50143810a650ff713a8c, type: 2}
+  <SFXAudioMixerGroup>k__BackingField: {fileID: 1256579054570553247, guid: 63f257ff423b50143810a650ff713a8c, type: 2}
+  <BGMMain>k__BackingField: {fileID: 8300000, guid: a8fe220491e97ad4e9466345005b82fb, type: 3}
+  <BGMCombat>k__BackingField: {fileID: 8300000, guid: 27ce6815d1fafca4591d6cef5d8a1327, type: 3}
   <ButtonClickSound>k__BackingField: {fileID: 8300000, guid: 3d444555e9aef884ab6e840f33aec7dd, type: 3}
   <ClickSound>k__BackingField: {fileID: 8300000, guid: a70a2ba457f3aac47b09c7b29fb8c7a0, type: 3}
   <ProtectBreakSound>k__BackingField: {fileID: 8300000, guid: 233b54d25b9a1614d9e7c118e15764c0, type: 3}
@@ -20,6 +24,13 @@ MonoBehaviour:
   <RuneFallSound>k__BackingField: {fileID: 8300000, guid: c120bef155a8f974d843202f1035f234, type: 3}
   <RuneMatchesSound>k__BackingField: {fileID: 8300000, guid: 194de4dea54d5c64ba85d142a105cf0e, type: 3}
   <StartGameSound>k__BackingField: {fileID: 8300000, guid: 3c332d370cfbf7945bc20fd83135e10f, type: 3}
-  <MasterAudioMixerGroup>k__BackingField: {fileID: 24300002, guid: 63f257ff423b50143810a650ff713a8c, type: 2}
-  <BGMAudioMixerGroup>k__BackingField: {fileID: -921377023446476175, guid: 63f257ff423b50143810a650ff713a8c, type: 2}
-  <SFXAudioMixerGroup>k__BackingField: {fileID: 1256579054570553247, guid: 63f257ff423b50143810a650ff713a8c, type: 2}
+  <HurtSound>k__BackingField: {fileID: 8300000, guid: 7e92faff7c19366448d3992aa121537a, type: 3}
+  <SprintSound>k__BackingField: {fileID: 8300000, guid: 44ed88ca1ef9e954a851b3e1bf34ba86, type: 3}
+  <SwordSound>k__BackingField: {fileID: 8300000, guid: d23eca9288599e847a6b39b4cce8360d, type: 3}
+  <ArrowFlySound>k__BackingField: {fileID: 8300000, guid: d899687bd52c1cd488ed4599ed716b97, type: 3}
+  <BuffSound>k__BackingField: {fileID: 8300000, guid: d787477e035ef31449c49439f212f96c, type: 3}
+  <DebuffSound>k__BackingField: {fileID: 8300000, guid: 434718be02038f34396a10e66701b1fa, type: 3}
+  <FireBallFlySound>k__BackingField: {fileID: 8300000, guid: f3d925399f4968a4a89f92e5b91503db, type: 3}
+  <FireBallBustSound>k__BackingField: {fileID: 8300000, guid: c7a5abbc7c920a94d871af90645db735, type: 3}
+  <FrozenBustSound>k__BackingField: {fileID: 8300000, guid: e32fb50d4b5676a49b8ae8f6e0c4cf03, type: 3}
+  <FrozenCreateSound>k__BackingField: {fileID: 8300000, guid: 2d21e4eeee3e0de4294374bd7af584ce, type: 3}

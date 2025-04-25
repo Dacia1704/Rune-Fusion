@@ -25,10 +25,12 @@ public class Lancer: MonsterBase
                 {
                         CurrentTurnActionResponse.Add(BattleManager.Instance.GetMonsterByIdInBattle(actionResponseInEachMonster.id_in_battle), actionResponseInEachMonster);
                 }
+                PlaySprintSound();
                 stateMachine.ChangeState(new WalkState(this, GetPosPerformAttack()));
                 yield return new WaitUntil(() => walkTaskCompleted);
                 walkTaskCompleted = false;
                 //attack
+                PlaySwordSound();
                 stateMachine.ChangeState(new AttackState(this));
                 yield return new WaitUntil(() => attackTaskCompleted);
                 attackTaskCompleted = false;
@@ -56,10 +58,12 @@ public class Lancer: MonsterBase
                 {
                         CurrentTurnActionResponse.Add(BattleManager.Instance.GetMonsterByIdInBattle(actionResponseInEachMonster.id_in_battle), actionResponseInEachMonster);
                 }
+                PlaySprintSound();
                 stateMachine.ChangeState(new WalkState(this, GetPosPerformSkill()));
                 yield return new WaitUntil(() => walkTaskCompleted);
                 walkTaskCompleted = false;
                 //skill
+                PlaySwordSound();
                 stateMachine.ChangeState(new SkillState(this));
                 yield return new WaitUntil(() => skillTaskCompleted);
                 skillTaskCompleted = false;

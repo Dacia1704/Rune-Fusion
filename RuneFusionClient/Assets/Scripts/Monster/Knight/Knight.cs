@@ -19,6 +19,7 @@ public class Knight: MonsterBase
                 void AttackEventHandler() => attackTaskCompleted = true;
                 AttackTaskComplete += AttackEventHandler;
                 //walk
+                PlaySprintSound();
                 GameManager.Instance.BattleManager.SetStartTurnMonsterAnimation(monsterActionResponse,0);
                 CurrentTurnActionResponse.Clear();
                 foreach (ActionResponse actionResponseInEachMonster in monsterActionResponse.action_affect_list[0])
@@ -29,6 +30,7 @@ public class Knight: MonsterBase
                 yield return new WaitUntil(() => walkTaskCompleted);
                 walkTaskCompleted = false;
                 //attack
+                PlaySwordSound();
                 stateMachine.ChangeState(new AttackState(this));
                 yield return new WaitUntil(() => attackTaskCompleted);
                 attackTaskCompleted = false;
@@ -64,10 +66,11 @@ public class Knight: MonsterBase
                 {
                         CurrentTurnActionResponse.Add(BattleManager.Instance.GetMonsterByIdInBattle(actionResponseInEachMonster.id_in_battle), actionResponseInEachMonster);
                 }
+                PlaySprintSound();
                 stateMachine.ChangeState(new WalkState(this, GetPosPerformSkill()));
                 yield return new WaitUntil(() => walkTaskCompleted);
                 walkTaskCompleted = false;
-                
+                PlaySwordSound();
                 stateMachine.ChangeState(new SkillState(this));
                 
                 yield return new WaitUntil(() => skillTaskCompleted);

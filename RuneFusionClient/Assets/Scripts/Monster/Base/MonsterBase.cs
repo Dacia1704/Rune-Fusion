@@ -19,6 +19,8 @@ public abstract class MonsterBase : MonoBehaviour
     protected UIEffectManager UIEffectManager;
     public Dictionary<MonsterBase, ActionResponse> CurrentTurnActionResponse;
 
+    protected AudioSource audioSource;
+
     public Action AttackTaskComplete;
     public Action WalkTaskComplete;
     public Action SkillTaskComplete;
@@ -41,6 +43,10 @@ public abstract class MonsterBase : MonoBehaviour
     public Action<int,bool,MonsterBase> OnHealthChange;
     protected virtual void Awake()
     {
+        gameObject.AddComponent<AudioSource>();
+        audioSource = GetComponent<AudioSource>();
+        audioSource.outputAudioMixerGroup = AudioManager.Instance.AudioPropsSO.SFXAudioMixerGroup;
+        audioSource.playOnAwake = false;
         MonsterAnimationManager = GetComponentInChildren<MonsterAnimationManager>();
         MonsterColliderManager = GetComponentInChildren<MonsterColliderManager>();
         UIHeathSkillBarManager = GetComponentInChildren<UIHeathSkillBarManager>();
@@ -351,5 +357,22 @@ public abstract class MonsterBase : MonoBehaviour
     {
         ShieldObject.SetActive(false);
     }
-    
+
+    public void PlayHurtSound()
+    {
+        audioSource.clip = AudioManager.Instance.AudioPropsSO.HurtSound;
+        audioSource.Play();
+    }
+
+    public void PlaySprintSound()
+    {
+        audioSource.clip = AudioManager.Instance.AudioPropsSO.SprintSound;
+        audioSource.Play();
+    }
+
+    public void PlaySwordSound()
+    {
+        audioSource.clip = AudioManager.Instance.AudioPropsSO.SwordSound;
+        audioSource.Play();
+    }
 }

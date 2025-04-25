@@ -28,6 +28,7 @@ public class Wizard: MonsterBase
                 {
                         CurrentTurnActionResponse.Add(BattleManager.Instance.GetMonsterByIdInBattle(actionResponseInEachMonster.id_in_battle), actionResponseInEachMonster);
                 }
+                PlaySprintSound();
                 stateMachine.ChangeState(new WalkState(this, GetPosPerformAttack()));
                 yield return new WaitUntil(() => walkTaskCompleted);
                 walkTaskCompleted = false;

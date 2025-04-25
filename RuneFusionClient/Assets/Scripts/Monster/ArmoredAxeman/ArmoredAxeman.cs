@@ -21,6 +21,7 @@ public class ArmoredAxeman: MonsterBase
                 void AttackEventHandler() => attackTaskCompleted = true;
                 AttackTaskComplete += AttackEventHandler;
                 //walk
+                PlaySprintSound();
                 GameManager.Instance.BattleManager.SetStartTurnMonsterAnimation(monsterActionResponse,0);
                 CurrentTurnActionResponse.Clear();
                 foreach (ActionResponse actionResponseInEachMonster in monsterActionResponse.action_affect_list[0])
@@ -31,6 +32,7 @@ public class ArmoredAxeman: MonsterBase
                 yield return new WaitUntil(() => walkTaskCompleted);
                 walkTaskCompleted = false;
                 //attack
+                PlaySwordSound();
                 stateMachine.ChangeState(new AttackState(this));
                 
                 yield return new WaitUntil(() => attackTaskCompleted);
@@ -54,6 +56,7 @@ public class ArmoredAxeman: MonsterBase
                 void SkillEventHandler() => skillTaskCompleted = true;
                 SkillTaskComplete += SkillEventHandler;
                 //walk
+                PlaySprintSound();
                 GameManager.Instance.BattleManager.SetStartTurnMonsterAnimation(monsterActionResponse,0);
                 CurrentTurnActionResponse.Clear();
                 foreach (ActionResponse actionResponseInEachMonster in monsterActionResponse.action_affect_list[0])
@@ -64,6 +67,7 @@ public class ArmoredAxeman: MonsterBase
                 yield return new WaitUntil(() => walkTaskCompleted);
                 walkTaskCompleted = false;
                 //attack
+                PlaySwordSound();
                 stateMachine.ChangeState(new SkillState(this));
                 
                 yield return new WaitUntil(() => skillTaskCompleted);
