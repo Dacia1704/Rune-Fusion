@@ -208,7 +208,6 @@ public class SocketManager : MonoBehaviour
     }
     private IEnumerator UpdateMonsterOwnListCoroutine(MonstersOwnResponseData response)
     {
-        Debug.Log(1);
         UIMonsterListManager.Instance.OnMonstersOwnDataResponse?.Invoke(response);
         yield return null;
     }

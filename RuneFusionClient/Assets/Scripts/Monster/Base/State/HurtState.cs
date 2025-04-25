@@ -12,6 +12,7 @@
     {
         monster.GetDam(dam,effect);
         monster.MonsterAnimationManager.PlayAnimation(monster.MonsterAnimationManager.HurtAnimationnName,0);
+        monster.PlayHurtSound();
     }
 
     public override void Update()

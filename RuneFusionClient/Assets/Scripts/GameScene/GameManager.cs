@@ -12,6 +12,7 @@ public class GameManager : MonoBehaviour
         [field: SerializeField]public RuneManager RuneManager {get; private set;}
         [field: SerializeField]public InputManager InputManager {get; private set;}
         [field: SerializeField] public BattleManager BattleManager {get; private set;}
+        private AudioSource audioSource;
         private void Awake()
         {
                 if (Instance == null)
@@ -21,6 +22,7 @@ public class GameManager : MonoBehaviour
                 RuneManager = FindFirstObjectByType<RuneManager>();
                 InputManager = FindFirstObjectByType<InputManager>();
                 BattleManager = FindFirstObjectByType<BattleManager>();
+                audioSource = GetComponent<AudioSource>();
         }
 
         private void Start()
@@ -29,7 +31,10 @@ public class GameManager : MonoBehaviour
                 StartCoroutine(GenMapCoroutine());
                 GameUIManager.Instance.UITimeCounter.OnTimeCounterEnd += InputManager.SetDisablePlayerInput;
                 GameUIManager.Instance.UITimeCounter.OnTimeCounterEnd += InputManager.SetDisableMonsterInput;
-                
+                audioSource.clip = AudioManager.Instance.AudioPropsSO.StartGameSound;
+                audioSource.outputAudioMixerGroup = AudioManager.Instance.AudioPropsSO.SFXAudioMixerGroup;
+                audioSource.Play();
+
         }
 
         private IEnumerator GenMapCoroutine()

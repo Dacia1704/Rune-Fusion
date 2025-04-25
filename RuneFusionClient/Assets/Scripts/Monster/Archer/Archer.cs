@@ -28,6 +28,7 @@ public class Archer : MonsterBase
                 {
                         CurrentTurnActionResponse.Add(BattleManager.Instance.GetMonsterByIdInBattle(actionResponseInEachMonster.id_in_battle), actionResponseInEachMonster);
                 }
+                PlaySprintSound();
                 stateMachine.ChangeState(new WalkState(this, GetPosPerformAttack()));
                 yield return new WaitUntil(() => walkTaskCompleted);
                 walkTaskCompleted = false;
@@ -76,6 +77,7 @@ public class Archer : MonsterBase
                 void SkillEventHandler() => skillTaskCompleted = true;
                 SkillTaskComplete += SkillEventHandler;
                 // walk
+                PlaySprintSound();
                 GameManager.Instance.BattleManager.SetStartTurnMonsterAnimation(monsterActionResponse,0);
                 CurrentTurnActionResponse.Clear();
                 foreach (ActionResponse actionResponseInEachMonster in monsterActionResponse.action_affect_list[0])
