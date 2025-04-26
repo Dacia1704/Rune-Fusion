@@ -18,10 +18,12 @@ public class BattleManager : MonoBehaviour
         
         public Dictionary<string,int> ShieldAllyMonsters { get; private set; } = new Dictionary<string,int>();
         public Dictionary<string,int> ShieldOpponentMonsters { get; private set; } = new Dictionary<string,int>();
-        
-
         [HideInInspector]public bool CanChangeTurn;
         private AudioSource audioSource;
+
+        public Action OnMonsterDeath;
+        
+        public bool IsBattleOver;
 
         private void Awake()
         {
@@ -40,9 +42,10 @@ public class BattleManager : MonoBehaviour
                 GameManager.Instance.InputManager.OnMonsterTarget += TargetManager.TargetMonster;
                 GameManager.Instance.InputManager.OnMonsterAllyDoubleClick += SkillInputManager;
                 GameManager.Instance.InputManager.OnShieldTarget += ShieldMonster;
-                
+                OnMonsterDeath += CheckEnd;
                 BGMManager.Instance.PlayBGMCombat();
-                
+                IsBattleOver = false;
+
         }
 
         public void SetUpMonster(MonsterListData monsterListData)
@@ -209,31 +212,79 @@ public class BattleManager : MonoBehaviour
 
         public MonsterBase AutoChooseTargetMonster(string monsterId)
         {
+                int minValue = Int32.MaxValue;
                 MonsterBase weakestMonster = null;
                 if (MonsterTeam1Dictionary.ContainsKey(monsterId))
                 {
-                        weakestMonster = MonsterTeam2Dictionary.First().Value;
                         foreach (MonsterBase monster in MonsterTeam2Dictionary.Values)
                         {
-                                if (monster.MonsterStatsInBattle.Health < weakestMonster.MonsterStatsInBattle.Health)
+                                if (!monster.IsDead && monster.MonsterStatsInBattle.Health < minValue)
                                 {
                                         weakestMonster = monster;
+                                        minValue = monster.MonsterStatsInBattle.Health;
                                 }
                         }
                 }
                 else
                 {
-                        weakestMonster = MonsterTeam1Dictionary.First().Value;
                         foreach (MonsterBase monster in MonsterTeam1Dictionary.Values)
                         {
-                                if (monster.MonsterStatsInBattle.Health < weakestMonster.MonsterStatsInBattle.Health)
+                                if (!monster.IsDead && monster.MonsterStatsInBattle.Health < minValue)
                                 {
                                         weakestMonster = monster;
+                                        minValue = monster.MonsterStatsInBattle.Health;
                                 }
                         }
                 }
 
                 return weakestMonster;
+        }
+
+        private void CheckEnd()
+        {
+                int team1Death = 0;
+                foreach (MonsterBase monster in MonsterTeam1Dictionary.Values)
+                {
+                        if (monster.IsDead)
+                        {
+                                team1Death++;
+                        }
+                }
+                if (team1Death == 3)
+                {
+                        IsBattleOver = true;
+                        if (TurnManager.PlayerIndex == 0)
+                        {
+                                GameUIManager.Instance.UIBattleEndNotification.SetLose(50);
+                        }
+                        else
+                        {
+                                GameUIManager.Instance.UIBattleEndNotification.SetVictory(2000);
+                        }
+                }
+                
+                int team2Death = 0;
+                foreach (MonsterBase monster in MonsterTeam2Dictionary.Values)
+                {
+                        if (monster.IsDead)
+                        {
+                                team2Death++;
+                        }
+                }
+
+                if (team2Death == 3)
+                {
+                        IsBattleOver = true;
+                        if (TurnManager.PlayerIndex == 1)
+                        {
+                                GameUIManager.Instance.UIBattleEndNotification.SetLose(50);
+                        }
+                        else
+                        {
+                                GameUIManager.Instance.UIBattleEndNotification.SetVictory(2000);
+                        }
+                }
+                
         }
 
         

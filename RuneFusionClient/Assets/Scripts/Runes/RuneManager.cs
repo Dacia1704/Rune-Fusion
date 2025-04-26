@@ -48,7 +48,6 @@ public class RuneManager : MonoBehaviour
         RuneObjectPoolManager = FindFirstObjectByType<RuneObjectPoolManager>();
         OnRunePointsChanged += GameUIManager.Instance.UIRunePointManager.UpdateUIRunePoint;
     }
-
     private void Start()
     {
         IsSwapped = false;
@@ -64,6 +63,7 @@ public class RuneManager : MonoBehaviour
         preventiveList.Add(Tuple.Create(4, 3));
         
     }
+    
     #region Map Core
     public void UpdatePoint(PointPushData runePoints)
     {
@@ -77,8 +77,8 @@ public class RuneManager : MonoBehaviour
             RunePointsPlayer = runePoints.player2;
             RunePointsOpponent = runePoints.player1;
         }
-        Debug.Log("Player1: "+ string.Join(" ", runePoints.player1));
-        Debug.Log("Player2: "+string.Join(" ", runePoints.player2));
+        // Debug.Log("Player1: "+ string.Join(" ", runePoints.player1));
+        // Debug.Log("Player2: "+string.Join(" ", runePoints.player2));
         OnRunePointsChanged?.Invoke(runePoints);
     }
     public float GetHeightRunesMap()
@@ -86,6 +86,7 @@ public class RuneManager : MonoBehaviour
         sizeTile = CameraManager.Instance.GetWidthCamera()/ GameManager.Instance.GameManagerSO.WidthRuneMap;
         return GameManager.Instance.GameManagerSO.HeightRuneMap * sizeTile;
     }
+    
     /// <summary>
     /// 
     /// </summary>
@@ -279,6 +280,7 @@ public class RuneManager : MonoBehaviour
 
         sequence.OnComplete(() =>
         {
+            Debug.Log("Update Rune State Complete");
             GenNewRuneAfterUpdateRuneState();
         });
     }
@@ -683,7 +685,7 @@ public class RuneManager : MonoBehaviour
             case RuneForm.Explosive: point = 5; break;
             case RuneForm.Horizontal: point = 5; break;
             case RuneForm.Vertical: point = 5; break;
-            case RuneForm.Special: point = 10; break;
+            case RuneForm.Special: return;
         }
         RunePointsPlayer[(int)rune.Type] = Math.Clamp(RunePointsPlayer[(int)rune.Type] + point, 0, GameManager.Instance.GameManagerSO.MaxRunePoint);
         PointPushData points = new PointPushData
@@ -883,7 +885,10 @@ public class RuneManager : MonoBehaviour
             if (ReleaseUniqueRune()) continue;
             if (!GameManager.Instance.BattleManager.TurnManager.IsPlayerTurn || !IsSwapped) continue;
             IsSwapped = false;
-            GameManager.Instance.BattleManager.CanChangeTurn = true;
+            if (GameManager.Instance.BattleManager.TurnManager.IsPlayerTurn)
+            {
+                GameManager.Instance.BattleManager.CanChangeTurn = true;
+            }
         }
     }
     #endregion

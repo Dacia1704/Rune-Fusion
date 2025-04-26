@@ -17,6 +17,6 @@ MonoBehaviour:
   <SwipeThreshold>k__BackingField: 0.5
   <DurationSwapRune>k__BackingField: 0.2
   <DurationDeleteRune>k__BackingField: 0.2
-  <TimePlayerTurn>k__BackingField: 7
-  <TimeMonsterTurn>k__BackingField: 3
+  <TimePlayerTurn>k__BackingField: 1
+  <TimeMonsterTurn>k__BackingField: 1
   <MaxRunePoint>k__BackingField: 100

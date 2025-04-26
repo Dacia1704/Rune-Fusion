@@ -68,4 +68,4 @@ MonoBehaviour:
       PointCost: 75
   Icon: {fileID: -1535648711, guid: e2693a9f917b6b04d9f0feab9c6809b6, type: 3}
   ModelAnimatorController: {fileID: 9100000, guid: 989ce5e709e2e474cb227f36cd991b8a, type: 2}
-  AttackOffset: 0.4
+  AttackOffset: 0.8

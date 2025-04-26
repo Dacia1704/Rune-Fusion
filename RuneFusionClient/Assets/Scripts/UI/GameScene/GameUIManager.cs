@@ -9,12 +9,14 @@ public class GameUIManager: MonoBehaviour
         public UIRunePointManager UIRunePointManager { get; private set; }
 
         public TextMeshProUGUI TurnText;
+        [field: SerializeField]public UIBattleEndNotification UIBattleEndNotification { get; private set; }
 
         private void Awake()
         {
                 Instance = this;
                 UITimeCounter = GetComponentInChildren<UITimeCounter>();
                 UIRunePointManager = FindFirstObjectByType<UIRunePointManager>();
+                UIBattleEndNotification.Hide();
         }
 
         public void SetTurnText(string turnText, Color textColor)

@@ -40,7 +40,7 @@ public class TurnManager : MonoBehaviour
     public void ExecuteTurn()
     {
         string currentTurnId = TurnBaseQueue[0].id_in_battle;
-        Debug.Log(currentTurnId);
+        // Debug.Log(currentTurnId);
         EndPlayerTurn();
         GameManager.Instance.BattleManager.CanChangeTurn = false;
         if (currentTurnId == "01" )
@@ -53,7 +53,7 @@ public class TurnManager : MonoBehaviour
 
             GameUIManager.Instance.SetTurnText("P1",SocketManager.Instance.PlayerData.playerindex == 0 ? Color.red: Color.blue);
             GameUIManager.Instance.UITimeCounter.SetCountTime(GameManager.Instance.GameManagerSO.TimePlayerTurn);
-            Debug.LogError("123");
+            // Debug.LogError("123");
         }else if (currentTurnId == "02" )
         {
             if (PlayerIndex == 1)
@@ -63,7 +63,7 @@ public class TurnManager : MonoBehaviour
             }
             GameUIManager.Instance.SetTurnText("P2",SocketManager.Instance.PlayerData.playerindex == 1 ? Color.red: Color.blue);
             GameUIManager.Instance.UITimeCounter.SetCountTime(GameManager.Instance.GameManagerSO.TimePlayerTurn);
-            Debug.LogError("123");
+            // Debug.LogError("123");
         }
         else
         {
@@ -93,60 +93,60 @@ public class TurnManager : MonoBehaviour
     
     public IEnumerator MonsterTurn()
     {
-        isTimeMonsterEnd = false;
-        string currentTurnId = TurnBaseQueue[0].id_in_battle;
-        MonsterBase monsterBase = GameManager.Instance.BattleManager.GetMonsterByIdInBattle(currentTurnId);
-        if (GameManager.Instance.BattleManager.MonsterTeam1Dictionary.ContainsKey(currentTurnId) && SocketManager.Instance.PlayerData.playerindex == 0)
-        {
-            if (!monsterBase.IsDead)
-            {
-                if (!monsterBase.IsFrozen)
-                {
-                    GameManager.Instance.InputManager.SetEnableMonsterInput();
-                    StartCoroutine(StartMonsterAttack());
-                    GameManager.Instance.BattleManager.SetFalseAnimation();
-                    // yield return new WaitUntil(() => isTimeMonsterEnd);
-                    // isTimeMonsterEnd = false;
-                    yield return new WaitUntil(() => GameManager.Instance.BattleManager.CheckAnimationMonster());
-                }
-                GameManager.Instance.InputManager.SetDisableMonsterInput();
-                monsterBase.IsUpdateEffect = false;
-                SocketManager.Instance.UpdateMonsterEffectRequest(currentTurnId);
-                yield return new WaitUntil(() => monsterBase.IsUpdateEffect);
-            }
-            GameManager.Instance.BattleManager.CanChangeTurn = true;
-        }
-        else if (GameManager.Instance.BattleManager.MonsterTeam2Dictionary.ContainsKey(currentTurnId) && SocketManager.Instance.PlayerData.playerindex == 1)
-        {
-            if (!monsterBase.IsDead)
-            {
-                if (!monsterBase.IsFrozen)
-                {
-                    GameManager.Instance.InputManager.SetEnableMonsterInput();
-                    StartCoroutine(StartMonsterAttack());
-                    GameManager.Instance.BattleManager.SetFalseAnimation();
-                    // yield return new WaitUntil(() => isTimeMonsterEnd);
-                    // isTimeMonsterEnd = false;
-                    yield return new WaitUntil(() => GameManager.Instance.BattleManager.CheckAnimationMonster());
-                }
-                GameManager.Instance.InputManager.SetDisableMonsterInput();
-                monsterBase.IsUpdateEffect = false;
-                SocketManager.Instance.UpdateMonsterEffectRequest(currentTurnId);
-                yield return new WaitUntil(() => monsterBase.IsUpdateEffect);
-            }
-            GameManager.Instance.BattleManager.CanChangeTurn = true;
-        }
-        
+        // isTimeMonsterEnd = false;
         // string currentTurnId = TurnBaseQueue[0].id_in_battle;
-        // if (currentTurnId[0] == '1' && PlayerIndex == 0)
+        // MonsterBase monsterBase = GameManager.Instance.BattleManager.GetMonsterByIdInBattle(currentTurnId);
+        // if (GameManager.Instance.BattleManager.MonsterTeam1Dictionary.ContainsKey(currentTurnId) && SocketManager.Instance.PlayerData.playerindex == 0)
         // {
+        //     if (!monsterBase.IsDead)
+        //     {
+        //         if (!monsterBase.IsFrozen)
+        //         {
+        //             GameManager.Instance.InputManager.SetEnableMonsterInput();
+        //             StartCoroutine(StartMonsterAttack());
+        //             GameManager.Instance.BattleManager.SetFalseAnimation();
+        //             // yield return new WaitUntil(() => isTimeMonsterEnd);
+        //             // isTimeMonsterEnd = false;
+        //             yield return new WaitUntil(() => GameManager.Instance.BattleManager.CheckAnimationMonster());
+        //         }
+        //         GameManager.Instance.InputManager.SetDisableMonsterInput();
+        //         monsterBase.IsUpdateEffect = false;
+        //         SocketManager.Instance.UpdateMonsterEffectRequest(currentTurnId);
+        //         yield return new WaitUntil(() => monsterBase.IsUpdateEffect);
+        //     }
         //     GameManager.Instance.BattleManager.CanChangeTurn = true;
         // }
-        // else if (currentTurnId[0] == '2' && PlayerIndex == 1)
+        // else if (GameManager.Instance.BattleManager.MonsterTeam2Dictionary.ContainsKey(currentTurnId) && SocketManager.Instance.PlayerData.playerindex == 1)
         // {
+        //     if (!monsterBase.IsDead)
+        //     {
+        //         if (!monsterBase.IsFrozen)
+        //         {
+        //             GameManager.Instance.InputManager.SetEnableMonsterInput();
+        //             StartCoroutine(StartMonsterAttack());
+        //             GameManager.Instance.BattleManager.SetFalseAnimation();
+        //             // yield return new WaitUntil(() => isTimeMonsterEnd);
+        //             // isTimeMonsterEnd = false;
+        //             yield return new WaitUntil(() => GameManager.Instance.BattleManager.CheckAnimationMonster());
+        //         }
+        //         GameManager.Instance.InputManager.SetDisableMonsterInput();
+        //         monsterBase.IsUpdateEffect = false;
+        //         SocketManager.Instance.UpdateMonsterEffectRequest(currentTurnId);
+        //         yield return new WaitUntil(() => monsterBase.IsUpdateEffect);
+        //     }
         //     GameManager.Instance.BattleManager.CanChangeTurn = true;
         // }
-        // yield return null;
+        
+        string currentTurnId = TurnBaseQueue[0].id_in_battle;
+        if (currentTurnId[0] == '1' && PlayerIndex == 0)
+        {
+            GameManager.Instance.BattleManager.CanChangeTurn = true;
+        }
+        else if (currentTurnId[0] == '2' && PlayerIndex == 1)
+        {
+            GameManager.Instance.BattleManager.CanChangeTurn = true;
+        }
+        yield return null;
     }
     private IEnumerator StartMonsterAttack()
     {

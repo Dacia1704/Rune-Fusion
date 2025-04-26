@@ -22,10 +22,10 @@ public class UIStatBar: UIBase
 
         public void SetValue(int value, bool IsHpBar = false, MonsterBase monsterBase = null)
         {
-                if (value < 200)
-                {
-                        Debug.Log("Update skill bar2: " + value);
-                }
+                // if (value < 200)
+                // {
+                //         Debug.Log("Update skill bar2: " + value);
+                // }
 
                 this.DOKill();
                 Slider.DOValue(value, 0.1f).SetEase(Ease.Linear).OnComplete(() =>

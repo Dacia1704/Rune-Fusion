@@ -294,6 +294,7 @@ public class SocketManager : MonoBehaviour
     //Emit
     public void RequestNewRune(string mapData)
     {
+        Debug.Log("Request new Rune");
         socket.Emit(SocketEvents.Rune.NEW_REQUEST, mapData);
     }
 
@@ -325,8 +326,11 @@ public class SocketManager : MonoBehaviour
 
     public void UpdateTurnRequest()
     {
-        Debug.Log("Update Turn Request");
-        socket.Emit(SocketEvents.Game.TURN_BASE_LIST_REQUEST);
+        if (!GameManager.Instance.BattleManager.IsBattleOver)
+        {
+            Debug.Log("Update Turn Request");
+            socket.Emit(SocketEvents.Game.TURN_BASE_LIST_REQUEST);
+        }
     }
 
     public void RequestMonsterAction(string monsterId, List<string> targetId, string skillId)
