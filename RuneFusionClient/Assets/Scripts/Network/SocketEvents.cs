@@ -40,6 +40,7 @@
         public const string SUMMON_RESPONSE = "summon_response";
         public const string UPDATE_RESOURCE_RESPONSE = "update_resource_response";
         public const string UPDATE_RESOURCE_REQUEST = "update_resource_request";
+        public const string BUY_DATA_PUSH = "buy_data_push";
     }
 
     public static class Monster

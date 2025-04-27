@@ -20,6 +20,9 @@ public class SocketManager : MonoBehaviour
     
     public PlayerData PlayerData { get; private set; }
     public PlayerData OpponentData { get; private set; }
+    
+    public int Gold {get; private set;}
+    public int Scroll { get; private set; }
     public string RoomId {get; private set;}
 
     public List<List<string>> MapStart { get; private set; }
@@ -42,6 +45,7 @@ public class SocketManager : MonoBehaviour
             id = idPlayer,
             playerindex =  playerIndex
         };
+        UIMainMenuManager.Instance.UIPlayerResource.SetTextName(PlayerData.playername);
     }
 
     public void SetToken(string token)
@@ -203,7 +207,8 @@ public class SocketManager : MonoBehaviour
     }
     private IEnumerator UpdateResourceCoroutine(ResourceData resourceData)
     {
-        UIMainMenuManager.Instance.UIPlayerResource.SetResourceText(resourceData.gold, resourceData.scroll);
+        // UIMainMenuManager.Instance.UIPlayerResource.SetResourceText(resourceData.gold, resourceData.scroll);
+        UIMainMenuManager.Instance.OnResourceChange(resourceData.gold, resourceData.scroll);
         yield return null;
     }
     private IEnumerator UpdateMonsterOwnListCoroutine(MonstersOwnResponseData response)
@@ -431,5 +436,17 @@ public class SocketManager : MonoBehaviour
         };
         Debug.Log("Push Use Shield Data");
         socket.Emit(SocketEvents.Player.USE_SHIELD_PUSH,JsonConvert.SerializeObject(data));
+    }
+
+    public void PushBuyData(int scrollAmount, int goldPrice)
+    {
+        Debug.Log($"Buy {scrollAmount} with {goldPrice}");
+        BuyData buyData = new BuyData()
+        {
+            player_id = PlayerData.id,
+            scroll_amount = scrollAmount,
+            gold_price = goldPrice,
+        };
+        socket.Emit(SocketEvents.Game.BUY_DATA_PUSH, JsonConvert.SerializeObject(buyData));
     }
 }

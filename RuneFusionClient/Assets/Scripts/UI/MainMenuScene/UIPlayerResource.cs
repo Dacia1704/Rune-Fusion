@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class UIPlayerResource: UIBase
 {
+        [SerializeField] private TextMeshProUGUI textName;
         [SerializeField] private TextMeshProUGUI textGold;
         [SerializeField] private TextMeshProUGUI textScroll;
 
@@ -26,31 +27,36 @@ public class UIPlayerResource: UIBase
                 }
         }
 
+        public void SetTextName(string name)
+        {
+                textName.text = name;
+        }
+
         public void SetResourceText(int gold, int scroll)
         {
                 string goldStr = gold.ToString();
                 if (gold >= 1000000000)
                 {
-                        goldStr = (gold % 1000000000).ToString() + "B";
+                        goldStr = (gold / 1000000000).ToString() + "B";
                 }
                 else if(gold>=1000000)
                 {
-                        goldStr = (gold % 1000000).ToString() + "M";
+                        goldStr = (gold / 1000000).ToString() + "M";
                 }else if (gold >= 1000)
                 {
-                        goldStr = (gold % 1000).ToString() + "K";
+                        goldStr = (gold / 1000).ToString() + "K";
                 }
                 string scrollStr = scroll.ToString();
-                if (gold >= 1000000000)
+                if (scroll >= 1000000000)
                 {
-                        scrollStr = (scroll % 1000000000).ToString() + "B";
+                        scrollStr = (scroll / 1000000000).ToString() + "B";
                 }
-                else if(gold>=1000000)
+                else if(scroll>=1000000)
                 {
-                        scrollStr = (scroll % 1000000).ToString() + "M";
-                }else if (gold >= 1000)
+                        scrollStr = (scroll / 1000000).ToString() + "M";
+                }else if (scroll >= 1000)
                 {
-                        scrollStr = (scroll % 1000).ToString() + "K";
+                        scrollStr = (scroll / 1000).ToString() + "K";
                 }
                 textGold.text = goldStr;
                 textScroll.text = scrollStr;
