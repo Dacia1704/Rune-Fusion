@@ -91,6 +91,7 @@ public abstract class MonsterBase : MonoBehaviour
             stateMachine.ChangeState(new DeathState(this));
             IsAlive = true;
             IsDead = true;
+            GameManager.Instance.BattleManager.OnMonsterDeath?.Invoke();
         }
     }
     public virtual void StartAttack(MonsterActionResponse monsterActionResponse)
@@ -128,6 +129,7 @@ public abstract class MonsterBase : MonoBehaviour
     }
     public virtual void StartHit(int dam,EffectSkill effect)
     {
+        if (IsDead) return;
         Debug.Log(gameObject.name +" get Hit");
         BattleManager.Instance.TargetManager.DisableTarget();
         stateMachine.ChangeState(new HurtState(this,dam,effect));
@@ -149,16 +151,20 @@ public abstract class MonsterBase : MonoBehaviour
     }
     public void GetDam(int dam,EffectSkill effect=null)
     {
+        // dam = 0;
         Debug.Log(gameObject.name +" has "+ MonsterStatsInBattle.Health +" "+ shield +" get dam "+ dam);
-        if (shield > dam)
+        if (dam > 0)
         {
-            shield -= dam;
-            dam = 0;
-        }
-        else
-        {
-            shield = 0;
-            dam -= shield;
+            if (shield > dam)
+            {
+                shield -= dam;
+                dam = 0;
+            }
+            else
+            {
+                shield = 0;
+                dam -= shield;
+            }
         }
         if (shield <= 0)
         {
@@ -312,7 +318,7 @@ public abstract class MonsterBase : MonoBehaviour
     {
         int point = MonsterIdInBattle[0] == '1' ? runePoints.player1[(int)MonsterPropsSO.MonsterData.Type] : runePoints.player2[(int)MonsterPropsSO.MonsterData.Type];
         point = Math.Clamp(point, 0, MonsterPropsSO.MonsterData.Skills[1].PointCost);
-        Debug.Log(gameObject.name +" UpdateSkillBar: " + point);
+        // Debug.Log(gameObject.name +" UpdateSkillBar: " + point);
         UIHeathSkillBarManager.SetSkillBar(point);
     }
 

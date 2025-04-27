@@ -21,7 +21,7 @@ public class UIHeathSkillBarManager : MonoBehaviour
         }
         public void SetSkillBar(int value)
         {
-                Debug.Log("Update skill bar1: "+ value + " " + skillBar.MaxValue);
+                // Debug.Log("Update skill bar1: "+ value + " " + skillBar.MaxValue);
                 skillBar.SetValue(value);
                 skillBar.FillImage.color = skillBar.MaxValue == value ? Color.yellow : Color.blue;
         }
