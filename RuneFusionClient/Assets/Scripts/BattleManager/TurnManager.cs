@@ -32,7 +32,7 @@ public class TurnManager : MonoBehaviour
         isTimeMonsterEnd = false;
         GameUIManager.Instance.UITimeCounter.OnTimeCounterEnd += () =>
         {
-            Debug.Log("Monster Time Counter End");
+            // Debug.Log("Monster Time Counter End");
             isTimeMonsterEnd = true;
         };
     }
@@ -45,10 +45,10 @@ public class TurnManager : MonoBehaviour
         GameManager.Instance.BattleManager.CanChangeTurn = false;
         if (currentTurnId == "01" )
         {
+            Debug.Log("Player 1 Turn");
             if (PlayerIndex == 0)
             {
                 StartPlayerTurn();
-                Debug.Log("Player 1 Turn");
             }
 
             GameUIManager.Instance.SetTurnText("P1",SocketManager.Instance.PlayerData.playerindex == 0 ? Color.red: Color.blue);
@@ -56,10 +56,10 @@ public class TurnManager : MonoBehaviour
             // Debug.LogError("123");
         }else if (currentTurnId == "02" )
         {
+            Debug.Log("Player 2 Turn");
             if (PlayerIndex == 1)
             {
                 StartPlayerTurn();
-                Debug.Log("Player 2 Turn");
             }
             GameUIManager.Instance.SetTurnText("P2",SocketManager.Instance.PlayerData.playerindex == 1 ? Color.red: Color.blue);
             GameUIManager.Instance.UITimeCounter.SetCountTime(GameManager.Instance.GameManagerSO.TimePlayerTurn);

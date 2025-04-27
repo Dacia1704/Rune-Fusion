@@ -19,6 +19,9 @@ public class Rune : MonoBehaviour,IPoolingObject
     private ProtectRuneLayer protectRuneLayer;
     public PoolingObjectPropsSO PoolingObjectPropsSO { get; set; }
     private AudioSource audioSource;
+
+    private SpriteRenderer spriteRune;
+    private SpriteRenderer spriteProtect;
     
     
     
@@ -30,6 +33,9 @@ public class Rune : MonoBehaviour,IPoolingObject
         audioSource = GetComponent<AudioSource>();
         TextPos = GetComponentInChildren<TextMeshPro>();
         protectRuneLayer = GetComponentInChildren<ProtectRuneLayer>();
+
+        spriteRune = GetComponent<SpriteRenderer>();
+        spriteProtect = protectRuneLayer.GetComponent<SpriteRenderer>();
     }
 
     private void Start()
@@ -65,8 +71,6 @@ public class Rune : MonoBehaviour,IPoolingObject
     public void BreakProtectLayer()
     {
         IsProtected = false;
-        audioSource.clip = AudioManager.Instance.AudioPropsSO.ProtectBreakSound;
-        audioSource.Play();
         GameObject destroyEffect = GameManager.Instance.RuneManager.RuneObjectPoolManager.GetProtectDestroyEffectObject();
         destroyEffect.transform.position = transform.position;
         protectRuneLayer.Disappear();
@@ -102,6 +106,12 @@ public class Rune : MonoBehaviour,IPoolingObject
     {
         transform.DOKill();
         transform.DOScale(1f, 0f);
+    }
+
+    public void SetSortingOrder(int order)
+    {
+        spriteRune.sortingOrder = order;
+        spriteProtect.sortingOrder = order+1;
     }
 }
 
