@@ -21,6 +21,7 @@ import { handle_summon_event } from "./event/handle_summon_event.js";
 import { handle_monster_own_request } from "./event/handle_monster_own_request.js";
 import { handle_resource_event } from "./event/handle_resource_event.js";
 import monster_update_effect from "./event/monster_update_effect.js";
+import { handle_buy_request_event } from "./event/handle_buy_request_event.js";
 dotenv.config();
 
 //login
@@ -80,6 +81,9 @@ io.on("connection", (socket) => {
     });
     socket.on(EVENTS.GAME.UPDATE_RESOURCE_REQUEST, (data) => {
         handle_resource_event(io, socket, data);
+    });
+    socket.on(EVENTS.GAME.BUY_DATA_PUSH, (data) => {
+        handle_buy_request_event(io, socket, data);
     });
     socket.on(EVENTS.PLAYER.USE_SHIELD_PUSH, (data) => {
         const playerData = JSON.parse(data);

@@ -15,6 +15,8 @@ public class UIMainMenuManager: MonoBehaviour
         
         [field: SerializeField] public MonsterListSO MonsterListSO {get; private set;}
 
+        public Action<int,int> OnResourceChange;
+
         private void Awake()
         {
                 Instance = this;
@@ -32,6 +34,7 @@ public class UIMainMenuManager: MonoBehaviour
 
         private void Start()
         {
+                OnResourceChange += UIPlayerResource.SetResourceText;
                 UIRegisterScreen.Hide();
                 UITabManager.Hide();
                 UIDetailMonster.Hide();

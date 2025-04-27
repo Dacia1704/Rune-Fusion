@@ -201,3 +201,11 @@ public class UseShieldData
         public string player_id;
         public string monster_id_in_battle;
 }
+
+[Serializable]
+public class BuyData
+{
+        public string player_id;
+        public int scroll_amount;
+        public int gold_price;
+}
