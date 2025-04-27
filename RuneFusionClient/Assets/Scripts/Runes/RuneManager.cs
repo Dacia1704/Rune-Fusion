@@ -917,6 +917,21 @@ public class RuneManager : MonoBehaviour
                 Debug.Log("Has unique runes");
                 continue;
             }
+            //check final
+            for(int x=0;x<GameManager.Instance.GameManagerSO.WidthRuneMap;x++)
+            {
+                for(int y=0;y<GameManager.Instance.GameManagerSO.HeightRuneMap;y++)
+                {
+                    if (RunesMap[y, x] != null && !RunesMap[y,x].IsChecked )
+                    {
+                        RunesMap[y,x].CheckMatches();
+                    }
+                }
+            }
+            if (countRuneSequences !=0)
+            {
+                continue;
+            }
             if (!GameManager.Instance.BattleManager.TurnManager.IsPlayerTurn || !IsSwapped) continue;
             IsSwapped = false;
             if (GameManager.Instance.BattleManager.TurnManager.IsPlayerTurn)
@@ -942,6 +957,8 @@ public class RuneManager : MonoBehaviour
             {
                 SwapWithLeftRune(preventiveList[random]);
             }
+
+            hasNewRunesToGen = false;
             return;
         }
 
