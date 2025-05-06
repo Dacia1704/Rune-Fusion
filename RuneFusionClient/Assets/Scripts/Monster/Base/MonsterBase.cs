@@ -91,7 +91,7 @@ public abstract class MonsterBase : MonoBehaviour
             stateMachine.ChangeState(new DeathState(this));
             IsAlive = true;
             IsDead = true;
-            GameManager.Instance.BattleManager.OnMonsterDeath?.Invoke();
+            GameManager.Instance.BattleManager.OnMonsterDeath?.Invoke(MonsterIdInBattle);
         }
     }
     public virtual void StartAttack(MonsterActionResponse monsterActionResponse)

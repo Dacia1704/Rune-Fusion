@@ -19,9 +19,8 @@ public class BattleManager : MonoBehaviour
         public Dictionary<string,int> ShieldAllyMonsters { get; private set; } = new Dictionary<string,int>();
         public Dictionary<string,int> ShieldOpponentMonsters { get; private set; } = new Dictionary<string,int>();
         [HideInInspector]public bool CanChangeTurn;
-        private AudioSource audioSource;
 
-        public Action OnMonsterDeath;
+        public Action<string> OnMonsterDeath;
         
         public bool IsBattleOver;
 
@@ -31,7 +30,6 @@ public class BattleManager : MonoBehaviour
                 {
                         Instance = this;
                 }
-                audioSource = GetComponent<AudioSource>();
         }
 
         private void Start()
@@ -43,6 +41,7 @@ public class BattleManager : MonoBehaviour
                 GameManager.Instance.InputManager.OnMonsterAllyDoubleClick += SkillInputManager;
                 GameManager.Instance.InputManager.OnShieldTarget += ShieldMonster;
                 OnMonsterDeath += CheckEnd;
+                OnMonsterDeath += TurnManager.ActionLine.SetDeathMonsterPoint;
                 BGMManager.Instance.PlayBGMCombat();
                 IsBattleOver = false;
 
@@ -240,7 +239,7 @@ public class BattleManager : MonoBehaviour
                 return weakestMonster;
         }
 
-        private void CheckEnd()
+        private void CheckEnd(string id)
         {
                 int team1Death = 0;
                 foreach (MonsterBase monster in MonsterTeam1Dictionary.Values)

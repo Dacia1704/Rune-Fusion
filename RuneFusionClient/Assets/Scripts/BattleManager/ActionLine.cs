@@ -59,6 +59,12 @@ public class ActionLine : MonoBehaviour
                 MonsterDictionary.Add(id, monsterPoint);
         }
 
+        public void SetDeathMonsterPoint(string id)
+        {
+                SpriteRenderer monsterPoint = MonsterDictionary[id].GetComponent<SpriteRenderer>();
+                monsterPoint.color = Color.clear;
+        }
+
         private void SetPositionMonsterPoint(string id, float progress)
         {
                 GameObject monsterPoint = MonsterDictionary[id];
