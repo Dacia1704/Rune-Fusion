@@ -34,7 +34,7 @@ public class UIMonsterSlot: UIBase,IPointerClickHandler
 
         public void OnPointerClick(PointerEventData eventData)
         {
-                if (PickSceneUIManager.Instance.PLayerIndex != PickSceneUIManager.Instance.PlayerIdTurn) return;
+                if (PickSceneUIManager.Instance.PlayerIndex != PickSceneUIManager.Instance.PlayerIdTurn) return;
                 if (IsCheck)
                 {
                         DisableCheck();

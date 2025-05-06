@@ -61,13 +61,15 @@ public class UIMonsterSlotManager: MonoBehaviour
                 if (indexNull != -1)
                 {
                         PickList[indexNull] = monsterPropsSO;
-                        if (PickSceneUIManager.Instance.PLayerIndex == 0)
+                        if (PickSceneUIManager.Instance.PlayerIndex == 0)
                         {
                                 SocketManager.Instance.PostMonsterPickData(PickSceneUIManager.Instance.MonsterSlotManager.PickList, new List<MonsterPropsSO>());
+                                PickSceneUIManager.Instance.CountMonstersPick += 1;
                         }
                         else
                         {
                                 SocketManager.Instance.PostMonsterPickData(new List<MonsterPropsSO>(),PickSceneUIManager.Instance.MonsterSlotManager.PickList);
+                                PickSceneUIManager.Instance.CountMonstersPick += 1;
                         }
                 }
                 OnPickChange?.Invoke(PickList);
@@ -79,13 +81,15 @@ public class UIMonsterSlotManager: MonoBehaviour
                 if (indexNull != -1)
                 {
                         PickList[indexNull] = null;
-                        if (PickSceneUIManager.Instance.PLayerIndex == 0)
+                        if (PickSceneUIManager.Instance.PlayerIndex == 0)
                         {
                                 SocketManager.Instance.PostMonsterPickData(PickSceneUIManager.Instance.MonsterSlotManager.PickList, new List<MonsterPropsSO>());
+                                PickSceneUIManager.Instance.CountMonstersPick -= 1;
                         }
                         else
                         {
                                 SocketManager.Instance.PostMonsterPickData(new List<MonsterPropsSO>(),PickSceneUIManager.Instance.MonsterSlotManager.PickList);
+                                PickSceneUIManager.Instance.CountMonstersPick -= 1;
                         }
                 }
                 OnPickChange?.Invoke(PickList);
