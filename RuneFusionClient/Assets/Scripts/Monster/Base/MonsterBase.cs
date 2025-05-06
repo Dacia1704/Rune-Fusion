@@ -15,6 +15,7 @@ public abstract class MonsterBase : MonoBehaviour
     public MonsterAnimationManager MonsterAnimationManager { get; private set; }
     public MonsterColliderManager MonsterColliderManager { get; private set; }
     protected StateMachine stateMachine;
+    protected FloatingTextObjectPooling floatingTextObjectPooling;
 
     protected UIEffectManager UIEffectManager;
     public Dictionary<MonsterBase, ActionResponse> CurrentTurnActionResponse;
@@ -26,14 +27,14 @@ public abstract class MonsterBase : MonoBehaviour
     public Action SkillTaskComplete;
     public Action HitTaskComplete;
 
-    public bool ShouldUseSkill;
 
 
-    public bool IsAllAnimationEnd;
-    public bool IsUpdateEffect;
-    public bool IsFrozen;
-    public bool IsAlive;
-    public bool IsDead;
+    [HideInInspector]public bool ShouldUseSkill;
+    [HideInInspector]public bool IsAllAnimationEnd;
+    [HideInInspector]public bool IsUpdateEffect;
+    [HideInInspector]public bool IsFrozen;
+    [HideInInspector]public bool IsAlive;
+    [HideInInspector]public bool IsDead;
     [SerializeField]protected GameObject FrozenGameObject;
     [SerializeField] protected GameObject ShieldObject;
     private int shield;
@@ -51,6 +52,7 @@ public abstract class MonsterBase : MonoBehaviour
         MonsterColliderManager = GetComponentInChildren<MonsterColliderManager>();
         UIHeathSkillBarManager = GetComponentInChildren<UIHeathSkillBarManager>();
         UIEffectManager = GetComponentInChildren<UIEffectManager>();
+        floatingTextObjectPooling = GetComponentInChildren<FloatingTextObjectPooling>();
         CurrentTurnActionResponse = new Dictionary<MonsterBase, ActionResponse>();
         OnHealthChange += UIHeathSkillBarManager.SetHealthBar;
         GameManager.Instance.RuneManager.OnRunePointsChanged += UpdateSkillBar;
@@ -81,6 +83,8 @@ public abstract class MonsterBase : MonoBehaviour
         UIHeathSkillBarManager.SetMaxSkillBar(MonsterPropsSO.MonsterData.Skills[1].PointCost);
         ShouldUseSkill = false;
     }
+
+    
     
     protected virtual void Update()
     {
@@ -173,6 +177,7 @@ public abstract class MonsterBase : MonoBehaviour
         Debug.Log(gameObject.name +" get dam: "+ dam);
         int health = MonsterStatsInBattle.Health-dam;
         
+        floatingTextObjectPooling.ShowDamage(dam);
         MonsterStatsInBattle.Health = Mathf.Clamp(health,0,MonsterPropsSO.MonsterData.BaseStats.Health);
         if ( effect!=null && effect.EffectType != EffectType.None && effect.EffectType != EffectType.Heal )
         {
