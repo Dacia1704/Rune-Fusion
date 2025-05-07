@@ -22,6 +22,7 @@ import { handle_monster_own_request } from "./event/handle_monster_own_request.j
 import { handle_resource_event } from "./event/handle_resource_event.js";
 import monster_update_effect from "./event/monster_update_effect.js";
 import { handle_buy_request_event } from "./event/handle_buy_request_event.js";
+import { handle_end_game_event } from "./event/handle_end_game_event.js";
 dotenv.config();
 
 //login
@@ -215,6 +216,9 @@ io.on("connection", (socket) => {
         roomsPlaying[socket.roomId].player1.rune_points = postData.player1;
         roomsPlaying[socket.roomId].player2.rune_points = postData.player2;
         socket.to(socket.roomId).emit(EVENTS.GAME.POINT_UPDATE_PUSH, postData);
+    });
+    socket.on(EVENTS.GAME.END_GAME_REQUEST, (data) => {
+        handle_end_game_event(io, socket, roomsPlaying);
     });
     socket.on("disconnect", (data) => {
         console.log("Disconnect");

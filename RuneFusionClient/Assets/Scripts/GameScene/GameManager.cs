@@ -31,9 +31,7 @@ public class GameManager : MonoBehaviour
                 StartCoroutine(GenMapCoroutine());
                 GameUIManager.Instance.UITimeCounter.OnTimeCounterEnd += InputManager.SetDisablePlayerInput;
                 GameUIManager.Instance.UITimeCounter.OnTimeCounterEnd += InputManager.SetDisableMonsterInput;
-                audioSource.clip = AudioManager.Instance.AudioPropsSO.StartGameSound;
-                audioSource.outputAudioMixerGroup = AudioManager.Instance.AudioPropsSO.SFXAudioMixerGroup;
-                audioSource.Play();
+                PlayStartGameSound();
 
         }
 
@@ -70,4 +68,12 @@ public class GameManager : MonoBehaviour
                         Debug.Log("We are on a different thread!");
                 }
         }
+
+        public void PlayStartGameSound()
+        {
+                audioSource.clip = AudioManager.Instance.AudioPropsSO.StartGameSound;
+                audioSource.outputAudioMixerGroup = AudioManager.Instance.AudioPropsSO.SFXAudioMixerGroup;
+                audioSource.Play();
+        }
+        
 }

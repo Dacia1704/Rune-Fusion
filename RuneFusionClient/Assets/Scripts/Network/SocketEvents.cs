@@ -41,6 +41,8 @@
         public const string UPDATE_RESOURCE_RESPONSE = "update_resource_response";
         public const string UPDATE_RESOURCE_REQUEST = "update_resource_request";
         public const string BUY_DATA_PUSH = "buy_data_push";
+        public const string END_GAME_REQUEST = "end_game_request";
+        public const string END_GAME_RESPONSE = "end_game_response";
     }
 
     public static class Monster

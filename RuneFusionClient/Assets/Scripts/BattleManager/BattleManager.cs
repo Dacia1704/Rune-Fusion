@@ -254,12 +254,13 @@ public class BattleManager : MonoBehaviour
                         IsBattleOver = true;
                         if (TurnManager.PlayerIndex == 0)
                         {
-                                GameUIManager.Instance.UIBattleEndNotification.SetLose(50);
+                                // GameUIManager.Instance.UIBattleEndNotification.SetLose(50);
+                                SocketManager.Instance.RequestEndGame();
                         }
-                        else
-                        {
-                                GameUIManager.Instance.UIBattleEndNotification.SetVictory(2000);
-                        }
+                        // else
+                        // {
+                        //         GameUIManager.Instance.UIBattleEndNotification.SetVictory(2000);
+                        // }
                 }
                 
                 int team2Death = 0;
@@ -276,15 +277,18 @@ public class BattleManager : MonoBehaviour
                         IsBattleOver = true;
                         if (TurnManager.PlayerIndex == 1)
                         {
-                                GameUIManager.Instance.UIBattleEndNotification.SetLose(50);
+                                // GameUIManager.Instance.UIBattleEndNotification.SetLose(50);
+                                SocketManager.Instance.RequestEndGame();
                         }
-                        else
-                        {
-                                GameUIManager.Instance.UIBattleEndNotification.SetVictory(2000);
-                        }
+                        // else
+                        // {
+                        //         GameUIManager.Instance.UIBattleEndNotification.SetVictory(2000);
+                        // }
                 }
                 
         }
+        
+        
 
         
 

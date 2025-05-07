@@ -39,6 +39,8 @@ const EVENTS = {
         UPDATE_RESOURCE_RESPONSE: "update_resource_response",
         UPDATE_RESOURCE_REQUEST: "update_resource_request",
         BUY_DATA_PUSH: "buy_data_push",
+        END_GAME_REQUEST: "end_game_request",
+        END_GAME_RESPONSE: "end_game_response",
     },
     MONSTER: {
         MONSTER_LIST: "monster_list",

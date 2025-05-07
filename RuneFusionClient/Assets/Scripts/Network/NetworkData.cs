@@ -209,3 +209,11 @@ public class BuyData
         public int scroll_amount;
         public int gold_price;
 }
+[Serializable]
+public class EndGameResponseData
+{
+        public string winner_id;
+        public string loser_id;
+        public int winner_gold;
+        public int loser_gold;
+}

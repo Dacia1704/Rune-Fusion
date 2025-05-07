@@ -191,9 +191,27 @@ public class SocketManager : MonoBehaviour
             List<UseShieldData> response = JsonConvert.DeserializeObject<List<UseShieldData>>(data.ToString());
             UnityThread.executeCoroutine(UseShieldCoroutine(response[0]));
         });
+        socket.On(SocketEvents.Game.END_GAME_RESPONSE, data =>
+        {
+            List<EndGameResponseData> response = JsonConvert.DeserializeObject<List<EndGameResponseData>>(data.ToString());
+            UnityThread.executeCoroutine(EndGameCoroutine(response[0]));
+        });
         socket.Connect();
     }
     // get
+    private IEnumerator EndGameCoroutine(EndGameResponseData response)
+    {
+        if (response.loser_id == PlayerData.id)
+        {
+            GameUIManager.Instance.UIBattleEndNotification.SetLose(response.loser_gold);
+        }
+        else
+        {
+            GameUIManager.Instance.UIBattleEndNotification.SetVictory(response.winner_gold);
+        }
+        ResquestResourceData();
+        yield return null;
+    }
     private IEnumerator UseShieldCoroutine(UseShieldData useShieldData)
     {
         GameManager.Instance.BattleManager.UpdateMonsterShield(useShieldData);
@@ -448,5 +466,10 @@ public class SocketManager : MonoBehaviour
             gold_price = goldPrice,
         };
         socket.Emit(SocketEvents.Game.BUY_DATA_PUSH, JsonConvert.SerializeObject(buyData));
+    }
+
+    public void RequestEndGame()
+    {
+        socket.Emit(SocketEvents.Game.END_GAME_REQUEST);
     }
 }
