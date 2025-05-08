@@ -15,7 +15,13 @@ public class UIMonsterListManager: UIBase
 
         private void Awake()
         {
+                if (Instance != null && Instance != this)
+                {
+                        Destroy(gameObject);
+                        return;
+                }
                 Instance = this;
+
                 countCall = 0;
         }
 

@@ -20,9 +20,6 @@ public class SocketManager : MonoBehaviour
     
     public PlayerData PlayerData { get; private set; }
     public PlayerData OpponentData { get; private set; }
-    
-    public int Gold {get; private set;}
-    public int Scroll { get; private set; }
     public string RoomId {get; private set;}
 
     public List<List<string>> MapStart { get; private set; }
@@ -33,7 +30,13 @@ public class SocketManager : MonoBehaviour
 
     private void Awake()
     {
+        if (Instance != null && Instance != this)
+        {
+            Destroy(gameObject);
+            return;
+        }
         Instance = this;
+
         DontDestroyOnLoad(this);
     }
 
@@ -428,10 +431,12 @@ public class SocketManager : MonoBehaviour
 
     public void RequestMonsterOwnData()
     {
+        // Debug.Log(JsonConvert.SerializeObject(PlayerData));
         MonstersOwnRequestData requestData = new MonstersOwnRequestData()
         {
             player_id = PlayerData.id,
         };
+        Debug.Log(JsonConvert.SerializeObject(requestData));
         socket.Emit(SocketEvents.Monster.MONSTER_OWN_RESQUEST, JsonConvert.SerializeObject(requestData));
     }
 

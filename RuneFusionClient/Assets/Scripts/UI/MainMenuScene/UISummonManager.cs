@@ -11,7 +11,13 @@ public class UISummonManager: UIBase
         public Action<SummonResponseData> OnSummonResponseData { get; private set; }
         private void Awake()
         {
+                if (Instance != null && Instance != this)
+                {
+                        Destroy(gameObject);
+                        return;
+                }
                 Instance = this;
+
                 SummonEffectManager = GetComponentInChildren<UISummonEffectManager>();
                 SummonOnceButton.onClick.AddListener(() =>
                 {

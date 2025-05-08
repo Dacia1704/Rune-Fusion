@@ -10,7 +10,13 @@ public class TouchEffectManager: MonoBehaviour
 
     private void Awake()
     {
+        if (Instance != null && Instance != this)
+        {
+            Destroy(gameObject);
+            return;
+        }
         Instance = this;
+
         audioSource = GetComponent<AudioSource>();
         touchEffectObjectPooling = GetComponentInChildren<ObjectPooling>(); 
         DontDestroyOnLoad(this.gameObject);

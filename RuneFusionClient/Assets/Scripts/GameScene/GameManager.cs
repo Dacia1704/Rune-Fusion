@@ -15,10 +15,13 @@ public class GameManager : MonoBehaviour
         private AudioSource audioSource;
         private void Awake()
         {
-                if (Instance == null)
+                if (Instance != null && Instance != this)
                 {
-                        Instance = this;
+                        Destroy(gameObject);
+                        return;
                 }
+                Instance = this;
+
                 RuneManager = FindFirstObjectByType<RuneManager>();
                 InputManager = FindFirstObjectByType<InputManager>();
                 BattleManager = FindFirstObjectByType<BattleManager>();

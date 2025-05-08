@@ -22,6 +22,15 @@ public class UIBattleEndNotification: UIBase
               canvasGroup = GetComponent<CanvasGroup>();
               rectTransform = GetComponent<RectTransform>();
               audioSource = GetComponent<AudioSource>();
+              
+              HomeButton.onClick.AddListener(() =>
+              {
+                     SceneLoadManager.Instance.LoadMainSceneWithSpecificTab(0);
+              });
+              NewMatchButton.onClick.AddListener(() =>
+              {
+                     SceneLoadManager.Instance.LoadMainSceneWithSpecificTab(2);
+              });
        }
 
        public void SetVictory(int gold)
@@ -30,13 +39,14 @@ public class UIBattleEndNotification: UIBase
               victoryIcon.SetActive(true);
               loseIcon.SetActive(false);
               battleStatusText.text = "Victory";
+              battleStatusText.color = Color.yellow;
               goldText.text = gold.ToString();
               canvasGroup.alpha = 0;
               rectTransform.localScale = Vector3.zero;
               PlayVictorySound();
               Sequence seq = DOTween.Sequence();
               seq.Append(canvasGroup.DOFade(1f, 0.5f));
-              seq.Join(rectTransform.DOScale(1.2f, 0.2f).SetEase(Ease.OutBack)); 
+              seq.Join(rectTransform.DOScale(1f, 0.2f).SetEase(Ease.OutBack)); 
        }
 
        public void SetLose(int gold)
@@ -45,13 +55,14 @@ public class UIBattleEndNotification: UIBase
               victoryIcon.SetActive(false);
               loseIcon.SetActive(true);
               battleStatusText.text = "Defeat"; 
+              battleStatusText.color = Color.red;
               goldText.text = gold.ToString();
               canvasGroup.alpha = 0;
               rectTransform.localScale = Vector3.zero;
               PlayDefeatSound();
               Sequence seq = DOTween.Sequence();
               seq.Append(canvasGroup.DOFade(1f, 0.5f));
-              seq.Join(rectTransform.DOScale(1.2f, 0.2f).SetEase(Ease.OutBack)); 
+              seq.Join(rectTransform.DOScale(1f, 0.2f).SetEase(Ease.OutBack)); 
        }
        public void PlayVictorySound()
        {

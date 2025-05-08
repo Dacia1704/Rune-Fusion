@@ -23,7 +23,13 @@ public class PickSceneUIManager: MonoBehaviour
 
         private void Awake()
         {
+                if (Instance != null && Instance != this)
+                {
+                        Destroy(gameObject);
+                        return;
+                }
                 Instance = this;
+
                 PickSlotManager = GetComponentInChildren<UIPickSlotManager>();
                 MonsterSlotManager = GetComponentInChildren<UIMonsterSlotManager>();
                 PlayerText = GetComponentInChildren<UIPlayerText>();

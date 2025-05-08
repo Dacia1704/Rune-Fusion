@@ -27,7 +27,7 @@ export default function monster_action_to_opponent_caculation(monsterPlayer, mon
         if (monsterPlayer.data.stats.effect_list.includes(effectType.ATTACK_DECREMENT)) {
             buffAtk = 0.7;
         }
-        monster_affect.dam = Math.floor(monsterPlayer.data.stats.attack * action.percent_attack * buffAtk * 10 * (1 - effectiveDef / (effectiveDef + 400)));
+        monster_affect.dam = Math.floor(monsterPlayer.data.stats.attack * action.percent_attack * buffAtk * 100 * (1 - effectiveDef / (effectiveDef + 400)));
         // cacul buff, debuff
         if (action.effect_skill.effect_type !== effectType.NONE && action.effect_skill.effect_type !== effectType.HEAL) {
             const ratio = Math.max(0.15, monsterPlayer.data.stats.accuracy - opponent.data.stats.resistance);
