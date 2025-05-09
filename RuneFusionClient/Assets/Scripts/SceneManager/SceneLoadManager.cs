@@ -51,10 +51,13 @@ public class SceneLoadManager : MonoBehaviour
 
         private IEnumerator LoadSceneCoroutine()
         {
-                yield return new WaitForSeconds(0.1f);
+                yield return new WaitForSeconds(0.01f);
                 UIMainMenuManager.Instance.ChangeToNewScreen(UIMainMenuManager.Instance.UITabManager);
                 UIMainMenuManager.Instance.UITabManager.SwitchToTab(tabIndexToOpen);
-                Debug.Log(JsonConvert.SerializeObject(SocketManager.Instance.PlayerData));
+                if (tabIndexToOpen == 0)
+                {
+                        SocketManager.Instance.RequestMonsterOwnData();
+                }
         }
 
         public void LoadSceneAsync(string sceneName)
