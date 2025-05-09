@@ -41,7 +41,7 @@ public class BattleManager : MonoBehaviour
                 ArenaManager = FindFirstObjectByType<ArenaManager>();
                 TargetManager = FindFirstObjectByType<TargetManager>();
                 GameManager.Instance.InputManager.OnMonsterTarget += TargetManager.TargetMonster;
-                GameManager.Instance.InputManager.OnMonsterAllyDoubleClick += SkillInputManager;
+                GameManager.Instance.InputManager.OnMonsterAllyDoubleClick += SkillEnableCheck;
                 GameManager.Instance.InputManager.OnShieldTarget += ShieldMonster;
                 OnMonsterDeath += CheckEnd;
                 OnMonsterDeath += TurnManager.ActionLine.SetDeathMonsterPoint;
@@ -125,7 +125,7 @@ public class BattleManager : MonoBehaviour
                 }
         }
 
-        public void SkillInputManager(MonsterBase monster)
+        public void SkillEnableCheck(MonsterBase monster)
         {
                 if (TurnManager.TurnBaseQueue[0].id_in_battle == monster.MonsterIdInBattle && monster.MonsterPropsSO.MonsterData.Skills[1].PointCost <= GameManager.Instance.RuneManager.RunePointsPlayer[(int)monster.MonsterPropsSO.MonsterData.Type])
                 {

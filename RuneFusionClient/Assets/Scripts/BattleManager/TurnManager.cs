@@ -155,6 +155,7 @@ public class TurnManager : MonoBehaviour
         MonsterBase monsterBase = GameManager.Instance.BattleManager.GetMonsterByIdInBattle(currentTurnId);
         if (isTimeMonsterEnd)
         {
+            BattleManager.Instance.SkillEnableCheck(monsterBase);
             Debug.Log("Time monster end");
             MonsterBase autoChoose = GameManager.Instance.BattleManager.AutoChooseTargetMonster(currentTurnId);
             SocketManager.Instance.RequestMonsterAction(currentTurnId,new List<string>(){autoChoose.MonsterIdInBattle},monsterBase.ShouldUseSkill ?"1": "0");
