@@ -1,6 +1,6 @@
 import { effectType } from "../model/Monster.js";
 
-export default function monster_action_to_opponent_caculation(monsterPlayer, monsterOpponent, action) {
+export default function monster_action_to_opponent_caculation(monsterPlayer, monsterOpponent, action, monster_base_data) {
     let action_affect = [];
     monsterOpponent.forEach((opponent) => {
         let monster_affect = {
