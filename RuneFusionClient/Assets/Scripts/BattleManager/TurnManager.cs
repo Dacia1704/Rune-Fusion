@@ -96,12 +96,14 @@ public class TurnManager : MonoBehaviour
         isTimeMonsterEnd = false;
         string currentTurnId = TurnBaseQueue[0].id_in_battle;
         MonsterBase monsterBase = GameManager.Instance.BattleManager.GetMonsterByIdInBattle(currentTurnId);
+        monsterBase.SetTurnObject(true);
         if (GameManager.Instance.BattleManager.MonsterTeam1Dictionary.ContainsKey(currentTurnId) && SocketManager.Instance.PlayerData.playerindex == 0)
         {
             if (!monsterBase.IsDead)
             {
                 if (!monsterBase.IsFrozen)
                 {
+                    
                     GameManager.Instance.InputManager.SetEnableMonsterInput();
                     StartCoroutine(StartMonsterAttack());
                     GameManager.Instance.BattleManager.SetFalseAnimation();
@@ -164,7 +166,7 @@ public class TurnManager : MonoBehaviour
         {
             SocketManager.Instance.RequestMonsterAction(currentTurnId,new List<string>(){GameManager.Instance.BattleManager.TargetManager.TargetedMonster.MonsterIdInBattle},monsterBase.ShouldUseSkill ?"1": "0");
         }
-        GameManager.Instance.RuneManager.PostPointData();
+        GameManager.Instance.MatchBoard.PostPointData();
         monsterBase.ShouldUseSkill = false;        
         isTimeMonsterEnd = false;
         GameUIManager.Instance.UITimeCounter.EndCountTime();

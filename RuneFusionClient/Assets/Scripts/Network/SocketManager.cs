@@ -254,7 +254,7 @@ public class SocketManager : MonoBehaviour
     }
     private IEnumerator UpdatePointDataCoroutine(PointPushData data)
     {
-        GameManager.Instance.RuneManager.UpdatePoint(data);
+        GameManager.Instance.MatchBoard.UpdatePoint(data);
         yield return null;
     }
     private IEnumerator ConfirmMonsterTurnPickCoroutine()
@@ -294,7 +294,7 @@ public class SocketManager : MonoBehaviour
     private IEnumerator SwapRuneCoroutine(Vector2Int start, Vector2Int end)
     {
         Debug.Log(start.ToString() + " " + end.ToString());
-        GameManager.Instance.RuneManager.SwapRunes(Tuple.Create<int, int>(start.x, start.y), Tuple.Create<int, int>(end.x, end.y), start.x == end.x ? SwapType.Horizontal : SwapType.Vertical );
+        GameManager.Instance.MatchBoard.SwapRunes(Tuple.Create<int, int>(start.x, start.y), Tuple.Create<int, int>(end.x, end.y), start.x == end.x ? SwapType.Horizontal : SwapType.Vertical );
         yield return null;
     }
 
@@ -312,7 +312,7 @@ public class SocketManager : MonoBehaviour
     
     private IEnumerator GenNewRuneCoroutine(List<List<string>> newRuneData)
     {
-        GameManager.Instance.RuneManager.GenerateNewRune(newRuneData);
+        GameManager.Instance.MatchBoard.GenerateNewRune(newRuneData);
         yield return null;
     }
     

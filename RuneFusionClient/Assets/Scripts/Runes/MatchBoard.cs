@@ -18,7 +18,7 @@ using Sequence = DG.Tweening.Sequence;
  */
 
 
-public class RuneManager : MonoBehaviour
+public class MatchBoard : MonoBehaviour
 {
     public RuneObjectPoolManager RuneObjectPoolManager { get; private set; }
 

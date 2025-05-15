@@ -1929,7 +1929,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   <GameManagerSO>k__BackingField: {fileID: 11400000, guid: b87aa6862c51cff459a00d59c6a838c0, type: 2}
-  <RuneManager>k__BackingField: {fileID: 0}
+  <MatchBoard>k__BackingField: {fileID: 0}
   <InputManager>k__BackingField: {fileID: 0}
   <BattleManager>k__BackingField: {fileID: 0}
 --- !u!4 &697816508

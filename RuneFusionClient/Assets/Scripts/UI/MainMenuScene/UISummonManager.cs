@@ -35,11 +35,11 @@ public class UISummonManager: UIBase
                 {
                         if (summonResponseData.summon_results.Count > 1)
                         {
-                                SummonEffectManager.SummonTenTimes(summonResponseData.summon_results,SummonTenTimesButton.transform as RectTransform);
+                                StartCoroutine(SummonEffectManager.SummonTenTimes(summonResponseData.summon_results,SummonTenTimesButton.transform as RectTransform));
                         }
                         else
                         {
-                                SummonEffectManager.SummonOnce(summonResponseData.summon_results[0],SummonOnceButton.transform as RectTransform);
+                                StartCoroutine(SummonEffectManager.SummonOnce(summonResponseData.summon_results[0],SummonOnceButton.transform as RectTransform));
                         }
                 };
         }

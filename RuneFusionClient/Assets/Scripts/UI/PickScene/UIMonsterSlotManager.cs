@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using Newtonsoft.Json;
 using UnityEngine;
 
 public class UIMonsterSlotManager: MonoBehaviour
@@ -42,6 +43,7 @@ public class UIMonsterSlotManager: MonoBehaviour
                 {
                         PickList.Add(monsterDataList.Find((mon) => (int)(mon.MonsterData.Id) == id));
                 }
+                Debug.Log(JsonConvert.SerializeObject(data));
                 UpdatePickedMonster(data.picked_monsters);
                 OnPickChange?.Invoke(PickList);
         }
@@ -108,6 +110,10 @@ public class UIMonsterSlotManager: MonoBehaviour
 
         private void UpdatePickedMonster(List<int> monsterIds)
         {
+                foreach (UIMonsterSlot monsterSlot in monsterSlotsDictionary.Values)
+                {
+                        monsterSlot.DisableCheck();
+                }
                 foreach (int id in monsterIds)
                 {
                         if (monsterSlotsDictionary.ContainsKey(id))

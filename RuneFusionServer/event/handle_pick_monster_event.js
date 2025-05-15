@@ -12,35 +12,39 @@ export async function handle_pick_monster_event(io, socket, roomsPlaying, data) 
     let indexMonsterDataPlayer1Unlock = roomsPlaying[socket.roomId].player1.monsters.findIndex((monster) => monster.is_locked == false);
     let indexMonsterDataPlayer2Unlock = roomsPlaying[socket.roomId].player2.monsters.findIndex((monster) => monster.is_locked == false);
 
-    for (const id of monsterData.player1) {
-        const mon = await Monster.findOne({ id: id });
-        if (id != -1 && indexMonsterDataPlayer1Unlock != -1) {
-            console.log("index: " + indexMonsterDataPlayer1Unlock);
-            roomsPlaying[socket.roomId].player1.monsters[indexMonsterDataPlayer1Unlock].data = mon;
+    for (let i = 0; i < monsterData.player1.length; i++) {
+        // for (const id of monsterData.player1) {
+        const mon = await Monster.findOne({ id: monsterData.player1[i] });
+        if (monsterData.player1[i] != -1 && indexMonsterDataPlayer1Unlock + i != -1) {
+            roomsPlaying[socket.roomId].player1.monsters[indexMonsterDataPlayer1Unlock + i].data = mon;
             const monsterExists = roomsPlaying[socket.roomId].monster_base_data.some((m) => m.id === mon.id);
             if (!monsterExists) {
                 roomsPlaying[socket.roomId].monster_base_data.push(mon);
             }
-            indexMonsterDataPlayer1Unlock++;
+            // indexMonsterDataPlayer1Unlock++;
+        } else {
+            console.log("i: " + i + " index: " + indexMonsterDataPlayer1Unlock);
+            roomsPlaying[socket.roomId].player1.monsters[indexMonsterDataPlayer1Unlock + i].data = null;
         }
     }
-    for (const id of monsterData.player2) {
-        const mon = await Monster.findOne({ id: id });
-        if (id != -1 && mon != undefined && indexMonsterDataPlayer2Unlock != -1) {
-            console.log("index: " + indexMonsterDataPlayer2Unlock);
-            roomsPlaying[socket.roomId].player2.monsters[indexMonsterDataPlayer2Unlock].data = mon;
+    for (let i = 0; i < monsterData.player2.length; i++) {
+        // for (const id of monsterData.player2) {
+        const mon = await Monster.findOne({ id: monsterData.player2[i] });
+        if (monsterData.player2[i] != -1 && mon != undefined && indexMonsterDataPlayer2Unlock + i != -1) {
+            roomsPlaying[socket.roomId].player2.monsters[indexMonsterDataPlayer2Unlock + i].data = mon;
 
             const monsterExists = roomsPlaying[socket.roomId].monster_base_data.some((m) => m.id === mon.id);
             if (!monsterExists) {
                 roomsPlaying[socket.roomId].monster_base_data.push(mon);
             }
-            indexMonsterDataPlayer2Unlock++;
+            // indexMonsterDataPlayer2Unlock++;
+        } else {
+            console.log("i: " + i + " index: " + indexMonsterDataPlayer2Unlock);
+            roomsPlaying[socket.roomId].player2.monsters[indexMonsterDataPlayer2Unlock + i].data = null;
         }
     }
-    console.log(roomsPlaying[socket.roomId].player1.monsters[0].data?.id + " " + roomsPlaying[socket.roomId].player1.monsters[1].data?.id + " " + roomsPlaying[socket.roomId].player1.monsters[2].data?.id);
-    console.log(roomsPlaying[socket.roomId].player2.monsters[0].data?.id + " " + roomsPlaying[socket.roomId].player2.monsters[1].data?.id + " " + roomsPlaying[socket.roomId].player2.monsters[2].data?.id);
-    // const monsterIdsPlayer1 = monsterData.player1.map((mon) => (mon == null || mon == undefined ? -1 : mon.id));
-    // const monsterIdsPlayer2 = monsterData.player2.map((mon) => (mon == null || mon == undefined ? -1 : mon.id));
+    console.log(":" + roomsPlaying[socket.roomId].player1.monsters[0].data?.id + " " + roomsPlaying[socket.roomId].player1.monsters[1].data?.id + " " + roomsPlaying[socket.roomId].player1.monsters[2].data?.id);
+    console.log(":" + roomsPlaying[socket.roomId].player2.monsters[0].data?.id + " " + roomsPlaying[socket.roomId].player2.monsters[1].data?.id + " " + roomsPlaying[socket.roomId].player2.monsters[2].data?.id);
 
     const picked_monsters = [];
     roomsPlaying[socket.roomId].player1.monsters.forEach((mon) => {

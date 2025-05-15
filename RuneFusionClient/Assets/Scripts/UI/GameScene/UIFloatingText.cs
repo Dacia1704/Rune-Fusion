@@ -36,7 +36,7 @@ public class UIFloatingText : MonoBehaviour, IPoolingObject
 
         // Giai đoạn 1: Fade in nhanh + phóng to (scale up)
         seq.Append(canvasGroup.DOFade(1f, 0.1f));
-        seq.Join(rect.DOScale(1.2f, 0.2f).SetEase(Ease.OutBack)); // phóng to nhẹ và bounce tại chỗ
+        seq.Join(rect.DOScale(2f, 0.2f).SetEase(Ease.OutBack)); // phóng to nhẹ và bounce tại chỗ
 
         // Giai đoạn 2: Scale nhỏ lại 1 chút để tạo hiệu ứng bounce
         // seq.Append(rect.DOScale(1f, 0.1f).SetEase(Ease.InBack));

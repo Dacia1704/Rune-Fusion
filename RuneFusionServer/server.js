@@ -36,12 +36,12 @@ const server = app.listen(config.port, () => {
     console.log(`Express server is running on port ${config.port}`);
 });
 
-init_monster_data(archerMonsterData);
-init_monster_data(armoredAxemanData);
-init_monster_data(knightData);
-init_monster_data(lancerData);
-init_monster_data(priestData);
-init_monster_data(wizardData);
+// init_monster_data(archerMonsterData);
+// init_monster_data(armoredAxemanData);
+// init_monster_data(knightData);
+// init_monster_data(lancerData);
+// init_monster_data(priestData);
+// init_monster_data(wizardData);
 
 //socket logic game
 const io = new Server(server);
