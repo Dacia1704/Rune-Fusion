@@ -42,7 +42,7 @@ public class TurnManager : MonoBehaviour
         string currentTurnId = TurnBaseQueue[0].id_in_battle;
         // Debug.Log(currentTurnId);
         EndPlayerTurn();
-        GameManager.Instance.BattleManager.CanChangeTurn = false;
+        GameManager.Instance.Match.CanChangeTurn = false;
         if (currentTurnId == "01" )
         {
             Debug.Log("Player 1 Turn");
@@ -67,11 +67,11 @@ public class TurnManager : MonoBehaviour
         }
         else
         {
-            if (GameManager.Instance.BattleManager.MonsterTeam1Dictionary.ContainsKey(currentTurnId) && SocketManager.Instance.PlayerData.playerindex == 0)
+            if (GameManager.Instance.Match.MonsterTeam1Dictionary.ContainsKey(currentTurnId) && SocketManager.Instance.PlayerData.playerindex == 0)
             {
                 GameUIManager.Instance.SetTurnText(currentTurnId, Color.red);
             }
-            else if (GameManager.Instance.BattleManager.MonsterTeam2Dictionary.ContainsKey(currentTurnId) && SocketManager.Instance.PlayerData.playerindex == 1)
+            else if (GameManager.Instance.Match.MonsterTeam2Dictionary.ContainsKey(currentTurnId) && SocketManager.Instance.PlayerData.playerindex == 1)
             {
                 GameUIManager.Instance.SetTurnText(currentTurnId, Color.red);
             }
@@ -95,9 +95,9 @@ public class TurnManager : MonoBehaviour
     {
         isTimeMonsterEnd = false;
         string currentTurnId = TurnBaseQueue[0].id_in_battle;
-        MonsterBase monsterBase = GameManager.Instance.BattleManager.GetMonsterByIdInBattle(currentTurnId);
+        MonsterBase monsterBase = GameManager.Instance.Match.GetMonsterByIdInBattle(currentTurnId);
         monsterBase.SetTurnObject(true);
-        if (GameManager.Instance.BattleManager.MonsterTeam1Dictionary.ContainsKey(currentTurnId) && SocketManager.Instance.PlayerData.playerindex == 0)
+        if (GameManager.Instance.Match.MonsterTeam1Dictionary.ContainsKey(currentTurnId) && SocketManager.Instance.PlayerData.playerindex == 0)
         {
             if (!monsterBase.IsDead)
             {
@@ -106,19 +106,19 @@ public class TurnManager : MonoBehaviour
                     
                     GameManager.Instance.InputManager.SetEnableMonsterInput();
                     StartCoroutine(StartMonsterAttack());
-                    GameManager.Instance.BattleManager.SetFalseAnimation();
+                    GameManager.Instance.Match.SetFalseAnimation();
                     // yield return new WaitUntil(() => isTimeMonsterEnd);
                     // isTimeMonsterEnd = false;
-                    yield return new WaitUntil(() => GameManager.Instance.BattleManager.CheckAnimationMonster());
+                    yield return new WaitUntil(() => GameManager.Instance.Match.CheckAnimationMonster());
                 }
                 GameManager.Instance.InputManager.SetDisableMonsterInput();
                 monsterBase.IsUpdateEffect = false;
                 SocketManager.Instance.UpdateMonsterEffectRequest(currentTurnId);
                 yield return new WaitUntil(() => monsterBase.IsUpdateEffect);
             }
-            GameManager.Instance.BattleManager.CanChangeTurn = true;
+            GameManager.Instance.Match.CanChangeTurn = true;
         }
-        else if (GameManager.Instance.BattleManager.MonsterTeam2Dictionary.ContainsKey(currentTurnId) && SocketManager.Instance.PlayerData.playerindex == 1)
+        else if (GameManager.Instance.Match.MonsterTeam2Dictionary.ContainsKey(currentTurnId) && SocketManager.Instance.PlayerData.playerindex == 1)
         {
             if (!monsterBase.IsDead)
             {
@@ -126,17 +126,17 @@ public class TurnManager : MonoBehaviour
                 {
                     GameManager.Instance.InputManager.SetEnableMonsterInput();
                     StartCoroutine(StartMonsterAttack());
-                    GameManager.Instance.BattleManager.SetFalseAnimation();
+                    GameManager.Instance.Match.SetFalseAnimation();
                     // yield return new WaitUntil(() => isTimeMonsterEnd);
                     // isTimeMonsterEnd = false;
-                    yield return new WaitUntil(() => GameManager.Instance.BattleManager.CheckAnimationMonster());
+                    yield return new WaitUntil(() => GameManager.Instance.Match.CheckAnimationMonster());
                 }
                 GameManager.Instance.InputManager.SetDisableMonsterInput();
                 monsterBase.IsUpdateEffect = false;
                 SocketManager.Instance.UpdateMonsterEffectRequest(currentTurnId);
                 yield return new WaitUntil(() => monsterBase.IsUpdateEffect);
             }
-            GameManager.Instance.BattleManager.CanChangeTurn = true;
+            GameManager.Instance.Match.CanChangeTurn = true;
         }
         
         // string currentTurnId = TurnBaseQueue[0].id_in_battle;
@@ -152,19 +152,19 @@ public class TurnManager : MonoBehaviour
     }
     private IEnumerator StartMonsterAttack()
     {
-        yield return new WaitUntil(() => (GameManager.Instance.BattleManager.TargetManager.TargetedMonster != null || isTimeMonsterEnd));
+        yield return new WaitUntil(() => (GameManager.Instance.Match.TargetManager.TargetedMonster != null || isTimeMonsterEnd));
         string currentTurnId = TurnBaseQueue[0].id_in_battle;
-        MonsterBase monsterBase = GameManager.Instance.BattleManager.GetMonsterByIdInBattle(currentTurnId);
+        MonsterBase monsterBase = GameManager.Instance.Match.GetMonsterByIdInBattle(currentTurnId);
         if (isTimeMonsterEnd)
         {
-            BattleManager.Instance.SkillEnableCheck(monsterBase);
+            Match.Instance.SkillEnableCheck(monsterBase);
             Debug.Log("Time monster end");
-            MonsterBase autoChoose = GameManager.Instance.BattleManager.AutoChooseTargetMonster(currentTurnId);
+            MonsterBase autoChoose = GameManager.Instance.Match.AutoChooseTargetMonster(currentTurnId);
             SocketManager.Instance.RequestMonsterAction(currentTurnId,new List<string>(){autoChoose.MonsterIdInBattle},monsterBase.ShouldUseSkill ?"1": "0");
         }
         else
         {
-            SocketManager.Instance.RequestMonsterAction(currentTurnId,new List<string>(){GameManager.Instance.BattleManager.TargetManager.TargetedMonster.MonsterIdInBattle},monsterBase.ShouldUseSkill ?"1": "0");
+            SocketManager.Instance.RequestMonsterAction(currentTurnId,new List<string>(){GameManager.Instance.Match.TargetManager.TargetedMonster.MonsterIdInBattle},monsterBase.ShouldUseSkill ?"1": "0");
         }
         GameManager.Instance.MatchBoard.PostPointData();
         monsterBase.ShouldUseSkill = false;        
@@ -177,28 +177,28 @@ public class TurnManager : MonoBehaviour
         if (monsterActionResponse.skill_id == "0")
         {
             Debug.Log(monsterActionResponse.monster_id +" attack " + monsterActionResponse.monster_target_id[0]);
-            if (GameManager.Instance.BattleManager.MonsterTeam1Dictionary.ContainsKey(monsterActionResponse.monster_id))
+            if (GameManager.Instance.Match.MonsterTeam1Dictionary.ContainsKey(monsterActionResponse.monster_id))
             {
-                GameManager.Instance.BattleManager.MonsterTeam1Dictionary[monsterActionResponse.monster_id]
+                GameManager.Instance.Match.MonsterTeam1Dictionary[monsterActionResponse.monster_id]
                     .StartAttack(monsterActionResponse);
             }
             else
             {
-                GameManager.Instance.BattleManager.MonsterTeam2Dictionary[monsterActionResponse.monster_id]
+                GameManager.Instance.Match.MonsterTeam2Dictionary[monsterActionResponse.monster_id]
                     .StartAttack(monsterActionResponse);
             }
         }
         else
         {
             Debug.Log(monsterActionResponse.monster_id +" use ultimate skill to " + monsterActionResponse.monster_target_id[0]);
-            if (GameManager.Instance.BattleManager.MonsterTeam1Dictionary.ContainsKey(monsterActionResponse.monster_id))
+            if (GameManager.Instance.Match.MonsterTeam1Dictionary.ContainsKey(monsterActionResponse.monster_id))
             {
-                GameManager.Instance.BattleManager.MonsterTeam1Dictionary[monsterActionResponse.monster_id]
+                GameManager.Instance.Match.MonsterTeam1Dictionary[monsterActionResponse.monster_id]
                     .StartSkill(monsterActionResponse);
             }
             else
             {
-                GameManager.Instance.BattleManager.MonsterTeam2Dictionary[monsterActionResponse.monster_id]
+                GameManager.Instance.Match.MonsterTeam2Dictionary[monsterActionResponse.monster_id]
                     .StartSkill(monsterActionResponse);
             }
         }
@@ -207,22 +207,22 @@ public class TurnManager : MonoBehaviour
     
     private IEnumerator EndTurnCoroutine()
     {
-        yield return new WaitUntil(() => GameManager.Instance.BattleManager.CanChangeTurn);
-        BattleManager.Instance.TargetManager.DisableTarget();
-        GameManager.Instance.BattleManager.CanChangeTurn = false;
+        yield return new WaitUntil(() => GameManager.Instance.Match.CanChangeTurn);
+        Match.Instance.TargetManager.DisableTarget();
+        GameManager.Instance.Match.CanChangeTurn = false;
         SocketManager.Instance.UpdateTurnRequest();
     }
     public void StartPlayerTurn()
     {
         IsPlayerTurn = true;
         GameManager.Instance.InputManager.SetEnablePlayerInput();
-        GameManager.Instance.BattleManager.CanChangeTurn = false;
+        GameManager.Instance.Match.CanChangeTurn = false;
     }
     public void EndPlayerTurn()
     {
         IsPlayerTurn = false;
         GameManager.Instance.InputManager.SetDisablePlayerInput();
-        GameManager.Instance.BattleManager.CanChangeTurn = false;
+        GameManager.Instance.Match.CanChangeTurn = false;
     }
     public void UpdateTurnBaseQueue(List<TurnBaseData> turnBaseQueue)
     {

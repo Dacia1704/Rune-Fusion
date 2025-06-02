@@ -19,11 +19,11 @@ public class Lancer: MonsterBase
                 void AttackEventHandler() => attackTaskCompleted = true;
                 AttackTaskComplete += AttackEventHandler;
                 //walk
-                GameManager.Instance.BattleManager.SetStartTurnMonsterAnimation(monsterActionResponse,0);
+                GameManager.Instance.Match.SetStartTurnMonsterAnimation(monsterActionResponse,0);
                 CurrentTurnActionResponse.Clear();
                 foreach (ActionResponse actionResponseInEachMonster in monsterActionResponse.action_affect_list[0])
                 {
-                        CurrentTurnActionResponse.Add(BattleManager.Instance.GetMonsterByIdInBattle(actionResponseInEachMonster.id_in_battle), actionResponseInEachMonster);
+                        CurrentTurnActionResponse.Add(Match.Instance.GetMonsterByIdInBattle(actionResponseInEachMonster.id_in_battle), actionResponseInEachMonster);
                 }
                 PlaySprintSound();
                 stateMachine.ChangeState(new WalkState(this, GetPosPerformAttack()));
@@ -36,9 +36,9 @@ public class Lancer: MonsterBase
                 attackTaskCompleted = false;
                 
                 stateMachine.ChangeState(new WalkState(this, 
-                        BattleManager.Instance.MonsterTeam1Dictionary.ContainsValue(this) ? 
-                                BattleManager.Instance.ArenaManager.MonsterTeam1.StartPosList[MonsterIndexinBattle].position:
-                                BattleManager.Instance.ArenaManager.MonsterTeam2.StartPosList[MonsterIndexinBattle].position));
+                        Match.Instance.MonsterTeam1Dictionary.ContainsValue(this) ? 
+                                Match.Instance.ArenaManager.MonsterTeam1.StartPosList[MonsterIndexinBattle].position:
+                                Match.Instance.ArenaManager.MonsterTeam2.StartPosList[MonsterIndexinBattle].position));
                 yield return new WaitUntil(() => walkTaskCompleted);
                 ChangeNomalIdleState();
         }
@@ -52,11 +52,11 @@ public class Lancer: MonsterBase
                 void SkillEventHandler() => skillTaskCompleted = true;
                 SkillTaskComplete += SkillEventHandler;
                 //walk
-                GameManager.Instance.BattleManager.SetStartTurnMonsterAnimation(monsterActionResponse,0);
+                GameManager.Instance.Match.SetStartTurnMonsterAnimation(monsterActionResponse,0);
                 CurrentTurnActionResponse.Clear();
                 foreach (ActionResponse actionResponseInEachMonster in monsterActionResponse.action_affect_list[0])
                 {
-                        CurrentTurnActionResponse.Add(BattleManager.Instance.GetMonsterByIdInBattle(actionResponseInEachMonster.id_in_battle), actionResponseInEachMonster);
+                        CurrentTurnActionResponse.Add(Match.Instance.GetMonsterByIdInBattle(actionResponseInEachMonster.id_in_battle), actionResponseInEachMonster);
                 }
                 PlaySprintSound();
                 stateMachine.ChangeState(new WalkState(this, GetPosPerformSkill()));
@@ -69,9 +69,9 @@ public class Lancer: MonsterBase
                 skillTaskCompleted = false;
                 
                 stateMachine.ChangeState(new WalkState(this, 
-                        BattleManager.Instance.MonsterTeam1Dictionary.ContainsValue(this) ? 
-                                BattleManager.Instance.ArenaManager.MonsterTeam1.StartPosList[MonsterIndexinBattle].position:
-                                BattleManager.Instance.ArenaManager.MonsterTeam2.StartPosList[MonsterIndexinBattle].position));
+                        Match.Instance.MonsterTeam1Dictionary.ContainsValue(this) ? 
+                                Match.Instance.ArenaManager.MonsterTeam1.StartPosList[MonsterIndexinBattle].position:
+                                Match.Instance.ArenaManager.MonsterTeam2.StartPosList[MonsterIndexinBattle].position));
                 yield return new WaitUntil(() => walkTaskCompleted);
                 ChangeNomalIdleState();
         }
@@ -79,38 +79,38 @@ public class Lancer: MonsterBase
         {
                 List<KeyValuePair<MonsterBase, ActionResponse>> targetList = CurrentTurnActionResponse.ToList();
                 float offset = (MonsterPropsSO).AttackOffset * transform.lossyScale.x;
-                if (BattleManager.Instance.MonsterTeam1Dictionary.ContainsValue(targetList[0].Key))
+                if (Match.Instance.MonsterTeam1Dictionary.ContainsValue(targetList[0].Key))
                 {
-                        return new Vector3(BattleManager.Instance.ArenaManager
+                        return new Vector3(Match.Instance.ArenaManager
                                         .MonsterTeam1.StartPosList[targetList[0].Key.MonsterIndexinBattle].position.x + offset
-                                , BattleManager.Instance.ArenaManager
+                                , Match.Instance.ArenaManager
                                         .MonsterTeam1.StartPosList[targetList[0].Key.MonsterIndexinBattle].position.y
-                                , BattleManager.Instance.ArenaManager
+                                , Match.Instance.ArenaManager
                                         .MonsterTeam1.StartPosList[targetList[0].Key.MonsterIndexinBattle].position.z);
                 }
-                return new Vector3(BattleManager.Instance.ArenaManager.MonsterTeam2.StartPosList[targetList[0].Key.MonsterIndexinBattle].position.x - offset
-                        , BattleManager.Instance.ArenaManager
+                return new Vector3(Match.Instance.ArenaManager.MonsterTeam2.StartPosList[targetList[0].Key.MonsterIndexinBattle].position.x - offset
+                        , Match.Instance.ArenaManager
                                 .MonsterTeam2.StartPosList[targetList[0].Key.MonsterIndexinBattle].position.y
-                        , BattleManager.Instance.ArenaManager
+                        , Match.Instance.ArenaManager
                                 .MonsterTeam2.StartPosList[targetList[0].Key.MonsterIndexinBattle].position.z);
         }
         protected override Vector3 GetPosPerformSkill()
         {
                 float offset = (MonsterPropsSO).AttackOffset * transform.lossyScale.x;
-                if (BattleManager.Instance.MonsterTeam2Dictionary.ContainsValue(this))
+                if (Match.Instance.MonsterTeam2Dictionary.ContainsValue(this))
                 {
-                        return new Vector3(BattleManager.Instance.ArenaManager
+                        return new Vector3(Match.Instance.ArenaManager
                                         .MonsterTeam1.StartPosList[1].position.x + offset
-                                , BattleManager.Instance.ArenaManager
+                                , Match.Instance.ArenaManager
                                         .MonsterTeam1.StartPosList[1].position.y
-                                , BattleManager.Instance.ArenaManager
+                                , Match.Instance.ArenaManager
                                         .MonsterTeam1.StartPosList[1].position.z);
                 }
-                return new Vector3(BattleManager.Instance.ArenaManager
+                return new Vector3(Match.Instance.ArenaManager
                                 .MonsterTeam2.StartPosList[1].position.x - offset
-                        , BattleManager.Instance.ArenaManager
+                        , Match.Instance.ArenaManager
                                 .MonsterTeam2.StartPosList[1].position.y
-                        , BattleManager.Instance.ArenaManager
+                        , Match.Instance.ArenaManager
                                 .MonsterTeam2.StartPosList[1].position.z);
         }
 }

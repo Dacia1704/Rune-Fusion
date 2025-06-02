@@ -217,7 +217,7 @@ public class SocketManager : MonoBehaviour
     }
     private IEnumerator UseShieldCoroutine(UseShieldData useShieldData)
     {
-        GameManager.Instance.BattleManager.UpdateMonsterShield(useShieldData);
+        GameManager.Instance.Match.UpdateMonsterShield(useShieldData);
         yield return null;
     }
     private IEnumerator ChangeToTabScreen()
@@ -270,24 +270,24 @@ public class SocketManager : MonoBehaviour
     private IEnumerator UpdateEffectCoroutine(UpdateEffectResponse response)
     {
         Debug.Log(JsonUtility.ToJson(response));
-        GameManager.Instance.BattleManager.UpdateMonsterEffect(response);
+        GameManager.Instance.Match.UpdateMonsterEffect(response);
         yield return null;
     }
     private IEnumerator MonsterActionCoroutine(MonsterActionResponse monsterActionResponse)
     {
-        GameManager.Instance.BattleManager.TurnManager.ExecuteMonsterAction(monsterActionResponse);
+        GameManager.Instance.Match.TurnManager.ExecuteMonsterAction(monsterActionResponse);
         yield return null;
     }
     
     private IEnumerator MonsterListCoroutine(MonsterListData data)
     {
-        BattleManager.Instance.SetUpMonster(data);
+        Match.Instance.SetUpMonster(data);
         yield return null;
     }
     
     private IEnumerator TurnBaseListCoroutine(List<TurnBaseData> mapData)
     {
-        BattleManager.Instance.TurnManager.UpdateTurnBaseQueue(mapData);
+        Match.Instance.TurnManager.UpdateTurnBaseQueue(mapData);
         yield return null;
     }
 
@@ -352,7 +352,7 @@ public class SocketManager : MonoBehaviour
 
     public void UpdateTurnRequest()
     {
-        if (!GameManager.Instance.BattleManager.IsBattleOver)
+        if (!GameManager.Instance.Match.IsBattleOver)
         {
             Debug.Log("Update Turn Request");
             socket.Emit(SocketEvents.Game.TURN_BASE_LIST_REQUEST);

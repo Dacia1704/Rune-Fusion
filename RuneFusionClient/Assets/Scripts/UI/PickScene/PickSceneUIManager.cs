@@ -61,18 +61,21 @@ public class PickSceneUIManager: MonoBehaviour
                 PickSlotManager.PickTurn1();
                 
                 yield return new WaitUntil(()=> isConfirmed);
+                MonsterSlotManager.LockPickedMonster();
                 isConfirmed = false;
 
                 PlayerIdTurn = 1;
                 PickSlotManager.PickTurn2();
                 
                 yield return new WaitUntil(()=> isConfirmed);
+                MonsterSlotManager.LockPickedMonster();
                 isConfirmed = false;
                 
                 PlayerIdTurn = 0;
                 PickSlotManager.PickTurn3();
                 
                 yield return new WaitUntil(()=> isConfirmed);
+                MonsterSlotManager.LockPickedMonster();
                 isConfirmed = false;
                 
                 PlayerIdTurn = 1;

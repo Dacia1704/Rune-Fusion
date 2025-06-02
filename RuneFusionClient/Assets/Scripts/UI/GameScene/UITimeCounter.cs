@@ -35,7 +35,7 @@ public class UITimeCounter: UIBase
                         slider.value = counter / timeTurn;
                         if (canCallTimeCanHint && slider.value <= 0.4f)
                         {
-                                if (GameManager.Instance.BattleManager.TurnManager.IsPlayerTurn)
+                                if (GameManager.Instance.Match.TurnManager.IsPlayerTurn)
                                 {
                                         OnTimeCanHint?.Invoke();
                                 }

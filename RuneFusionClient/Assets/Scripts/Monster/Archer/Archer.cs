@@ -22,11 +22,11 @@ public class Archer : MonsterBase
                 void AttackEventHandler() => attackTaskCompleted = true;
                 AttackTaskComplete += AttackEventHandler;
                 // walk
-                GameManager.Instance.BattleManager.SetStartTurnMonsterAnimation(monsterActionResponse,0);
+                GameManager.Instance.Match.SetStartTurnMonsterAnimation(monsterActionResponse,0);
                 CurrentTurnActionResponse.Clear();
                 foreach (ActionResponse actionResponseInEachMonster in monsterActionResponse.action_affect_list[0])
                 {
-                        CurrentTurnActionResponse.Add(BattleManager.Instance.GetMonsterByIdInBattle(actionResponseInEachMonster.id_in_battle), actionResponseInEachMonster);
+                        CurrentTurnActionResponse.Add(Match.Instance.GetMonsterByIdInBattle(actionResponseInEachMonster.id_in_battle), actionResponseInEachMonster);
                 }
                 PlaySprintSound();
                 stateMachine.ChangeState(new WalkState(this, GetPosPerformAttack()));
@@ -38,30 +38,30 @@ public class Archer : MonsterBase
                 yield return new WaitUntil(() => attackTaskCompleted);
                 attackTaskCompleted = false;
                 
-                GameManager.Instance.BattleManager.SetStartTurnMonsterAnimation(monsterActionResponse,1);
+                GameManager.Instance.Match.SetStartTurnMonsterAnimation(monsterActionResponse,1);
                 CurrentTurnActionResponse.Clear();
                 foreach (ActionResponse actionResponseInEachMonster in monsterActionResponse.action_affect_list[1])
                 {
-                        CurrentTurnActionResponse.Add(BattleManager.Instance.GetMonsterByIdInBattle(actionResponseInEachMonster.id_in_battle), actionResponseInEachMonster);
+                        CurrentTurnActionResponse.Add(Match.Instance.GetMonsterByIdInBattle(actionResponseInEachMonster.id_in_battle), actionResponseInEachMonster);
                 }
                 stateMachine.ChangeState(new AttackState(this));
                 yield return new WaitUntil(() => attackTaskCompleted);
                 attackTaskCompleted = false;
                 
-                GameManager.Instance.BattleManager.SetStartTurnMonsterAnimation(monsterActionResponse,2);
+                GameManager.Instance.Match.SetStartTurnMonsterAnimation(monsterActionResponse,2);
                 CurrentTurnActionResponse.Clear();
                 foreach (ActionResponse actionResponseInEachMonster in monsterActionResponse.action_affect_list[2])
                 {
-                        CurrentTurnActionResponse.Add(BattleManager.Instance.GetMonsterByIdInBattle(actionResponseInEachMonster.id_in_battle), actionResponseInEachMonster);
+                        CurrentTurnActionResponse.Add(Match.Instance.GetMonsterByIdInBattle(actionResponseInEachMonster.id_in_battle), actionResponseInEachMonster);
                 }
                 stateMachine.ChangeState(new AttackState(this));
                 yield return new WaitUntil(() => attackTaskCompleted);
                 attackTaskCompleted = false;
                 
                 stateMachine.ChangeState(new WalkState(this, 
-                        BattleManager.Instance.MonsterTeam1Dictionary.ContainsValue(this) ? 
-                                BattleManager.Instance.ArenaManager.MonsterTeam1.StartPosList[MonsterIndexinBattle].position:
-                                BattleManager.Instance.ArenaManager.MonsterTeam2.StartPosList[MonsterIndexinBattle].position));
+                        Match.Instance.MonsterTeam1Dictionary.ContainsValue(this) ? 
+                                Match.Instance.ArenaManager.MonsterTeam1.StartPosList[MonsterIndexinBattle].position:
+                                Match.Instance.ArenaManager.MonsterTeam2.StartPosList[MonsterIndexinBattle].position));
                 yield return new WaitUntil(() => walkTaskCompleted);
                 ChangeNomalIdleState();
         }
@@ -78,11 +78,11 @@ public class Archer : MonsterBase
                 SkillTaskComplete += SkillEventHandler;
                 // walk
                 PlaySprintSound();
-                GameManager.Instance.BattleManager.SetStartTurnMonsterAnimation(monsterActionResponse,0);
+                GameManager.Instance.Match.SetStartTurnMonsterAnimation(monsterActionResponse,0);
                 CurrentTurnActionResponse.Clear();
                 foreach (ActionResponse actionResponseInEachMonster in monsterActionResponse.action_affect_list[0])
                 {
-                        CurrentTurnActionResponse.Add(BattleManager.Instance.GetMonsterByIdInBattle(actionResponseInEachMonster.id_in_battle), actionResponseInEachMonster);
+                        CurrentTurnActionResponse.Add(Match.Instance.GetMonsterByIdInBattle(actionResponseInEachMonster.id_in_battle), actionResponseInEachMonster);
                 }
                 stateMachine.ChangeState(new WalkState(this, GetPosPerformSkill()));
                 yield return new WaitUntil(() => walkTaskCompleted);
@@ -94,9 +94,9 @@ public class Archer : MonsterBase
                 skillTaskCompleted = false;
                 
                 stateMachine.ChangeState(new WalkState(this, 
-                        BattleManager.Instance.MonsterTeam1Dictionary.ContainsValue(this) ? 
-                                BattleManager.Instance.ArenaManager.MonsterTeam1.StartPosList[MonsterIndexinBattle].position:
-                                BattleManager.Instance.ArenaManager.MonsterTeam2.StartPosList[MonsterIndexinBattle].position));
+                        Match.Instance.MonsterTeam1Dictionary.ContainsValue(this) ? 
+                                Match.Instance.ArenaManager.MonsterTeam1.StartPosList[MonsterIndexinBattle].position:
+                                Match.Instance.ArenaManager.MonsterTeam2.StartPosList[MonsterIndexinBattle].position));
                 yield return new WaitUntil(() => walkTaskCompleted);
                 ChangeNomalIdleState();
         }
@@ -113,24 +113,24 @@ public class Archer : MonsterBase
         protected override Vector3 GetPosPerformAttack()
         {
                 List<KeyValuePair<MonsterBase, ActionResponse>> targetList = CurrentTurnActionResponse.ToList();
-                if (BattleManager.Instance.MonsterTeam1Dictionary.ContainsValue(targetList[0].Key))
+                if (Match.Instance.MonsterTeam1Dictionary.ContainsValue(targetList[0].Key))
                 {
-                        return BattleManager.Instance.ArenaManager.MonsterTeam2.PerformRangeSkillPosList[
+                        return Match.Instance.ArenaManager.MonsterTeam2.PerformRangeSkillPosList[
                                 targetList[0].Key.MonsterIndexinBattle].position;
                 }
-                return BattleManager.Instance.ArenaManager.MonsterTeam1.PerformRangeSkillPosList[
+                return Match.Instance.ArenaManager.MonsterTeam1.PerformRangeSkillPosList[
                                 targetList[0].Key.MonsterIndexinBattle].position;
         }
         
         protected override Vector3 GetPosPerformSkill()
         {
                 List<KeyValuePair<MonsterBase, ActionResponse>> targetList = CurrentTurnActionResponse.ToList();
-                if (BattleManager.Instance.MonsterTeam1Dictionary.ContainsValue(targetList[0].Key))
+                if (Match.Instance.MonsterTeam1Dictionary.ContainsValue(targetList[0].Key))
                 {
-                        return BattleManager.Instance.ArenaManager.MonsterTeam2.PerformRangeSkillPosList[
+                        return Match.Instance.ArenaManager.MonsterTeam2.PerformRangeSkillPosList[
                                 targetList[0].Key.MonsterIndexinBattle].position;
                 }
-                return BattleManager.Instance.ArenaManager.MonsterTeam1.PerformRangeSkillPosList[
+                return Match.Instance.ArenaManager.MonsterTeam1.PerformRangeSkillPosList[
                         targetList[0].Key.MonsterIndexinBattle].position;
         }
 }

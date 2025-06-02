@@ -102,7 +102,7 @@ public abstract class MonsterBase : MonoBehaviour
             stateMachine.ChangeState(new DeathState(this));
             IsAlive = true;
             IsDead = true;
-            GameManager.Instance.BattleManager.OnMonsterDeath?.Invoke(MonsterIdInBattle);
+            GameManager.Instance.Match.OnMonsterDeath?.Invoke(MonsterIdInBattle);
         }
     }
     public virtual void StartAttack(MonsterActionResponse monsterActionResponse)
@@ -144,7 +144,7 @@ public abstract class MonsterBase : MonoBehaviour
     {
         if (IsDead) return;
         Debug.Log(gameObject.name +" get Hit");
-        BattleManager.Instance.TargetManager.DisableTarget();
+        Match.Instance.TargetManager.DisableTarget();
         stateMachine.ChangeState(new HurtState(this,dam,effect));
     }
 

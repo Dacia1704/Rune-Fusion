@@ -297,7 +297,7 @@ public class MatchBoard : MonoBehaviour
     }
     private void GenNewRuneAfterUpdateRuneState()
     {
-        if (GameManager.Instance.BattleManager.TurnManager.IsPlayerTurn)
+        if (GameManager.Instance.Match.TurnManager.IsPlayerTurn)
         {
             SocketManager.Instance.RequestNewRune(ConvertRunesMapToServerData());
         }
@@ -932,11 +932,11 @@ public class MatchBoard : MonoBehaviour
             {
                 continue;
             }
-            if (!GameManager.Instance.BattleManager.TurnManager.IsPlayerTurn || !IsSwapped) continue;
+            if (!GameManager.Instance.Match.TurnManager.IsPlayerTurn || !IsSwapped) continue;
             IsSwapped = false;
-            if (GameManager.Instance.BattleManager.TurnManager.IsPlayerTurn)
+            if (GameManager.Instance.Match.TurnManager.IsPlayerTurn)
             {
-                GameManager.Instance.BattleManager.CanChangeTurn = true;
+                GameManager.Instance.Match.CanChangeTurn = true;
             }
         }
     }
@@ -945,7 +945,7 @@ public class MatchBoard : MonoBehaviour
     #region hint
     private void SwapRunesHint()
     {
-        if (GameManager.Instance.BattleManager.TurnManager.IsPlayerTurn == false) return;
+        if (GameManager.Instance.Match.TurnManager.IsPlayerTurn == false) return;
         if (runeHintList ==null || runeHintList.Item1.Count <= 0)
         {
             int random = UnityEngine.Random.Range(0, 4);
@@ -982,7 +982,7 @@ public class MatchBoard : MonoBehaviour
     }
     public void ShowHintRune()
     {
-        if (!GameManager.Instance.BattleManager.TurnManager.IsPlayerTurn) return;
+        if (!GameManager.Instance.Match.TurnManager.IsPlayerTurn) return;
         List<Tuple<List<Tuple<int, int>>,RuneForm,Tuple<int,int>,SwapDirection>> specialHintList = new List<Tuple<List<Tuple<int, int>>,RuneForm,Tuple<int,int>,SwapDirection>>();
         List<Tuple<List<Tuple<int, int>>,RuneForm,Tuple<int,int>,SwapDirection>> fourComboHintList = new List<Tuple<List<Tuple<int, int>>,RuneForm,Tuple<int,int>,SwapDirection>>();
         List<Tuple<List<Tuple<int, int>>,RuneForm,Tuple<int,int>,SwapDirection>> bombHintList = new List<Tuple<List<Tuple<int, int>>,RuneForm,Tuple<int,int>,SwapDirection>>();
