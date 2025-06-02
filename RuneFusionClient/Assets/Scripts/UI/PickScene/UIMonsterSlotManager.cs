@@ -122,4 +122,15 @@ public class UIMonsterSlotManager: MonoBehaviour
                         }
                 }
         }
+
+        public void LockPickedMonster()
+        {
+                foreach (UIMonsterSlot monsterSlot in monsterSlotsDictionary.Values)
+                {
+                        if (monsterSlot.IsCheck)
+                        {
+                                monsterSlot.EnableLock();
+                        }
+                }
+        }
 }

@@ -22,21 +22,21 @@ public class Priest: MonsterBase
                 AttackTaskComplete += AttackEventHandler;
                 
                 Debug.Log("Priest attack");
-                GameManager.Instance.BattleManager.SetStartTurnMonsterAnimation(monsterActionResponse,0);
+                GameManager.Instance.Match.SetStartTurnMonsterAnimation(monsterActionResponse,0);
                 CurrentTurnActionResponse.Clear();
                 foreach (ActionResponse actionResponseInEachMonster in monsterActionResponse.action_affect_list[0])
                 {
-                        CurrentTurnActionResponse.Add(BattleManager.Instance.GetMonsterByIdInBattle(actionResponseInEachMonster.id_in_battle), actionResponseInEachMonster);
+                        CurrentTurnActionResponse.Add(Match.Instance.GetMonsterByIdInBattle(actionResponseInEachMonster.id_in_battle), actionResponseInEachMonster);
                 }
                 stateMachine.ChangeState(new AttackState(this));
                 yield return new WaitUntil(() => attackTaskCompleted);
                 attackTaskCompleted = false;
                 
-                GameManager.Instance.BattleManager.SetStartTurnMonsterAnimation(monsterActionResponse,1);
+                GameManager.Instance.Match.SetStartTurnMonsterAnimation(monsterActionResponse,1);
                 CurrentTurnActionResponse.Clear();
                 foreach (ActionResponse actionResponseInEachMonster in monsterActionResponse.action_affect_list[1])
                 {
-                        CurrentTurnActionResponse.Add(BattleManager.Instance.GetMonsterByIdInBattle(actionResponseInEachMonster.id_in_battle), actionResponseInEachMonster);
+                        CurrentTurnActionResponse.Add(Match.Instance.GetMonsterByIdInBattle(actionResponseInEachMonster.id_in_battle), actionResponseInEachMonster);
                 }
                 HealEffect();
                 yield return new WaitUntil(() => HealEffects.Count == 0);
@@ -51,11 +51,11 @@ public class Priest: MonsterBase
                 SkillTaskComplete += SkillEventHandler;
                 
                 Debug.Log("Priest skill");
-                GameManager.Instance.BattleManager.SetStartTurnMonsterAnimation(monsterActionResponse,0);
+                GameManager.Instance.Match.SetStartTurnMonsterAnimation(monsterActionResponse,0);
                 CurrentTurnActionResponse.Clear();
                 foreach (ActionResponse actionResponseInEachMonster in monsterActionResponse.action_affect_list[0])
                 {
-                        CurrentTurnActionResponse.Add(BattleManager.Instance.GetMonsterByIdInBattle(actionResponseInEachMonster.id_in_battle), actionResponseInEachMonster);
+                        CurrentTurnActionResponse.Add(Match.Instance.GetMonsterByIdInBattle(actionResponseInEachMonster.id_in_battle), actionResponseInEachMonster);
                 }
                 stateMachine.ChangeState(new SkillState(this));
                 yield return new WaitUntil(() => skillTaskCompleted);
@@ -69,7 +69,7 @@ public class Priest: MonsterBase
                 foreach (KeyValuePair<MonsterBase,ActionResponse> action in CurrentTurnActionResponse)
                 {
                         PriestMagic magic = Instantiate(((PriestPropsSO)MonsterPropsSO).PriestMagicPrefab, transform.position, Quaternion.identity).GetComponent<PriestMagic>();
-                        if (BattleManager.Instance.MonsterTeam1Dictionary.ContainsValue(this))
+                        if (Match.Instance.MonsterTeam1Dictionary.ContainsValue(this))
                         {
                                 magic.transform.position = new Vector3(
                                         transform.position.x + ((PriestPropsSO)MonsterPropsSO).PriestMagicSummonOffset.x,

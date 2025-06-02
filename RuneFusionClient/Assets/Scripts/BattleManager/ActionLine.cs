@@ -49,7 +49,7 @@ public class ActionLine : MonoBehaviour
                 }
                 else
                 {
-                        Sprite monsterSprite = BattleManager.Instance.GetMonsterByIdInBattle(id).MonsterPropsSO.Icon;
+                        Sprite monsterSprite = Match.Instance.GetMonsterByIdInBattle(id).MonsterPropsSO.Icon;
                         monsterPoint = new GameObject();
                         monsterPoint.AddComponent<SpriteRenderer>();
                         monsterPoint.GetComponent<SpriteRenderer>().sprite = monsterSprite;
@@ -94,7 +94,7 @@ public class ActionLine : MonoBehaviour
                 // {
                         yield return new WaitUntil(() => animationCounter == 0);
                         animationCounter = -1;
-                        BattleManager.Instance.TurnManager.ExecuteTurn();
+                        Match.Instance.TurnManager.ExecuteTurn();
                 // }
         }
 }

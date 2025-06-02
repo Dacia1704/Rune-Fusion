@@ -11,7 +11,7 @@ public class GameManager : MonoBehaviour
 
         [field: SerializeField]public MatchBoard MatchBoard {get; private set;}
         [field: SerializeField]public InputManager InputManager {get; private set;}
-        [field: SerializeField] public BattleManager BattleManager {get; private set;}
+        [field: SerializeField] public Match Match {get; private set;}
         private AudioSource audioSource;
         private void Awake()
         {
@@ -24,7 +24,7 @@ public class GameManager : MonoBehaviour
 
                 MatchBoard = FindFirstObjectByType<MatchBoard>();
                 InputManager = FindFirstObjectByType<InputManager>();
-                BattleManager = FindFirstObjectByType<BattleManager>();
+                Match = FindFirstObjectByType<Match>();
                 audioSource = GetComponent<AudioSource>();
         }
 
@@ -53,11 +53,11 @@ public class GameManager : MonoBehaviour
                 tilesTransform.position = new Vector2(tilesTransform.position.x,
                         -1 * CameraManager.Instance.GetHeightCamera() / 2 + MatchBoard.GetHeightRunesMap()/2) ;
                 MatchBoard.UpdateRunesPostionMap();
-                BattleManager.ArenaManager.transform.position = new Vector2(BattleManager.ArenaManager.transform.position.x,
-                        tilesTransform.position.y + MatchBoard.GetHeightRunesMap()/2 +BattleManager.ArenaManager.GetArenaHeight()/2);
-                BattleManager.TurnManager.ActionLine.SetActionLinePostion(new Vector2(BattleManager.TurnManager.ActionLine.transform.position.x,
-                        BattleManager.ArenaManager.transform.position.y-BattleManager.ArenaManager.GetArenaHeight()/2 + BattleManager.TurnManager.ActionLine.GetActionLineHeight()/2 ));
-                GameUIManager.Instance.UIRunePointManager.transform.position = BattleManager.TurnManager.ActionLine.transform.position + new Vector3(0, 0.5f, 0);
+                Match.ArenaManager.transform.position = new Vector2(Match.ArenaManager.transform.position.x,
+                        tilesTransform.position.y + MatchBoard.GetHeightRunesMap()/2 +Match.ArenaManager.GetArenaHeight()/2);
+                Match.TurnManager.ActionLine.SetActionLinePostion(new Vector2(Match.TurnManager.ActionLine.transform.position.x,
+                        Match.ArenaManager.transform.position.y-Match.ArenaManager.GetArenaHeight()/2 + Match.TurnManager.ActionLine.GetActionLineHeight()/2 ));
+                GameUIManager.Instance.UIRunePointManager.transform.position = Match.TurnManager.ActionLine.transform.position + new Vector3(0, 0.5f, 0);
         }
         
         public void CheckIfMainThread()

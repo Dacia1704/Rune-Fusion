@@ -10,7 +10,8 @@ public class UIMonsterSlot: UIBase,IPointerClickHandler
         [SerializeField] private Image MonsterIcon;
         [SerializeField] private CanvasGroup CheckObject;
 
-        private bool IsCheck;
+        public bool IsCheck { get; private set; }
+        public bool IsLock { get; private set; }
 
         public void SetUp(MonsterPropsSO data,UIMonsterSlotManager slotManager)
         {
@@ -31,10 +32,21 @@ public class UIMonsterSlot: UIBase,IPointerClickHandler
                 CheckObject.alpha = 0;
                 IsCheck = false;
         }
+        
+        public void EnableLock()
+        {
+                IsLock = true;
+        }
+
+        public void DisableLock()
+        {
+                IsLock = false;
+        }
 
         public void OnPointerClick(PointerEventData eventData)
         {
                 if (PickSceneUIManager.Instance.PlayerIndex != PickSceneUIManager.Instance.PlayerIdTurn) return;
+                if (IsLock) return;
                 if (IsCheck)
                 {
                         DisableCheck();

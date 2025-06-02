@@ -5,9 +5,9 @@ using System.Linq;
 using UnityEngine;
 using UnityEngine.Serialization;
 
-public class BattleManager : MonoBehaviour
+public class Match : MonoBehaviour
 {
-        public static BattleManager Instance { get; private set; }
+        public static Match Instance { get; private set; }
         [field: SerializeField] public MonsterListSO MonsterListSO {get; private set;}
         public TurnManager TurnManager {get; private set;}
         public ArenaManager ArenaManager { get; private set; }
