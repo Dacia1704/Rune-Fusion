@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using DG.Tweening;
 using TMPro;
 using UnityEngine;
 using UnityEngine.Serialization;
@@ -15,6 +16,7 @@ public abstract class MonsterBase : MonoBehaviour
     public MonsterAnimationManager MonsterAnimationManager { get; private set; }
     public MonsterColliderManager MonsterColliderManager { get; private set; }
     protected StateMachine stateMachine;
+    protected FloatingTextObjectPooling floatingTextObjectPooling;
 
     protected UIEffectManager UIEffectManager;
     public Dictionary<MonsterBase, ActionResponse> CurrentTurnActionResponse;
@@ -26,16 +28,17 @@ public abstract class MonsterBase : MonoBehaviour
     public Action SkillTaskComplete;
     public Action HitTaskComplete;
 
-    public bool ShouldUseSkill;
 
 
-    public bool IsAllAnimationEnd;
-    public bool IsUpdateEffect;
-    public bool IsFrozen;
-    public bool IsAlive;
-    public bool IsDead;
+    [HideInInspector]public bool ShouldUseSkill;
+    [HideInInspector]public bool IsAllAnimationEnd;
+    [HideInInspector]public bool IsUpdateEffect;
+    [HideInInspector]public bool IsFrozen;
+    [HideInInspector]public bool IsAlive;
+    [HideInInspector]public bool IsDead;
     [SerializeField]protected GameObject FrozenGameObject;
     [SerializeField] protected GameObject ShieldObject;
+    [SerializeField] protected GameObject TurnObject;
     private int shield;
 
     public UIHeathSkillBarManager UIHeathSkillBarManager { get; private set; }
@@ -51,9 +54,10 @@ public abstract class MonsterBase : MonoBehaviour
         MonsterColliderManager = GetComponentInChildren<MonsterColliderManager>();
         UIHeathSkillBarManager = GetComponentInChildren<UIHeathSkillBarManager>();
         UIEffectManager = GetComponentInChildren<UIEffectManager>();
+        floatingTextObjectPooling = GetComponentInChildren<FloatingTextObjectPooling>();
         CurrentTurnActionResponse = new Dictionary<MonsterBase, ActionResponse>();
         OnHealthChange += UIHeathSkillBarManager.SetHealthBar;
-        GameManager.Instance.RuneManager.OnRunePointsChanged += UpdateSkillBar;
+        GameManager.Instance.MatchBoard.OnRunePointsChanged += UpdateSkillBar;
         
     }
 
@@ -80,7 +84,14 @@ public abstract class MonsterBase : MonoBehaviour
         UIHeathSkillBarManager.SetHealthBar(MonsterPropsSO.MonsterData.BaseStats.Health);
         UIHeathSkillBarManager.SetMaxSkillBar(MonsterPropsSO.MonsterData.Skills[1].PointCost);
         ShouldUseSkill = false;
+        
+        TurnObject.SetActive(true);
+        RectTransform rectTransform = TurnObject.GetComponent<RectTransform>();
+        rectTransform.DOAnchorPosY(rectTransform.anchoredPosition.y +6, 0.4f).SetEase(Ease.InOutSine).SetLoops(-1, LoopType.Yoyo);
+        TurnObject.SetActive(false);
     }
+
+    
     
     protected virtual void Update()
     {
@@ -91,11 +102,12 @@ public abstract class MonsterBase : MonoBehaviour
             stateMachine.ChangeState(new DeathState(this));
             IsAlive = true;
             IsDead = true;
-            GameManager.Instance.BattleManager.OnMonsterDeath?.Invoke();
+            GameManager.Instance.BattleManager.OnMonsterDeath?.Invoke(MonsterIdInBattle);
         }
     }
     public virtual void StartAttack(MonsterActionResponse monsterActionResponse)
     {
+        SetTurnObject(false);
         StartCoroutine(AttackCoroutine(monsterActionResponse));
     }
 
@@ -113,6 +125,7 @@ public abstract class MonsterBase : MonoBehaviour
 
     public virtual void StartSkill(MonsterActionResponse monsterActionResponse)
     {
+        SetTurnObject(false);
         StartCoroutine(SkillCoroutine(monsterActionResponse));
     }
     protected virtual IEnumerator SkillCoroutine(MonsterActionResponse monsterActionResponse)
@@ -173,6 +186,7 @@ public abstract class MonsterBase : MonoBehaviour
         Debug.Log(gameObject.name +" get dam: "+ dam);
         int health = MonsterStatsInBattle.Health-dam;
         
+        floatingTextObjectPooling.ShowDamage(dam);
         MonsterStatsInBattle.Health = Mathf.Clamp(health,0,MonsterPropsSO.MonsterData.BaseStats.Health);
         if ( effect!=null && effect.EffectType != EffectType.None && effect.EffectType != EffectType.Heal )
         {
@@ -339,14 +353,14 @@ public abstract class MonsterBase : MonoBehaviour
     private void ChangeSkillApperance()
     {
         UIHeathSkillBarManager.SetSkillBar(0);
-        GameManager.Instance.RuneManager.ReleaseRunePoint((RuneType)((int)MonsterPropsSO.MonsterData.Type),MonsterPropsSO.MonsterData.Skills[1].PointCost);
+        GameManager.Instance.MatchBoard.ReleaseRunePoint((RuneType)((int)MonsterPropsSO.MonsterData.Type),MonsterPropsSO.MonsterData.Skills[1].PointCost);
         MonsterAnimationManager.StartSkillEffect();
     }
 
     private void ChangeNomalApperance()
     {
         UIHeathSkillBarManager.SetSkillBar(MonsterPropsSO.MonsterData.Skills[1].PointCost);
-        GameManager.Instance.RuneManager.AddRunePointByTpe((RuneType)((int)MonsterPropsSO.MonsterData.Type),MonsterPropsSO.MonsterData.Skills[1].PointCost);
+        GameManager.Instance.MatchBoard.AddRunePointByTpe((RuneType)((int)MonsterPropsSO.MonsterData.Type),MonsterPropsSO.MonsterData.Skills[1].PointCost);
         MonsterAnimationManager.EndSkillEffect();
     }
 
@@ -380,5 +394,10 @@ public abstract class MonsterBase : MonoBehaviour
     {
         audioSource.clip = AudioManager.Instance.AudioPropsSO.SwordSound;
         audioSource.Play();
+    }
+
+    public void SetTurnObject(bool turn)
+    {
+        TurnObject.SetActive(turn);
     }
 }

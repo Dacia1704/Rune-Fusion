@@ -19,19 +19,19 @@ public class BattleManager : MonoBehaviour
         public Dictionary<string,int> ShieldAllyMonsters { get; private set; } = new Dictionary<string,int>();
         public Dictionary<string,int> ShieldOpponentMonsters { get; private set; } = new Dictionary<string,int>();
         [HideInInspector]public bool CanChangeTurn;
-        private AudioSource audioSource;
 
-        public Action OnMonsterDeath;
+        public Action<string> OnMonsterDeath;
         
         public bool IsBattleOver;
 
         private void Awake()
         {
-                if (Instance == null)
+                if (Instance != null && Instance != this)
                 {
-                        Instance = this;
+                        Destroy(gameObject);
+                        return;
                 }
-                audioSource = GetComponent<AudioSource>();
+                Instance = this;
         }
 
         private void Start()
@@ -40,9 +40,10 @@ public class BattleManager : MonoBehaviour
                 ArenaManager = FindFirstObjectByType<ArenaManager>();
                 TargetManager = FindFirstObjectByType<TargetManager>();
                 GameManager.Instance.InputManager.OnMonsterTarget += TargetManager.TargetMonster;
-                GameManager.Instance.InputManager.OnMonsterAllyDoubleClick += SkillInputManager;
+                GameManager.Instance.InputManager.OnMonsterAllyDoubleClick += SkillEnableCheck;
                 GameManager.Instance.InputManager.OnShieldTarget += ShieldMonster;
                 OnMonsterDeath += CheckEnd;
+                OnMonsterDeath += TurnManager.ActionLine.SetDeathMonsterPoint;
                 BGMManager.Instance.PlayBGMCombat();
                 IsBattleOver = false;
 
@@ -123,9 +124,9 @@ public class BattleManager : MonoBehaviour
                 }
         }
 
-        public void SkillInputManager(MonsterBase monster)
+        public void SkillEnableCheck(MonsterBase monster)
         {
-                if (TurnManager.TurnBaseQueue[0].id_in_battle == monster.MonsterIdInBattle && monster.MonsterPropsSO.MonsterData.Skills[1].PointCost <= GameManager.Instance.RuneManager.RunePointsPlayer[(int)monster.MonsterPropsSO.MonsterData.Type])
+                if (TurnManager.TurnBaseQueue[0].id_in_battle == monster.MonsterIdInBattle && monster.MonsterPropsSO.MonsterData.Skills[1].PointCost <= GameManager.Instance.MatchBoard.RunePointsPlayer[(int)monster.MonsterPropsSO.MonsterData.Type])
                 {
                         monster.EnableSkillMode();
                         Debug.Log("Enable skill" + monster.gameObject.name);
@@ -147,10 +148,10 @@ public class BattleManager : MonoBehaviour
         {
                 MonsterBase monster = GetMonsterByIdInBattle(useShieldData.monster_id_in_battle);
                 int shieldRunePoint = SocketManager.Instance.PlayerData.id == useShieldData.player_id
-                        ? GameManager.Instance.RuneManager.RunePointsPlayer[(int)RuneType.Shield]
-                        : GameManager.Instance.RuneManager.RunePointsOpponent[(int)RuneType.Shield];
+                        ? GameManager.Instance.MatchBoard.RunePointsPlayer[(int)RuneType.Shield]
+                        : GameManager.Instance.MatchBoard.RunePointsOpponent[(int)RuneType.Shield];
                 monster.EnableShield(shieldRunePoint);
-                GameManager.Instance.RuneManager.ReleaseShieldRunePoint(useShieldData);
+                GameManager.Instance.MatchBoard.ReleaseShieldRunePoint(useShieldData);
         }
 
         public MonsterBase GetMonsterByIdInBattle(string id)
@@ -240,7 +241,7 @@ public class BattleManager : MonoBehaviour
                 return weakestMonster;
         }
 
-        private void CheckEnd()
+        private void CheckEnd(string id)
         {
                 int team1Death = 0;
                 foreach (MonsterBase monster in MonsterTeam1Dictionary.Values)
@@ -255,12 +256,13 @@ public class BattleManager : MonoBehaviour
                         IsBattleOver = true;
                         if (TurnManager.PlayerIndex == 0)
                         {
-                                GameUIManager.Instance.UIBattleEndNotification.SetLose(50);
+                                // GameUIManager.Instance.UIBattleEndNotification.SetLose(50);
+                                SocketManager.Instance.RequestEndGame();
                         }
-                        else
-                        {
-                                GameUIManager.Instance.UIBattleEndNotification.SetVictory(2000);
-                        }
+                        // else
+                        // {
+                        //         GameUIManager.Instance.UIBattleEndNotification.SetVictory(2000);
+                        // }
                 }
                 
                 int team2Death = 0;
@@ -277,15 +279,18 @@ public class BattleManager : MonoBehaviour
                         IsBattleOver = true;
                         if (TurnManager.PlayerIndex == 1)
                         {
-                                GameUIManager.Instance.UIBattleEndNotification.SetLose(50);
+                                // GameUIManager.Instance.UIBattleEndNotification.SetLose(50);
+                                SocketManager.Instance.RequestEndGame();
                         }
-                        else
-                        {
-                                GameUIManager.Instance.UIBattleEndNotification.SetVictory(2000);
-                        }
+                        // else
+                        // {
+                        //         GameUIManager.Instance.UIBattleEndNotification.SetVictory(2000);
+                        // }
                 }
                 
         }
+        
+        
 
         
 

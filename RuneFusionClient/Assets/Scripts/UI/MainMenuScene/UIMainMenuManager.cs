@@ -19,7 +19,13 @@ public class UIMainMenuManager: MonoBehaviour
 
         private void Awake()
         {
+                if (Instance != null && Instance != this)
+                {
+                        Destroy(gameObject);
+                        return;
+                }
                 Instance = this;
+                
                 UILoginScreen = GetComponentInChildren<UILoginScreen>();
                 UIRegisterScreen = GetComponentInChildren<UIRegisterScreen>();
                 UITabManager = GetComponentInChildren<UITabsManager>();
@@ -52,6 +58,7 @@ public class UIMainMenuManager: MonoBehaviour
 
         public void ChangeToNewScreen(UIBase newUIScreen)
         {
+                if (currentUIScreen == newUIScreen) return;
                 newUIScreen.Show();
                 UIBase currentScreen = currentUIScreen;
                 UIBase newScreen = newUIScreen;
@@ -71,6 +78,8 @@ public class UIMainMenuManager: MonoBehaviour
                 }
                 swapSequence.Append(newUIScreen.transform.DOMove(Vector3.zero, 0.5f).SetEase(Ease.InOutCubic));
                 currentUIScreen = newUIScreen;
+                
+                Debug.Log("change");
         }
 
         public void InitializeMonsterData(InitMonsterData initMonsterData)

@@ -10,7 +10,7 @@ public class UIPlayerText: UIBase
         {
                 this.player1NameText.text = player1Name + "1";
                 this.player2NameText.text = player2Name +"2";
-                if (PickSceneUIManager.Instance.PLayerIndex == 0)
+                if (PickSceneUIManager.Instance.PlayerIndex == 0)
                 {
                         this.player1NameText.color = Color.red;
                         this.player2NameText.color = Color.white;

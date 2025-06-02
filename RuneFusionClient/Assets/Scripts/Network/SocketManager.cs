@@ -20,9 +20,6 @@ public class SocketManager : MonoBehaviour
     
     public PlayerData PlayerData { get; private set; }
     public PlayerData OpponentData { get; private set; }
-    
-    public int Gold {get; private set;}
-    public int Scroll { get; private set; }
     public string RoomId {get; private set;}
 
     public List<List<string>> MapStart { get; private set; }
@@ -33,7 +30,13 @@ public class SocketManager : MonoBehaviour
 
     private void Awake()
     {
+        if (Instance != null && Instance != this)
+        {
+            Destroy(gameObject);
+            return;
+        }
         Instance = this;
+
         DontDestroyOnLoad(this);
     }
 
@@ -191,9 +194,27 @@ public class SocketManager : MonoBehaviour
             List<UseShieldData> response = JsonConvert.DeserializeObject<List<UseShieldData>>(data.ToString());
             UnityThread.executeCoroutine(UseShieldCoroutine(response[0]));
         });
+        socket.On(SocketEvents.Game.END_GAME_RESPONSE, data =>
+        {
+            List<EndGameResponseData> response = JsonConvert.DeserializeObject<List<EndGameResponseData>>(data.ToString());
+            UnityThread.executeCoroutine(EndGameCoroutine(response[0]));
+        });
         socket.Connect();
     }
     // get
+    private IEnumerator EndGameCoroutine(EndGameResponseData response)
+    {
+        if (response.loser_id == PlayerData.id)
+        {
+            GameUIManager.Instance.UIBattleEndNotification.SetLose(response.loser_gold);
+        }
+        else
+        {
+            GameUIManager.Instance.UIBattleEndNotification.SetVictory(response.winner_gold);
+        }
+        ResquestResourceData();
+        yield return null;
+    }
     private IEnumerator UseShieldCoroutine(UseShieldData useShieldData)
     {
         GameManager.Instance.BattleManager.UpdateMonsterShield(useShieldData);
@@ -233,7 +254,7 @@ public class SocketManager : MonoBehaviour
     }
     private IEnumerator UpdatePointDataCoroutine(PointPushData data)
     {
-        GameManager.Instance.RuneManager.UpdatePoint(data);
+        GameManager.Instance.MatchBoard.UpdatePoint(data);
         yield return null;
     }
     private IEnumerator ConfirmMonsterTurnPickCoroutine()
@@ -273,7 +294,7 @@ public class SocketManager : MonoBehaviour
     private IEnumerator SwapRuneCoroutine(Vector2Int start, Vector2Int end)
     {
         Debug.Log(start.ToString() + " " + end.ToString());
-        GameManager.Instance.RuneManager.SwapRunes(Tuple.Create<int, int>(start.x, start.y), Tuple.Create<int, int>(end.x, end.y), start.x == end.x ? SwapType.Horizontal : SwapType.Vertical );
+        GameManager.Instance.MatchBoard.SwapRunes(Tuple.Create<int, int>(start.x, start.y), Tuple.Create<int, int>(end.x, end.y), start.x == end.x ? SwapType.Horizontal : SwapType.Vertical );
         yield return null;
     }
 
@@ -291,7 +312,7 @@ public class SocketManager : MonoBehaviour
     
     private IEnumerator GenNewRuneCoroutine(List<List<string>> newRuneData)
     {
-        GameManager.Instance.RuneManager.GenerateNewRune(newRuneData);
+        GameManager.Instance.MatchBoard.GenerateNewRune(newRuneData);
         yield return null;
     }
     
@@ -410,10 +431,12 @@ public class SocketManager : MonoBehaviour
 
     public void RequestMonsterOwnData()
     {
+        // Debug.Log(JsonConvert.SerializeObject(PlayerData));
         MonstersOwnRequestData requestData = new MonstersOwnRequestData()
         {
             player_id = PlayerData.id,
         };
+        Debug.Log(JsonConvert.SerializeObject(requestData));
         socket.Emit(SocketEvents.Monster.MONSTER_OWN_RESQUEST, JsonConvert.SerializeObject(requestData));
     }
 
@@ -448,5 +471,10 @@ public class SocketManager : MonoBehaviour
             gold_price = goldPrice,
         };
         socket.Emit(SocketEvents.Game.BUY_DATA_PUSH, JsonConvert.SerializeObject(buyData));
+    }
+
+    public void RequestEndGame()
+    {
+        socket.Emit(SocketEvents.Game.END_GAME_REQUEST);
     }
 }

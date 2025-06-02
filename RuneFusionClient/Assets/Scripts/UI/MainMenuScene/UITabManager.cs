@@ -20,7 +20,7 @@ public class UITabsManager : UIBase
         }
     }
 
-    private void SwitchToTab(int tabID)
+    public void SwitchToTab(int tabID)
     {
         foreach (GameObject go in tabs)
         {

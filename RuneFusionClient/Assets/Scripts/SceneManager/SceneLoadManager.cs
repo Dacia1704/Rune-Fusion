@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections;
+using Newtonsoft.Json;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -16,7 +17,13 @@ public class SceneLoadManager : MonoBehaviour
         
         private void Awake()
         {
+                if (Instance != null && Instance != this)
+                {
+                        Destroy(gameObject);
+                        return;
+                }
                 Instance = this;
+
                 ProgressValue = 0f;
                 DontDestroyOnLoad(this.gameObject);
         }
@@ -25,7 +32,33 @@ public class SceneLoadManager : MonoBehaviour
         {
                 Debug.Log("Loading scene " + sceneName);
                 SceneManager.LoadScene(sceneName);
-        } 
+        }
+
+        private int tabIndexToOpen = -1;
+        public void LoadMainSceneWithSpecificTab(int index)
+        {
+                Debug.Log(JsonConvert.SerializeObject(SocketManager.Instance.PlayerData));
+                tabIndexToOpen = index;
+                SceneManager.sceneLoaded += OnSceneLoaded; 
+                LoadSceneImmediately(MainMenuSceneName);
+        }
+
+        private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+        {
+                StartCoroutine(LoadSceneCoroutine());
+                SceneManager.sceneLoaded -= OnSceneLoaded;
+        }
+
+        private IEnumerator LoadSceneCoroutine()
+        {
+                yield return new WaitForSeconds(0.01f);
+                UIMainMenuManager.Instance.ChangeToNewScreen(UIMainMenuManager.Instance.UITabManager);
+                UIMainMenuManager.Instance.UITabManager.SwitchToTab(tabIndexToOpen);
+                if (tabIndexToOpen == 0)
+                {
+                        SocketManager.Instance.RequestMonsterOwnData();
+                }
+        }
 
         public void LoadSceneAsync(string sceneName)
         {

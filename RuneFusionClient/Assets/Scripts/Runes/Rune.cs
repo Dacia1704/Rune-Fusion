@@ -60,7 +60,7 @@ public class Rune : MonoBehaviour,IPoolingObject
     public void CheckMatches(SwapType swapType = SwapType.None)
     {
         // GameManager.Instance.RuneManager.OnRuneChangePosition?.Invoke(Tuple.Create(Row,Col),swapType);
-        GameManager.Instance.RuneManager.OnRuneChangePostionAction(Tuple.Create(Row, Col), swapType);
+        GameManager.Instance.MatchBoard.OnRuneChangePostionAction(Tuple.Create(Row, Col), swapType);
     }
 
     public void ProtectRune()
@@ -71,7 +71,7 @@ public class Rune : MonoBehaviour,IPoolingObject
     public void BreakProtectLayer()
     {
         IsProtected = false;
-        GameObject destroyEffect = GameManager.Instance.RuneManager.RuneObjectPoolManager.GetProtectDestroyEffectObject();
+        GameObject destroyEffect = GameManager.Instance.MatchBoard.RuneObjectPoolManager.GetProtectDestroyEffectObject();
         destroyEffect.transform.position = transform.position;
         protectRuneLayer.Disappear();
         SetIsChecked(false);

@@ -18,7 +18,7 @@ using Sequence = DG.Tweening.Sequence;
  */
 
 
-public class RuneManager : MonoBehaviour
+public class MatchBoard : MonoBehaviour
 {
     public RuneObjectPoolManager RuneObjectPoolManager { get; private set; }
 
@@ -442,7 +442,7 @@ public class RuneManager : MonoBehaviour
                 snapping: false, 
                 fadeOut: true
             ));
-            RunesMap[index.Item1, index.Item2].PlayMatchesSound();
+            // RunesMap[index.Item1, index.Item2].PlayMatchesSound();
             if (RunesMap[index.Item1, index.Item2].IsProtected == false)
             {
                 RunesMap[index.Item1, index.Item2] = null;

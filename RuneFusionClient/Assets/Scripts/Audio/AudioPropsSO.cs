@@ -18,6 +18,9 @@ public class AudioPropsSO: ScriptableObject
         [field: SerializeField] public AudioClip RuneFallSound { get; private set; }
         [field: SerializeField] public AudioClip RuneMatchesSound { get; private set; }
         [field: SerializeField] public AudioClip StartGameSound { get; private set; }
+        [field: SerializeField] public AudioClip VictorySound { get; private set; }
+        [field: SerializeField] public AudioClip DefeatSound { get; private set; }
+        
         
         
         [field: Header("Character")]

@@ -24,6 +24,8 @@ MonoBehaviour:
   <RuneFallSound>k__BackingField: {fileID: 8300000, guid: c120bef155a8f974d843202f1035f234, type: 3}
   <RuneMatchesSound>k__BackingField: {fileID: 8300000, guid: 194de4dea54d5c64ba85d142a105cf0e, type: 3}
   <StartGameSound>k__BackingField: {fileID: 8300000, guid: 3c332d370cfbf7945bc20fd83135e10f, type: 3}
+  <VictorySound>k__BackingField: {fileID: 8300000, guid: 4b3f198d4029bbc46ba2c77af280e6bf, type: 3}
+  <DefeatSound>k__BackingField: {fileID: 8300000, guid: 8c65f04cecafce64eb63a5fa1036b8a0, type: 3}
   <HurtSound>k__BackingField: {fileID: 8300000, guid: 7e92faff7c19366448d3992aa121537a, type: 3}
   <SprintSound>k__BackingField: {fileID: 8300000, guid: 44ed88ca1ef9e954a851b3e1bf34ba86, type: 3}
   <SwordSound>k__BackingField: {fileID: 8300000, guid: d23eca9288599e847a6b39b4cce8360d, type: 3}

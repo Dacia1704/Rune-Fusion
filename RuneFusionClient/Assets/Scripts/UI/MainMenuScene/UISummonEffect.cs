@@ -18,8 +18,11 @@ public class UISummonEffect: UIBase
         [SerializeField] private GameObject bumpEffect;
 
         private bool isDuplicate;
+
+        [HideInInspector] public bool IsCompleted;
         public void SetUp(SummonResult result,RectTransform pos)
         {
+                IsCompleted = false;
                 summonEffect.SetActive(false);
                 if (result.monster_id >= 0)
                 {
@@ -78,6 +81,7 @@ public class UISummonEffect: UIBase
                                 {
                                         summonResult.GetComponent<RectTransform>().DOShakeAnchorPos(1.5f, new Vector2(10f, 10f), 1, 90, false, false)
                                                 .SetLoops(-1, LoopType.Restart);
+                                        IsCompleted = true;
                                 }
                         }
                 }
@@ -102,9 +106,7 @@ public class UISummonEffect: UIBase
                 resultText.text = "2000";
                 summonResult.GetComponent<RectTransform>().DOShakeAnchorPos(1.5f, new Vector2(10f, 10f), 1, 90, false, false)
                         .SetLoops(-1, LoopType.Restart);
-                
-                UISummonManager.Instance.SetSummonOnceButtonInteractable(true);
-                UISummonManager.Instance.SetSummonTenTimesButtonInteractable(true);
+                IsCompleted = true;
                 UISummonManager.Instance.SummonEffectManager.DestroyDisableObjects();
         }
 

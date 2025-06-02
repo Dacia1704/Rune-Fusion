@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using Newtonsoft.Json;
 using UnityEngine;
 
 public class UIMonsterSlotManager: MonoBehaviour
@@ -42,6 +43,7 @@ public class UIMonsterSlotManager: MonoBehaviour
                 {
                         PickList.Add(monsterDataList.Find((mon) => (int)(mon.MonsterData.Id) == id));
                 }
+                Debug.Log(JsonConvert.SerializeObject(data));
                 UpdatePickedMonster(data.picked_monsters);
                 OnPickChange?.Invoke(PickList);
         }
@@ -61,13 +63,15 @@ public class UIMonsterSlotManager: MonoBehaviour
                 if (indexNull != -1)
                 {
                         PickList[indexNull] = monsterPropsSO;
-                        if (PickSceneUIManager.Instance.PLayerIndex == 0)
+                        if (PickSceneUIManager.Instance.PlayerIndex == 0)
                         {
                                 SocketManager.Instance.PostMonsterPickData(PickSceneUIManager.Instance.MonsterSlotManager.PickList, new List<MonsterPropsSO>());
+                                PickSceneUIManager.Instance.CountMonstersPick += 1;
                         }
                         else
                         {
                                 SocketManager.Instance.PostMonsterPickData(new List<MonsterPropsSO>(),PickSceneUIManager.Instance.MonsterSlotManager.PickList);
+                                PickSceneUIManager.Instance.CountMonstersPick += 1;
                         }
                 }
                 OnPickChange?.Invoke(PickList);
@@ -79,13 +83,15 @@ public class UIMonsterSlotManager: MonoBehaviour
                 if (indexNull != -1)
                 {
                         PickList[indexNull] = null;
-                        if (PickSceneUIManager.Instance.PLayerIndex == 0)
+                        if (PickSceneUIManager.Instance.PlayerIndex == 0)
                         {
                                 SocketManager.Instance.PostMonsterPickData(PickSceneUIManager.Instance.MonsterSlotManager.PickList, new List<MonsterPropsSO>());
+                                PickSceneUIManager.Instance.CountMonstersPick -= 1;
                         }
                         else
                         {
                                 SocketManager.Instance.PostMonsterPickData(new List<MonsterPropsSO>(),PickSceneUIManager.Instance.MonsterSlotManager.PickList);
+                                PickSceneUIManager.Instance.CountMonstersPick -= 1;
                         }
                 }
                 OnPickChange?.Invoke(PickList);
@@ -104,6 +110,10 @@ public class UIMonsterSlotManager: MonoBehaviour
 
         private void UpdatePickedMonster(List<int> monsterIds)
         {
+                foreach (UIMonsterSlot monsterSlot in monsterSlotsDictionary.Values)
+                {
+                        monsterSlot.DisableCheck();
+                }
                 foreach (int id in monsterIds)
                 {
                         if (monsterSlotsDictionary.ContainsKey(id))

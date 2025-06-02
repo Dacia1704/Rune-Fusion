@@ -1,7 +1,8 @@
 import { effectType } from "../model/Monster.js";
 
-export default function monster_action_to_self_caculation(monsterPlayer, action) {
+export default function monster_action_to_self_caculation(monsterPlayer, action, monster_base_data) {
     let action_affect = [];
+    const base_data = monster_base_data.find((monster) => monster.id === monsterPlayer.data.id);
     let monster_affect = {
         id_in_battle: monsterPlayer.id_in_battle,
         dam: 0,
@@ -19,7 +20,7 @@ export default function monster_action_to_self_caculation(monsterPlayer, action)
         monsterPlayer.data.stats.effect_list.push(action.effect_skill);
     }
     if (action.effect_skill.effect_type === effectType.HEAL) {
-        monster_affect.dam = -1 * Math.floor(monsterPlayer.data.stats.health * action.effectiveness);
+        monster_affect.dam = -1 * Math.floor(base_data.stats.health * action.effectiveness);
     }
     action_affect.push(monster_affect);
     console.log("action_affect: " + action_affect.length);

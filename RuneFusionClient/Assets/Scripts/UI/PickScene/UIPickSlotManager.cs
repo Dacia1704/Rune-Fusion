@@ -24,6 +24,18 @@ public class UIPickSlotManager: MonoBehaviour
                 PickSceneUIManager.Instance.MonsterSlotManager.OnPickChange += PickChange;
         }
 
+        private void Update()
+        {
+                if (PickSceneUIManager.Instance.CountMonstersPick == PickSceneUIManager.Instance.AmountMonstersPick)
+                {
+                        ConfirmButton.interactable = true;
+                }
+                else
+                {
+                        ConfirmButton.interactable = false;
+                }
+        }
+
         public void ConfirmPick()
         {
                 foreach (UIPickSlot slot in Pick1List)
@@ -64,12 +76,16 @@ public class UIPickSlotManager: MonoBehaviour
 
         public void PickTurn1()
         {
+                PickSceneUIManager.Instance.AmountMonstersPick = 1;
+                PickSceneUIManager.Instance.CountMonstersPick = 0;
                 Pick1List[0].SetPicking();
                 PickSceneUIManager.Instance.OnStartPickTurn.Invoke(0,1);
         }
 
         public void PickTurn2()
         {
+                PickSceneUIManager.Instance.AmountMonstersPick = 2;
+                PickSceneUIManager.Instance.CountMonstersPick = 0;
                 Pick2List[0].SetPicking();
                 Pick2List[1].SetPicking();
                 PickSceneUIManager.Instance.OnStartPickTurn.Invoke(1,2);
@@ -77,6 +93,8 @@ public class UIPickSlotManager: MonoBehaviour
 
         public void PickTurn3()
         {
+                PickSceneUIManager.Instance.AmountMonstersPick = 2;
+                PickSceneUIManager.Instance.CountMonstersPick = 0;
                 Pick1List[1].SetPicking();
                 Pick1List[2].SetPicking();
                 PickSceneUIManager.Instance.OnStartPickTurn.Invoke(0,2);
@@ -84,6 +102,8 @@ public class UIPickSlotManager: MonoBehaviour
 
         public void PickTurn4()
         {
+                PickSceneUIManager.Instance.AmountMonstersPick = 1;
+                PickSceneUIManager.Instance.CountMonstersPick = 0;
                 Pick2List[2].SetPicking();
                 PickSceneUIManager.Instance.OnStartPickTurn.Invoke(1,1);
         }

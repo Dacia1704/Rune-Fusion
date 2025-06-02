@@ -140,7 +140,7 @@ public class InputManager : MonoBehaviour
                         Debug.Log("Can't swipe");
                         return;
                 }
-                Tuple<int,int> runeStart = GameManager.Instance.RuneManager.GetRunesByPosition(new Vector2(worldStartPos.x, worldStartPos.y));
+                Tuple<int,int> runeStart = GameManager.Instance.MatchBoard.GetRunesByPosition(new Vector2(worldStartPos.x, worldStartPos.y));
                 
                 bool isVertical = !(Mathf.Abs(deltaX) > Mathf.Abs(deltaY));
                 float delta = Mathf.Abs(deltaX) > Mathf.Abs(deltaY) ? deltaX : deltaY;
@@ -154,7 +154,7 @@ public class InputManager : MonoBehaviour
                                         if (runeStart.Item1 < GameManager.Instance.GameManagerSO.HeightRuneMap - 1)
                                         {
                                                 Debug.Log("Swiped Up");
-                                                GameManager.Instance.RuneManager.SwapWithTopRune(runeStart);
+                                                GameManager.Instance.MatchBoard.SwapWithTopRune(runeStart);
                                         }
                                         else
                                         {
@@ -166,7 +166,7 @@ public class InputManager : MonoBehaviour
                                         if (runeStart.Item2 < GameManager.Instance.GameManagerSO.WidthRuneMap - 1)
                                         {
                                             Debug.Log("Swiped Right");
-                                            GameManager.Instance.RuneManager.SwapWithRightRune(runeStart);    
+                                            GameManager.Instance.MatchBoard.SwapWithRightRune(runeStart);    
                                         }
                                         else
                                         {
@@ -182,7 +182,7 @@ public class InputManager : MonoBehaviour
                                         if (runeStart.Item1 >= 1)
                                         {
                                                 Debug.Log("Swiped Down"); 
-                                                GameManager.Instance.RuneManager.SwapWithBottomRune(runeStart);
+                                                GameManager.Instance.MatchBoard.SwapWithBottomRune(runeStart);
                                         }
                                         else
                                         {
@@ -195,7 +195,7 @@ public class InputManager : MonoBehaviour
                                         if (runeStart.Item2 >= 1)
                                         {
                                                 Debug.Log("Swiped Left");
-                                                GameManager.Instance.RuneManager.SwapWithLeftRune(runeStart);
+                                                GameManager.Instance.MatchBoard.SwapWithLeftRune(runeStart);
                                         }
                                         else
                                         {

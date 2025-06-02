@@ -22,30 +22,53 @@ public class UISummonEffectManager: UIBase
         }
 
 
-        public void SummonOnce(SummonResult summonResult,RectTransform pos)
+        public IEnumerator SummonOnce(SummonResult summonResult,RectTransform pos)
         {
+                foreach (Transform obj in summonEffectParent)
+                {
+                        obj.gameObject.SetActive(false);
+                }
                 GameObject summonObject = Instantiate(this.summonEffectPrefab, summonEffectParent);
                 summonObject.GetComponent<RectTransform>().anchoredPosition = pos.anchoredPosition;
                 summonObject.GetComponent<UISummonEffect>().SetUp(summonResult,summonOncePosition);
 
-                foreach (Transform obj in summonEffectParent)
+                yield return new WaitUntil(() =>
                 {
-                        obj.gameObject.SetActive(false);
-                }
+                        return summonObject.GetComponent<UISummonEffect>().IsCompleted == true;
+                });
+                UISummonManager.Instance.SetSummonOnceButtonInteractable(true);
+                UISummonManager.Instance.SetSummonTenTimesButtonInteractable(true);
         }
 
-        public void SummonTenTimes(List<SummonResult> summonResults,RectTransform pos)
+        public IEnumerator SummonTenTimes(List<SummonResult> summonResults,RectTransform pos)
         {
                 foreach (Transform obj in summonEffectParent)
                 {
                         obj.gameObject.SetActive(false);
                 }
+
+                List<UISummonEffect> effectList = new List<UISummonEffect>();
                 for (int i=0;i<summonResults.Count;i++)
                 {
                         GameObject summonObject = Instantiate(this.summonEffectPrefab, summonEffectParent);
                         summonObject.GetComponent<RectTransform>().anchoredPosition = pos.anchoredPosition;
                         summonObject.GetComponent<UISummonEffect>().SetUp(summonResults[i],summonPositionList[i]);
+                        effectList.Add(summonObject.GetComponent<UISummonEffect>());
                 }
+                
+                yield return new WaitUntil(() =>
+                {
+                        foreach (UISummonEffect effect in effectList)
+                        {
+                                if (effect.IsCompleted == false)
+                                {
+                                        return false;
+                                }
+                        }
+                        return true;
+                });
+                UISummonManager.Instance.SetSummonOnceButtonInteractable(true);
+                UISummonManager.Instance.SetSummonTenTimesButtonInteractable(true);
         }
 
         public void DestroyDisableObjects()

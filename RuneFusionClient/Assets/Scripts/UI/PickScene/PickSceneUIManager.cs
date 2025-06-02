@@ -16,11 +16,20 @@ public class PickSceneUIManager: MonoBehaviour
         
         public int PlayerIdTurn { get; private set; }
 
-        public int PLayerIndex;
+        public int PlayerIndex;
+
+        [HideInInspector] public int CountMonstersPick;
+        [HideInInspector] public int AmountMonstersPick;
 
         private void Awake()
         {
+                if (Instance != null && Instance != this)
+                {
+                        Destroy(gameObject);
+                        return;
+                }
                 Instance = this;
+
                 PickSlotManager = GetComponentInChildren<UIPickSlotManager>();
                 MonsterSlotManager = GetComponentInChildren<UIMonsterSlotManager>();
                 PlayerText = GetComponentInChildren<UIPlayerText>();
@@ -28,8 +37,8 @@ public class PickSceneUIManager: MonoBehaviour
 
         private void Start()
         {
-                PLayerIndex = SocketManager.Instance.PlayerData.playerindex;
-                if (PLayerIndex == 0)
+                PlayerIndex = SocketManager.Instance.PlayerData.playerindex;
+                if (PlayerIndex == 0)
                 {
                         PlayerText.SetNameText(SocketManager.Instance.PlayerData.playername,SocketManager.Instance.OpponentData.playername );
                 }
@@ -39,6 +48,7 @@ public class PickSceneUIManager: MonoBehaviour
                         // PlayerText.SetNameText("P1", "P2"); 
                 }
                 StartCoroutine(PickCoroutine());
+                CountMonstersPick = 0;
         }
 
         private IEnumerator PickCoroutine()

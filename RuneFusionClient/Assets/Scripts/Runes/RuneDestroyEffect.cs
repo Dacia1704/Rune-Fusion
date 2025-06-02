@@ -27,6 +27,6 @@ public class RuneDestroyEffect: MonoBehaviour, IPoolingObject
     private IEnumerator AutoReturnToPool()
     {
         yield return new WaitForSeconds(3);
-        GameManager.Instance.RuneManager.RuneObjectPoolManager.ReleaseDestroyEffect(this.gameObject);
+        GameManager.Instance.MatchBoard.RuneObjectPoolManager.ReleaseDestroyEffect(this.gameObject);
     }
 }
