@@ -12,6 +12,7 @@ public class Match : MonoBehaviour
         public TurnManager TurnManager {get; private set;}
         public ArenaManager ArenaManager { get; private set; }
         public TargetManager TargetManager { get; private set; }
+        public MatchBoard MatchBoard {get; private set;}
         
         public Dictionary<string,MonsterBase> MonsterTeam1Dictionary = new Dictionary<string, MonsterBase>();
         public Dictionary<string,MonsterBase> MonsterTeam2Dictionary = new Dictionary<string, MonsterBase>();
@@ -32,10 +33,12 @@ public class Match : MonoBehaviour
                         return;
                 }
                 Instance = this;
+                
         }
 
         private void Start()
         {
+                MatchBoard = FindFirstObjectByType<MatchBoard>();
                 TurnManager = FindFirstObjectByType<TurnManager>();
                 ArenaManager = FindFirstObjectByType<ArenaManager>();
                 TargetManager = FindFirstObjectByType<TargetManager>();
@@ -126,7 +129,7 @@ public class Match : MonoBehaviour
 
         public void SkillEnableCheck(MonsterBase monster)
         {
-                if (TurnManager.TurnBaseQueue[0].id_in_battle == monster.MonsterIdInBattle && monster.MonsterPropsSO.MonsterData.Skills[1].PointCost <= GameManager.Instance.MatchBoard.RunePointsPlayer[(int)monster.MonsterPropsSO.MonsterData.Type])
+                if (TurnManager.TurnBaseQueue[0].id_in_battle == monster.MonsterIdInBattle && monster.MonsterPropsSO.MonsterData.Skills[1].PointCost <= GameManager.Instance.Match.MatchBoard.RunePointsPlayer[(int)monster.MonsterPropsSO.MonsterData.Type])
                 {
                         monster.EnableSkillMode();
                         Debug.Log("Enable skill" + monster.gameObject.name);
@@ -148,10 +151,10 @@ public class Match : MonoBehaviour
         {
                 MonsterBase monster = GetMonsterByIdInBattle(useShieldData.monster_id_in_battle);
                 int shieldRunePoint = SocketManager.Instance.PlayerData.id == useShieldData.player_id
-                        ? GameManager.Instance.MatchBoard.RunePointsPlayer[(int)RuneType.Shield]
-                        : GameManager.Instance.MatchBoard.RunePointsOpponent[(int)RuneType.Shield];
+                        ? GameManager.Instance.Match.MatchBoard.RunePointsPlayer[(int)RuneType.Shield]
+                        : GameManager.Instance.Match.MatchBoard.RunePointsOpponent[(int)RuneType.Shield];
                 monster.EnableShield(shieldRunePoint);
-                GameManager.Instance.MatchBoard.ReleaseShieldRunePoint(useShieldData);
+                GameManager.Instance.Match.MatchBoard.ReleaseShieldRunePoint(useShieldData);
         }
 
         public MonsterBase GetMonsterByIdInBattle(string id)

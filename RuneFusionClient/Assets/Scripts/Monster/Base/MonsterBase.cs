@@ -57,7 +57,7 @@ public abstract class MonsterBase : MonoBehaviour
         floatingTextObjectPooling = GetComponentInChildren<FloatingTextObjectPooling>();
         CurrentTurnActionResponse = new Dictionary<MonsterBase, ActionResponse>();
         OnHealthChange += UIHeathSkillBarManager.SetHealthBar;
-        GameManager.Instance.MatchBoard.OnRunePointsChanged += UpdateSkillBar;
+        GameManager.Instance.Match.MatchBoard.OnRunePointsChanged += UpdateSkillBar;
         
     }
 
@@ -295,6 +295,7 @@ public abstract class MonsterBase : MonoBehaviour
         if (!hasFrozen && IsFrozen)
         {
             DisableFrozenEffect();
+            SetTurnObject(false);
         }
 
         UpdateUIEffect();
@@ -353,14 +354,14 @@ public abstract class MonsterBase : MonoBehaviour
     private void ChangeSkillApperance()
     {
         UIHeathSkillBarManager.SetSkillBar(0);
-        GameManager.Instance.MatchBoard.ReleaseRunePoint((RuneType)((int)MonsterPropsSO.MonsterData.Type),MonsterPropsSO.MonsterData.Skills[1].PointCost);
+        GameManager.Instance.Match.MatchBoard.ReleaseRunePoint((RuneType)((int)MonsterPropsSO.MonsterData.Type),MonsterPropsSO.MonsterData.Skills[1].PointCost);
         MonsterAnimationManager.StartSkillEffect();
     }
 
     private void ChangeNomalApperance()
     {
         UIHeathSkillBarManager.SetSkillBar(MonsterPropsSO.MonsterData.Skills[1].PointCost);
-        GameManager.Instance.MatchBoard.AddRunePointByTpe((RuneType)((int)MonsterPropsSO.MonsterData.Type),MonsterPropsSO.MonsterData.Skills[1].PointCost);
+        GameManager.Instance.Match.MatchBoard.AddRunePointByTpe((RuneType)((int)MonsterPropsSO.MonsterData.Type),MonsterPropsSO.MonsterData.Skills[1].PointCost);
         MonsterAnimationManager.EndSkillEffect();
     }
 

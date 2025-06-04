@@ -201,7 +201,7 @@ public class SocketManager : MonoBehaviour
         });
         socket.Connect();
     }
-    // get
+    #region Resolve Data Response
     private IEnumerator EndGameCoroutine(EndGameResponseData response)
     {
         if (response.loser_id == PlayerData.id)
@@ -254,7 +254,7 @@ public class SocketManager : MonoBehaviour
     }
     private IEnumerator UpdatePointDataCoroutine(PointPushData data)
     {
-        GameManager.Instance.MatchBoard.UpdatePoint(data);
+        GameManager.Instance.Match.MatchBoard.UpdatePoint(data);
         yield return null;
     }
     private IEnumerator ConfirmMonsterTurnPickCoroutine()
@@ -294,7 +294,7 @@ public class SocketManager : MonoBehaviour
     private IEnumerator SwapRuneCoroutine(Vector2Int start, Vector2Int end)
     {
         Debug.Log(start.ToString() + " " + end.ToString());
-        GameManager.Instance.MatchBoard.SwapRunes(Tuple.Create<int, int>(start.x, start.y), Tuple.Create<int, int>(end.x, end.y), start.x == end.x ? SwapType.Horizontal : SwapType.Vertical );
+        GameManager.Instance.Match.MatchBoard.SwapRunes(Tuple.Create<int, int>(start.x, start.y), Tuple.Create<int, int>(end.x, end.y), start.x == end.x ? SwapType.Horizontal : SwapType.Vertical );
         yield return null;
     }
 
@@ -312,12 +312,12 @@ public class SocketManager : MonoBehaviour
     
     private IEnumerator GenNewRuneCoroutine(List<List<string>> newRuneData)
     {
-        GameManager.Instance.MatchBoard.GenerateNewRune(newRuneData);
+        GameManager.Instance.Match.MatchBoard.GenerateNewRune(newRuneData);
         yield return null;
     }
-    
+    #endregion
 
-    //Emit
+    #region Emit Data
     public void RequestNewRune(string mapData)
     {
         Debug.Log("Request new Rune");
@@ -477,4 +477,5 @@ public class SocketManager : MonoBehaviour
     {
         socket.Emit(SocketEvents.Game.END_GAME_REQUEST);
     }
+    #endregion
 }

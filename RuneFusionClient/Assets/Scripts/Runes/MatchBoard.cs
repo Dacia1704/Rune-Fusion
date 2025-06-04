@@ -25,6 +25,7 @@ public class MatchBoard : MonoBehaviour
     [SerializeField] private GameObject BoldBGPrefab;
     [SerializeField] private GameObject LightBGPrefab;
     
+    
     public Rune[,] RunesMap {get;private set;} // list : start from bottom to top and from left to right;
     public Vector3[,] RunesPositionMap {get;private set;} // list : start from bottom to top and from left to right;
     
@@ -45,6 +46,7 @@ public class MatchBoard : MonoBehaviour
     
     private void Awake()
     {
+        
         RuneObjectPoolManager = FindFirstObjectByType<RuneObjectPoolManager>();
         OnRunePointsChanged += GameUIManager.Instance.UIRunePointManager.UpdateUIRunePoint;
     }

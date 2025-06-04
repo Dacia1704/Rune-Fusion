@@ -166,7 +166,7 @@ public class TurnManager : MonoBehaviour
         {
             SocketManager.Instance.RequestMonsterAction(currentTurnId,new List<string>(){GameManager.Instance.Match.TargetManager.TargetedMonster.MonsterIdInBattle},monsterBase.ShouldUseSkill ?"1": "0");
         }
-        GameManager.Instance.MatchBoard.PostPointData();
+        GameManager.Instance.Match.MatchBoard.PostPointData();
         monsterBase.ShouldUseSkill = false;        
         isTimeMonsterEnd = false;
         GameUIManager.Instance.UITimeCounter.EndCountTime();

@@ -26,6 +26,6 @@ public class ProtectBreakEffect: MonoBehaviour, IPoolingObject
     private IEnumerator AutoReturnToPool()
     {
         yield return new WaitForSeconds(3);
-        GameManager.Instance.MatchBoard.RuneObjectPoolManager.ReleaseDestroyEffect(this.gameObject);
+        GameManager.Instance.Match.MatchBoard.RuneObjectPoolManager.ReleaseDestroyEffect(this.gameObject);
     }
 }

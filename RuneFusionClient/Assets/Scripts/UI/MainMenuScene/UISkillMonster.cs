@@ -101,9 +101,16 @@ public class UISkillMonster: UIBase,IPointerDownHandler,IPointerUpHandler
                 }
         }
 
-        public void SetSkillText(string n, string des)
+        public void SetSkillText(string n, string des,int cost=0)
         {
-                nameText.text = n;
+                if (cost != 0)
+                {
+                        nameText.text = n + " - " + cost.ToString();
+                }
+                else
+                {
+                        nameText.text = n;
+                }
                 descriptionText.text = MarkText(des);
         }
 

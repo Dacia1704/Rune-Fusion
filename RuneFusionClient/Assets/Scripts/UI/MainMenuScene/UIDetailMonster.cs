@@ -70,7 +70,7 @@ public class UIDetailMonster: UIBase
                 resStat.SetStatText((int)(CalculateStatWithTalentPoints(monsterPropsSO.MonsterData.BaseStats.Resistance, monsterPropsSO.MonsterData.TalentPoint.Resistance) * 100) + "%", monsterPropsSO.MonsterData.TalentPoint.Resistance.ToString());
                 TotalUsedTalentPoints += monsterPropsSO.MonsterData.TalentPoint.Resistance;
                 basicSkill.SetSkillText(monsterPropsSO.MonsterData.Skills[0].Name,monsterPropsSO.MonsterData.Skills[0].Description);
-                ultimateSkill.SetSkillText(monsterPropsSO.MonsterData.Skills[1].Name,monsterPropsSO.MonsterData.Skills[1].Description);
+                ultimateSkill.SetSkillText(monsterPropsSO.MonsterData.Skills[1].Name,monsterPropsSO.MonsterData.Skills[1].Description,monsterPropsSO.MonsterData.Skills[1].PointCost);
         }
 
         private float CalculateStatWithTalentPoints(float statValue,int talentPoints)
