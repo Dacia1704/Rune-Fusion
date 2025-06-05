@@ -10,7 +10,7 @@ export default (app) => {
 
         if (rUsername == null || rPassword == null) {
             res.status(401).json({
-                error: "Invalid cradentials",
+                error: "Invalid credentials",
             });
             return;
         }
